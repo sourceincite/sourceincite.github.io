@@ -1,0 +1,31 @@
+---
+layout: page
+title: Research
+permalink: /research/
+---
+
+The following links are some of my past information security research. Not all.
+
+* [advisories](/advisories)
+* [exploits](/exploits)
+
+Presentations:
+
+---
+
+* [Hack in The Box Amsterdam 2017 - I got 99 trends and a # is all of them](/assets/D1T1-Steven-Seeley-and-Roberto-Suggi-Liverani-I-Got-99-Trends-and-a-Shell-Is-All-Of-Them.pptx)
+
+   Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software. 
+
+---
+
+* [Hack in The Box Amsterdam 2012 - Ghost in the allocator](/assets/D2T2-Steven-Seeley-Ghost-In-the-Allocator.pdf)
+
+   Here I demonstrated a new technique/variation for exploitation against the Windows 7 heap manager that abuses the allocation offset mechanism. Additionally, I also presented a likely attack technique against the consumer preview version of the Windows 8 heap manager.
+
+---
+
+
+* [Ruxcon 2012 - How to catch a chameleon](/assets/How-to-catch-a-chameleon-StevenSeeley-Ruxcon-2012.pdf)
+
+   Was about the introduction of a plugin for Immunity Debugger that I developed called '[heaper](https://github.com/stevenseeley/heaper)' that is designed to not only detect a corrupted heap state before out-of-bounds memory access, but was also designed to detect exploitable conditions in past Windows operating systems.
