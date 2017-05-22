@@ -6,6 +6,7 @@ categories: blog
 excerpt_separator: <!--more-->
 ---
 
+<img class="excel" alt="Google Web Toolkit" src="/assets/images/gwt.png">
 This is a follow up blog post to my <a class="prev" href="{{page.previous.url}}">previous post</a> on auditing Google Web Toolkit (GWT). Today we are going to focus on a specific vulnerability that I found in a GWT endpoint that [Matthias Kaiser](https://twitter.com/matthias_kaiser) helped me exploit. Please note that the code has been changed to protect the not so innocent whilst they patch.
 
 <!--more-->
