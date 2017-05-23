@@ -31,7 +31,7 @@ Within the WEB-INF/web.xml file, I found the following endpoint mapping:
 </servlet-mapping>
 {% endhighlight %}
 
-We can see that the above code references the server mapping. Since GWT works by defining client classes that denoting which methods are available for the client to access, let's start by looking at the corresponding client class com.aaa.bbb.ccc.ddd.**client**.SomeService:
+We can see that the above code references the server mapping. Since GWT works by defining client classes that denote which methods are available for the client to access, let's start by looking at the corresponding client class com.aaa.bbb.ccc.ddd.**client**.SomeService:
 
 {% highlight java %}
 
