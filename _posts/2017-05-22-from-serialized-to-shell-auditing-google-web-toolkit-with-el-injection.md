@@ -167,7 +167,7 @@ Host: [target]
 Accept: */*
 X-GWT-Module-Base: 
 X-GWT-Permutation: 
-Cookie: JSESSIONID=FB531EBCCE6231E7F0F9605C7661F036
+Cookie: JSESSIONID=[cookie]
 Content-Type: text/x-gwt-rpc; charset=UTF-8
 Content-Length: 171
 
@@ -223,7 +223,7 @@ Host: [target]
 Accept: */*
 X-GWT-Module-Base: 
 X-GWT-Permutation: 
-Cookie: JSESSIONID=FB531EBCCE6231E7F0F9605C7661F036
+Cookie: JSESSIONID=[cookie]
 Content-Type: text/x-gwt-rpc; charset=UTF-8
 Content-Length: 171
 
