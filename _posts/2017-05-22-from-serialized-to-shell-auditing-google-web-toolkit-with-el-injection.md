@@ -234,6 +234,6 @@ Content-Length: 171
 
 ### Conclusion
 
-There is *almost* no way this vulnerability would have been discovered from a black-box perspective. Common tools such as Burp Suite have no chance or currently detecting such vulnerabilities especially considering this particular case where the string is stored in a session variable.
+There is *almost* no way this vulnerability would have been discovered from a black-box perspective. Common tools such as Burp Suite have no chance of currently detecting such vulnerabilities especially considering this particular case where the string is stored in a session attribute.
 
-As web technologies progress forward our need for automation increases and a lack to tools, skills and knowledge in this area allows many applications to stay vulnerable to critical code execution vulnerabilities for years.
+As web technologies progress forward our need for automation increases and a lack of tools, skills and knowledge in this area allows many applications to stay vulnerable to critical code execution vulnerabilities for years.
