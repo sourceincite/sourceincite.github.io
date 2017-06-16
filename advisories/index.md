@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader JPXDecode stream Out-Of-Bounds Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-411/)
+
+---
+
 * [[SRC] AContent Directory Traversal Information Disclosure and Remote Code Execution Vulnerabilities](src-2017-0004)
 
 ---
