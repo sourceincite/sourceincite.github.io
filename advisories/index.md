@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Lepide LepideAuditor Suite Malicious Server Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-440/)
+
+---
+
 * [[ZDI] Foxit Reader JPXDecode stream Out-Of-Bounds Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-411/)
 
 ---
