@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx Network Recording Player ARF File Memory Corruption Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-444/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ARF File Memory Corruption Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-443/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ARF File CImageList Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-442/)
+
+---
+
 * [[ZDI] Lepide LepideAuditor Suite Malicious Server Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-440/)
 
 ---
