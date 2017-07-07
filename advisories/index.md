@@ -4,6 +4,26 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader execMenuItem Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-461/)
+
+---
+
+* [[ZDI] Foxit Reader print Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-460/)
+
+---
+
+* [[ZDI] Foxit Reader setItem Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-459/)
+
+---
+
+* [[ZDI] Foxit Reader App alert Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-458/)
+
+---
+
+* [[ZDI] Foxit Reader AFParseDateEx Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-454/)
+
+---
+
 * [[ZDI] Cisco WebEx Network Recording Player ARF File Memory Corruption Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-444/)
 
 ---
