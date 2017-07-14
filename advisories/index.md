@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Microsoft Windows OTL Font Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-488/)
+
+---
+
 * [[ZDI] Foxit Reader execMenuItem Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-461/)
 
 ---
