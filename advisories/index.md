@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Nitro PDF Pro Doc.saveAs and App.launchURL Remote Code Execution Vulnerabilities](src-2017-0005)
+
+---
+
 * [[ZDI] Microsoft Windows OTL Font Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-488/)
 
 ---
