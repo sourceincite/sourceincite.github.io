@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Trend Micro InterScan Messaging Security Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-504/)
+
+---
+
+* [[ZDI] Trend Micro InterScan Messaging Security Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-502/)
+
+---
+
 * [[SRC] Nitro PDF Pro Doc.saveAs and App.launchURL Remote Code Execution Vulnerabilities](src-2017-0005)
 
 ---
