@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Trend Micro OfficeScan Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-522/)
+
+---
+
+* [[ZDI] Trend Micro OfficeScan Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-521/)
+
+---
+
 * [[ZDI] Trend Micro InterScan Messaging Security Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-504/)
 
 ---
