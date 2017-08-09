@@ -4,6 +4,34 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion TIFF Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-630/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF Parsing Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-614/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion XPS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-578/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion XPS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-577/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion PCX Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-576/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-575/)
+
+---
+
+* [[ZDI] Adobe Digital Editions ePub JPEG2000 Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-568/)
+
+---
+
 * [[ZDI] Trend Micro OfficeScan Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-522/)
 
 ---
