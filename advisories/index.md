@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Acrobat Pro DC ImageConversion EMF parsing EMR_EXTTEXTOUTA Array Indexing Remote Code Execution Vulnerability](src-2017-0007)
+
+---
+
 * [[SRC] Adobe Digital Editions ePub Container File External Entity Processing Information Disclosure Vulnerability](src-2017-0006)
 
 ---
