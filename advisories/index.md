@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Reader DC execMenuItem Off-by-One Heap Buffer Overflow Remote Code Execution Vulnerability](src-2017-0008)
+
+---
+
 * [[SRC] Adobe Acrobat Pro DC ImageConversion EMF parsing EMR_EXTTEXTOUTA Array Indexing Remote Code Execution Vulnerability](src-2017-0007)
 
 ---
