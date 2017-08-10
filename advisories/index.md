@@ -4,10 +4,6 @@ title: Advisories
 permalink: /advisories/
 ---
 
-* [[SRC] TEST](http://www.zerodayinitiative.com/advisories/ZDI-17-642/)
-
----
-
 * [[SRC] Adobe Acrobat Pro DC ImageConversion EMF parsing EMR_EXTTEXTOUTA Array Indexing Remote Code Execution Vulnerability](src-2017-0007)
 
 ---
