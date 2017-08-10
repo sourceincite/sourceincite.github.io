@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Digital Editions ePub Container File External Entity Processing Information Disclosure Vulnerability](src-2017-0006)
+
+---
+
+* [[ZDI] Adobe Digital Editions ePub Font Parsing Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-642/)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion TIFF Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-630/)
 
 ---
