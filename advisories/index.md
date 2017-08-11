@@ -88,10 +88,6 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center userSelectPagingContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-684/)
-
----
-
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAddorModDeviceMonitor Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-684/)
 
 ---
