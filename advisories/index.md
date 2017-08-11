@@ -4,6 +4,170 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center wmiConfigContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-690/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center index Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-689/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorGroupSelectContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-688/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center guiDataDetail Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-687/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center quickTemplateSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-686/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center userSelectPagingContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-685/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center userSelectPagingContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-684/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAddorModDeviceMonitor Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-684/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultEventSelectFactWithRecover Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-683/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operationSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-682/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDymicParam Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-681/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectRules Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-680/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center devSoftSel Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-679/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfSelectTask Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-678/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deviceThresholdConfig Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-677/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDeviceSeries Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-676/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center dnd Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-675/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center select Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-674/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center smsRulesDownload Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-673/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorGroupTreeSelectContent Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-672/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deploySelectBootrom Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-671/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deploySelectSoftware Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-670/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center compareFilesResult Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-669/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectCommand Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-668/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDevType Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-667/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center templateSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-666/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center reportTaskSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-665/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center select Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-664/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ictExpertDownload Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-663/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center customTemplateSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-662/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deviceSelect Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-661/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center sshConfig Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-660/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center selectUserGroup Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-659/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mediaForAction Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-658/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center queryCustomCondition Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-657/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center saveSelectedInterfaces Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-656/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center safeSelectedDevices Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-655/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfSelInsServer Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-654/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfInsListServer Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-653/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfSelItemServer Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-652/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAddFormServer Expression Language Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-651/)
+
+---
+
 * [[SRC] Adobe Reader DC execMenuItem Off-by-One Heap Buffer Overflow Remote Code Execution Vulnerability](src-2017-0008)
 
 ---
