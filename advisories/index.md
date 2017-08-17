@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader saveAs Arbitrary File Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-692/)
+
+---
+
 * [[SRC] Hewlett Packard Enterprise Intelligent Management Center mibWidgetService Expression Language Injection Remote Code Execution Vulnerability](src-2017-0023)
 
 ---
