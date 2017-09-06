@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader XFA gotoURL Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-718/)
+
+---
+
 * [[SRC] Jungo DriverWizard WinDriver Kernel Pool Overflow Privilege Escalation Vulnerability](src-2017-0026)
 
 ---
