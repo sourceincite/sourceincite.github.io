@@ -280,7 +280,7 @@ def we_can_elevate(h, in_buffer, base):
     return False
 
 def main():
-    print "\t--[ Jungo DriverWizard WinDriver Kernel Write EoP exploit ]"
+    print "\n\t--[ Jungo DriverWizard WinDriver Kernel Write EoP exploit ]"
     print "\t               Steven Seeley (mr_me) of Source Incite\r\n"
     if release() != "7" and architecture()[0] == "32bit":
         print "(-) this exploit will only work for Windows 7 x86."
