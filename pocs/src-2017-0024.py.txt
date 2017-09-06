@@ -15,7 +15,9 @@ Thanks:   b33f and sickness
 Summary:
 ========
 
-This vulnerability allows local attackers to escalate privileges on vulnerable installations of Jungo WinDriver. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. The specific flaw exists within the processing of IOCTL 0x953824a7 by the windrvr1240 kernel driver. The issue lies in the failure to properly validate user-supplied data which can result in an out-of-bounds write condition. An attacker can leverage this vulnerability to execute arbitrary code under the context of kernel.
+This vulnerability allows local attackers to escalate privileges on vulnerable installations of Jungo WinDriver. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. 
+
+The specific flaw exists within the processing of IOCTL 0x953824a7 by the windrvr1240 kernel driver. The issue lies in the failure to properly validate user-supplied data which can result in an out-of-bounds write condition. An attacker can leverage this vulnerability to execute arbitrary code under the context of kernel.
 
 Vulnerability:
 ==============
@@ -32,14 +34,11 @@ The vulnerability occurs in sub_405644 at loc_4056CD:
 Exploitation:
 =============
 
-At 0x004056da there is a second write, but since HalDispatchTable[1]+0x880 points to a null dword that is in a writable location,
-no memory is modified outside of out null byte write (0x004056d1).
+At 0x004056da there is a second write, but since HalDispatchTable[1]+0x880 points to a null dword that is in a writable location, no memory is modified outside of out null byte write (0x004056d1).
 
-Since we can do that, we can keep calling the vuln ioctl code and push down the kernel pointer from HalDispatchTable[1] to reach
-userland. We could have just done 2 bytes, but I choose 3 for reliability.
+Since we can do that, we can keep calling the vuln ioctl code and push down the kernel pointer from HalDispatchTable[1] to reach userland. We could have just done 2 bytes, but I choose 3 for reliability.
 
-Finally, the shellcode repairs the HalDispatchTable[1] pointer by reading HalDispatchTable[2] and calculating the offset to the 
-HalDispatchTable[1] pointer and then re-writes the correct pointer back into the HalDispatchTable.
+Finally, the shellcode repairs the HalDispatchTable[1] pointer by reading HalDispatchTable[2] and calculating the offset to the HalDispatchTable[1] pointer and then re-writes the correct pointer back into the HalDispatchTable.
 
 Timeline:
 =========

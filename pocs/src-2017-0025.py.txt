@@ -14,7 +14,9 @@ Affected: <= v12.4.0
 Summary:
 ========
 
-This vulnerability allows local attackers to escalate privileges on vulnerable installations of Jungo WinDriver. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. The specific flaw exists within the processing of IOCTL 0x9538268f by the windrvr1240 kernel driver. The issue lies in the failure to properly validate user-supplied data which can result in an out-of-bounds write condition. An attacker can leverage this vulnerability to execute arbitrary code under the context of kernel.
+This vulnerability allows local attackers to escalate privileges on vulnerable installations of Jungo WinDriver. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. 
+
+The specific flaw exists within the processing of IOCTL 0x9538268f by the windrvr1240 kernel driver. The issue lies in the failure to properly validate user-supplied data which can result in an out-of-bounds write condition. An attacker can leverage this vulnerability to execute arbitrary code under the context of kernel.
 
 Vulnerability Analysis:
 =======================
