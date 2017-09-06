@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Jungo DriverWizard WinDriver Kernel Pool Overflow Privilege Escalation Vulnerability](src-2017-0026)
+
+---
+
+* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability](src-2017-0025)
+
+---
+
+* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability](src-2017-0024)
+
+---
+
 * [[ZDI] Foxit Reader saveAs Arbitrary File Write Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-692/)
 
 ---

