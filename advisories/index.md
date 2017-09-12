@@ -8,15 +8,19 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Jungo DriverWizard WinDriver Kernel Pool Overflow Privilege Escalation Vulnerability](src-2017-0026)
+* [[SRC] Jungo DriverWizard WinDriver Kernel Pool Overflow Privilege Escalation Vulnerability #2](src-2017-0027)
 
 ---
 
-* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability](src-2017-0025)
+* [[SRC] Jungo DriverWizard WinDriver Kernel Pool Overflow Privilege Escalation Vulnerability #1](src-2017-0026)
 
 ---
 
-* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability](src-2017-0024)
+* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability #2](src-2017-0025)
+
+---
+
+* [[SRC] Jungo DriverWizard WinDriver Kernel Out-of-Bounds Write Privilege Escalation Vulnerability #1](src-2017-0024)
 
 ---
 
