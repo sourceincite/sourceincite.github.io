@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Microsoft Office Excel xlsb File Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-727/)
+
+---
+
 * [[ZDI] Foxit Reader XFA gotoURL Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-718/)
 
 ---
