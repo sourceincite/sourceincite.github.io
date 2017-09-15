@@ -4,6 +4,298 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_moveto_group_list Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-810/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise delete_admin_account UserName SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-809/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise add_app_category Name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-808/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise upload_img_file Unrestricted File Upload Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-807/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_check_upgrade SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-806/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_sync_client_info SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-805/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_sync_all_devices SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-804/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_unregister SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-803/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_upload_new_devices SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-802/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_command SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-801/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise eas_agent_register SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-800/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise cancel_command_list CmdUUID SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-799/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise delete_user Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-798/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise remove_command_list CmdUUID SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-797/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise resend_command_list CmdUUID SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-796/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise edit_eas_note Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-795/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise save_eas_agent_setting SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-794/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise remove_eas_agent_info SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-793/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise show_eas_agent_info SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-792/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise create_db SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-791/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise upload_font_file Unrestricted File Upload Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-790/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise upload_wallpaper_file Unrestricted File Upload Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-789/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise mdm_register_new_connector SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-788/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise diagnose_eas_status SlinkId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-787/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise reinvite_user Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-786/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise upload_app_file Unrestricted File Upload Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-785/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise assign_policy Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-784/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise remote_selective_wipe_device id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-783/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_dep_profile Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-782/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise upload_web_app AppFile SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-781/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise invite_devices user_name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-780/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise update_group Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-779/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise delete_group ParentId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-778/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise remote_lock_device Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-777/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise export_devices Device_DeviceGroupId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-776/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_subgroup_list id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-775/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-774/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise notify_devices_to_update id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-773/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_device_detail_info id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-772/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise query_user search_by SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-771/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_device_list_brief_by_group id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-770/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise search_device_invitations user_name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-769/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise edit_user id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-768/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise widgetforsecurity talker Authentication Bypass Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-767/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise change_device_user id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-766/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise reset_device_passwd id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-765/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_remote_unlockstring Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-764/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_user_list LDAPAccount SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-763/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise move_group Id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-762/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise query_installed_applications application_name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-761/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise edit_device id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-760/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise locate_device id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-759/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise search_user_for_report user_name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-758/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise get_device_location Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-757/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise search_users_for_vpp user_name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-756/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise query_event_log AdminName SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-755/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise add_group Name SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-754/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise remote_wipe_device id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-753/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise Proxy Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-752/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise broadcast_group GroupId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-751/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise search_devices group_id SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-750/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise invite_devices email SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-749/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise stop_mirroring Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-748/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise change_ios_setting Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-747/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise export_eas_devices Domain SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-746/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise broadcast_devices Device_DeviceDeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-745/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise notify_groups_to_update DeviceGroupId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-744/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise delete_devices Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-743/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise show_eas_devices Domain SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-742/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise move_devices Device_DeviceDeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-741/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise notify_devices_to_scan Device_DeviceDeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-740/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise notify_groups_to_scan DeviceGroupId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-739/)
+
+---
+
+* [[ZDI] Trend Micro Mobile Security for Enterprise change_user Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-737/)
+
+---
+
 * [[ZDI] Microsoft Office Excel xlsb File Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-727/)
 
 ---
