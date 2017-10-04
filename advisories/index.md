@@ -4,6 +4,34 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center dbman Opcode 10012 Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-836/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mibFileServlet Directory Traversal Denial of Service Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-835/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mibFileServlet Directory Traversal Denial of Service Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-834/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center WebDMServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-833/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center WebDMDebugServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-832/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center MibBrowserTopoFilterServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-831/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mibFileServlet Directory Traversal Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-830/)
+
+---
+
 * [[ZDI] Trend Micro Mobile Security for Enterprise get_moveto_group_list Device_DeviceId SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-810/)
 
 ---
