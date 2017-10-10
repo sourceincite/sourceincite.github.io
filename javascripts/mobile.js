@@ -13,6 +13,7 @@ window.mobilecheck = function() { // the header
     )(navigator.userAgent||navigator.vendor||window.opera);        
   
     if (check === true){          
+        header.align        = "left";
         header.style.height = "100%";          
         header.style.width  = "100%";        
     }else{          
