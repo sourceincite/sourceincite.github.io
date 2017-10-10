@@ -9,22 +9,27 @@ The following links are some of my past information security research. Not all.
 * [advisories](/advisories)
 * [exploits](/exploits)
 
+Media:
+
+---
+Some mentions of my work that are publically available.
+
+* [Hackers Tear Apart Trend Micro, Find 200 Vulnerabilities In Just 6 Months](https://www.forbes.com/sites/thomasbrewster/2017/01/25/trend-micro-security-exposed-200-flaws-hacked/)
+
+* [Busting Myths in Foxit Reader](https://www.thezdi.com/blog/2017/8/17/busting-myths-in-foxit-reader)
+
 Presentations:
 
 ---
+Some past presentations that I have shared.
 
 * [Hack in The Box Amsterdam 2017 - I got 99 trends and a # is all of them](/assets/D1T1-Steven-Seeley-and-Roberto-Suggi-Liverani-I-Got-99-Trends-and-a-Shell-Is-All-Of-Them.pptx)
 
    Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software. 
 
----
-
 * [Hack in The Box Amsterdam 2012 - Ghost in the allocator](/assets/D2T2-Steven-Seeley-Ghost-In-the-Allocator.pdf)
 
    Here I demonstrated a new technique/variation for exploitation against the Windows 7 heap manager that abuses the allocation offset mechanism. Additionally, I also presented a likely attack technique against the consumer preview version of the Windows 8 heap manager.
-
----
-
 
 * [Ruxcon 2012 - How to catch a chameleon](/assets/How-to-catch-a-chameleon-StevenSeeley-Ruxcon-2012.pdf)
 
