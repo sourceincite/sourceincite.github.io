@@ -13,8 +13,8 @@ window.mobilecheck = function() { // the header
     )(navigator.userAgent||navigator.vendor||window.opera);        
   
     if (check === true){          
-        header.style.height = "30%";          
-        header.style.width  = "30%";        
+        header.style.height = "100%";          
+        header.style.width  = "100%";        
     }else{          
         header.style.height = "30%";          
         header.style.width  = "30%";        
