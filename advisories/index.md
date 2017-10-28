@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Oracle Java SE Web Start jnlp XML External Entity Processing Information Disclosure Vulnerability](src-2017-0028)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center dbman Opcode 10012 Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-836/)
 
 ---
