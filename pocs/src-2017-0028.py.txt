@@ -5,7 +5,7 @@ Affected:   <= v8u131
 File:       jre-8u131-windows-i586-iftw.exe
 SHA1:       85f0de19845deef89cc5a29edebe5bb33023062d
 Download:   http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
-References: SRC-2017-0027 / CVE-2017-10309
+References: SRC-2017-0028 / CVE-2017-10309
 Advisory:   http://srcincite.io/advisories/src-2017-0028/
 
 Vulnerability Details:
