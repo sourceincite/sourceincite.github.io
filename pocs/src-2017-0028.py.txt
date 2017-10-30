@@ -131,7 +131,6 @@ if __name__ == '__main__':
 
     file = sys.argv[1]
 
-
     # randomize incase we change payloads and browser caches
     path  = "".join(choice(lowercase) for i in range(10))
     path += ".jnlp"
@@ -139,8 +138,7 @@ if __name__ == '__main__':
     # interfaces
     ints = ""
     for i in ni.interfaces(): ints += "%s, " % i
-    #interface = raw_input("(+) select your interface: %s: " % ints[:-2])
-    interface = "vmnet8"
+    interface = raw_input("(+) select your interface: %s: " % ints[:-2])
 
     # get the ip from the interface
     try:
