@@ -4,6 +4,34 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAccessMgrServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-855/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoReqServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-854/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoBroadcastServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-853/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoDebugServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-852/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center AccessMgrServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-851/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoMsgServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-850/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center flexFileUpload Directory Traversal Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-849/)
+
+---
+
 * [[SRC] Oracle Java SE Web Start jnlp XML External Entity Processing Information Disclosure Vulnerability](src-2017-0028)
 
 ---
