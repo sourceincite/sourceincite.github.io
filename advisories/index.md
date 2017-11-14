@@ -4,6 +4,98 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader Document author Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-892/)
+
+---
+
+* [[ZDI] Foxit Reader XFA ImageField Out-Of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-891/)
+
+---
+
+* [[ZDI] Foxit Reader Field alignment Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-888/)
+
+---
+
+* [[ZDI] Foxit Reader FormCalc closeDoc Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-883/)
+
+---
+
+* [[ZDI] Foxit Reader FormCalc app Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-882/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Layout pageSpan Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-881/)
+
+---
+
+* [[ZDI] Foxit Reader Annotations modDate Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-880/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Layout page Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-879/)
+
+---
+
+* [[ZDI] Foxit Reader FileAttachment Annotations style Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-878/)
+
+---
+
+* [[ZDI] Foxit Reader Text Annotations style Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-877/)
+
+---
+
+* [[ZDI] Foxit Reader Caret Annotations style Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-876/)
+
+---
+
+* [[ZDI] Foxit Reader Circle Annotations author Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-875/)
+
+---
+
+* [[ZDI] Foxit Reader XFAScriptObject setFocus Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-874/)
+
+---
+
+* [[ZDI] Foxit Reader XFAScriptObject openList Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-873/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Layout w Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-872/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Nodes append Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-871/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Nodes formNodes Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-870/)
+
+---
+
+* [[ZDI] Foxit Reader XFAScriptObject remove Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-869/)
+
+---
+
+* [[ZDI] Foxit Reader XFAScriptObject insert Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-868/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Signature Object signer Type Confusion Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-867/)
+
+---
+
+* [[ZDI] Foxit Reader Link setAction Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-861/)
+
+---
+
+* [[ZDI] Foxit Reader Field value Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-860/)
+
+---
+
+* [[ZDI] Foxit Reader Annotations arrowEnd Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-859/)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAccessMgrServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-855/)
 
 ---
