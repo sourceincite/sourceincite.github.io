@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC iframe Same Origin Policy Bypass Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-927/)
+
+---
+
 * [[ZDI] Foxit Reader Document author Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-892/)
 
 ---
