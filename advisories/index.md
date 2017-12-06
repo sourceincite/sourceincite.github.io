@@ -4,6 +4,46 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-940/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-939/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs ViewDll1 Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-938/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-937/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-936/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-935/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-934/)
+
+---
+
+* [[ZDI] Cisco WebEx ARF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-932/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-931/)
+
+---
+
+* [[ZDI] Cisco WebEx ARF File Parsing Uninitialized Memory Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-930/)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC iframe Same Origin Policy Bypass Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-927/)
 
 ---
