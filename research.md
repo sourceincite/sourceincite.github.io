@@ -14,9 +14,9 @@ Media:
 ---
 Some mentions of my work that are publically available.
 
-* [Hackers Tear Apart Trend Micro, Find 200 Vulnerabilities In Just 6 Months](https://www.forbes.com/sites/thomasbrewster/2017/01/25/trend-micro-security-exposed-200-flaws-hacked/)
-
+* [Exploiting Untrusted Objects Through Deserialization: Analyzing 1 of 100+ HPE Bug Submissions](https://www.thezdi.com/blog/2017/12/01/exploiting-untrusted-objects-through-deserialization-analyzing-1-of-100-hpe-bug-submissions)
 * [Busting Myths in Foxit Reader](https://www.thezdi.com/blog/2017/8/17/busting-myths-in-foxit-reader)
+* [Hackers Tear Apart Trend Micro, Find 200 Vulnerabilities In Just 6 Months](https://www.forbes.com/sites/thomasbrewster/2017/01/25/trend-micro-security-exposed-200-flaws-hacked/)
 
 Presentations:
 
