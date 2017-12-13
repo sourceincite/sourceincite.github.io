@@ -269,5 +269,5 @@ The advisory can be found [here][advisory] along with a PoC [here][poc].
 
 [offviz]: http://go.microsoft.com/fwlink/?LinkId=158791&usg=AFQjCNF_MQ5K2mj3WmG0gT55Q8Ym5rmPbQ&sig2=V8eCC2WwA1JBk_NxQVq5Vg
 [excelfileformat]: https://www.openoffice.org/sc/excelfileformat.pdf
-[advisory]: http://srcincite.io/advisories/src-2016-0038/
+[advisory]: https://srcincite.io/advisories/src-2016-0038/
 [poc]: https://github.com/sourceincite/poc/blob/master/SRC-2016-0038.xls

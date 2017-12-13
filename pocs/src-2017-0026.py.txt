@@ -11,7 +11,7 @@ CVE:      CVE-2017-14153
 Author:   Steven Seeley (mr_me) of Source Incite
 Affected: <= v12.4.0
 Thanks:   b33f, ryujin and sickness
-Analysis: http://srcincite.io/blog/2017/09/06/sharks-in-the-pool-mixed-object-exploitation-in-the-windows-kernel-pool.html
+Analysis: https://srcincite.io/blog/2017/09/06/sharks-in-the-pool-mixed-object-exploitation-in-the-windows-kernel-pool.html
 
 Summary:
 ========

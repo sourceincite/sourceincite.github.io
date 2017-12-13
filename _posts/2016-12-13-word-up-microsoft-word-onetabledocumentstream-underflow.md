@@ -522,7 +522,7 @@ Many complex vulnerabilities still exist within the Office codebase that can be 
 
 [eps]: https://www.fireeye.com/blog/threat-research/2015/12/the_eps_awakens.html
 [010]: http://www.sweetscape.com/010editor/
-[advisory]: http://srcincite.io/advisories/src-2016-0042/
+[advisory]: https://srcincite.io/advisories/src-2016-0042/
 [hexrays]: https://www.hex-rays.com/index.shtml
 [corelanc0d3r]: https://twitter.com/corelanc0d3r
 [mona]: https://github.com/corelan/mona

