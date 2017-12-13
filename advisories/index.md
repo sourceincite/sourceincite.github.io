@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Trend Micro Mobile Security for Enterprise clt_report_sms_status Uninitialized Pointer Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-972/)
+
+---
+
+* [[ZDI] Netgain Systems Enterprise Manager script_test Command Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-954/)
+
+---
+
 * [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-940/)
 
 ---
