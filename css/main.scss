@@ -7,11 +7,20 @@
 
 // Our variables
 // original: "Helvetica Neue"
+
 $base-font-family: "Courier New", Helvetica, Arial, sans-serif;
 $base-font-size:   16px;
 $base-font-weight: 400;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
+
+// added font for fun
+
+$second-font-family: "Architects Daughter", cursive;;
+$second-font-size:   20px;
+$second-font-weight: 400;
+$second-font-size:  $second-font-size * 0.875;
+$second-line-height: 1.5;
 
 $spacing-unit:     30px;
 

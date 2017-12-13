@@ -9,7 +9,7 @@ The following links are some of my past information security research. Not all.
 * [advisories](/advisories)
 * [exploits](/exploits)
 
-Media:
+### Media:
 
 ---
 Some mentions of my work that are publically available.
@@ -18,7 +18,7 @@ Some mentions of my work that are publically available.
 * [Busting Myths in Foxit Reader](https://www.thezdi.com/blog/2017/8/17/busting-myths-in-foxit-reader)
 * [Hackers Tear Apart Trend Micro, Find 200 Vulnerabilities In Just 6 Months](https://www.forbes.com/sites/thomasbrewster/2017/01/25/trend-micro-security-exposed-200-flaws-hacked/)
 
-Presentations:
+### Presentations:
 
 ---
 Some past presentations that I have shared.
@@ -33,4 +33,4 @@ Some past presentations that I have shared.
 
 * [Ruxcon 2012 - How to catch a chameleon](/assets/How-to-catch-a-chameleon-StevenSeeley-Ruxcon-2012.pdf)
 
-   Was about the introduction of a plugin for Immunity Debugger that I developed called '[heaper](https://github.com/stevenseeley/heaper)' that is designed to not only detect a corrupted heap state before out-of-bounds memory access, but was also designed to detect exploitable conditions in past Windows operating systems.
+   This presentation was about the introduction of a plugin for Immunity Debugger that I developed called '[heaper](https://github.com/stevenseeley/heaper)' that is designed to not only detect a corrupted heap state before out-of-bounds memory access, but was also designed to detect exploitable conditions in past Windows operating systems.

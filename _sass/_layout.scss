@@ -203,6 +203,7 @@
 }
 
 .post-title {
+font: $second-font-weight #{$second-font-size}/#{$second-line-height} $second-font-family;
     font-size: 42px;
     letter-spacing: -1px;
     line-height: 1;
