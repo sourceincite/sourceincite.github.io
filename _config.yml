@@ -11,7 +11,7 @@ email: steven@srcincite.io
 description: > # this means to ignore newlines until "baseurl:"
   experts in offensive technologies
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://srcincite.io" # the base hostname & protocol for your site
+url: "https://srcincite.io" # the base hostname & protocol for your site
 twitter_username: sourceincite
 github_username:  sourceincite
 
