@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Ecava IntegraXor Report getdata name SQL Injection Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-1000/)
+
+---
+
+* [[ZDI] Ecava IntegraXor Report batchlist SQL Injection Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-999/)
+
+---
+
 * [[ZDI] Trend Micro Mobile Security for Enterprise clt_report_sms_status Uninitialized Pointer Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-972/)
 
 ---
