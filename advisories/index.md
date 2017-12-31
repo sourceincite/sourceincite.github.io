@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Kingsoft Antivirus and Internet Security Kernel Stack Buffer Overflow Privilege Escalation Vulnerability](src-2017-0029)
+
+---
+
 * [[ZDI] Ecava IntegraXor Report getdata name SQL Injection Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-17-1000/)
 
 ---
