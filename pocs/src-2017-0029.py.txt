@@ -282,8 +282,10 @@ def main():
             os.system("cmd.exe")
         else:
             print "(-) it appears that kingsoft Internet Security is not vulnerable!"
-
+            sys.exit(-1)
     else:
         print "(-) it appears that kingsoft Internet Security is not installed!"
+        sys.exit(-1)
+
 if __name__ == '__main__':
     main()
