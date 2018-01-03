@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx ARF File DLL Planting Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-008/)
+
+---
+
+* [[ZDI] Cisco WebEx ARF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-007/)
+
+---
+
 * [[SRC] Kingsoft Antivirus and Internet Security Kernel Stack Buffer Overflow Privilege Escalation Vulnerability](src-2017-0029)
 
 ---
