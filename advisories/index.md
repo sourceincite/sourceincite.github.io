@@ -4,6 +4,22 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Delta Industrial Automation Screen Editor Project File Parsing CThemeWnd Type Confusion Remote Code Execution Vulnerability](src-2018-0004)
+
+---
+
+* [[SRC] Delta Industrial Automation Screen Editor Project File Parsing stopbits Out-of-Bounds Write Remote Code Execution Vulnerability](src-2018-0003)
+
+---
+
+* [[SRC] Delta Industrial Automation Screen Editor Project File Parsing CDocument Use-After-Free Remote Code Execution Vulnerability](src-2018-0002)
+
+---
+
+* [[SRC] Delta Industrial Automation Screen Editor Project File Parsing Stack-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0001)
+
+---
+
 * [[ZDI] Advantech WebAccess webvrpcs drawsrv Arbitrary Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-063/)
 
 ---
