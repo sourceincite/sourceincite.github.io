@@ -4,6 +4,226 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Arbitrary Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-064/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Arbitrary Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-063/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwSyncDb Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-062/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwOpcImg Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-061/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwscrp Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-060/)
+
+---
+
+* [[ZDI] Advantech WebAccess cnvlgxtag Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-059/)
+
+---
+
+* [[ZDI] Advantech WebAccess Notify2 Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-058/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-057/)
+
+---
+
+* [[ZDI] Advantech WebAccess BWRPswd Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-055/)
+
+---
+
+* [[ZDI] Advantech WebAccess BWRPswd Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-054/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwPSLinkZip Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-053/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwthinfl Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-052/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwFreRPT Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-051/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwSyncLg Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-050/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwOpcBs Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-049/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwprtscr Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-048/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwmail Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-047/)
+
+---
+
+* [[ZDI] Advantech WebAccess jpegconv Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-046/)
+
+---
+
+* [[ZDI] Advantech WebAccess BwNodeIP Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-045/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwwfaa Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-044/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwstwww Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-043/)
+
+---
+
+* [[ZDI] Advantech WebAccess DrawCMD Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-042/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwstmps Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-041/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLNumParams Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-040/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLNumResultCols Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-039/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLExecDirect Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-038/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLDescribeParam Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-037/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLExecute Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-036/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLSetParam Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-035/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLPrepare Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-034/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLFetch Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-033/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLPutData Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-032/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLParamData Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-031/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLFetchScroll Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-030/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLCancel Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-029/)
+
+---
+
+* [[ZDI] Advantech WebAccess mSignin SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-028/)
+
+---
+
+* [[ZDI] Advantech WebAccess LogList ChkAdminViewUsrPwd1 SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-027/)
+
+---
+
+* [[ZDI] Advantech WebAccess mailPg ChkAdminViewUsrPwd1 SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-026/)
+
+---
+
+* [[ZDI] Advantech WebAccess bwMQTT Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-025/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs Directory Traversal Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-024/)
+
+---
+
+* [[ZDI] Advantech WebAccess makensis Stack-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-023/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLSetStmtAttr Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-022/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLFreeStmt Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-021/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLAllocStmt Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-020/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLDisconnect Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-019/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLFreeConnect Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-018/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLFreeEnv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-017/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLSetEnvAttr Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-016/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-015/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLConnect Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-014/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-013/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-012/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv SQLSetConnectOption Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-011/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-010/)
+
+---
+
+* [[ZDI] Advantech WebAccess webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-009/)
+
+---
+
 * [[ZDI] Cisco WebEx ARF File DLL Planting Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-008/)
 
 ---
