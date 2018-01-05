@@ -4,10 +4,6 @@ title: Advisories
 permalink: /advisories/
 ---
 
-* [[ZDI] Advantech WebAccess webvrpcs drawsrv Arbitrary Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-064/)
-
----
-
 * [[ZDI] Advantech WebAccess webvrpcs drawsrv Arbitrary Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-063/)
 
 ---
