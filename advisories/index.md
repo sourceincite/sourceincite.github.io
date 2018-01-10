@@ -4,6 +4,194 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Trend Micro Control Manager TMCM_MembershipProvider ValidateUser Password Hash Usage Authentication Bypass Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-113/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager CCGIServlet ID_QUERY_COMMAND_TRACKING_USER_ID SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-112/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager AdHocQuery_Processor External Entity Processing Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-111/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ThreatDistributedTrail SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-110/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ClearSelectedTreeNode SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-109/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager AntiVirusSummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-108/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ApplicationCompliance SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-107/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ApplicationStatus SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-106/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ComponentCompliance SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-105/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ContentSecuritySummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-104/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager SpywareSummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-103/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager GetChannelList SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-102/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager NetworkVirusSummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-101/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager PersonalFirewallSummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-100/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager PolicyResult SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-099/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager DLPIncidentJobWidget SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-098/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager GetScheduleSubscription SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-097/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager GetOnetimeSubscription SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-096/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager sp_DDI_GetInterestedIPByJobID2 SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-095/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager sp_DeleteSelectedTreeNodesByRefKey SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-094/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TemplateMatch SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-093/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TemplateMatchByChannel SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-092/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TemplateMatchByTemplate SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-091/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager InsertSelectedTreeNodeWithACL SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-090/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager SensitiveFilesOverTime SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-089/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager sCloudService GetProductServerType SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-088/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ViolationStatus SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-087/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager WebSecuritySummary SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-086/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager UserStatusBySeverity SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-085/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager GetRuleList SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-084/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ThreatStastics SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-083/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopViolatorsByChannel SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-082/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ViolationCnt SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-081/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopXThreatTrail SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-080/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopViolatorsByTemplate SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-079/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopXThreat SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-078/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ViolationCntByChannel SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-077/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopViolators SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-076/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopTemplateByChannel SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-075/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopTemplateMatches SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-074/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopViolationPolicy SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-073/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopSensitiveMachines SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-072/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopSensitiveFilesDetected SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-071/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager TopChannelByTemplate SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-070/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager ViolationCntByTemplate SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-069/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager AdHocQuery_Processor ProductLogQuery SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-068/)
+
+---
+
+* [[ZDI] Trend Micro Control Manager sCloudService GetPassword SQL Injection Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-067/)
+
+---
+
 * [[SRC] Delta Industrial Automation Screen Editor Project File Parsing CThemeWnd Type Confusion Remote Code Execution Vulnerability](src-2018-0004)
 
 ---
