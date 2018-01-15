@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Synology Photo Station SYNOPHOTO_Flickr_MultiUpload Race Condition File Write Remote Code Execution Vulnerability](src-2018-0006)
+
+---
+
+* [[SRC] Synology Photo Station LogList Stored Cross Site Scripting Authentication Bypass Vulnerability](src-2018-0005)
+
+---
+
 * [[ZDI] Trend Micro Control Manager TMCM_MembershipProvider ValidateUser Password Hash Usage Authentication Bypass Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-113/)
 
 ---
