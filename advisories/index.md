@@ -2272,11 +2272,11 @@ permalink: /advisories/
 
 ---
 
-*   [[SRC] ATutor LMS search SQL Injection Remote Code Execution Vulnerability](/advisories/src-2016-0004)
+*   [[SRC] ATutor LMS SocialGroups search SQL Injection Remote Code Execution Vulnerability](/advisories/src-2016-0004)
 
 ---
 
-*   [[SRC] ATutor LMS search SQL Injection Remote Code Execution Vulnerability](/advisories/src-2016-0003)
+*   [[SRC] ATutor LMS PhotoAlbum search SQL Injection Remote Code Execution Vulnerability](/advisories/src-2016-0003)
 
 ---
 
