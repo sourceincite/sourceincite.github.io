@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center UrlAccessController Authentication Bypass Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-139/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center redirectviewer Directory Traversal Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-138/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorOnlineList_contentOnly Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-136/)
+
+---
+
 * [[SRC] Synology Photo Station SYNOPHOTO_Flickr_MultiUpload Race Condition File Write Remote Code Execution Vulnerability](src-2018-0006)
 
 ---
