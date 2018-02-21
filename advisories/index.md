@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC XPS Font Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-172/)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center UrlAccessController Authentication Bypass Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-139/)
 
 ---
