@@ -6,12 +6,12 @@ categories: blog
 excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Microsoft Office Excel" src="/assets/images/excel.png">
-Last week, Microsoft released the MS16–107 to patch CVE-2016-3363, which is a `Type Confusion` vulnerability within Microsoft Excel 2007, 2010, 2013 and 2016 both 32 and 64 bit versions. This post will show you how I determined the vulnerability class and some lightweight technical details around the vulnerability.
+<p class="cn" markdown="1"><img class="excel" alt="Microsoft Office Excel" src="/assets/images/excel.png">
+Last week, Microsoft released the MS16–107 to patch CVE-2016-3363, which is a `Type Confusion` vulnerability within Microsoft Excel 2007, 2010, 2013 and 2016 both 32 and 64 bit versions. This post will show you how I determined the vulnerability class and some lightweight technical details around the vulnerability.</p>
 
 <!--more-->
 
-After minimising the Proof of Concept and visualising the structures in [offviz][offviz], we can see the differences:
+<p class="cn" markdown="1">After minimising the Proof of Concept and visualising the structures in [offviz][offviz], we can see the differences:</p>
 
 {% include image.html
             img="assets/images/type-confusion-sample.png"
@@ -23,10 +23,10 @@ After minimising the Proof of Concept and visualising the structures in [offviz]
             title="The trigger sample"
             caption="The trigger sample" %}
 
-Within a BIFFRecord structure, there are several BIFFRecord_General structures that are defined. Following a set number of BIFFRecord_General structures defined in the BIFFRecord, the code blindly assumes that the next structure is a EOF Record. More details about the specification can be found in OpenOffice’s version of [Microsoft Excel File Format][excelfileformat] document.
+<p class="cn" markdown="1">Within a BIFFRecord structure, there are several BIFFRecord_General structures that are defined. Following a set number of BIFFRecord_General structures defined in the BIFFRecord, the code blindly assumes that the next structure is a EOF Record. More details about the specification can be found in OpenOffice’s version of [Microsoft Excel File Format][excelfileformat] document.</p>
 
-The trigger occurs in the protected mode (brokered process) of Microsoft Excel, so we are going to have to enable child debugging within windbg.
-Running the Proof of Concept yields in the following crash dump:
+<p class="cn" markdown="1">The trigger occurs in the protected mode (brokered process) of Microsoft Excel, so we are going to have to enable child debugging within windbg.</p>
+<p class="cn" markdown="1">Running the Proof of Concept yields in the following crash dump:</p>
 
 {% highlight text %}
 (6ec.9a0): Break instruction exception — code 80000003 (first chance)
@@ -57,7 +57,7 @@ Excel!Ordinal40+0x322c77:
 2fd22c77 8b5164          mov     edx,dword ptr [ecx+64h] ds:0023:0a3c1004=????????
 {% endhighlight %}
 
-We can see that initially it is an out-of-bounds read in @ecx. Lets go ahead and dump @ecx to get an understanding for its size and structure.
+<p class="cn" markdown="1">We can see that initially it is an out-of-bounds read in @ecx. Lets go ahead and dump @ecx to get an understanding for its size and structure.</p>
 
 {% highlight text %}
 1:025> !heap -p -a @ecx
@@ -132,7 +132,7 @@ We can see that initially it is an out-of-bounds read in @ecx. Lets go ahead and
 0a3c101c ????????
 {% endhighlight %}
 
-We can see that the heap buffer is of size 0x60 bytes. Now, we can set a breakpoint at the @eip where the access violation is occurring and run the sample.xls file to see if there is a change in the heap buffer structure are size.
+<p class="cn" markdown="1">We can see that the heap buffer is of size 0x60 bytes. Now, we can set a breakpoint at the @eip where the access violation is occurring and run the sample.xls file to see if there is a change in the heap buffer structure are size.</p>
 
 {% highlight text %}
 Breakpoint 0 hit
@@ -217,13 +217,13 @@ EXCEL!Ordinal40+0x322c77:
 2a97cffc  23416f28
 {% endhighlight %}
 
-We can see that this time, the heap chunk size is 0x90 and that at our +0x64 dereference location, it is set to null. This indicates that the code is suppose to be operating on a heap chunk of size 0x90, yet in our crashing Proof of Concept, we can see it is using a chunk of size 0x60 with a different structure.
+<p class="cn" markdown="1">We can see that this time, the heap chunk size is 0x90 and that at our +0x64 dereference location, it is set to null. This indicates that the code is suppose to be operating on a heap chunk of size 0x90, yet in our crashing Proof of Concept, we can see it is using a chunk of size 0x60 with a different structure.</p>
 
-What is not shown here, is that both the trigger and the sample files, when hitting this breakpoint, have the exact same callstacks. This is important as it is possible that the same location, can operate on different object types and sizes (although unlikley).
+<p class="cn" markdown="1">What is not shown here, is that both the trigger and the sample files, when hitting this breakpoint, have the exact same callstacks. This is important as it is possible that the same location, can operate on different object types and sizes (although unlikley).</p>
 
-Now, at +0x0 and +0x8c of the valid chunk, we can see other heap chunk pointers that could be used by subsequent functions to achieve Remote Code Execution via a code flow redirection.
+<p class="cn" markdown="1">Now, at +0x0 and +0x8c of the valid chunk, we can see other heap chunk pointers that could be used by subsequent functions to achieve Remote Code Execution via a code flow redirection.</p>
 
-Additionally, after analysing the vulnerability in IDA, an alternate approach to exploitation was discovered. We see the crashing @eip is located in sub_30322AF2.
+<p class="cn" markdown="1">Additionally, after analysing the vulnerability in IDA, an alternate approach to exploitation was discovered. We see the crashing @eip is located in sub_30322AF2.</p>
 
 {% highlight text %}
 .text:30322C77 loc_30322C77:                  
@@ -233,7 +233,7 @@ Additionally, after analysing the vulnerability in IDA, an alternate approach to
 .text:30322C81 sub [esp+38h+var_1C_taint], ecx ; taint var 0x1c
 {% endhighlight %}
 
-Now, a few blocks down with multiple pathways from our crashing @eip we see some dword writes, the first of which, we control the value being written:
+<p class="cn" markdown="1">Now, a few blocks down with multiple pathways from our crashing @eip we see some dword writes, the first of which, we control the value being written:</p>
 
 {% highlight text %}
 .text:30322D00 loc_30322D00: 
@@ -243,7 +243,7 @@ Now, a few blocks down with multiple pathways from our crashing @eip we see some
 .text:30322D0A movsd                             ; write dword
 {% endhighlight %}
 
-This all looks a bit clearer in windbg:
+<p class="cn" markdown="1">This all looks a bit clearer in windbg:</p>
 
 {% highlight text %}
 30272d00 8b7d08 mov edi,dword ptr [ebp+8]
@@ -252,7 +252,7 @@ This all looks a bit clearer in windbg:
 30272d0a a5 movs dword ptr es:[edi],dword ptr [esi]
 {% endhighlight %}
 
-Essentially crushing this 0x00000007 value with a controlled value in an alternate heap chunk:
+<p class="cn" markdown="1">Essentially crushing this 0x00000007 value with a controlled value in an alternate heap chunk:</p>
 
 {% highlight text %}
 1:025> dd poi(ebp+8)+18 L1
@@ -261,13 +261,15 @@ Essentially crushing this 0x00000007 value with a controlled value in an alterna
 
 ### Conclusion
 
-Whilst in context, exploiting such a vulnerability would be very hard, type confusion vulnerabilities often give attackers several opportunities to achieve relative reads/writes or direct control flow highjacking.
+<p class="cn" markdown="1">Whilst in context, exploiting such a vulnerability would be very hard, type confusion vulnerabilities often give attackers several opportunities to achieve relative reads/writes or direct control flow highjacking.</p>
 
-In this case, we had the ability to tamper with data in an alternate chunk, thus, potentially influencing the control of execution when code is operating on that heap chunk. Many more opportunities for exploitation are likely to exist for this vulnerability and type confusions are excellent primitives for an attacker.
+<p class="cn" markdown="1">In this case, we had the ability to tamper with data in an alternate chunk, thus, potentially influencing the control of execution when code is operating on that heap chunk. Many more opportunities for exploitation are likely to exist for this vulnerability and type confusions are excellent primitives for an attacker.</p>
 
-The advisory can be found [here][advisory] along with a PoC [here][poc].
+<p class="cn" markdown="1">The advisory can be found [here][advisory] along with a PoC [here][poc].</p>
 
+<div class="cn" markdown="1">
 [offviz]: http://go.microsoft.com/fwlink/?LinkId=158791&usg=AFQjCNF_MQ5K2mj3WmG0gT55Q8Ym5rmPbQ&sig2=V8eCC2WwA1JBk_NxQVq5Vg
 [excelfileformat]: https://www.openoffice.org/sc/excelfileformat.pdf
 [advisory]: https://srcincite.io/advisories/src-2016-0038/
 [poc]: https://github.com/sourceincite/poc/blob/master/SRC-2016-0038.xls
+</div>

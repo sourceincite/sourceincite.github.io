@@ -6,32 +6,32 @@ categories: blog
 excerpt_separator: <!--more-->
 ---
 
-<img class="word" alt="Microsoft Office Word" src="/assets/images/word.png">Today, Microsoft released the MS16–148 to patch CVE-2016-7290, which addresses an integer underflow issue that I found. The underflow later triggers an out-of-bounds read during a copy operation which could result in a stack based buffer overflow outside of the `protected mode` winword.exe process when a processing specially crafted binary document file.
+<p class="cn" markdown="1"><img class="word" alt="Microsoft Office Word" src="/assets/images/word.png">Today, Microsoft released the MS16–148 to patch CVE-2016-7290, which addresses an integer underflow issue that I found. The underflow later triggers an out-of-bounds read during a copy operation which could result in a stack based buffer overflow outside of the `protected mode` winword.exe process when a processing specially crafted binary document file.</p>
 <!--more-->
 
-tl;dr; Whilst all that sounds dramatic, in reality the proof of concept (poc) only triggered an out-of-bounds read condition with the potential for information disclosure, however in this blog post I will detail the vulnerability further.
+<p class="cn" markdown="1">tl;dr; Whilst all that sounds dramatic, in reality the proof of concept (poc) only triggered an out-of-bounds read condition with the potential for information disclosure, however in this blog post I will detail the vulnerability further.</p>
 
-The vulnerability affects Microsoft Word 2007 Service Pack 3, Microsoft Office 2010 Service Pack 2 (32-bit editions), Microsoft Office 2010 Service Pack 2 (64-bit editions) and Microsoft Office Compatibility Pack Service Pack 3. More details can be found in the [SRC-2016-0042][advisory] advisory. All analysis was performed on Microsoft Office 2010 Professional WinWord.exe **v14.0.4734.1000**, the latest patch at the time.
+<p class="cn" markdown="1">The vulnerability affects Microsoft Word 2007 Service Pack 3, Microsoft Office 2010 Service Pack 2 (32-bit editions), Microsoft Office 2010 Service Pack 2 (64-bit editions) and Microsoft Office Compatibility Pack Service Pack 3. More details can be found in the [SRC-2016-0042][advisory] advisory. All analysis was performed on Microsoft Office 2010 Professional WinWord.exe **v14.0.4734.1000**, the latest patch at the time.</p>
 
-First, let's take a look at the differential of the sample and the poc files using our favorite binary editor [010][010].
+<p class="cn" markdown="1">First, let's take a look at the differential of the sample and the poc files using our favorite binary editor [010][010].</p>
 
 {% include image.html
             img="assets/images/compare.png"
             title="Comparing the poc.doc with the sample.doc"
             caption="Comparing the poc.doc with the sample.doc" %}
 
-What you may notice, is that there is only a single byte delta modification to the file. Using [Offviz][offviz], we can take look and see which chunk contains the modification.
+<p class="cn" markdown="1">What you may notice, is that there is only a single byte delta modification to the file. Using [Offviz][offviz], we can take look and see which chunk contains the modification.</p>
 
 {% include image.html
             img="assets/images/offvis-word.png"
             title="Analyzing the structure of the poc.doc"
             caption="Analyzing the structure of the poc.doc" %}
 
-The byte modification is within the data field of the OneTableDocumentStream chunk. The sample contains the byte value 0x68, however the poc uses 0xfa to trigger the underflow.
+<p class="cn" markdown="1">The byte modification is within the data field of the OneTableDocumentStream chunk. The sample contains the byte value 0x68, however the poc uses 0xfa to trigger the underflow.</p>
 
 ### 0x0 Triggering the vulnerability
 
-First, I enable page heap and usermode stack traces for debugging purposes:
+<p class="cn" markdown="1">First, I enable page heap and usermode stack traces for debugging purposes:</p>
 
 {% highlight text %}
 c:\Program Files\Debugging Tools for Windows (x86)>gflags.exe -i winword.exe +hpa +ust
@@ -42,7 +42,7 @@ Current Registry Settings for winword.exe executable are: 02001000
 c:\Program Files\Debugging Tools for Windows (x86)>
 {% endhighlight %}
 
-Then running the poc.doc file results in the following access violation outside of protected mode:
+<p class="cn" markdown="1">Then running the poc.doc file results in the following access violation outside of protected mode:</p>
 
 {% highlight text %}
 (880.ac4): Access violation - code c0000005 (first chance)
@@ -79,11 +79,11 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 13 00259000 6425684e 22798de8 00000000 00000000 MSPTLS!FsTransformBbox+0x26986
 {% endhighlight %}
 
-Doesn't look so pretty without symbols does it?
+<p class="cn" markdown="1">Doesn't look so pretty without symbols does it?</p>
 
 ### 0x1 Investigating Accessed Memory
 
-The first thing I do is start checking out the memory that was accessed at the time of corruption.
+<p class="cn" markdown="1">The first thing I do is start checking out the memory that was accessed at the time of corruption.</p>
 
 {% highlight text %}
 0:000> !heap -p -a @esi
@@ -148,13 +148,13 @@ The first thing I do is start checking out the memory that was accessed at the t
 Evaluate expression: 204 = 000000cc
 {% endhighlight %}
 
-We can already see that this is an out-of-bounds read on a heap buffer that is 0x19 bytes in size, trying to copy an additional 204 bytes into @edi which is a stack based address. One might ask, what size is the stack variable?
+<p class="cn" markdown="1">We can already see that this is an out-of-bounds read on a heap buffer that is 0x19 bytes in size, trying to copy an additional 204 bytes into @edi which is a stack based address. One might ask, what size is the stack variable?</p>
 
-As it turns out, that stack variable is passed up the stack 6 frames down and seems dynamically calculated from a number of other variables and offsets. Incredibly hard to track without having symbols.
+<p class="cn" markdown="1">As it turns out, that stack variable is passed up the stack 6 frames down and seems dynamically calculated from a number of other variables and offsets. Incredibly hard to track without having symbols.</p>
 
 ## 0x2 Writing Memory
 
-If we can continue reading from @esi, then its safe to assume that we can continue writing. I know that is a huge assumption, but with the ability to [ole spray][heapspray] the heap or gain precision of the heap using [eps][eps], it is likley that we can control the data at that offset. But what can we overwrite? Let's take a look at the destination stack address:
+<p class="cn" markdown="1">If we can continue reading from @esi, then its safe to assume that we can continue writing. I know that is a huge assumption, but with the ability to [ole spray][heapspray] the heap or gain precision of the heap using [eps][eps], it is likley that we can control the data at that offset. But what can we overwrite? Let's take a look at the destination stack address:</p>
 
 {% highlight text %}
 0:000> !py mona do -a 002513c4 -s 0xcc
@@ -227,9 +227,9 @@ Offset  Address      Contents    Info
 +c8     0x0025148c | 0x00000000  
 {% endhighlight %}
 
-Using [@corelanc0d3r's][corelanc0d3r] excellent [mona][mona] plugin, we can dump the destination stack address using the remainder of the size for the copy and can see that we have a pointer to `.text (wwlib!GetAllocCounters+0x128118)`. If I had to guess correctly at this point, I would say that we are not supposed to overwrite this value. 
+<p class="cn" markdown="1">Using [@corelanc0d3r's][corelanc0d3r] excellent [mona][mona] plugin, we can dump the destination stack address using the remainder of the size for the copy and can see that we have a pointer to `.text (wwlib!GetAllocCounters+0x128118)`. If I had to guess correctly at this point, I would say that we are not supposed to overwrite this value.</p>
 
-Therefore, we are likley overflowing a stack buffer (not by much). If we wanted to hit a return address, it wouldn't happen until +0x1e8 of the destination address. Which, incase you were curious, is located here:
+<p class="cn" markdown="1">Therefore, we are likley overflowing a stack buffer (not by much). If we wanted to hit a return address, it wouldn't happen until +0x1e8 of the destination address. Which, incase you were curious, is located here:</p>
 
 {% highlight text %}
 
@@ -261,16 +261,16 @@ wwlib!GetAllocCounters+0xee41:
 5e415bbc e8b9e9fdff      call    wwlib+0x457a (5e3f457a)
 {% endhighlight %}
 
-We dont see it in the call stack, because its a fair frames up in the stack:
+<p class="cn" markdown="1">We dont see it in the call stack, because its a fair frames up in the stack:</p>
 
 {% highlight text %}
 0:000> ?0x002515ac-@esp
 Evaluate expression: 20248 = 00004f18
 {% endhighlight %}
 
-The next question is, how are we going to simulate continuing the execution?
+<p class="cn" markdown="1">The next question is, how are we going to simulate continuing the execution?</p>
 
-[@bannedit][bannedit] wrote another excellent plugin called [counterfeit][counterfeit] that we can use to alloc a chunk (using VirtualAlloc) in windbg and fill it with marked data. We can then go ahead and replace @esi with this value and continue the copy operation.
+<p class="cn" markdown="1">[@bannedit][bannedit] wrote another excellent plugin called [counterfeit][counterfeit] that we can use to alloc a chunk (using VirtualAlloc) in windbg and fill it with marked data. We can then go ahead and replace @esi with this value and continue the copy operation.</p>
 
 {% highlight text %}
 0:000> !py cf -a 2000 -f
@@ -298,7 +298,7 @@ Finished filling memory.
 14130070  4141415d 4141415e 4141415f 41414160
 {% endhighlight %}
 
-Now, we set @esi to be the `0x14130000`:
+<p class="cn" markdown="1">Now, we set @esi to be the `0x14130000`:</p>
 
 {% highlight text %}
 0:000> g
@@ -348,7 +348,7 @@ MSVCR90!memmove+0xfc:
 4141415d  ????????
 {% endhighlight %}
 
-We can see we overwrote the data pointer that points to a function with a potentially controlled value from @esi. Since @esi contains marked data, we know at what offset in @esi was used to overwrite the pointer.
+<p class="cn" markdown="1">We can see we overwrote the data pointer that points to a function with a potentially controlled value from @esi. Since @esi contains marked data, we know at what offset in @esi was used to overwrite the pointer.</p>
 
 {% highlight text %}
 0:000> ?0x5d-0x41
@@ -405,7 +405,7 @@ Offset  Address      Contents    Info
 
 ### 0x3 Exposure
 
-Looking at the call stack again, we are interested in the caller of memmove().
+<p class="cn" markdown="1">Looking at the call stack again, we are interested in the caller of memmove().</p>
 
 {% highlight text %}
 0:000> kvn L2
@@ -415,7 +415,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 01 0024c6b0 5e413843 22870ff8 002513bf 000000d3 wwlib!DllGetClassObject+0x455a
 {% endhighlight %}
 
-Using the [Hex-Rays][hexrays] decompiler, we can see this function is simply a wrapper around memmove() and is called a lot within wwwlib. Also I renamed sub_316d9b16 to memmove_wrapper_1 for brevity. 
+<p class="cn" markdown="1">Using the [Hex-Rays][hexrays] decompiler, we can see this function is simply a wrapper around memmove() and is called a lot within wwwlib. Also I renamed sub_316d9b16 to memmove_wrapper_1 for brevity.</p>
 
 {% highlight c %}
 int __stdcall memmove_wrapper_1(void *Src, void *Dst, size_t Size)
@@ -430,11 +430,11 @@ int __stdcall memmove_wrapper_1(void *Src, void *Dst, size_t Size)
 }
 {% endhighlight %}
 
-If the size is larger than MAX_INT, an int overflow exception is raised. Additionally to that, there is no sanity checks on the size value to validate that it is smaller than the destination buffer.
+<p class="cn" markdown="1">If the size is larger than MAX_INT, an int overflow exception is raised. Additionally to that, there is no sanity checks on the size value to validate that it is smaller than the destination buffer.</p>
 
-For exploitation purposes, we typically want to know *how* the memmove() accessed or called...
+<p class="cn" markdown="1">For exploitation purposes, we typically want to know *how* the memmove() accessed or called...</p>
 
-To determine this, we set a breakpoint `bp wwlib!DllGetClassObject+0x4554 ".printf \"calling memmove(%x, %x, %x);\\n\", poi(@esp), poi(@esp+4), poi(@esp+8); gc"` and re-run the poc.
+<p class="cn" markdown="1">To determine this, we set a breakpoint `bp wwlib!DllGetClassObject+0x4554 ".printf \"calling memmove(%x, %x, %x);\\n\", poi(@esp), poi(@esp+4), poi(@esp+8); gc"` and re-run the poc.</p>
 
 {% highlight text %}
 calling memmove(271164, 26fb3c, e);
@@ -458,9 +458,9 @@ MSVCR90!memmove+0xfc:
 744fb40c f3a5            rep movs dword ptr es:[edi],dword ptr [esi]
 {% endhighlight %}
 
-There are a number of calls using a source buffer which start with 0x2266ef**XX** and the destination seems to be consistant as well 0x002711**YY**. This is suspicious of an erroneous loop that is calling memmove() multiple times.
+<p class="cn" markdown="1">There are a number of calls using a source buffer which start with 0x2266ef**XX** and the destination seems to be consistant as well 0x002711**YY**. This is suspicious of an erroneous loop that is calling memmove() multiple times.</p>
 
-The way I like to determine this is to analyze the stack at each call to determine if it unique. Executing the 'k' command in windbg is not going to cut it, as we are all ready slowing down execution a lot with the above break point. I choose to use a quick little windbg plugin that mashes the return addresses together:
+<p class="cn" markdown="1">The way I like to determine this is to analyze the stack at each call to determine if it unique. Executing the 'k' command in windbg is not going to cut it, as we are all ready slowing down execution a lot with the above break point. I choose to use a quick little windbg plugin that mashes the return addresses together:</p>
 
 {% highlight python %}
 from pykd import *
@@ -475,7 +475,7 @@ print "stack hash: 0x%x" % mashed
 stack hash: 0x199a6804c9
 {% endhighlight %}
 
-Now, we will add that to our breakpoint, take out the new line and add a space on the end, finally re-running it:
+<p class="cn" markdown="1">Now, we will add that to our breakpoint, take out the new line and add a space on the end, finally re-running it:</p>
 
 {% highlight text %}
 0:010> bu wwlib!DllGetClassObject+0x4554 ".printf \"calling memmove(%x, %x, %x); \", poi(@esp), poi(@esp+4), poi(@esp+8); !py sh; gc"
@@ -504,22 +504,23 @@ MSVCR90!memmove+0xfc:
 744fb40c f3a5            rep movs dword ptr es:[edi],dword ptr [esi]
 {% endhighlight %}
 
-It is safe to assume now that calls to memmove() with stack hash **0x1847ab6993** are within a loop!
+<p class="cn" markdown="1">It is safe to assume now that calls to memmove() with stack hash **0x1847ab6993** are within a loop!</p>
 
 ### 0x4 Impact
 
-Since the poc does not overflow a return address or anything that is later accessed and used during a write or copy operation, then it can be concluded that this vulnerability has very little impact. 
+<p class="cn" markdown="1">Since the poc does not overflow a return address or anything that is later accessed and used during a write or copy operation, then it can be concluded that this vulnerability has very little impact.</p>
 
-Microsoft patched this vulnerability as a "Microsoft Office Information Disclosure Vulnerability" which makes sense in the context that it was presented here. However, since we can overwrite a pointer to .text on the stack due to the overflow, it demonstrates that this vulnerability has the potential for much more of an impact had it been triggered using an alternate code path.
+<p class="cn" markdown="1">Microsoft patched this vulnerability as a "Microsoft Office Information Disclosure Vulnerability" which makes sense in the context that it was presented here. However, since we can overwrite a pointer to .text on the stack due to the overflow, it demonstrates that this vulnerability has the potential for much more of an impact had it been triggered using an alternate code path.</p>
 
-Within sub_316f3232, there are 525 calls to the memmove_wrapper_1() which indictates that it is highley likley that several code paths exist, in order to reach this vulnerability.
+<p class="cn" markdown="1">Within sub_316f3232, there are 525 calls to the memmove_wrapper_1() which indictates that it is highley likley that several code paths exist, in order to reach this vulnerability.</p>
 
-Additionaly to that, **none** of the others functions in the call stack use the guard stack mitigation (/GS) which means that if the return address was overwritten, there is no operating system level mitigation enabled to mitigate against it.
+<p class="cn" markdown="1">Additionaly to that, **none** of the others functions in the call stack use the guard stack mitigation (/GS) which means that if the return address was overwritten, there is no operating system level mitigation enabled to mitigate against it.</p>
 
 ### 0x5 Conclusion
 
-Many complex vulnerabilities still exist within the Office codebase that can be hard to find. Often, even harder to determine the root cause analysis and develop exploits for and I think that if Microsoft had released the symbols I would have had much better chances at the later on several occasions.
+<p class="cn" markdown="1">Many complex vulnerabilities still exist within the Office codebase that can be hard to find. Often, even harder to determine the root cause analysis and develop exploits for and I think that if Microsoft had released the symbols I would have had much better chances at the later on several occasions.</p>
 
+<div class="cn" markdown="1">
 [eps]: https://www.fireeye.com/blog/threat-research/2015/12/the_eps_awakens.html
 [010]: http://www.sweetscape.com/010editor/
 [advisory]: https://srcincite.io/advisories/src-2016-0042/
@@ -530,3 +531,4 @@ Many complex vulnerabilities still exist within the Office codebase that can be 
 [counterfeit]: https://github.com/bannedit/windbg
 [offviz]: http://go.microsoft.com/fwlink/?LinkId=158791&usg=AFQjCNF_MQ5K2mj3WmG0gT55Q8Ym5rmPbQ&sig2=V8eCC2WwA1JBk_NxQVq5Vg
 [heapspray]: https://www.greyhathacker.net/?p=911
+</div>
