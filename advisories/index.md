@@ -2304,7 +2304,7 @@ permalink: /advisories/
 
 ---
 
-*   [[SRC] ATutor LMS login_functions.inc.php Password Hash Authentication Bypass Vulnerability](/advisories/src-2016-0000)
+*   [[SRC] ATutor LMS login_functions.inc.php Password Hash Usage Authentication Bypass Vulnerability](/advisories/src-2016-0000)
 
 ---
 
