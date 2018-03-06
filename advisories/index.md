@@ -2516,7 +2516,7 @@ permalink: /advisories/
 
 ---
 
-*   [[SRC] Microsoft Windows Journal Use-After-Free Remote Code Execution Vulnerability](/advisories/src-2015-0001)
+*   [[SRC] Microsoft Windows Journal Use-After-Free Remote Code Execution Vulnerability](/advisories/src-2015-0000)
 
 ---
 
