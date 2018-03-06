@@ -2304,6 +2304,10 @@ permalink: /advisories/
 
 ---
 
+*   [[SRC] ATutor LMS login_functions.inc.php Password Hash Authentication Bypass Vulnerability](/advisories/src-2016-0000)
+
+---
+
 *   [[ZDI] SAP 3D Visual Enterprise Viewer SketchUp document Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-16-176/)
 
 ---
