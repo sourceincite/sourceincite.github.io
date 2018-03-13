@@ -1,6 +1,7 @@
 """
-Beckoff TwinCAT3 <= 3.1.4022.2 (latest) Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerability [SCADA]
+Beckoff TwinCAT3 Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerabilities
 Download: http://www.beckhoff.com/forms/twincat3/warenkorb.aspx?lg=en&title=TC31-Full-Setup.3.1.4022.2&version=3.1.4022.2
+Affected Version: 3.1.4022.2
 File: TC31-Full-Setup.3.1.4022.2.zip
 SHA1: 29121120bf72cbee1298d7903921db93cfad6fb9
 
