@@ -4,7 +4,7 @@ title: Advisories
 permalink: /advisories/
 ---
 
-* [[SRC] Beckoff TwinCAT3 Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerability](src-2018-0007)
+* [[SRC] Beckoff TwinCAT3 Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerabilities](src-2018-0007)
 
 ---
 
