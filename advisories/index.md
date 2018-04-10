@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Digital Editions ePub otf Font Parsing TableRecord offset Out-of-Bounds Read Information Disclosure Vulnerability](src-2018-0008)
+
+---
+
 * [[SRC] Beckoff TwinCAT3 Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerabilities](src-2018-0007)
 
 ---
