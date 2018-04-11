@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Microsoft Office Excel Slicer Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-292/)
+
+---
+
 * [[SRC] Adobe Digital Editions ePub otf Font Parsing TableRecord offset Out-of-Bounds Read Information Disclosure Vulnerability](src-2018-0008)
 
 ---
