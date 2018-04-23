@@ -4,6 +4,166 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-372/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-371/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-370/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-369/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-368/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-367/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-366/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Double Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-365/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM2 File Conversion Double Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-364/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-363/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-362/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-361/)
+
+---
+
+* [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-360/)
+
+---
+
+* [[ZDI] Foxit Reader shift event Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-359/)
+
+---
+
+* [[ZDI] Foxit Reader ePub Parsing Out-of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-357/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button execEvent Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-354/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button boundItem Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-353/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Keystroke Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-352/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Format Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-351/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Calculate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-350/)
+
+---
+
+* [[ZDI] Foxit Reader Link setAction Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-349/)
+
+---
+
+* [[ZDI] Foxit Reader OCG name Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-348/)
+
+---
+
+* [[ZDI] Foxit Reader Annotation author Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-346/)
+
+---
+
+* [[ZDI] Foxit Reader Field rect Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-345/)
+
+---
+
+* [[ZDI] Foxit Reader Field textColor Setter Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-344/)
+
+---
+
+* [[ZDI] Foxit Reader pageNum Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-343/)
+
+---
+
+* [[ZDI] Foxit Reader Text Annotations point Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-342/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button resetData Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-341/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button title Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-340/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button resolveNode Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-339/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button y Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-338/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button resolveNodes Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-337/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Button formattedValue Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-336/)
+
+---
+
+* [[ZDI] Foxit Reader AFSimple_Calculate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-318/)
+
+---
+
+* [[ZDI] Foxit Reader GIF DataSubBlock Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-317/)
+
+---
+
+* [[ZDI] Foxit Reader addField Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-316/)
+
+---
+
+* [[ZDI] Foxit Reader addAnnot Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-315/)
+
+---
+
+* [[ZDI] Foxit Reader PrintParams interactive Uninitialized Memory Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-313/)
+
+---
+
+* [[ZDI] Foxit Reader PrintParams bitmapDPI Uninitialized Memory Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-312/)
+
+---
+
+* [[ZDI] Foxit Reader XFA borderColor Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-311/)
+
+---
+
 * [[SRC] Foxit Reader BMP Image Parsing BITMAPINFOHEADER biSize Heap-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0009)
 
 ---
