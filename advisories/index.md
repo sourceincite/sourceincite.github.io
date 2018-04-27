@@ -4,6 +4,42 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Foxit Reader PDF Parsing U3D Type Confusion Remote Code Execution Vulnerability](src-2018-0018)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Array Indexing Out-of-Bounds Write Remote Code Execution Vulnerability](src-2018-0017)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Out-of-Bounds Read Remote Code Execution Vulnerability](src-2018-0016)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Out-of-Bounds Read Remote Code Execution Vulnerability](src-2018-0015)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Out-of-Bounds Read Remote Code Execution Vulnerability](src-2018-0014)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Out-of-Bounds Write Remote Code Execution Vulnerability](src-2018-0013)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Heap-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0012)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Heap-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0011)
+
+---
+
+* [[SRC] Foxit Reader PDF Parsing U3D Heap-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0010)
+
+---
+
 * [[ZDI] Advantech WebAccess HMI Designer PM3 File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-372/)
 
 ---
