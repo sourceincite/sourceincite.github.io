@@ -4,6 +4,118 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-526/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Arbitrary File Deletion Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-499/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node screnc Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-498/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node bwmakdir Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-497/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-496/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-495/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-494/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-493/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-492/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-491/)
+
+---
+
+* [[ZDI] Advantech WebAccess Node webvrpcs ViewDll1 Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-490/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF GIF ImageData Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-453/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_CREATEDIBPATTERNBRUSHPT Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-452/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF GIF ImageDescriptor Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-450/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_COMMENT Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-449/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_STRETCHDIBITS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-448/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_STRETCHDIBITS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-447/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_STRETCHDIBITS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-447/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway requestDomains hidDomains SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-420/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway formChangePass username SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-419/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway formConfiguration saveValue SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-418/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway emailSearch SearchString SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-417/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway LauncherServer DownloadBlackList Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-416/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway register2 Client SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-415/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway editPolicy hidRuleId SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-414/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway editPolicy editRuleId SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-413/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway Registration Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-412/)
+
+---
+
+* [[ZDI] Trend Micro Encryption for Email Gateway DBCrypto Authentication Weakness Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-411/)
+
+---
+
 * [[SRC] Foxit Reader Signature Field lineWidth Use-After-Free Remote Code Execution Vulnerability](src-2018-0020)
 
 ---
