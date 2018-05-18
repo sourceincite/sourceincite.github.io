@@ -48,6 +48,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Advantech WebAccess webvrpcs Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-483/)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF GIF ImageData Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-453/)
 
 ---
