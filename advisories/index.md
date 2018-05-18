@@ -76,10 +76,6 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_STRETCHDIBITS Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-447/)
-
----
-
 * [[ZDI] Trend Micro Encryption for Email Gateway requestDomains hidDomains SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-420/)
 
 ---
