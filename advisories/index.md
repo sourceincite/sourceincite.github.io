@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Foxit Reader Signature Field lineWidth Use-After-Free Remote Code Execution Vulnerability](src-2018-0020)
+
+---
+
+* [[SRC] Foxit Reader field event userName Setter Use-After-Free Remote Code Execution Vulnerability](src-2018-0019)
+
+---
+
 * [[SRC] Foxit Reader PDF Parsing U3D Type Confusion Remote Code Execution Vulnerability](src-2018-0018)
 
 ---
