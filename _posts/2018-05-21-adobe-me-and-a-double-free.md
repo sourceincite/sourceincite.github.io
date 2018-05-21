@@ -223,7 +223,7 @@ Stage 1 - Prepare Heap                    Stage 2 - Double Free                 
 <p class="cn" markdown="1">Now that the attackers have created this condition, they perform the following JavaScript code:</p>
 
 ```JavaScript
-    // re-claims the memory, like yoru typical use after free
+    // reclaims the memory, like your typical use after free
     for(var i = 1;i < 0x40; i++){
         sprayarr2[i] = new ArrayBuffer(0x20000-24);
     }
