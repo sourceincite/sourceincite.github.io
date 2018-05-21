@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn">I walk through how the attacker(s) exploited CVE-2018-4990 which is a Double Free in Acrobat Reader when processing specially crafted JPG2000 images.</p>
+<p class="cn">I walk through how the attacker(s) exploited CVE-2018-4990 which is a Double Free in Acrobat Reader when processing specially crafted JPEG2000 images.</p>
 
 ### Introduction
 
@@ -27,7 +27,7 @@ The first thing I needed to do was uncompress the PDF as many objects are compre
 `c:\> pdftk 4b672deae5c1231ea20ea70b0bf091164ef0b939e2cf4d142d31916a169e8e01 output poc.pdf uncompress`
 
 <p class="cn" markdown="1">
-Since I don't have an original sample of the JPG2000 image, I have no idea if this image was bitflipped or not, so I am only going to dive into the JavaScript.
+Since I don't have an original sample of the JPEG2000 image, I have no idea if this image was bitflipped or not, so I am only going to dive into the JavaScript.
 
 After stripping away the rest of the JavaScript, we can see the following code will trigger the double free:</p>
 
