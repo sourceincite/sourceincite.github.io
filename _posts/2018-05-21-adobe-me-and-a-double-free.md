@@ -137,7 +137,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 <p class="cn" markdown="1">We can see that the caller to free was JP2KLib!JP2KCopyRect+0xbae6, let's dive into that function to see what is happening.</p>
 
 {% include image.html
-            img="assets/images/reader-df.png"
+            img="assets/images/reader-df.png#1"
             title="The location of the out of bounds read in sub_1004F3BD"
             caption="The location of the out of bounds read in sub_1004F3BD"
             style="width:50%;height:50%" %}
