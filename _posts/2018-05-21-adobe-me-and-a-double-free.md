@@ -8,7 +8,7 @@ excerpt_separator: <!--more-->
 
 <img class="excel" alt="Acrobat Reader" src="/assets/images/reader.png">
 <p class="cn" markdown="1">
-**Update!** I originally titled this blog post 'Adobe, Me and a Double Free', however as a good friend of mine [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017) of Tencent's Xuanwu LAB pointed out, this vulnerability is actually an out-of-bounds read that leads to two arbitrary free conditions. Therefore I have updated my analysis of the root cause of the vulnerability as well as the exploitation.
+**Update!** I originally titled this blog post 'Adobe, Me and a Double Free', however as a good friend of mine [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017) of Tencent's Xuanwu LAB pointed out, this vulnerability is actually an out-of-bounds read that leads to two arbitrary free conditions. Therefore I have updated my analysis of the root cause as well as the exploitation.
 </p>
 
 <p class="cn" markdown="1">
