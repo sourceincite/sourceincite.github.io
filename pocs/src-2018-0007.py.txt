@@ -2,6 +2,7 @@
 Beckoff TwinCAT3 Multiple Kernel Drivers Untrusted Pointer Dereference Privilege Escalation Vulnerabilities
 Download: http://www.beckhoff.com/forms/twincat3/warenkorb.aspx?lg=en&title=TC31-Full-Setup.3.1.4022.2&version=3.1.4022.2
 Affected Version: 3.1.4022.2
+CVE: CVE-2018-7502
 File: TC31-Full-Setup.3.1.4022.2.zip
 SHA1: 29121120bf72cbee1298d7903921db93cfad6fb9
 
@@ -18,25 +19,25 @@ Notes:
 - This poc will sometimes crash the target, I designed it like that on purpose, for fun :->
 - This poc is for 19 vulnerabilities:
 
-    - TcAnalytics.sys   [CVE-2017-14776]
-    - TcCnc.sys         [CVE-2017-14777]
-    - TcIoBACnetR9.sys  [CVE-2017-14778]
-    - TcIoCCat.sys      [CVE-2017-14779]
-    - TcIoDrivers.sys   [CVE-2017-14780]
-    - TcIoECat.sys      [CVE-2017-14781]
-    - TcIoECatSimu.sys  [CVE-2017-14782]
-    - TcIoESlv.sys      [CVE-2017-14783]
-    - TcIoEth.sys       [CVE-2017-14784]
-    - TcIoEthIp.sys     [CVE-2017-14785]
-    - TcIoPNet.sys      [CVE-2017-14786]
-    - TcIotDrivers.sys  [CVE-2017-14787]
-    - TcNcObjects.sys   [CVE-2017-14788]
-    - TcPlc30.sys       [CVE-2017-14789]
-    - TcRouter.sys      [CVE-2017-14790]
-    - TcRtsObjects.sys  [CVE-2017-14791]
-    - TcIo.sys          [CVE-2017-14792]
-    - TcNc.sys          [CVE-2017-14793]
-    - TcRTime.sys       [CVE-2017-14794]
+    - TcAnalytics.sys
+    - TcCnc.sys
+    - TcIoBACnetR9.sys
+    - TcIoCCat.sys
+    - TcIoDrivers.sys
+    - TcIoECat.sys
+    - TcIoECatSimu.sys
+    - TcIoESlv.sys
+    - TcIoEth.sys
+    - TcIoEthIp.sys
+    - TcIoPNet.sys
+    - TcIotDrivers.sys
+    - TcNcObjects.sys 
+    - TcPlc30.sys
+    - TcRouter.sys
+    - TcRtsObjects.sys
+    - TcIo.sys
+    - TcNc.sys
+    - TcRTime.sys
 
 Static Analysis:
 ================
