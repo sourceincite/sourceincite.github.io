@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Micro Focus Client for Open Enterprise Server Buffer Overflow Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-528/)
+
+---
+
 * [[ZDI] Advantech WebAccess Node webvrpcs drawsrv Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-526/)
 
 ---
