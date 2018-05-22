@@ -328,9 +328,8 @@ bkm.execute();
 
 ### Conclusion
 
-<p class="cn">Adobe Acrobat Reader is still a great target for attackers since JavaScript is so flexible with ArrayBuffers and PDF parsing is so complicated. OS mitigations have very little impact and it's up to Adobe to opt-in and harden it's binaries (/GUARD:CF) to make exploitation harder. Had Adobe enabled CFG and developed a form of isolated heap (like they did with flash) then this bug might have been much harder to exploit.
-
-As already mentioned, this sample looks like it was still in active development, no obfuscation was done on the JavaScript, but this is very much a throw away bug as I'm sure many other bugs exist in JP2KLib.dll. Nevertheless this was a fantastic bug and an even better exploit!</p>
+<p class="cn">Adobe Acrobat Reader is still a great target for attackers since JavaScript is so flexible with ArrayBuffers and PDF parsing is so complicated. OS mitigations have very little impact and it's up to Adobe to opt-in and harden it's binaries (/GUARD:CF) to make exploitation harder. Had Adobe enabled CFG and developed a form of isolated heap (like they did with flash) then this bug might have been much harder to exploit.</p>
+<p class="cn">As already mentioned, this sample looks like it was still in active development, no obfuscation was done on the JavaScript, but this is very much a throw away bug as I'm sure many other bugs exist in JP2KLib.dll. Nevertheless this was a fantastic bug and an even better exploit!</p>
 
 ### References
 
