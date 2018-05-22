@@ -288,7 +288,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
             }
 ```
 
-<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i1]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a full read/write primitive out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
+<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a full read/write primitive out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
 
 ```
 function myread(addr){
