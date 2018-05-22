@@ -258,7 +258,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 +------------------------+      +------------------------+      +------------------------+      +------------------------+
 ```
 
-<p class="cn" markdown="1">Now all the attackers need to do is allocate a TypedArray of 0x20000 and using the `sprayarr` reference, find it to overwrite the next ArrayBuffer's byte length.</p>
+<p class="cn" markdown="1">Now all the attackers need to do is allocate a TypedArray of size 0x20000 and using the `sprayarr` reference, find it to overwrite the next ArrayBuffer's byte length.</p>
 
 ```JavaScript
     // reclaims the memory, like your typical use after free
