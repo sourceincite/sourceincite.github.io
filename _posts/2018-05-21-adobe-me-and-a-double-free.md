@@ -312,7 +312,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     // leak the index
                     var itmp = mydv.getUint32(i2 + 12,true);
 
-                    // get a reference to TypedArray that they can read/write too
+                    // get a reference to TypedArray that they overwrite
                     myarray = arr1[itmp];
 
                     // get the pointer of the myarray Array
