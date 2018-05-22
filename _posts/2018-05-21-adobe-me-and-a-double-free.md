@@ -325,7 +325,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
-<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using (`mypos`) with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address.</p>
+<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using (`mypos`) with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address (`myarraybase`).</p>
 
 ```
 function myread(addr){
