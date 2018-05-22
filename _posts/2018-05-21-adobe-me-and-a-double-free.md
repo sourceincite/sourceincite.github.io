@@ -367,6 +367,6 @@ bkm.execute();
 
 <div markdown="1" class="cn">
 - [https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)
-- [Ke Liu teaching me a thing or two](https://twitter.com/klotxl404/status/998777393262166017)
-- [asciiflow](http://asciiflow.com/)
+- [https://twitter.com/klotxl404/status/998777393262166017](https://twitter.com/klotxl404/status/998777393262166017)
+- [http://asciiflow.com/](http://asciiflow.com/)
 </div>
