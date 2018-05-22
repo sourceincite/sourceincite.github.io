@@ -234,7 +234,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 <p class="cn" markdown="1">So after the two free's occur, we are left with the heap in this state.</p>
 
 ```
-1. - Spray Heap                 2. - Trigger arbitrary free     3. - Trigger arbitrary free     4. - Coalesce the 2 chunks
+1. Spray Heap                   2. Trigger arbitrary free       3. Trigger arbitrary free       4. Coalesce the 2 chunks
 +------------------------+      +------------------------+      +------------------------+      +------------------------+
 |                        |      |                        |      |                        |      |                        |
 |    Size: 0x10000       |      |    Size: 0x10000       |      |    Size: 0x10000       |      |    Size: 0x10000       |
