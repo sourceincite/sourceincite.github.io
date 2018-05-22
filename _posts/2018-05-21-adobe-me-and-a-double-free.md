@@ -295,7 +295,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
             for(var i2 = 0x10; i2 < 0x10000; i2++)
                 arr[i2] = new Uint32Array(1);
             for(var i2 = 1; i2 < 0x10; i2++){
-                arr[i2] = new Uint32Array(sprayarr[i+i2]);
+                arr[i2] = new Uint32Array(sprayarr[i1 + i2]);
 
                 // set the index into the first element of the TypedArray
                 // so that the attackers where they are
