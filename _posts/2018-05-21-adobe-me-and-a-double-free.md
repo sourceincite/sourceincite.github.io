@@ -315,7 +315,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     // get a reference to TypedArray that they overwrite
                     myarray = arr1[itmp];
 
-                    // get the pointer of the myarray Array
+                    // get the index to the pointer of the TypedArray
                     mypos = biga.getUint32(i2 + 4, true) - spraypos + 0x50;
 
                     // set its byte length to a stupid number also
@@ -325,7 +325,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
-<p class="cn" markdown="1">For the full read and write primitives, they write to the Array pointer (`mypos`) the address they want to read/write from, do the read/write and then set the pointer to the Array back to the Array base address.</p>
+<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `myarray` Array (`mypos`) with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address.</p>
 
 ```
 function myread(addr){
