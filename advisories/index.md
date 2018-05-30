@@ -324,7 +324,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Foxit Reader BMP Image Parsing BITMAPINFOHEADER biSize Heap-based Buffer Overflow Remote Code Execution Vulnerability](src-2018-0009)
+* [[SRC] Foxit Reader BMP Image Parsing BITMAPINFOHEADER biWidth Integer Overflow Remote Code Execution Vulnerability](src-2018-0009)
 
 ---
 
