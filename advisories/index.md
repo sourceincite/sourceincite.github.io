@@ -4,6 +4,22 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_COMMENT Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-598/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF GIF Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-597/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_STRETCHDIBITS Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-595/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion XPS Parsing Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-594/)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF JPEG Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-574/)
 
 ---
