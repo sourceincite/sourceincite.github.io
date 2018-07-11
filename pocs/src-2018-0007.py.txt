@@ -203,7 +203,7 @@ def alloc(base, input_size, type):
     written = c_ulong()
     write = kernel32.WriteProcessMemory(0xffffffff, base, input, len(input), byref(written))
     if write == 0:
-        print "[-] error while writing our input buffer memory: %s" % write
+        print "[-] error while writing our %s buffer memory: %s" % (type, write)
         exit()
 
 def get_device_name():
