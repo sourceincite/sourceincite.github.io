@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Flash SWF Parsing Out of Bounds Read Information Disclosure Vulnerability](src-2018-0024)
+
+---
+
 * [[SRC] Adobe Acrobat Pro DC XPS Obfuscated OpenType Font Heap Buffer Overflow Remote Code Execution Vulnerability](src-2018-0023)
 
 ---
