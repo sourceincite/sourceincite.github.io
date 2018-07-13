@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Acrobat Pro DC XPS Obfuscated OpenType Font Heap Buffer Overflow Remote Code Execution Vulnerability](src-2018-0023)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](src-2018-0022)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](src-2018-0021)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-625/)
 
 ---
