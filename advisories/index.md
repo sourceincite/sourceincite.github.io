@@ -4,7 +4,7 @@ title: Advisories
 permalink: /advisories/
 ---
 
-* [[SRC] Adobe Flash SWF Parsing Out of Bounds Read Information Disclosure Vulnerability](src-2018-0024)
+* [[SRC] Adobe Flash Player SWF Parsing Out-of-Bounds Read Information Disclosure Vulnerability](src-2018-0024)
 
 ---
 
