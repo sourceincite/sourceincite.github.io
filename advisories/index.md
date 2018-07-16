@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-683/)
+
+---
+
 * [[SRC] Adobe Flash Player SWF Parsing Out-of-Bounds Read Information Disclosure Vulnerability](src-2018-0024)
 
 ---
