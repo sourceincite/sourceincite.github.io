@@ -12,11 +12,11 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Adobe Acrobat Pro DC window getMatchedCSSRules Use-After-Free Remote Code Execution Vulnerability](src-2018-0022)
+* [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing window getMatchedCSSRules Use-After-Free Remote Code Execution Vulnerability](src-2018-0022)
 
 ---
 
-* [[SRC] Adobe Acrobat Pro DC img setAttribute Use-After-Free Remote Code Execution Vulnerability](src-2018-0021)
+* [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing img setAttribute Use-After-Free Remote Code Execution Vulnerability](src-2018-0021)
 
 ---
 
