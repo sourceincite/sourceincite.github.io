@@ -12,7 +12,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Adobe Acrobat Pro DC XPS Obfuscated OpenType Font Heap Buffer Overflow Remote Code Execution Vulnerability](src-2018-0023)
+* [[SRC] Adobe Acrobat Pro DC XPS OpenType Font Parsing idDelta Heap Buffer Overflow Remote Code Execution Vulnerability](src-2018-0023)
 
 ---
 
