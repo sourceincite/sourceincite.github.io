@@ -4,6 +4,86 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader exportAsFDF Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-772/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Event Handling Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-771/)
+
+---
+
+* [[ZDI] Foxit Reader Event Handling Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-770/)
+
+---
+
+* [[ZDI] Foxit Reader Field object signatureSetSeedValue Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-769/)
+
+---
+
+* [[ZDI] Foxit Reader Link borderWidth Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-767/)
+
+---
+
+* [[ZDI] Foxit Reader Button buttonSetIcon Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-766/)
+
+---
+
+* [[ZDI] Foxit Reader PolyLine Annotation addAdLayer Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-765/)
+
+---
+
+* [[ZDI] Foxit Reader Text Annotation noteIcon Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-764/)
+
+---
+
+* [[ZDI] Foxit Reader StrikeOut Annotation contents Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-763/)
+
+---
+
+* [[ZDI] Foxit Reader Square Annotation name Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-762/)
+
+---
+
+* [[ZDI] Foxit Reader Sound Annotation soundIcon Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-761/)
+
+---
+
+* [[ZDI] Foxit Reader Polygon Annotation borderEffectIntensity Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-760/)
+
+---
+
+* [[ZDI] Foxit Reader Line Annotation leaderExtend Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-759/)
+
+---
+
+* [[ZDI] Foxit Reader Ink Annotations subject Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-758/)
+
+---
+
+* [[ZDI] Foxit Reader FreeText Annotation width Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-757/)
+
+---
+
+* [[ZDI] Foxit Reader Circle Annotation borderEffectStyle Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-756/)
+
+---
+
+* [[ZDI] Foxit Reader FileAttachment attachIcon Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-754/)
+
+---
+
+* [[ZDI] Foxit Reader FlateDecode stream Uninitialized Pointer Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-742/)
+
+---
+
+* [[ZDI] Foxit Reader exportData Arbitrary File Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-741/)
+
+---
+
+* [[ZDI] Foxit Reader exportAsFDF Arbitrary File Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-740/)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-683/)
 
 ---
