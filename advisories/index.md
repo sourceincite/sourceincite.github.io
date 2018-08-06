@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Microsoft Edge Undo Out-Of-Bounds Read Information Disclosure Vulnerability](src-2018-0025)
+
+---
+
 * [[ZDI] Foxit Reader exportAsFDF Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-772/)
 
 ---
