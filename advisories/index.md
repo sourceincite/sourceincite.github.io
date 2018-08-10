@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Novell NetIQ Access Manager dhost Service Shared Memory Section Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-913/)
+
+---
+
 * [[ZDI] VMWare Horizon Client wswc_sharedMem_shared Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-881/)
 
 ---
