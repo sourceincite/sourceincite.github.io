@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] VMWare Horizon Client wswc_sharedMem_shared Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-881/)
+
+---
+
 * [[SRC] Microsoft Edge Undo Out-Of-Bounds Read Information Disclosure Vulnerability](src-2018-0025)
 
 ---
