@@ -13,7 +13,7 @@ Notes:
 ======
 
 - This is not really a security issue I guess, because you need to know the key. 
-  But a simple a simple disclosure bug could mean its game over for Easylogin Pro
+  But a simple disclosure bug could mean its game over for Easylogin Pro
 - You will need PHP with threading support to run this exploit
 - Laravel + Guzzle === lol
 
