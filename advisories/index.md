@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Docker dockerBackend HandleRequestAsync Deserialization of Untrusted Data Elevation of Privilege Vulnerability](src-2018-0026)
+
+---
+
 * [[ZDI] Novell NetIQ Access Manager dhost Service Shared Memory Section Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-913/)
 
 ---
