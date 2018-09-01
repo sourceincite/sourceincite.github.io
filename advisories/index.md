@@ -4,6 +4,30 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-977/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-976/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-975/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-974/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-973/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player WRF File Heap-based Buffer Overflow Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-967/)
+
+---
+
 * [[SRC] Docker dockerBackend HandleRequestAsync Deserialization of Untrusted Data Elevation of Privilege Vulnerability](src-2018-0026)
 
 ---
