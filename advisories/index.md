@@ -4,6 +4,135 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1045/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NMVC ARF File Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1044/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD ARF File Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1043/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRPFW Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1042/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRPFW Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1041/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRPD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1040/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAS32 Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1039/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NMVC Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1038/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1037/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1036/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1032/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NBRQA Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1031/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAUDIO Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1030/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAS32 Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1029/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAS32 Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1028/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAS32 Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1027/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATDL2006 Decompression Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1026/)
+
+---
+
+* [[ZDI] Cisco WebEx Recorder and Player ATAS32 Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1025/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server Lite File Parsing Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1023/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1022/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing CArchive Read Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1021/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing CArchive Read Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1020/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1019/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1018/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Integer Underflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1017/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1016/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Type Confusion Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1015/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1014/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing CArchive Read Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1013/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1012/)
+
+---
+
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing CArchive Read Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1011/)
+
+---
+
+* [[ZDI] Fuji Electric V-Server VPR File Parsing CObArray Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1010/)
+
+---
+
 * [[ZDI] Cisco WebEx Network Recording Player NBRQA Integer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-977/)
 
 ---
