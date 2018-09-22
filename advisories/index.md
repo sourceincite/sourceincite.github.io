@@ -4,6 +4,14 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx Network Recording Player NMVC RtpConfig Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1079/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player NMVC RtpConfig Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1076/)
+
+---
+
 * [[ZDI] Cisco WebEx Network Recording Player ATPDMOD Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1045/)
 
 ---
