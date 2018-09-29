@@ -4,6 +4,50 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader OCG setAction Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1105/)
+
+---
+
+* [[ZDI] Foxit Reader Link setAction Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1104/)
+
+---
+
+* [[ZDI] Foxit Reader Barcode Calculate Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1103/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Format Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1102/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Calculate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1101/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Validate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1100/)
+
+---
+
+* [[ZDI] Foxit Reader ListBox Selection Change Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1099/)
+
+---
+
+* [[ZDI] Foxit Reader CheckBox onFocus Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1098/)
+
+---
+
+* [[ZDI] Foxit Reader CheckBox onBlur Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1097/)
+
+---
+
+* [[ZDI] Foxit Reader CheckBox Mouse Exit Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1096/)
+
+---
+
+* [[ZDI] Foxit Reader setInterval Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1094/)
+
+---
+
 * [[ZDI] Cisco WebEx Network Recording Player NMVC RtpConfig Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1079/)
 
 ---
