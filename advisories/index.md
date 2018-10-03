@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1117/)
+
+---
+
 * [[ZDI] Foxit Reader OCG setAction Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1105/)
 
 ---
