@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Foxit Reader DataView Uninitialized Object Information Disclosure Vulnerability](src-2018-0027)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC ImageConversion EMF EMR_COMMENT Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1118/)
 
 ---
