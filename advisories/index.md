@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](src-2018-0028)
+
+---
+
 * [[SRC] Foxit Reader DataView Uninitialized Object Information Disclosure Vulnerability](src-2018-0027)
 
 ---
