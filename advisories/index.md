@@ -4,6 +4,26 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Cisco WebEx Network Recording Player ARF File Parsing Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1127/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player PROVIDER ARF File Integer Underflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1121/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player PROVIDER ARF File Integer Underflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1120/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD ARF File Heap-based Buffer Overflow Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1119/)
+
+---
+
+* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD ARF File Heap-based Buffer Overflow Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1119/)
+
+---
+
 * [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](src-2018-0028)
 
 ---
