@@ -20,10 +20,6 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Cisco WebEx Network Recording Player ATPDMOD ARF File Heap-based Buffer Overflow Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1119/)
-
----
-
 * [[SRC] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](src-2018-0028)
 
 ---
