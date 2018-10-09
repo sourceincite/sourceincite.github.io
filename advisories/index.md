@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Microsoft Windows Jet Database Engine Out-Of-Bounds Write Remote Code Execution Vulnerability](src-2018-0029)
+
+---
+
 * [[ZDI] Cisco WebEx Network Recording Player ARF File Parsing Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1127/)
 
 ---
