@@ -4,6 +4,174 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Foxit Reader XFA setInterval Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1230/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField editValue Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1229/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField getItemState Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1228/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host response Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1226/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField colSpan Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1225/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField mandatory Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1222/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField deleteItem Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1221/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField resolveNode Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1220/)
+
+---
+
+* [[ZDI] Foxit Reader XFA mouseUp Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1218/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Form count Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1217/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Form Model insertInstance Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1216/)
+
+---
+
+* [[ZDI] Foxit Reader XFA isPropertySpecified Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1214/)
+
+---
+
+* [[ZDI] Foxit Reader XFA setElement Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1212/)
+
+---
+
+* [[ZDI] Foxit Reader XFA Form Model moveInstance Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1211/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField getDisplayItem Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1210/)
+
+---
+
+* [[ZDI] Foxit Reader XFA aliasNode Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1209/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host title Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1206/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host gotoURL Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1203/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField resolveNodes Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1201/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField addItem Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1197/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host resetData Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1193/)
+
+---
+
+* [[ZDI] Foxit Reader XFA getAttribute Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1191/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host messageBox Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1190/)
+
+---
+
+* [[ZDI] Foxit Reader Field style Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1189/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host beep Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1188/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host importData Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1184/)
+
+---
+
+* [[ZDI] Foxit Reader TextBox Validate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1181/)
+
+---
+
+* [[ZDI] Foxit Reader XFA isCompatibleNS Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1179/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host currentPage Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1178/)
+
+---
+
+* [[ZDI] Foxit Reader XFA desc Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1177/)
+
+---
+
+* [[ZDI] Foxit Reader XFA loadXML Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1175/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host exportData Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1174/)
+
+---
+
+* [[ZDI] Foxit Reader XFA host print Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1171/)
+
+---
+
+* [[ZDI] Foxit Reader XFA xfdf removeAttribute Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1168/)
+
+---
+
+* [[ZDI] Foxit Reader XFA localeSet name Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1166/)
+
+---
+
+* [[ZDI] Foxit Reader XFA xmpmeta content Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1163/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField fillColor Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1156/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField boundItem Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1154/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField vAlign Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1152/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField rotate Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1149/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField setAttribute Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1148/)
+
+---
+
+* [[ZDI] Foxit Reader XFA TimeField setAttribute Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1148/)
+
+---
+
 * [[SRC] Microsoft Windows Jet Database Engine Out-Of-Bounds Write Remote Code Execution Vulnerability](src-2018-0029)
 
 ---
