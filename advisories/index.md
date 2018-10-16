@@ -4,6 +4,22 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] LAquis SCADA lqs File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1260/)
+
+---
+
+* [[ZDI] LAquis SCADA lqs File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1256/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1253/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1252/)
+
+---
+
 * [[ZDI] Foxit Reader XFA setInterval Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1230/)
 
 ---
