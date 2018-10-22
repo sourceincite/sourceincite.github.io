@@ -3,7 +3,7 @@ layout: page
 title: Research
 permalink: /research/
 ---
-a
+
 <p class="cn">The following links are some of my past information security research. Not all.</p>
 
 * [Advisories](/advisories)
