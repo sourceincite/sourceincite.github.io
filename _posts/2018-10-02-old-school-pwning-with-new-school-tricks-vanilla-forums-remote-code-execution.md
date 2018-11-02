@@ -146,7 +146,7 @@ class ImportController extends DashboardController {
 
 ### Exploitation
 
-<p class="cn" markdown="1">Some time ago, long before a [blackhat](https://raw.githubusercontent.com/s-n-t/presentations/master/us-18-Thomas-It's-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-Know-It.pdf) paper was done by [Sam Thomas](https://twitter.com/@_s_n_t), [@orange_8361](https://twitter.com/orange_8361) [shared](https://rdot.org/forum/showthread.php?t=4379) a technique for triggering an unserialize within a phar archive.</p>
+<p class="cn" markdown="1">Some time ago, long before a [blackhat](https://raw.githubusercontent.com/s-n-t/presentations/master/us-18-Thomas-It's-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-Know-It.pdf) paper was written by [Sam Thomas](https://twitter.com/@_s_n_t), [@orange_8361](https://twitter.com/orange_8361) [shared](https://rdot.org/forum/showthread.php?t=4379) a technique for triggering an unserialize within a phar archive.</p>
 
 <p class="cn" markdown="1">I am not going to deep dive into phar or how the technique works because its been explained well by [others](https://blog.ripstech.com/2018/new-php-exploitation-technique/). But essentially, we can set the metadata of a phar archive with an non-instantiated class.</p>
 
