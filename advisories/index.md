@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Vanilla Forums domGetImages getimagesize Unserialize Remote Code Execution Vulnerability](src-2018-0030)
+
+---
+
 * [[ZDI] LAquis SCADA lqs File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1260/)
 
 ---
