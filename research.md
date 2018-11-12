@@ -31,7 +31,7 @@ permalink: /research/
 
 * [BSides :: Mexico :: 2018 - Foxes Among Us](/assets/Foxes-Among-Us-Steven-Seeley-bsidescdmx-2018.pdf)
 
-   <p class="cn">Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software.</p>
+   <p class="cn">I discussed how I found a use-after-free vulnerability and chained it together with an uninitialized object vulnerability to achieve reliable exploitation bypassing several operating system mitigations.</p>
 
 * [Hack in The Box :: Netherlands :: 2017 - I got 99 trends and a # is all of them](/assets/D1T1-Steven-Seeley-and-Roberto-Suggi-Liverani-I-Got-99-Trends-and-a-Shell-Is-All-Of-Them.pptx)
 
