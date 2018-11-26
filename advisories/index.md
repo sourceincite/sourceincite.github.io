@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Vanilla Forums XenforoPassword splitHash Unserialize Remote Code Execution Vulnerability](src-2018-0033)
+
+---
+
+* [[SRC] Vanilla Forums Gdn_Format unserialize Unserialize Remote Code Execution Vulnerability](src-2018-0032)
+
+---
+
+* [[SRC] Vanilla Forums ImportController index file_exists Unserialize Remote Code Execution Vulnerability](src-2018-0031)
+
+---
+
 * [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1354/)
 
 ---
