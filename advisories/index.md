@@ -4,6 +4,10 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Cisco Webex Meetings Desktop App Update Service DLL Planting Elevation of Privilege Vulnerability](src-2018-0034)
+
+---
+
 * [[SRC] Vanilla Forums XenforoPassword splitHash Unserialize Remote Code Execution Vulnerability](src-2018-0033)
 
 ---
