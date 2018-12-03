@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn" markdown="1">I walk through the re-discovery and exploitation of [CVE-2018-15442](/advisories/src-2018-0034) which is a bypass for the original bug. Since the original vulnerability and the bypass are so similar, Cisco decided to not issue a new CVE and I tend to agree with this choice. Technically its a remote code execution but the way this bug is triggered makes more sense for exploitation to come from a local context.</p>
+<p class="cn" markdown="1">*I walk through the re-discovery and exploitation of [CVE-2018-15442](/advisories/src-2018-0034) which is a bypass for the original bug. Since the original vulnerability and the bypass are so similar, Cisco decided to not issue a new CVE and I tend to agree with this choice. Technically its a remote code execution but the way this bug is triggered makes more sense for exploitation to come from a local context.*</p>
 
 ### Introduction
 
