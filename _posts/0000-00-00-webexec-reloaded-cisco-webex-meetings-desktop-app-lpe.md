@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Cisco Webex" src="/assets/images/cisco-webex-logo.jpg">
-<p class="cn" markdown="1">Some time ago [Ron Bowes](https://twitter.com/iagox86) found a vulnerability in Cisco WebEx Meetings Desktop App that could allow local privilege escalation, or, if you have a user account you can use psexec to gain remote code execution as SYSTEM. They named the vulnerability **WebExec** (cute) and even gave it a pretty [website](https://webexec.org/)! The problem? Well, it turns out the patch wasn't so good...</p>
+<p class="cn" markdown="1">Some time ago [Ron Bowes](https://twitter.com/iagox86) found a vulnerability in Cisco WebEx Meetings Desktop App that could allow local privilege escalation, or, if you have a user account you can use psexec to gain remote code execution as SYSTEM. He named the vulnerability **WebExec** (cute) and even gave it a pretty [website](https://webexec.org/)! The problem? Well, it turns out the patch wasn't so good...</p>
 <!--more-->
 
 <p class="cn">TL;DR</p>
