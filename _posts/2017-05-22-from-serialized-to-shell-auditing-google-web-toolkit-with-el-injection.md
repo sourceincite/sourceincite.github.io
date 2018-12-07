@@ -46,7 +46,7 @@ public abstract interface SomeService
 }
 {% endhighlight %}
 
-There are three functions that look interesting that we can reach, lets strip them out of the server code and see what each one does. Reading the Java code in the main jar archive that contains the class SomeServiceImpl we find the following code:
+<p class="cn" markdown="1">There are three functions that look interesting that we can reach, lets strip them out of the server code and see what each one does. Reading the Java code in the main jar archive that contains the class SomeServiceImpl we find the following code:</p>
 
 {% highlight java %}
   public void sendBeanName(String paramString)
