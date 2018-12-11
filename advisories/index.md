@@ -4,6 +4,18 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] OMRON CX-One CXP File Parsing Stack-based Buffer Overflow Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1368/)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Programmer CXP File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1367/)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Position NCI File Parsing Stack-Based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1366/)
+
+---
+
 * [[SRC] Cisco Webex Meetings Desktop App Update Service DLL Planting Elevation of Privilege Vulnerability](src-2018-0034)
 
 ---
