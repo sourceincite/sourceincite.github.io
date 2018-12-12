@@ -4,6 +4,22 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1385/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1379/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1378/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1377/)
+
+---
+
 * [[ZDI] OMRON CX-One CXP File Parsing Stack-based Buffer Overflow Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1368/)
 
 ---
