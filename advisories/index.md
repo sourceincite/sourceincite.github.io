@@ -4,6 +4,46 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Foxit Reader SDK ActiveX URI Parsing Stack Based Buffer Overflow Remote Code Execution Vulnerability](src-2019-0010)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Launch Action New Window Command Injection Remote Code Execution Vulnerability](src-2019-0009)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Link Launch Action Command Injection Remote Code Execution Vulnerability](src-2019-0008)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro TextBox Field OpenFile Action Command Injection Remote Code Execution Vulnerability](src-2019-0007)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro exportAsFDF File Write Remote Code Execution Vulnerability](src-2019-0006)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro createDataObject File Write Remote Code Execution Vulnerability](src-2019-0005)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro launchURL Command Injection Remote Code Execution Vulnerability](src-2019-0004)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro Uninitialized Object Remote Code Execution Vulnerability](src-2019-0003)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro TextBox Field Validate Use-After-Free Remote Code Execution Vulnerability](src-2019-0002)
+
+---
+
+* [[SRC] Foxit Reader SDK ActiveX Pro TextBox Field Mouse Enter Use-After-Free Remote Code Execution Vulnerability](src-2019-0001)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC HTML2PDF HTML Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-18-1416/)
 
 ---
