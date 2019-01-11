@@ -4,6 +4,22 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Microsoft Windows Jet Database Engine TblPage CreateColumns Out-Of-Bounds Read Remote Code Execution Vulnerability](src-2019-0013)
+
+---
+
+* [[SRC] Microsoft Windows Jet Database TblPage ColumnLvBinary Type Confusion Remote Code Execution Vulnerability](src-2019-0012)
+
+---
+
+* [[SRC] Microsoft Windows Jet Database Table FindIndexFromName Array Indexing Remote Code Execution Vulnerability](src-2019-0011)
+
+---
+
+* [[ZDI] Microsoft Windows JET Database Engine Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-011/)
+
+---
+
 * [[SRC] Foxit Reader SDK ActiveX URI Parsing Stack Based Buffer Overflow Remote Code Execution Vulnerability](src-2019-0010)
 
 ---
