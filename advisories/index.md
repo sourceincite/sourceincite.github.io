@@ -4,6 +4,26 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[SRC] Oracle Application Testing Suite ActionServlet processFileUpload Directory Traversal Remote Code Execution Vulnerability](src-2019-0015)
+
+---
+
+* [[SRC] Oracle Application Testing Suite UploadServlet External Entity Injection Information Disclosure Vulnerability](src-2019-0014)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Protocol CObject Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-019/)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Protocol CObject Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-018/)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Protocol CObject Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-017/)
+
+---
+
 * [[SRC] Microsoft Windows Jet Database Engine TblPage CreateColumns Out-Of-Bounds Read Remote Code Execution Vulnerability](src-2019-0013)
 
 ---
