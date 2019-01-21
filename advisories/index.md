@@ -4,6 +4,262 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing CStringData Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-119/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-118/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor scs File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-117/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-116/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-115/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-114/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-113/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-112/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing MoveFile Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-111/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing CopyFile Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-110/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing ExecuteJScriptFile Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-109/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing ExecuteVBScriptFile Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-108/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing ViewReport Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-107/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing GenerateReport API File Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-106/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing DeleteFile Arbitrary File Deletion Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-105/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing EditFile API Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-104/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing WriteMessage Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-103/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing UploadPLCProgram API Arbitrary File Deletion Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-102/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 File Parsing RunApplication API Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-101/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor sr3 Code Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-100/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-099/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-098/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Improper Control of Generation of Code Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-097/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report File BlockWrite Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-096/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report File Open Path Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-095/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report TextFile Read Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-094/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report File Open Path Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-093/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Ini WriteNumber Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-092/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report AddComboFile Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-091/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report TextFile Append Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-090/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryReadLong Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-089/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryReadByte Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-088/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryReadDouble Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-087/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryReadWord Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-086/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory ReAlloc Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-085/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory Byte Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-084/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryWriteWord Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-083/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryWriteLong Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-082/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryWriteDouble Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-081/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report File Write Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-080/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report MemoryWriteByte Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-079/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Ini WriteString Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-078/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory Integer Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-077/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory Double Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-076/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory Free Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-075/)
+
+---
+
+* [[ZDI] LAquis SCADA lgx Report Memory Long Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-074/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory Word Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-073/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Memory PChar Untrusted Pointer Dereference Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-072/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Edit Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-071/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report TextFile Write Arbitrary File Creation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-070/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report ShellExecute Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-069/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server URI Parsing Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-068/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server Hardcoded Credentials Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-067/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server relatorionome NOME Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-066/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server relatorionome TAG Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-065/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server relatorionome TITULO Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-064/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server acompanhamentotela TAGALTERE Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-063/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server acompanhamentotela PAGINA Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-062/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server relatorioindividual TITULO Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-061/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-060/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server relatorioindividual TAG Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-059/)
+
+---
+
+* [[ZDI] LAquis SCADA Web Server Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-058/)
+
+---
+
+* [[ZDI] LAquis SCADA LGX Report Format File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-057/)
+
+---
+
+* [[ZDI] LAquis SCADA LQS File Parsing Untrusted Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-056/)
+
+---
+
 * [[SRC] Oracle Application Testing Suite ActionServlet processFileUpload Directory Traversal Remote Code Execution Vulnerability](src-2019-0015)
 
 ---
