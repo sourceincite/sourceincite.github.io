@@ -95,6 +95,7 @@ javax.servlet.ServletException: java.lang.NullPointerException
 <div markdown="1" class="cn">
 
 - Remote Code Execution
+  - Java deserialization
   - Directory traversal
   - PHP object instantiation
   - PHP object injection
