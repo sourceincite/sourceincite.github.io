@@ -38,7 +38,7 @@ javax.servlet.ServletException: java.lang.NullPointerException
 
 #### Tickets
 
-<p class="cn" markdown="1">Tickets can be purchased [here](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2019-tickets-55039278965). Please note that the course is limited to maximum of 20 seats to ensure high quality training.</p>
+<p class="cn" markdown="1">Tickets can be purchased [here](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2019-tickets-55039278965). Please note that the course is limited to maximum of 20 seats to ensure a high quality deliverable.</p>
 
 #### Instructor
 
