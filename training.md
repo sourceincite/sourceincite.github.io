@@ -106,4 +106,4 @@ javax.servlet.ServletException: java.lang.NullPointerException
 
 #### Additional Material
 
-<p class="cn" markdown="1">The madness doesn't stop. Preconfigured environments will be provided for additional work after class ends for the rediscovery and exploitation of one-day vulnerabilities.</p>
+<p class="cn" markdown="1">The madness doesn't stop. Preconfigured environments will be provided for additional work after class ends for the rediscovery and exploitation of n-day vulnerabilities.</p>
