@@ -4,9 +4,70 @@ title: Training
 permalink: /training/
 ---
 
+<style type="text/css">
+.countdown {
+  width: 100%;
+  float: left;
+  margin: 20px auto;
+}
+</style>
+
+<script>
+function countdown(dateEnd) {
+  var timer, days, hours, minutes, seconds;
+  dateEnd = new Date(dateEnd);
+  dateEnd = dateEnd.getTime();
+  if ( isNaN(dateEnd) ) {
+    return;
+  }
+  timer = setInterval(calculate, 1000);
+  function calculate() {
+    var dateStart = new Date();
+    var dateStart = new Date(dateStart.getUTCFullYear(),
+                             dateStart.getUTCMonth(),
+                             dateStart.getUTCDate(),
+                             dateStart.getUTCHours(),
+                             dateStart.getUTCMinutes(),
+                             dateStart.getUTCSeconds());
+    var timeRemaining = parseInt((dateEnd - dateStart.getTime()) / 1000)
+    if ( timeRemaining >= 0 ) {
+      days    = parseInt(timeRemaining / 86400);
+      timeRemaining   = (timeRemaining % 86400);
+      hours   = parseInt(timeRemaining / 3600);
+      timeRemaining   = (timeRemaining % 3600);
+      minutes = parseInt(timeRemaining / 60);
+      timeRemaining   = (timeRemaining % 60);
+      seconds = parseInt(timeRemaining);
+      document.getElementById("days").innerHTML    = parseInt(days, 10);
+      document.getElementById("hours").innerHTML   = ("0" + hours).slice(-2);
+      document.getElementById("minutes").innerHTML = ("0" + minutes).slice(-2);
+      document.getElementById("seconds").innerHTML = ("0" + seconds).slice(-2);
+    } else {
+      return;
+    }
+  }
+  function display(days, hours, minutes, seconds) {}
+}
+countdown('10/1/2019 09:00:00 AM');
+</script>
+
 ## Full Stack Web Attack
 
 ---
+
+<div class="countdown">
+  <p class="cn">
+    It's
+    <span id="days"></span>
+    days,
+    <span id="hours"></span>
+    hours,
+    <span id="minutes"></span>
+    minutes,
+    <span id="seconds"></span>
+    and seconds until the training begins!
+  </p>
+</div>
 
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
@@ -29,7 +90,7 @@ permalink: /training/
 
 ```java
 javax.servlet.ServletException: java.lang.NullPointerException
-    com.Source.Incite.FullStackWebAttack.certification(FullStackWebAttack.java:38) 
+    com.source.incite.FullStackWebAttack.certification(FullStackWebAttack.java:38) 
     org.apache.struts.action.RequestProcessor.processActionPerform(RequestProcessor.java:425) 
     org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:228) 
     org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913) 
