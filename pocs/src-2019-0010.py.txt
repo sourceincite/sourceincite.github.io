@@ -3,7 +3,7 @@
 Foxit Reader SDK ActiveX URI Parsing Stack Based Buffer Overflow Remote Code Execution Vulnerability
 Download: https://developers.foxitsoftware.com/pdf-sdk/windows/activex/
 SRC: SRC-2019-0010
-CVE: CVE-2018-XXXX
+CVE: CVE-2018-19447
 
 Summary:
 ========
