@@ -134,7 +134,7 @@ LABEL_36:
 
 <p class="cn" markdown="1">Depending on how you are targeting your exploitation, an access violation might be ok as you can potentially use the initial out-of-bounds write to target an `unhandled exception function pointer`.</p>
 
-<p class="cn" markdown="1">Regarding exploitation, the following is needed for exploitation:</p>
+<p class="cn" markdown="1">Regarding exploitation, the following is needed:</p>
 
 <div class="cn" markdown="1">
 * ~~(void *)0x0 as the source buffer.~~ Actually, as long as the src buffer is smaller than the dst buffer, this is still possible.
@@ -147,11 +147,8 @@ LABEL_36:
 ### Summary
 
 <p class="cn" markdown="1">Now I know what a lot of you neckbeards are going to say, that developers should be careful about the parameters parsed to mem* functions. But the simple matter is, is that a simple check for a source buffer that is not mapped would have made this particular vulnerability un-exploitable.</p>
-
-<p class="cn" markdown="1">Whilst this s a very bizarre corner case, it goes to show that the lack of sanity checking for the sake of speed can cause all sorts of undesired effects, potentially leading to an exploitable condition.</p>
-
+<p class="cn" markdown="1">Whilst this is a very bizarre corner case, it goes to show that the lack of sanity checking for the sake of speed can cause all sorts of undesired effects, potentially leading to an exploitable condition.</p>
 <p class="cn" markdown="1">Since I can relatively control the size value (based on the allocation bucket) and the source buffer passed into memmove() is always NULL, I can trigger a relative wild write at a semi-controlled location. Sure, not the most amazing primitive, but when the application is installed and running as SYSTEM on 99% of enterprise applications, hackers become motivated.</p>
-
 <p class="cn" markdown="1">A big thanks goes out to [@rohitwas][rohitwas] for his validation of my insanity and [@badd1e][badd1e] for pointing out that the src buffer (be it null or not), needs to be mapped in memory!</p>
 
 <div class="cn" markdown="1">
