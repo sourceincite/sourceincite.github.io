@@ -4,6 +4,11 @@ title: Advisories
 permalink: /advisories/
 ---
 
+<details markdown="1">
+<summary class="cn">2019 - 098 advisories</summary>
+
+---
+
 * [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-176/)
 
 ---
@@ -393,6 +398,13 @@ permalink: /advisories/
 ---
 
 * [[SRC] Foxit Reader SDK ActiveX Pro TextBox Field Mouse Enter Use-After-Free Remote Code Execution Vulnerability](src-2019-0001)
+
+---
+
+</details>
+
+<details markdown="1">
+<summary class="cn">2018 - 366 advisories</summary>
 
 ---
 
@@ -1858,6 +1870,13 @@ permalink: /advisories/
 ---
 
 * [[ZDI] Cisco WebEx ARF File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-18-007/)
+
+---
+
+</details>
+
+<details markdown="1">
+<summary class="cn">2017 - 371 advisories</summary>
 
 ---
 
@@ -3345,6 +3364,13 @@ permalink: /advisories/
 
 ---
 
+</details>
+
+<details markdown="1">
+<summary class="cn">2016 - 116 advisories</summary>
+
+---
+
 *   [[ZDI] Adobe Digital Editions FlateDecode Out-of-Bounds Read Information Disclosure Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-16-636/)
 
 ---
@@ -3801,6 +3827,13 @@ permalink: /advisories/
 
 ---
 
+</details>
+
+<details markdown="1">
+<summary class="cn">2015 - 032 advisories</summary>
+
+---
+
 *   [[ZDI] Microsoft Office Excel Binary Worksheet Use-After-Free Remote Code Execution Vulnerability](http://www.zerodayinitiative.com/advisories/ZDI-15-639/)
 
 ---
@@ -3929,4 +3962,4 @@ permalink: /advisories/
 
 ---
 
-*   [[ICS] ScadaTEC ScadaPhone & Modbus TagServer Stack Buffer Overflow Remote Code Execution Vulnerability](https://ics-cert.us-cert.gov/advisories/ICSA-11-362-01)
+</details>
