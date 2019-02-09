@@ -4,6 +4,66 @@ title: Advisories
 permalink: /advisories/
 ---
 
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-176/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-175/)
+
+---
+
+* [[ZDI] OMRON CX-Supervisor SCS File Parsing Uninitialized Pointer Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-174/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultInfo_content Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-172/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultDevParasSet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-171/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center eventInfo_content Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-170/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center UrlAccessController Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-169/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center compareFilesResult Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-168/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center legend Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-167/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center SyslogTempletSelectWin Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-166/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center actionSelectContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-165/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center devGroupSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-164/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center addVsiInterfaceInfo Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-163/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectCommand Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-162/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center PrimeFaces Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-161/)
+
+---
+
 * [[ZDI] OMRON CX-Supervisor SCS File Parsing CStringData Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-119/)
 
 ---
