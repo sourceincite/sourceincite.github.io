@@ -5,7 +5,7 @@ permalink: /advisories/
 ---
 
 <details markdown="1">
-<summary class="cn">2019 - 098 advisories</summary>
+<summary class="cn">2019</summary>
 
 ---
 
@@ -404,7 +404,7 @@ permalink: /advisories/
 </details>
 
 <details markdown="1">
-<summary class="cn">2018 - 366 advisories</summary>
+<summary class="cn">2018</summary>
 
 ---
 
@@ -1876,7 +1876,7 @@ permalink: /advisories/
 </details>
 
 <details markdown="1">
-<summary class="cn">2017 - 371 advisories</summary>
+<summary class="cn">2017</summary>
 
 ---
 
@@ -3367,7 +3367,7 @@ permalink: /advisories/
 </details>
 
 <details markdown="1">
-<summary class="cn">2016 - 116 advisories</summary>
+<summary class="cn">2016</summary>
 
 ---
 
@@ -3830,7 +3830,7 @@ permalink: /advisories/
 </details>
 
 <details markdown="1">
-<summary class="cn">2015 - 032 advisories</summary>
+<summary class="cn">2015</summary>
 
 ---
 
