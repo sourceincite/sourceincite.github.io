@@ -86,6 +86,16 @@ countdown('10/1/2019 09:00:00 AM');
 
 <p class="cn" markdown="1">The 3 day training course will take place on October the 1st, 2nd and 3rd of 2019 at [the room](https://theroom.mx/) in Polanco, Mexico City.</p>
 
+```
+Av. Homero s/n frente al 1730, entre Jaime Balmes y Luis Vives.
+Planta baja de Corporativo Polanco.
+Miguel Hidalgo
+Los Morales Polanco
+CP 11510 Ciudad de México.
+```
+
+<p class="cn" markdown="1">You can use [Google Maps](https://www.google.com/maps/place/The+Room+Polanco+-+El+lugar+de+tus+eventos/@19.436942,-99.20973,16z/data=!4m5!3m4!1s0x0:0xf355886c37a4fd72!8m2!3d19.4369424!4d-99.2097305?hl=en-US) for the exact location of the venue. When coming via an uber or taxi, just state you would like to go to **Avenida Homero numero un mil siete centos trenta en polcano, se llama The Room**.</p>
+
 #### <a name="hotel"></a> Hotels and Accomodation
 
 <p class="cn" markdown="1">The two hotels we recommend are approximately 10 minute’s drive with an uber or taxi. The cost of ride to and from the venue should be approximately $5 USD. Walking is possible, but it will take approximately 25 - 30 minutes.</p>
