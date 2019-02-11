@@ -82,9 +82,18 @@ countdown('10/1/2019 09:00:00 AM');
 
 <p class="cn" markdown="1">Leave your OWASP Top Ten and CSP bypasses at the door.</p>
 
-#### When and Where
+#### <a name="where"></a> When and Where
 
-<p class="cn" markdown="1">The 3 day training course will take place on October the 1st, 2nd and 3rd of 2019 in Mexico City. The exact location is TBA.</p>
+<p class="cn" markdown="1">The 3 day training course will take place on October the 1st, 2nd and 3rd of 2019 at [the room](https://theroom.mx/) in Polanco, Mexico City.</p>
+
+#### <a name="hotel"></a> Hotels and Accomodation
+
+<p class="cn" markdown="1">The two hotels we recommend are approximately 10 minute’s drive with an uber or taxi. The cost of ride to and from the venue should be approximately $5 USD. Walking is possible, but it will take approximately 25 - 30 minutes.</p>
+
+<div class="cn" markdown="1">
+- [The W Hotel](https://www.marriott.com/reservation/rateListMenu.mi?defaultTab=prepay)
+- [The Intercontinental](https://www.ihg.com/intercontinental/hotels/us/en/mexico/mexha/hoteldetail)
+</div>
 
 #### Certification
 
