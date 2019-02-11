@@ -94,7 +94,7 @@ Los Morales Polanco
 CP 11510 Ciudad de México.
 ```
 
-<p class="cn" markdown="1">You can use [Google Maps](https://www.google.com/maps/place/The+Room+Polanco+-+El+lugar+de+tus+eventos/@19.436942,-99.20973,16z/data=!4m5!3m4!1s0x0:0xf355886c37a4fd72!8m2!3d19.4369424!4d-99.2097305?hl=en-US) for the exact location of the venue. When coming via an Uber or taxi, just state you would like to go to **Avenida Homero numero un mil siete centos trenta en polcano, se llama The Room**. Don't worry if you don't speak a little Spanish, the hotel concierges all speak English.</p>
+<p class="cn" markdown="1">You can use [Google Maps](https://www.google.com/maps/place/The+Room+Polanco+-+El+lugar+de+tus+eventos/@19.436942,-99.20973,16z/data=!4m5!3m4!1s0x0:0xf355886c37a4fd72!8m2!3d19.4369424!4d-99.2097305?hl=en-US) for the exact location of the venue. When coming via an Uber or taxi, just state you would like to go to **Avenida Homero numero mil setecientos treinta en polanco, se llama The Room**. Don't worry if you don't speak a little Spanish, the hotel concierges all speak English.</p>
 
 #### <a name="hotel"></a> Hotels and Accomodation
 
