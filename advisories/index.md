@@ -4,8 +4,32 @@ title: Advisories
 permalink: /advisories/
 ---
 
-<details markdown="1">
+<details markdown="1" open>
 <summary class="cn">2019</summary>
+
+---
+
+* [[ZDI] Adobe Acrobat Distiller PostScript File Parsing grestore Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-210/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC Distiller PostScript File Parsing grestore Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-209/)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing dvips TeXDict Type Confusion Remote Code Execution Vulnerability](src-2019-0019)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing Type 1 Font FontInfo Type Confusion Remote Code Execution Vulnerability](src-2019-0018)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing Type 1 Font FontBBox Stack Buffer Overflow Remote Code Execution Vulnerability](src-2019-0017)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing TBuildCharDict grestore Use-After-Free Remote Code Execution Vulnerability](src-2019-0016)
 
 ---
 
