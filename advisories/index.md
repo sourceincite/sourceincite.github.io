@@ -9,6 +9,83 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center FileUploadServlet Unrestricted File Upload Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-251/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center CommonUtils unzip Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-250/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoDebugServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-249/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoDebugServlet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-248/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoDebugServlet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-247/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT perfAddFormServer getAddFormBean Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-246/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT perfInsListServer getInsListBean Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-245/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT deviceservice saveSelectedInterfaces Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-244/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT deviceservice queryCustomCondition Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-243/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT deviceservice saveSelectedDevices Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-242/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center GWT perfSelItemServer getSelItemBean Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-241/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center viewTaskResultDetailFact Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-240/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center quickTemplateSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-239/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deviceSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-238/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center guiDataDetail Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-237/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center select Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-236/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfAddorModDeviceMonitor Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-235/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultParasSet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-234/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center reportpage index Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-233/)
+
+---
+
+
 * [[ZDI] Adobe Acrobat Distiller PostScript File Parsing grestore Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-210/)
 
 ---
