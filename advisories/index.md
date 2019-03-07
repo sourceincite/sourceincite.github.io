@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Jaspersoft JasperReports Server ResourceForwardingServlet URI Improper Access Control Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-256/)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center FileUploadServlet Unrestricted File Upload Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-251/)
 
 ---
