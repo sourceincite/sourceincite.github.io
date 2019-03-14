@@ -9,6 +9,58 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center templateSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-271/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center reportTaskSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-270/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center selectUserGroup Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-269/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deploySelectBootrom Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-268/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDeviceSeries Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-267/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deviceThresholdConfig Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-266/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center MyFaces Static Key ViewState Use of Default Credentials Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-265/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ictExpertCSVDownload Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-264/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center select Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-263/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center tvxlanLegend Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-262/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center thirdPartyPerfSelectTask Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-261/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorGroupSelectContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-260/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorOnlineList_contentOnly Cleartext Storage of Sensitive Information Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-259/)
+
+---
+
 * [[ZDI] Jaspersoft JasperReports Server ResourceForwardingServlet URI Improper Access Control Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-256/)
 
 ---
