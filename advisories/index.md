@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Vanilla Forums AddonManager getSingleIndex Directory Traversal File Inclusion Remote Code Execution Vulnerability](src-2019-0020)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center templateSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-271/)
 
 ---
