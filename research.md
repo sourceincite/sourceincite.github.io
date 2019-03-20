@@ -29,6 +29,10 @@ permalink: /research/
 ---
 <p class="cn">Some past presentations that I have shared.</p>
 
+* [BlueHatIL :: Israel :: 2019 - Postscript Pat and His Black and White Hat (not available yet)](/assets/Postscript-Pat-and-His-Black-and-White-Hat-Steven-Seeley-bluehatil-2019.pdf)
+
+   <p class="cn">I discussed how I developed a postscript fuzzer to target Adobe's postscript engine and uncover many zeroday vulnerabilities.</p>
+
 * [BSides :: Mexico :: 2018 - Foxes Among Us](/assets/Foxes-Among-Us-Steven-Seeley-bsidescdmx-2018.pdf)
 
    <p class="cn">I discussed how I found a use-after-free vulnerability and chained it together with an uninitialized object vulnerability to achieve reliable exploitation bypassing several operating system mitigations.</p>
