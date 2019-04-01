@@ -9,6 +9,46 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mediaForAction Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-303/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center userSelectPagingContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-302/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center sshConfig Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-301/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoMsgServlet Java Reflection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-300/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ictExpertDownload Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-299/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center deploySelectSoftware Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-298/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operatorGroupTreeSelectContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-297/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center customTemplateSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-296/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectRules Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-295/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center addDeviceToView Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-294/)
+
+---
+
 * [[SRC] Vanilla Forums AddonManager getSingleIndex Directory Traversal File Inclusion Remote Code Execution Vulnerability](src-2019-0020)
 
 ---
