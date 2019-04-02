@@ -9,6 +9,14 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Jaspersoft JasperReports Server DiagnosticDataCipherer Hard-coded Cryptographic Key Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-305/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-304/)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center mediaForAction Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-303/)
 
 ---
