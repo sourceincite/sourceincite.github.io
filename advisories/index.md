@@ -9,6 +9,46 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-343/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-342/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center navigationTo Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-341/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center selViewNavContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-340/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultStatChooseFaultType Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-339/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultFlashEventSelectFact Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-338/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center wmiConfigContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-337/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDymicParam Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-336/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center perfSelectTask Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-335/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center viewBatchTaskResultDetailFact Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-334/)
+
+---
+
 * [[ZDI] Jaspersoft JasperReports Server DiagnosticDataCipherer Hard-coded Cryptographic Key Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-305/)
 
 ---
