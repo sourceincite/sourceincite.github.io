@@ -1,0 +1,4 @@
+%!PS
+{ [0] setpattern } stopped
+{ << /r (666666666666666666666666666666666666'AAA) >> maxlength } stopped
+show

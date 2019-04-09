@@ -9,6 +9,22 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File maxlength operand Type Confusion Remote Code Execution Vulnerability](src-2019-0024)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing dvips TeXDict Type Confusion Remote Code Execution Vulnerability](src-2019-0023)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller DCTDecode JPEG parsing SOS Marker Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0022)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Distiller PostScript File Parsing Use-After-free Remote Code Execution Vulnerability](src-2019-0021)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-343/)
 
 ---
