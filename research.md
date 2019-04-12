@@ -11,6 +11,7 @@ permalink: /research/
 
 ### Tools:
 
+---
 * [bridgit](https://github.com/stevenseeley/bridgit)
 
    <p class="cn" markdown="1">This was a tool I developed to discover [src-2018-0027](https://srcincite.io/advisories/src-2018-0027) and re-discover/exploit [ZDI-18-332](https://www.zerodayinitiative.com/advisories/ZDI-18-332/).</p>
@@ -42,6 +43,7 @@ permalink: /research/
 
 ### Other blog posts I have written:
 
+---
 * [The Synology Improbability](https://www.offensive-security.com/offsec/the-synology-improbability/)
 * [Auditing the Auditor](https://www.offensive-security.com/vulndev/auditing-the-auditor/)
 
