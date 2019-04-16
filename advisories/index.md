@@ -9,6 +9,14 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC PostScript Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-352/)
+
+---
+
+* [[ZDI] OMRON CX-One CX-Programmer CXP File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-344/)
+
+---
+
 * [[SRC] Adobe Acrobat Pro DC Distiller PostScript File maxlength operand Type Confusion Remote Code Execution Vulnerability](src-2019-0024)
 
 ---
