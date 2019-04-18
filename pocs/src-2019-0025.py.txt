@@ -3,6 +3,7 @@ Foxit Reader PDF Printer proxyDoAction opcode Race Condition Stack Buffer Overfl
 Version: 9.3.0.912
 SRC: SRC-2019-0025
 CVE: CVE-2018-20310
+Vendor Advisory: https://www.foxitsoftware.com/support/security-bulletins.php
 
 Summary:
 ========
