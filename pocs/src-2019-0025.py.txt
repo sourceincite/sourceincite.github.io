@@ -24,8 +24,6 @@ FoxitProxyServer_Socket_RD+0x1e4b5:
 import sys
 import struct
 import socket
-import psutil
-import getpass
 
 def gen_packet():
     """
