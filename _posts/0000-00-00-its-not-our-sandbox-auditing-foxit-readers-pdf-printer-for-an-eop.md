@@ -284,9 +284,7 @@ excerpt_separator: <!--more-->
 -00000004 var_4           dd ?
 ```
 
-<p class="cn" markdown="1">We can calculate the size of the var_80_opcode variable being `0x80 - 0x7c = 0x4` bytes in stack size. Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:</p>
-
-<p class="cn" markdown="1">But it gets even easier! Let's look at the code just before the overflow:</p>
+<p class="cn" markdown="1">We can calculate the size of the var_80_opcode variable being `0x80 - 0x7c = 0x4` bytes in stack size. But it gets even easier! Let's look at the code just before the overflow:</p>
 
 ```
 .text:0041E34D loc_41E34D:                                                  ; CODE XREF: sub_41E190+1A2
@@ -317,7 +315,7 @@ excerpt_separator: <!--more-->
 .text:0041E3B7                 jz      short loc_41E3DA
 ```
 
-<p class="cn" markdown="1">What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by 0x80 - 0x4c = 0x34 bytes!</p>
+<p class="cn" markdown="1">What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by 0x80 - 0x4c = 0x34 bytes! Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:</p>
 
 {% include image.html
             img="assets/images/SRC-2019-0025-eop.png"
