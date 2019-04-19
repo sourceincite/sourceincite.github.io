@@ -315,7 +315,7 @@ excerpt_separator: <!--more-->
 .text:0041E3B7                 jz      short loc_41E3DA
 ```
 
-<p class="cn" markdown="1">What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by 0x80 - 0x4c = 0x34 bytes! Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:</p>
+<p class="cn" markdown="1">What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by `0x80 - 0x4c = 0x34` bytes! Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:</p>
 
 {% include image.html
             img="assets/images/SRC-2019-0025-eop.png"
