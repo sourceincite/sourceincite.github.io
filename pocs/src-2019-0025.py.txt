@@ -1,9 +1,10 @@
 """
-Foxit Reader PDF Printer proxyDoAction opcode Race Condition Stack Buffer Overflow Elevation of Privilege Vulnerability
+Foxit Reader PDF Printer proxyDoAction opcode Stack Buffer Overflow Elevation of Privilege Vulnerability
 Version: 9.3.0.912
 SRC: SRC-2019-0025
 CVE: CVE-2018-20310
 Vendor Advisory: https://www.foxitsoftware.com/support/security-bulletins.php
+Details: https://srcincite.io/blog/2019/04/19/its-not-our-sandbox-auditing-foxit-readers-pdf-printer-for-an-eop.html
 
 Summary:
 ========
