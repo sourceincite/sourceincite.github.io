@@ -38,7 +38,8 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">That brief second is due to the server listening on localhost port 50000 by default and accepting only a single request. Once a request is made, it closes the port and terminates execution. This gives an attacker executing code in a render tab a kind of race condition window, when the user attempts to print to PDF using the Foxit PDF Printer.</p>
 
-<p class="cn" markdown="1">After more investigation into the issue, I later found out you can make undocumented ALPC requests from sandboxed processes to start a print job with the default printer. This means that an attacker doesn't even need to race a request to the `FoxitProxyServer_Socket_RD.exe` binary at all.</p>
+<p class="cn" markdown="1">After more investigation into the issue, I later found out you can make calls to [CreateDC](https://docs.microsoft.com/en-us/windows/desktop/api/wingdi/nf-wingdi-createdca) API from some sandboxed processes to get a printer device context and then later create a print job with the default printer. This means that an attacker doesn't even need to race a request to the `FoxitProxyServer_Socket_RD.exe` binary at all.</p>
+
 
 ### The Vulnerability
 
