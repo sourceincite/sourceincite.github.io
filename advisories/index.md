@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Foxit Reader localFileStorage Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-428/)
+
+---
+
 * [[SRC] Oracle Application Testing Suite DownloadServlet File Read Remote Code Execution Vulnerability](src-2019-0033)
 
 ---
