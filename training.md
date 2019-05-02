@@ -154,32 +154,29 @@ javax.servlet.ServletException: java.lang.NullPointerException
 </div>
 
 <div markdown="1" class="cn">
-
 - Java/PHP Authentication Bypass
-  - Bypassing URI filters
-  - Leveraging unauthenticated redirection
-  - Type juggling security boundaries
-  - Pass the hash login
-
+  - Bypassing URI Filters
+  - Flawed Logic
 </div>
 
 <div markdown="1" class="cn">
-
 - High Impact Information Disclosure
-  - File disclosure
-  - SQL injection
-  - External entity injection
-
+  - External Entity Injection (XXE)
+    - File Disclosure
+    - Server-Side Request Forgery (SSRF)
 </div>
 
 <div markdown="1" class="cn">
-
 - Remote Code Execution
-  - Java deserialization
-  - Directory traversal
-  - PHP object instantiation
-  - PHP object injection
-
+  - Java Naming and Directory Interface (JNDI) Injection
+    - Remote Class Loading
+    - Java Deserialization 101
+  - Java Deserialization 102
+    - Custom gadget chain creation
+  - Expression Language (EL) Injection
+  - PHP Code Injection
+  - PHP Object Instantiation
+  - PHP Object Injection
 </div>
 
 <p class="cn" markdown="1">* This syllabus is subject to change at the discretion of the instructor</p>
