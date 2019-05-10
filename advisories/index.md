@@ -9,6 +9,42 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center Standard ImcLoginMgrImpl Hard-coded Cryptographic Key Credentials Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-459/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center dbman Use of Hard-coded Credentials Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-458/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center AMF3 Externalizable Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-457/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center AccessMgrServlet className Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-456/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center TopoMsgServlet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-455/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center soapConfigContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-454/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ictExpertCSVDownload Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-453/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center iccSelectDevType Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-452/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-451/)
+
+---
+
 * [[ZDI] Foxit Reader localFileStorage Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-428/)
 
 ---
