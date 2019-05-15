@@ -9,6 +9,122 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Cisco Prime Infrastructure DbTableListDetailAction orderByColumn SQL Injection Information Disclosure Vulnerability](src-2019-0041)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure DbTableListAction orderByColumn SQL Injection Information Disclosure Vulnerability](src-2019-0040)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure SampleFileDownloadServlet Directory Traversal Information Disclosure Vulnerability](src-2019-0039)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure XmpFileUploadServlet Directory Traversal Remote Code Execution Vulnerability](src-2019-0038)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure XmpMultiPathDownloadServlet Directory Traversal Information Disclosure Vulnerability](src-2019-0037)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure XmpLogFilesDownloadServlet Directory Traversal Information Disclosure Vulnerability](src-2019-0036)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure XmpLogFilesDownloadServlet Directory Traversal Remote Code Execution Vulnerability](src-2019-0035)
+
+---
+
+* [[SRC] Cisco Prime Infrastructure Health Monitor HA TarArchive Directory Traversal Remote Code Execution Vulnerability](src-2019-0034)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC imageDistiller Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-513/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC ASCII85Decode Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-512/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-511/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-509/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC JPEG File Parsing Use-After-Free Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-506/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-505/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC JPEG File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-499/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-497/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-495/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-494/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC JPEG File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-493/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-492/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-491/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript colorimage Use-After-Free Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-488/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Use-After-Free Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-487/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-486/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-485/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-481/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC Font Parsing Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-480/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript JPEG Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-479/)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript JPEG Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-478/)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center Standard ImcLoginMgrImpl Hard-coded Cryptographic Key Credentials Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-459/)
 
 ---
