@@ -101,7 +101,7 @@ CP 11510 Ciudad de México.
 <p class="cn" markdown="1">The two hotels we recommend are approximately 10 minute’s drive with an Uber or taxi. The cost of the ride to and from the venue should be approximately $5 USD. Walking is possible, but it will take approximately 25 - 30 minutes.</p>
 
 <div class="cn" markdown="1">
-- [The W Hotel](https://www.marriott.com/reservation/rateListMenu.mi?defaultTab=prepay)
+- [The W Hotel](https://www.marriott.com/hotels/travel/mexwm-w-mexico-city/)
 - [The Intercontinental](https://www.ihg.com/intercontinental/hotels/us/en/mexico/mexha/hoteldetail)
 </div>
 
