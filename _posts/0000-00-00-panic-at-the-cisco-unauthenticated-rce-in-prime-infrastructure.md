@@ -30,7 +30,7 @@ excerpt_separator: <!--more-->
 
 ## <a name="target"></a> The Target
 
-<p class="cn" markdown="1">At the time, I tested this bug on the **PI-APL-3.4.0.0.348-1-K9.iso (d513031f481042092d14b77cd03cbe75)** installer with the patch **PI_3_4_1-1.0.27.ubf (56a2acbcf31ad7c238241f701897fcb1)** applyed. That patch was suppose to prevent [Pedro](https://twitter.com/pedrib1337)'s bug, [CVE-2018-15379](https://github.com/pedrib/PoC/blob/master/advisories/cisco-prime-infrastructure.txt#L27). However, as we will see, a single CVE was given to two different vulnerabilities and only one of them was patched.</p>
+<p class="cn" markdown="1">At the time, I tested this bug on the **PI-APL-3.4.0.0.348-1-K9.iso (d513031f481042092d14b77cd03cbe75)** installer with the patch **PI_3_4_1-1.0.27.ubf (56a2acbcf31ad7c238241f701897fcb1)** applied. That patch was suppose to prevent [Pedro](https://twitter.com/pedrib1337)'s bug, [CVE-2018-15379](https://github.com/pedrib/PoC/blob/master/advisories/cisco-prime-infrastructure.txt#L27). However, as we will see, a single CVE was given to two different vulnerabilities and only one of them was patched.</p>
 
 ```
 piconsole/admin# show version
