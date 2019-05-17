@@ -51,7 +51,7 @@ Critical Fixes:
             caption="High level view of High Availability"
             style="width:50%;height:50%" %}
 
-<p class="cn" markdown="1">After using gigs of ram and way to much diskspace in my lab, the outcome looked like this:</p>
+<p class="cn" markdown="1">After using gigs of ram and way too much diskspace in my lab, the outcome looked like this:</p>
 
 {% include image.html
             img="assets/images/healthy-ha.png#3"
