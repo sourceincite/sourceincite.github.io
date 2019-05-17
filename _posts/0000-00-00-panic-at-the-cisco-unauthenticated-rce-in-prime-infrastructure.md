@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn" markdown="1">*In this post, I discuss the discovery and exploitation of [CVE-2019-1821](/advisories/src-2019-000X) which is an unauthenticated server side remote code execution vulnerability, just the type of bug we will cover in our training class [Full Stack Web Attack](/training/). ~~The only interaction that is required is that an admin opens a link to trigger the XSS.~~*</p>
+<p class="cn" markdown="1">*In this post, I discuss the discovery and exploitation of [CVE-2019-1821](/advisories/src-2019-0034) which is an unauthenticated server side remote code execution vulnerability, just the type of bug we will cover in our training class [Full Stack Web Attack](/training/). ~~The only interaction that is required is that an admin opens a link to trigger the XSS.~~*</p>
 
 ## Introduction
 
