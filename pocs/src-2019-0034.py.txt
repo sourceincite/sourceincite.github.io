@@ -32,7 +32,6 @@ exit
 exit
 """
 
-import os
 import sys
 import socket
 import requests
