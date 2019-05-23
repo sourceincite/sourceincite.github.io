@@ -71,8 +71,8 @@ countdown('10/1/2019 09:00:00 AM');
 
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
-            img="assets/images/hax.jpg"
-            style="width:30%;height:30%"
+            img="assets/images/training.png"
+            style="width:50%;height:50%"
             %}
 <p class="cn" markdown="1">This course is developed for web penetration testers, bug hunters and developers that want to make a switch to server-side web security research or see how serious adversaries will attack their web based code.</p>
 
