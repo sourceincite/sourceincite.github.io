@@ -28,7 +28,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">Thanks to Wikipedia, it was starting to make sense and it looks like I am not the only one [confused](https://www.reddit.com/r/networking/comments/34w491/what_does_cisco_prime_do_exactly/) to what this product actually does. Needless to say, that doesn’t always matter when performing security research.</p> 
 
-## <a name="target"></a> The Target
+## <a id="target"></a> The Target
 
 <p class="cn" markdown="1">At the time, I tested this bug on the **PI-APL-3.4.0.0.348-1-K9.iso (d513031f481042092d14b77cd03cbe75)** installer with the patch **PI_3_4_1-1.0.27.ubf (56a2acbcf31ad7c238241f701897fcb1)** applied. That patch was supposed to prevent [Pedro](https://twitter.com/pedrib1337)'s bug, [CVE-2018-15379](https://github.com/pedrib/PoC/blob/master/advisories/cisco-prime-infrastructure.txt#L27). However, as we will see, a single CVE was given to two different vulnerabilities and only one of them was patched.</p>
 
