@@ -4,14 +4,6 @@ title: Training
 permalink: /training/
 ---
 
-<style type="text/css">
-.countdown {
-  width: 100%;
-  float: left;
-  margin: 20px auto;
-}
-</style>
-
 <script>
 function countdown(dateEnd) {
   var timer, days, hours, minutes, seconds;
@@ -55,7 +47,7 @@ countdown('10/1/2019 09:00:00 AM');
 
 ---
 
-<div class="countdown">
+<div style="width: 100%;float: left;margin: 20px auto;">
   <p class="cn">
     It's
     <span id="days"></span>
