@@ -64,7 +64,7 @@ countdown('10/1/2019 09:00:00 AM');
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
             img="assets/images/training.png"
-            style="width:50%;height:50%"
+            style="width:50%;height:50%;float:right;"
             %}
 <p class="cn" markdown="1">This course is developed for web penetration testers, bug hunters and developers that want to make a switch to server-side web security research or see how serious adversaries will attack their web based code.</p>
 
@@ -74,7 +74,7 @@ countdown('10/1/2019 09:00:00 AM');
 
 <p class="cn" markdown="1">Leave your OWASP Top Ten and CSP bypasses at the door.</p>
 
-#### <a name="where"></a> When and Where
+#### <a id="where"></a> When and Where
 
 <p class="cn" markdown="1">The 3 day training course will take place on October the 1st, 2nd and 3rd of 2019 at [the room](https://theroom.mx/) in Polanco, Mexico City.</p>
 
@@ -88,7 +88,7 @@ CP 11510 Ciudad de México.
 
 <p class="cn" markdown="1">You can use [Google Maps](https://www.google.com/maps/place/The+Room+Polanco+-+El+lugar+de+tus+eventos/@19.436942,-99.20973,16z/data=!4m5!3m4!1s0x0:0xf355886c37a4fd72!8m2!3d19.4369424!4d-99.2097305?hl=en-US) for the exact location of the venue. When coming via an Uber or taxi, just state you would like to go to **Avenida Homero numero mil setecientos treinta en polanco, se llama The Room**. Don't worry if you don't speak a little Spanish, the hotel concierges all speak English.</p>
 
-#### <a name="hotel"></a> Hotels and Accomodation
+#### <a id="hotel"></a> Hotels and Accomodation
 
 <p class="cn" markdown="1">The two hotels we recommend are approximately 10 minute’s drive with an Uber or taxi. The cost of the ride to and from the venue should be approximately $5 USD. Walking is possible, but it will take approximately 25 - 30 minutes.</p>
 
