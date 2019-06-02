@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center imcrs ConfFileResource renameFile Directory Traversal Remote Code Execution Vulnerability](src-2019-0056)
+
+---
+
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center ConfFileResource syncaddOrModFile Directory Traversal Remote Code Execution Vulnerability](src-2019-0055)
+
+---
+
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center SSHParameterResource addSSHParameterKeyFile Directory Traversal Remote Code Execution Vulnerability](src-2019-0054)
+
+---
+
 * [[SRC] Hewlett Packard Enterprise Intelligent Management Center Standard OperatorMgrImpl isAccountBindingWithOperator SQL Injection Remote Code Execution Vulnerability](src-2019-0053)
 
 ---
