@@ -9,6 +9,54 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center ForwardRedirect Expression Language Injection Remote Code Execution Vulnerability](src-2019-0042)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ByteMessageResource transformEntity Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-528/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center choosePerfView Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-527/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center devSoftSel Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-526/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center operationSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-525/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ifViewSelectPage Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-524/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center smsRulesDownload Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-523/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultTrapGroupSelect Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-522/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center faultEventSelectFact Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-521/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center WebSocket Shape3DWebSocketServlet Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-520/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center powershellConfigContent Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-519/)
+
+---
+
+* [[ZDI] Hewlett Packard Enterprise Intelligent Management Center ictExpertCSVDownload Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-518/)
+
+---
+
 * [[SRC] Cisco Prime Infrastructure DbTableListDetailAction orderByColumn SQL Injection Information Disclosure Vulnerability](src-2019-0041)
 
 ---
