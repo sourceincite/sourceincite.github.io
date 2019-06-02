@@ -137,38 +137,29 @@ javax.servlet.ServletException: java.lang.NullPointerException
 #### <a id="syllabus"></a> Syllabus *
 
 <div markdown="1" class="cn">
-
 - Introduction
   - PHP & Java language fundamentals
   - Debugging PHP & Java applications
   - Auditing for zero-day vulnerabilities
-
-</div>
-
-<div markdown="1" class="cn">
-- Java/PHP Authentication Bypass
-  - Bypassing URI Filters
-  - Flawed Logic
-</div>
-
-<div markdown="1" class="cn">
-- High Impact Information Disclosure
-  - External Entity Injection (XXE)
-    - File Disclosure
-    - Server-Side Request Forgery (SSRF)
-</div>
-
-<div markdown="1" class="cn">
-- Remote Code Execution
-  - Java Naming and Directory Interface (JNDI) Injection
-    - Remote Class Loading
-    - Java Deserialization 101
-  - Java Deserialization 102
-    - Custom gadget chain creation
-  - Expression Language (EL) Injection
-  - PHP Code Injection
-  - PHP Object Instantiation
+- PHP logic authentication bypasses
+- PHP code injection remote code executon
+- Java naming and directory interface (JNDI) injection
+  - Remote class loading
+  - Java deserialization 101
+- PHP object instantiation
+- External entity injection (XXE)
+  - File disclosure
+  - Server-side request forgery (SSRF)
   - PHP Object Injection
+  - Property oriented programming (POP)
+  - Custom gadget chain creation
+- Blacklist bypasses for remote code execution (zeroday)
+- Bypassing JAVA based URI filters
+- URI redirection authentication bypasses (zeroday technique)
+- Expression language (EL) injection
+- Java deserialization 102
+  - Pivot gadgets
+  - Custom gadget chain creation
 </div>
 
 <p class="cn" markdown="1">* This syllabus is subject to change at the discretion of the instructor</p>
