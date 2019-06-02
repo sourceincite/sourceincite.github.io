@@ -141,12 +141,12 @@ javax.servlet.ServletException: java.lang.NullPointerException
   - PHP & Java language fundamentals
   - Debugging PHP & Java applications
   - Auditing for zero-day vulnerabilities
-- PHP logic authentication bypasses
-- PHP code injection remote code executon
-- Java naming and directory interface (JNDI) injection
+- PHP logic authentication bypasses (zeroday)
+- PHP code injection remote code executon (nday)
+- Java naming and directory interface (JNDI) injection (nday)
   - Remote class loading
   - Java deserialization 101
-- PHP object instantiation
+- PHP object instantiation (nday)
 - External entity injection (XXE)
   - File disclosure
   - Server-side request forgery (SSRF)
