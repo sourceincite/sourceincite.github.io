@@ -9,6 +9,50 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center Standard OperatorMgrImpl isAccountBindingWithOperator SQL Injection Remote Code Execution Vulnerability](src-2019-0053)
+
+---
+
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center Standard OperatorMgrImpl isAccountCanceled SQL Injection Remote Code Execution Vulnerability](src-2019-0052)
+
+---
+
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center SqlResource queryDataBySQL Arbitrary SQL Execution Remote Code Execution Vulnerability](src-2019-0051)
+
+---
+
+* [[SRC] Hewlett Packard Enterprise Intelligent Management Center ImcplatResServiceSkeleton queryDataBySQL Arbitrary SQL Execution Remote Code Execution Vulnerability](src-2019-0050)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard DhcpServerDaoImpl queryIpAllocateInfoBySubnetIp SQL Injection Remote Code Execution Vulnerability](src-2019-0049)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard DhcpServerDaoImpl queryOptionInfosByIp SQL Injection Remote Code Execution Vulnerability](src-2019-0048)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard DhcpServerDaoImpl queryServerByIp SQL Injection Remote Code Execution Vulnerability](src-2019-0047)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard AirWaveApConvergedDaoImpl readListBySql SQL Injection Remote Code Execution Vulnerability](src-2019-0046)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard SmscCfgDaoImpl updateSmsSendingWay SQL Injection Remote Code Execution Vulnerability](src-2019-0045)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard SmscCfgDaoImpl updateEmailSuffix SQL Injection Remote Code Execution Vulnerability](src-2019-0044)
+
+---
+
+* [[SRC] Hewlett Packard Intelligent Management Center Standard DhcpServerDaoImpl queryIpAllocateInfoByServerIp SQL Injection Remote Code Execution Vulnerability](src-2019-0043)
+
+---
+
 * [[SRC] Hewlett Packard Enterprise Intelligent Management Center ForwardRedirect Expression Language Injection Remote Code Execution Vulnerability](src-2019-0042)
 
 ---
