@@ -150,16 +150,16 @@ javax.servlet.ServletException: java.lang.NullPointerException
 - External entity injection (XXE)
   - File disclosure
   - Server-side request forgery (SSRF)
-  - PHP Object Injection
+- PHP Object Injection
   - Property oriented programming (POP)
-  - Custom gadget chain creation
+  - PHP custom gadget chain creation
 - Blacklist bypasses for remote code execution (zeroday)
-- Bypassing JAVA based URI filters
-- URI redirection authentication bypasses (zeroday technique)
+- Bypassing Java based URI filters
+- Java URI redirection authentication bypasses (zeroday technique)
 - Expression language (EL) injection
 - Java deserialization 102
   - Pivot gadgets
-  - Custom gadget chain creation
+  - Java Custom gadget chain creation
 </div>
 
 <p class="cn" markdown="1">* This syllabus is subject to change at the discretion of the instructor</p>
