@@ -6,7 +6,6 @@ permalink: /research/
 
 <p class="cn">The following links are some of my past information security research. Not all.</p>
 
-
 * [Advisories](/advisories)
 * [Exploits](/exploits)
 
