@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Artifex MuJS regcompx pattern Integer Overflow Remote Code Execution Vulnerability Vulnerability](src-2019-0057)
+
+---
+
 * [[SRC] Hewlett Packard Enterprise Intelligent Management Center imcrs ConfFileResource renameFile Directory Traversal Remote Code Execution Vulnerability](src-2019-0056)
 
 ---

