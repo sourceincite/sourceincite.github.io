@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC JPEG File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/https://www.zerodayinitiative.com/advisories/ZDI-19-628/)
+
+---
+
 * [[SRC] Artifex MuJS regcompx pattern Integer Overflow Remote Code Execution Vulnerability Vulnerability](src-2019-0057)
 
 ---
