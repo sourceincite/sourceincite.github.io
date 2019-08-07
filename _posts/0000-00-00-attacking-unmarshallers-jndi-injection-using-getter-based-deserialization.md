@@ -62,7 +62,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">At *[2]* the code gets an instance of the InitialContext class and at *[3]* the code calls `InitialContext.lookup` using the attacker controlled `jndiLocation` property.</p>
 
-<p class="cn" markdown="1">In a context dependant attack, where default typing is enabled for jackson-databind, this can result in JNDI Injection vulnerability.</p>
+<p class="cn" markdown="1">In a context dependant attack, where default typing is enabled for jackson-databind, this can result in a JNDI Injection vulnerability.</p>
 
 ```java
 import java.io.IOException;
