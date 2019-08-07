@@ -99,7 +99,7 @@ public class JacksonTest {
 
 <p class="cn" markdown="1">Getter based deserialization attacks are something to watch out for and can be mitigated by not using default typing. This is not a vulnerability to worry about since it has been patched and requires specific version of java to exploit.</p>
 
-<p class="cn" markdown="1">It's interesting to note that the connection property doesn't exist at all in trhe `JNDIConnectionSource` class, even so, `getConnection` follows the Java bean convention and still gets called!</p>
+<p class="cn" markdown="1">It's interesting to note that the connection property doesn't exist at all in the `JNDIConnectionSource` class, even so, `getConnection` follows the Java bean convention and still gets called!</p>
 
 <p class="cn" markdown="1">FasterXML continue to block individual classes and whilst I see the reasoning behind it, it makes for a cat and mouse game between attackers and defenders and I don't think that is the right approach.</p>
 
