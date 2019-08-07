@@ -93,7 +93,7 @@ public class JacksonTest {
 }
 ```
 
-<p class="cn" markdown="1">There are multiple ways to achieve remote code execution via JNDI injection on older versions of Java using either class loading or attacking the Distrubuted Garbage Collection (DGC) for deserialization of untrusted data, techniques which are all taught in [Full Stack Web Attack](/training)</p> 
+<p class="cn" markdown="1">There are multiple ways to achieve remote code execution via JNDI injection on older versions of Java using either class loading or attacking the Distrubuted Garbage Collection (DGC) for deserialization of untrusted data, techniques which are all taught in [Full Stack Web Attack](/training).</p> 
 
 ## Conclusion
 
