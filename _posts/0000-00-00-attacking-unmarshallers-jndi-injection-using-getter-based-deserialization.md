@@ -6,7 +6,7 @@ categories: blog
 excerpt_separator: <!--more-->
 ---
 
-<p class="cn" markdown="1">I know you have pwned deserialization of unstrusted data bugs before (if you haven't what the hell, they are fun!), but have you pwned an entire REST framework due to a misconfigured marshaller? In this short blog post, we will reveal some quick research that was done based upon the excellent work perform by [Doyensec](https://blog.doyensec.com/2019/07/22/jackson-gadgets.html).</p>
+<p class="cn" markdown="1">I know you have pwned deserialization of untrusted data bugs before (if you haven't what the hell, they are fun!), but have you pwned an entire REST framework due to a misconfigured marshaller? In this short blog post, we will reveal some quick research that was done based upon the excellent work perform by [Doyensec](https://blog.doyensec.com/2019/07/22/jackson-gadgets.html).</p>
 <!--more-->
 
 <p class="cn">TL;DR</p>
@@ -98,6 +98,8 @@ public class JacksonTest {
 ## Conclusion
 
 <p class="cn" markdown="1">Getter based deserialization attacks are something to watch out for and can be mitigated by not using default typing. This is not a vulnerability to worry about since it has been patched and requires specific version of java to exploit.</p>
+
+<p class="cn" markdown="1">It's interesting to note that the connection property doesn't exist at all in trhe `JNDIConnectionSource` class, even so, `getConnection` follows the Java bean convention and still gets called!</p>
 
 <p class="cn" markdown="1">FasterXML continue to block individual classes and whilst I see the reasoning behind it, it makes for a cat and mouse game between attackers and defenders and I don't think that is the right approach.</p>
 
