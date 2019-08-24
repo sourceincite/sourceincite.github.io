@@ -137,29 +137,55 @@ javax.servlet.ServletException: java.lang.NullPointerException
 #### <a id="syllabus"></a> Syllabus *
 
 <div markdown="1" class="cn">
-- Introduction
-  - PHP & Java language fundamentals
-  - Debugging PHP & Java applications
-  - Auditing for zero-day vulnerabilities
-- PHP logic authentication bypasses (zeroday)
-- PHP code injection remote code executon (nday)
-- Java naming and directory interface (JNDI) injection (nday)
+
+### Day 0x01
+
+#### Introduction
+
+- PHP & Java language fundamentals
+- Debugging PHP & Java applications
+- Module overview and required background knowledge
+- Auditing for zero-day vulnerabilities
+
+#### PHP
+
+- Logic authentication bypasses
+- Code injection (n-day patch bypass)
+
+### Day 0x02
+
+#### Java 
+
+- Java naming and directory interface (JNDI) injection
   - Remote class loading
-  - Java deserialization 101
-- PHP object instantiation (nday)
-- External entity injection (XXE)
+  - Deserialization 101 (using existing gadget chains)
+
+#### PHP
+
+- Introduction to object instantiation
+- External entity (XXE) injection
   - File disclosure
-  - Server-side request forgery (SSRF)
-- PHP Object Injection
+  - Out-of-band attacks
+- Introduction to object injection
   - Property oriented programming (POP)
-  - PHP custom gadget chain creation
-- Blacklist bypasses for remote code execution (zeroday)
-- Bypassing Java based URI filters
-- Java URI redirection authentication bypasses (zeroday technique)
-- Expression language (EL) injection
-- Java deserialization 102
-  - Pivot gadgets
-  - Java Custom gadget chain creation
+  - Custom gadget chain creation
+- Information disclosure
+- Building a 7 stage exploit chain for remote code execution
+
+### Day 0x03
+
+#### PHP
+
+- Blacklist bypasses (zero-day vulnerability)
+
+#### Java
+
+- Bypassing URI filters
+- URI forward authentication bypasses (zero-day technique)
+- Expression language injection
+- Deserialization 102 (custom gadget chains)
+ - Trampoline gadgets
+ - Exploiting reflection
 </div>
 
 <p class="cn" markdown="1">* This syllabus is subject to change at the discretion of the instructor</p>
