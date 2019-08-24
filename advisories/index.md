@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Adobe Photoshop CC Type 1 Font FontBBox array Stack Buffer Overflow Remote Code Execution Vulnerability](src-2019-0060)
+
+---
+
+* [[SRC] Adobe Photoshop CC Type 1 Font FontInfo dictionary Type Confusion Remote Code Execution Vulnerability](src-2019-0059)
+
+---
+
+* [[SRC] Adobe Photoshop CC Type 2 Font Charstring callothersubr Type Confusion Remote Code Execution Vulnerability](src-2019-0058)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC JPEG File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-628/)
 
 ---
