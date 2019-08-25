@@ -9,6 +9,70 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Write Remote Code Execution Vulnerability](src-2019-0076)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Integer Overflow Information Disclosure Vulnerability](src-2019-0075)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Write Remote Code Execution Vulnerability](src-2019-0074)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Integer Overflow Information Disclosure Vulnerability](src-2019-0073)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0072)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0071)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0070)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0069)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Write Remote Code Execution Vulnerability](src-2019-0068)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0067)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Write Remote Code Execution Vulnerability](src-2019-0066)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC ASCII85Decode filter Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0065)
+
+---
+
+* [[SRC] Adobe Photoshop CC Type 2 Font Charstring error Type Confusion Remote Code Execution Vulnerability](src-2019-0064)
+
+---
+
+* [[SRC] Adobe Photoshop CC image length Heap Buffer Overflow Remote Code Execution Vulnerability](src-2019-0063)
+
+---
+
+* [[SRC] Adobe Photoshop CC ASCII85Decode filter Heap Buffer Overflow Remote Code Execution Vulnerability](src-2019-0062)
+
+---
+
+* [[SRC] Adobe Photoshop CC ASCII85Decode filter Heap Buffer Overflow Remote Code Execution Vulnerability](src-2019-0061)
+
+---
+
 * [[SRC] Adobe Photoshop CC Type 1 Font FontBBox array Stack Buffer Overflow Remote Code Execution Vulnerability](src-2019-0060)
 
 ---
