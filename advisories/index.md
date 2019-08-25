@@ -9,6 +9,82 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Adobe Acrobat Pro DC PostScript executive Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-745)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript executive Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-744)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript load Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-743)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript blend Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-742)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript load Out-Of-Bounds Read Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-741)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript callothersubr Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-740)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript Folder.execute Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-739)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript drop Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-738)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript callothersubr Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-737)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript put Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-736)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript callothersubr Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-735)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript sbw Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-734)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript hsbw Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-733)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript put Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-732)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript put Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-731)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript put Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-730)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript load Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-729/)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript File Font Parsing Charstring store Out-Of-Bounds Write Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-728/)
+
+---
+
+* [[ZDI] Adobe Photoshop PostScript File Font Parsing Charstring index Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-727/)
+
+---
+
 * [[SRC] Adobe Acrobat Pro DC Type 2 Charstring put Out-of-Bounds Write Remote Code Execution Vulnerability](src-2019-0076)
 
 ---
