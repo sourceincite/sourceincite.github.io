@@ -9,6 +9,54 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Adobe Photoshop JSX File ExtendScript Folder.rename Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-779)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript Folder.remove Insufficient UI Warning Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-778)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.copy Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-777)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.remove Insufficient UI Warning Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-776)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.readch Insufficient UI Warning Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-775)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.rename Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-774)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.read Insufficient UI Warning Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-773)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.readln Insufficient UI Warning Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-772)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.writeln Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-771)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.write Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-770)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript File.execute Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-769)
+
+---
+
+* [[ZDI] Adobe Photoshop JSX File ExtendScript app.system Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-768)
+
+---
+
 * [[ZDI] Adobe Acrobat Pro DC PostScript executive Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-745)
 
 ---
