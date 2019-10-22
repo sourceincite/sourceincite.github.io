@@ -9,6 +9,51 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Foxit Studio Photo JPEG Batch Processing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-908)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Type Confusion Remote Code Execution Vulnerability](src-2019-0082)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Type Confusion Remote Code Execution Vulnerability](src-2019-0081)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Type Confusion Remote Code Execution Vulnerability](src-2019-0080)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0079)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0078)
+
+---
+
+* [[SRC] Adobe Acrobat Pro DC Type PostScript File Out-of-Bounds Read Information Disclosure Vulnerability](src-2019-0077)
+
+---
+
+
+* [[ZDI] Adobe Acrobat Pro DC RestorePlugInFrame Memory Corruption Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-874)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC Distiller PostScript JPEG Parsing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-873)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript CharString Directory NULL Pointer Dereference Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-871)
+
+---
+
+* [[ZDI] Adobe Acrobat Pro DC PostScript File Parsing Heap-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-870)
+
+---
+
 * [[ZDI] Adobe Photoshop JSX File ExtendScript Folder.rename Insufficient UI Warning Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-779)
 
 ---

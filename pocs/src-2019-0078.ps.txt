@@ -1,0 +1,6 @@
+%!PS
+{ <<  /r0 11  /r1 15  >> false [7 15 11 9] <41> () languagelevel } stopped pop
+{ 1.73317267979 {-32 -250 1048 750} setcolorscreen } stopped pop
+{ [0.001 0 0 0.001 0 0] true 14#8F6E8B43 sethalftone } stopped pop
+{ ()) << /r (A) >> [1 1 1 1] .inittransparencymask } stopped pop
+/Courier findfont 36 scalefont setfont 72 684 moveto (hola) show showpage
