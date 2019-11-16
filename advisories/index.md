@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Cisco Prime Infrastructure XmpFileUploadServlet Command Injection Remote Code Execution Vulnerability](src-2019-0083)
+
+---
+
 * [[ZDI] Foxit Studio Photo JPEG Batch Processing Out-Of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-908)
 
 ---

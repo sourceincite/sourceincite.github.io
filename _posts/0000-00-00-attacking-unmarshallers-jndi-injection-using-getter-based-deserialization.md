@@ -23,6 +23,14 @@ excerpt_separator: <!--more-->
             caption="Next to the DriverManagerConnectionSource class"
             style="width:30%;height:30%" %}
 
+<p class="cn" markdown="1"> If you want to setup your own vulnerable environment, you can grab the vulnerable libs here:</p>
+<div markdown="1" class="cn">
+- [jackson-core-2.9.9.jar](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.9.9/jackson-core-2.9.9.jar)
+- [jackson-databind-2.9.9.1.jar](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.9.9.1/jackson-databind-2.9.9.1.jar)
+- [jackson-annotations-2.9.9.jar](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.9.9/jackson-annotations-2.9.9.jar)
+- [logback-core-1.3.0-alpha4.jar](https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.3.0-alpha4/logback-core-1.3.0-alpha4.jar)
+</div>
+
 <p class="cn" markdown="1">The setter for the class looks pretty standard for `jndiLocation`</p>
 
 ```java
