@@ -9,7 +9,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Cisco Prime Infrastructure XmpFileUploadServlet Command Injection Remote Code Execution Vulnerability](src-2019-0083)
+* [[SRC] Cisco Prime Infrastructure Health Monitor HA TarArchive Command Injection Remote Code Execution Vulnerability](src-2019-0083)
 
 ---
 
