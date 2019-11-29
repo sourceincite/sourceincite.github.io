@@ -47,6 +47,7 @@ countdown('10/1/2019 09:00:00 AM');
 
 ---
 
+<!--
 <div style="width: 100%;float: left;margin: 20px auto;">
   <p class="cn">
     It's
@@ -60,6 +61,7 @@ countdown('10/1/2019 09:00:00 AM');
     and seconds until the training begins!
   </p>
 </div>
+-->
 
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
@@ -74,30 +76,58 @@ countdown('10/1/2019 09:00:00 AM');
 
 <p class="cn" markdown="1">Leave your OWASP Top Ten and CSP bypasses at the door.</p>
 
-#### <a id="where"></a> When and Where
+### <a id="structure"></a> Course Structure
 
-<p class="cn" markdown="1">The 3 day training course will take place on October the 1st, 2nd and 3rd of 2019 at [the room](https://theroom.mx/) in Polanco, Mexico City.</p>
-
-```
-Av. Homero s/n frente al 1730, entre Jaime Balmes y Luis Vives.
-Planta baja de Corporativo Polanco.
-Miguel Hidalgo
-Los Morales Polanco
-CP 11510 Ciudad de México.
-```
-
-<p class="cn" markdown="1">You can use [Google Maps](https://www.google.com/maps/place/The+Room+Polanco+-+El+lugar+de+tus+eventos/@19.436942,-99.20973,16z/data=!4m5!3m4!1s0x0:0xf355886c37a4fd72!8m2!3d19.4369424!4d-99.2097305?hl=en-US) for the exact location of the venue. When coming via an Uber or taxi, just state you would like to go to **Avenida Homero numero mil setecientos treinta en polanco, se llama The Room**. Don't worry if you don't speak a little Spanish, the hotel concierges all speak English.</p>
-
-#### <a id="hotel"></a> Hotels and Accomodation
-
-<p class="cn" markdown="1">The two hotels we recommend are approximately 10 minute’s drive with an Uber or taxi. The cost of the ride to and from the venue should be approximately $5 USD. Walking is possible, but it will take approximately 25 - 30 minutes.</p>
-
-<div class="cn" markdown="1">
-- [The W Hotel](https://www.marriott.com/hotels/travel/mexwm-w-mexico-city/)
-- [The Intercontinental](https://www.ihg.com/intercontinental/hotels/us/en/mexico/mexha/hoteldetail)
+<div markdown="1" class="cn">
+- Duration: 4 days
+- Language: English
+- Hours: 9am - 5pm*
+- Lunch break: 12.30pm for 1 hour
+- Coffee break: 10.30am for 10 minutes
+- Coffee break: 3.15pm for 10 minutes
 </div>
 
-#### Certification
+<p class="cn" markdown="1">* The day to day hours maybe extended at the descretion of the trainer and students.</p>
+
+### <a id="where"></a> When and Where
+
+<p class="cn" markdown="1">We have three (3) public trainings for Full Stack Web Attack in 2020. **Please note that syllabus may change anytime, so an accurate syllabus can be found [here](/training/#syllabus).**</p>
+
+#### USA:
+
+<p class="cn" markdown="1">We are offering two (2) trainings in the USA as part of an agreement with the [Center for Cyber Security Training](https://ccsecuritytraining.com/center-for-cyber-security-training-signs-exclusive-partnership-with-leading-training-provider-source-incite/).</p>
+
+<div markdown="1" class="cn">
+- Registration: [https://ccsecuritytraining.com/registration/](https://ccsecuritytraining.com/registration/)
+- Details: [https://ccsecuritytraining.com/training/source-incites-full-stack-web-attack/](https://ccsecuritytraining.com/training/source-incites-full-stack-web-attack/)
+</div>
+
+<p markdown="1" class="cn">**East Coast**</p>
+
+<div markdown="1" class="cn">
+- Location: 10480 Little Patuxent Pkwy #700 Columbia, MD 21044
+- Date: **February the 24th - 27th 2020**
+</div>
+
+<p markdown="1" class="cn">**West Coast**</p>
+
+<div markdown="1" class="cn">
+- Location: 33 New Montgomery Street San Francisco, CA 94105
+- Date: **August the 3rd - 6th 2020**
+</div>
+
+#### Singapore:
+
+<p class="cn" markdown="1">As part of an agreement with [SHACK](https://www.coseinc.com/shack) we are offering a training in Singapore. </p>
+
+<div markdown="1" class="cn">
+- Location: TBD 
+- Date: **29th of March - 1st of April 2020**
+- Registration: [https://www.coseinc.com/shack/register](https://www.coseinc.com/shack/register)
+- Details: [https://www.coseinc.com/shack/training#training-SH2043](https://www.coseinc.com/shack/training#training-SH2043)
+</div>
+
+### Certification
 
 ```java
 javax.servlet.ServletException: java.lang.NullPointerException
@@ -108,87 +138,151 @@ javax.servlet.ServletException: java.lang.NullPointerException
     org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:462) 
 ```
 
-#### Tickets
+<p class="cn" markdown="1">We apologise in advance but we do not offer any certifications.</p>
 
-<p class="cn" markdown="1">Tickets can be purchased [here](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2019-tickets-55039278965). Please note that the course is limited to maximum of 20 seats to ensure a high quality deliverable.</p>
+### Instructor
 
-#### Instructor
+<p class="cn" markdown="1">Steven Seeley ([@steventseeley](https://twitter.com/steventseeley)) is an internationally recognized security researcher and trainer. For the last four years, Steven has reached platinum status with the [ZDI](https://www.zerodayinitiative.com/about/benefits/) and has literally found over a thousand high impact vulnerabilities, some of which can be found under the [advisories](/advisories/) section.</p>
 
-<p class="cn" markdown="1">Steven Seeley ([@steventseeley](https://twitter.com/steventseeley)) is an internationally recognized security researcher and trainer. For the last three years, Steven has reached platinum status with the [ZDI](https://www.zerodayinitiative.com/about/benefits/) and has literally found over a thousand high impact vulnerabilities, some of which can be found under the [advisories](/advisories/) section.</p>
-
-#### Student Requirements
+### Student Requirements
 
 <div markdown="1" class="cn">
-- At least basic scripting skills
+- At least basic scripting skills (moderate or advanced skills are *prefered*)
 - At least a basic understanding of various web technologies such as HTTP(S), proxies and browsers
 </div>
 
-#### Hardware Requirements
+### Hardware Requirements
 
 <div markdown="1" class="cn">
 - A 64bit Host operating system
 - 16 Gb RAM minimum
 - VMWare Workstation/Fusion
-- 60 Gb Hard disk free minimum
+- 100 Gb Hard disk free minimum
 - Wired and Wireless network support
 - USB 3.0 support
 </div>
 
-#### <a id="syllabus"></a> Syllabus *
+### <a id="syllabus"></a> Syllabus *
+
+<p class="cn" markdown="1">*** This syllabus is subject to change at the discretion of the instructor.**</p>
 
 <div markdown="1" class="cn">
 
-### Day 0x01
+#### Day 0x01
 
-#### Introduction
+*Introduction*
 
 - PHP & Java language fundamentals
 - Debugging PHP & Java applications
 - Module overview and required background knowledge
 - Auditing for zero-day vulnerabilities
 
-#### PHP
+*PHP*
 
+- Loose typing
 - Logic authentication bypasses
-- Code injection (n-day patch bypass)
+- Code injection
+- Filter bypass via code reuse
+- Patch bypass
 
 ### Day 0x02
 
-#### Java 
+*Java*
 
+- Java Remote Method Invocation (RMI)
+  - Java Remote Method Protocol (JRMP)
 - Java naming and directory interface (JNDI) injection
   - Remote class loading
   - Deserialization 101 (using existing gadget chains)
 
-#### PHP
+*PHP*
 
 - Introduction to object instantiation
+- Introduction to protocol wrappers
 - External entity (XXE) injection
-  - File disclosure
-  - Out-of-band attacks
-- Introduction to object injection
-  - Property oriented programming (POP)
-  - Custom gadget chain creation
-- Information disclosure
-- Building a 7 stage exploit chain for remote code execution
+  - Regular file disclosure
+  - Blind out-of-band attacks
+    - Error based exfiltration using entity overwrites
+    - Exfiltration using protocols
 
 ### Day 0x03
 
-#### PHP
+*PHP*
 
-- Blacklist bypasses (zero-day vulnerability)
+- Patch analysis and bypass
+- Introduction to object injection
+- Magic methods
+  - Customized serialization
+  - Phar deserialization
+  - Property oriented programming (POP)
+  - Custom gadget chain creation
+- Information disclosure
+- Phar planting
+- Building a 7 stage exploit chain for Remote Code Execution
 
-#### Java
+### Day 0x04
 
+*PHP*
+
+- Blacklist bypasses (zero-day vulnerability analysis and exploitation)
+
+*Java*
+
+- Introduction to reflection
+- Expression language injection
 - Bypassing URI filters
 - URI forward authentication bypasses (zero-day technique)
-- Expression language injection
 - Deserialization 102 (custom gadget chains)
- - Trampoline gadgets
- - Exploiting reflection
+  - Trampoline gadgets
+  - Exploiting reflection
+  - Whitelist (ab)use
+- A zero-day bug hunt in a real target
+
 </div>
 
-<p class="cn" markdown="1">* This syllabus is subject to change at the discretion of the instructor</p>
+### Testimonials
+
+> <p class="cn" markdown="1">*"I recommend @steventseeley's Full Stack Web Attack from @sourceincite. I know it's going to be offered a few times next year, you should take it! It's training unlike anything else. I am excited to put my newly found skills to work. Awesome stuff!"*</p>
+
+<p class="cn" markdown="1">- [@awhitehatter](https://twitter.com/awhitehatter/status/1180120923816386561)</p>
+
+> <p class="cn" markdown="1">*"Just finished an amazing training course with @steventseeley - Full Stack Web Attack @sourceincite. I highly recommend it if you wanna take your php, java, and general web exploitation skills to the next level."*</p>
+
+<p class="cn" markdown="1">- [@kiqueNissim](https://twitter.com/kiqueNissim/status/1179908013601251328)</p>
+
+> <p class="cn" markdown="1">*"It was a great course, I think is one of the best I ever had, I liked how Steven always explained each exercise very well and clarified any doubts. Essentially I'm very happy to have taken this course and I will recommend it to my collegues for the next year. Thanks Steven!"*</p>
+
+<p class="cn" markdown="1">- Anonymous</p>
+
+> <p class="cn" markdown="1">*"GREAT course man! thank you SO much!"*</p>
+
+<p class="cn" markdown="1">- Anonymous</p>
+
+> <p class="cn" markdown="1">*"try harder, thanks mr_m3"*</p>
+
+<p class="cn" markdown="1">- Anonymous</p>
+
+> <p class="cn" markdown="1">*"It was very inspiring to see your strategy, way of thinking and searching through code. That is even more valuable than the vulnerabilities themselves. It was possibly one of the most challenging trainings, I took, in a good way."*</p>
+
+<p class="cn" markdown="1">- Anonymous</p>
+
+#### FAQ
+
+<p class="cn" markdown="1">*Why are you only offering 3 public trainings this year?*</p>
+
+<p class="cn" markdown="1">**Our primary business is vulnerability research and exploitation. Course content is derived from such research and in order to provide a training that covers *bleeding edge attack techniques* the instructor needs to continually improve their skills.**</p>
+
+<p class="cn" markdown="1">*Why are you not offering a training in Mexico?*</p>
+
+<p class="cn" markdown="1">**This year we are offering two (2) trainings in the USA and believe this services the American market. However, if demand increases, we may offer a Mexican based training for 2020.**</p>
+
+<p class="cn" markdown="1">*Can I get a discount?*</p>
+
+<p class="cn" markdown="1">**No.**</p>
+
+<p class="cn" markdown="1">*Do you offer private trainings?*</p>
+
+<p class="cn" markdown="1">**Yes, on a case by case basis. For private trainings in the USA please contact the [Center for Cyber Security Training](https://ccsecuritytraining.com/contact-us/). For all other countries please contact [training@](mailto:training@srcincite.io).**</p>
 
 #### Additional Material
 
