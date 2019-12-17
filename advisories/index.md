@@ -106,10 +106,6 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Adobe Acrobat Pro DC PostScript executive Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-745)
-
----
-
 * [[ZDI] Adobe Acrobat Pro DC PostScript executive Type Confusion Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-19-744)
 
 ---
