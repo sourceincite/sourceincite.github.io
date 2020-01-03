@@ -94,7 +94,7 @@ var x = setInterval(function() {
 - Date: **August the 3rd - 6th 2020**
 </div>
 
-#### Singapore:
+#### <a id="singapore">Singapore:
 
 <p class="cn" markdown="1">As part of an agreement with [SHACK](https://www.coseinc.com/shack) we are offering a training in Singapore. </p>
 
