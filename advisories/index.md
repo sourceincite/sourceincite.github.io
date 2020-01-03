@@ -5,6 +5,525 @@ permalink: /advisories/
 ---
 
 <details markdown="1" open>
+<summary class="cn">2020</summary>
+
+---
+
+* [[SRC] Cisco Data Center Network Manager SystemFileDAO saveData Directory Traversal Remote Code Execution Vulnerability](src-2020-0009)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager SystemFileDAO getFile Directory Traversal Information Disclosure Vulnerability](src-2020-0008)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager SystemFileDAO deleteFile Directory Traversal Denial of Service Vulnerability](src-2020-0007)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager PortMapperHandler getPortMappingDataLength SQL Injection Information Disclosure Vulnerability](src-2020-0006)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager ConfigTemplateHandler getConfigTemplateJobInstance SQL Injection Remote Code Execution Vulnerability](src-2020-0005)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager SwitchCredentialsHandler deleteCredentials SQL Injection Remote Code Execution Vulnerability](src-2020-0004)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager SMUJobController getSMUTasks SQL Injection Remote Code Execution Vulnerability](src-2020-0003)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager ConfigArchiveRest importConfiguration Directory Traversal Denial of Service Vulnerability](src-2020-0002)
+
+---
+
+* [[SRC] Cisco Data Center Network Manager HealthRest sqlCommandAPI Arbitrary SQL Execution Remote Code Execution Vulnerability](src-2020-0001)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanSwitchDataLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-121/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getTopologyVlanList XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-120/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager CablePlans XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-119/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getDeployContent Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-118/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager addGroupNavigation XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-117/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager checkLinkUUID SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-116/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSwitchsDataLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-115/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getInventoryIslList XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-114/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSwitchName SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-113/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getRpmJobLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-112/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getConfigTemplateFileName SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-111/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSwitchDbIdBySerialNumber SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-110/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getGirTaskLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-109/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVpcCount SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-108/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getJobLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-107/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getZoneDataLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-106/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVsanDataLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-105/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanSwitchDataLength SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-104/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager AFW Image Upload Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-103/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager createLanFabric Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-102/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager writeToFile Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-101/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager importTS Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-100/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getDiscoveredDeviceCount groupId SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-099/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getDiscoveredDeviceCount hostname SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-098/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getDiscoveredDeviceCount switchIdList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-097/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager setVxlanProperties SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-096/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager createSite SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-095/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager createSite getIp SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-094/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager checkDiscoveryEthSwCandidates4List SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-093/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getN3KBufferStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-092/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndDeviceStatListWithVsan SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-091/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getNpvLinkStatJoinList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-090/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getFlowStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-089/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getTaskList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-088/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager modifyGroupName SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-087/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-086/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-085/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVpcCount SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-084/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanSwitchBandwidthStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-083/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanSwitchBandwidthStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-082/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getAllVpcs SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-081/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanEthernetStatListES SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-080/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanIslStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-079/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getPortGroupStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-078/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanIslStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-077/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getNpvLinkStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-076/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanIslStatJoinList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-075/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanGigEStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-074/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanGigEStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-073/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanIslStatJoinList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-072/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanSwitchListWithoutUsedPorts SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-071/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanStatEntities SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-070/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanStatEntities SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-069/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getOidSanStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-068/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getOidLanStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-067/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getPortGroupMember SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-066/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getHostEnclList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-065/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanZoneList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-064/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVsanList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-063/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndPortConnectionsForStorageSystem SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-062/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndPortConnectionsForStorageEnclosure SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-061/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVmHostData SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-060/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getDeployerTaskDetails SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-059/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getJobList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-058/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVsanListForEnclosures SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-057/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getAllGroups SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-056/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getZoneListByZoneNameAndParentId SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-055/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanIslListWithPM SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-054/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndDeviceList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-053/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSwitches SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-052/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSwitches SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-051/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getModulesBySwitch SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-050/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanIslStatListES SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-049/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getModules SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-048/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getNpvLinks SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-047/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getBackupStatusCount SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-046/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanIslStatListESBySQL SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-045/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getFlowStatListES SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-044/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSanGigEStatListES SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-043/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getCustomPGStatList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-042/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndDeviceStatListESBySQL SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-041/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getIslListWithPMForTopology SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-040/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getHostEnclList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-039/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanSwitchList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-038/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLanIslList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-037/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getisls SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-036/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getInterfacesBySwitch SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-035/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getHostEnclList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-034/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getHostEnclList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-033/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getEndPorts SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-032/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getLicenses SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-031/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getAllTemplate SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-030/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getRPMTasks SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-029/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getJobExecutionDetails SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-028/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager DeviceModuleRest getDeviceModulesupport SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-027/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSyslogEventList SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-026/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager VirtualPortChannel getDomain SQL Injection Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-025/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getHostEnclDataLength SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-024/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVpcPeerHistory SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-023/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getVpcHistory SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-022/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getAllVpc SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-021/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager deleteVpcHistory SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-020/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getSMUTasks SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-019/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager ImageManagement SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-018/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager getTokenInfo SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-017/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager persistUserInfo SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-016/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager readConfigFileFromDB Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-015/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager ReportWS deleteReportTemplate Directory Traversal Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-014/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager JBoss_4_2Encrypter Hardcoded Cryptographic Key Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-013/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager serverinfo Hardcoded Password Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-012/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager DbAdminRest installSwitchLicense Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-011/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager readConfigFileFromDBAsXML Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-010/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager WebAnalysisWSService storeConfigToFS Directory Traversal Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-009/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager SecurityManager Hard-coded Cryptographic Key Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-008/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager reportTemplateUploadPolicy Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-007/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager ConfigArchiveRest getRestoreLog Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-006/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager DbAdminRest runZoneMigrationForBrocade Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-005/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager DbAdminRest saveLicenseFileToServer Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-004/)
+
+---
+
+* [[ZDI] Cisco Data Center Network Manager TrustedClientTokenValidator Hard-coded Cryptographic Key Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-003/)
+
+---
+
+</details>
+
+<details markdown="1">
 <summary class="cn">2019</summary>
 
 ---
