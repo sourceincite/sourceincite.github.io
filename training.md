@@ -5,61 +5,41 @@ permalink: /training/
 ---
 
 <script>
-function countdown(dateEnd) {
-  var timer, days, hours, minutes, seconds;
-  dateEnd = new Date(dateEnd);
-  dateEnd = dateEnd.getTime();
-  if ( isNaN(dateEnd) ) {
-    return;
+// Set the date we're counting down to
+var countDownDate = new Date("Feb 24, 2020 09:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = "<p class='cn'>It's " + days + " days " + hours + " hours "
+  + minutes + " minutes and " + seconds + " seconds until the first training!</p>";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
   }
-  timer = setInterval(calculate, 1000);
-  function calculate() {
-    var dateStart = new Date();
-    var dateStart = new Date(dateStart.getUTCFullYear(),
-                             dateStart.getUTCMonth(),
-                             dateStart.getUTCDate(),
-                             dateStart.getUTCHours(),
-                             dateStart.getUTCMinutes(),
-                             dateStart.getUTCSeconds());
-    var timeRemaining = parseInt((dateEnd - dateStart.getTime()) / 1000)
-    if ( timeRemaining >= 0 ) {
-      days    = parseInt(timeRemaining / 86400);
-      timeRemaining   = (timeRemaining % 86400);
-      hours   = parseInt(timeRemaining / 3600);
-      timeRemaining   = (timeRemaining % 3600);
-      minutes = parseInt(timeRemaining / 60);
-      timeRemaining   = (timeRemaining % 60);
-      seconds = parseInt(timeRemaining);
-      document.getElementById("days").innerHTML    = parseInt(days, 10);
-      document.getElementById("hours").innerHTML   = ("0" + hours).slice(-2);
-      document.getElementById("minutes").innerHTML = ("0" + minutes).slice(-2);
-      document.getElementById("seconds").innerHTML = ("0" + seconds).slice(-2);
-    } else {
-      return;
-    }
-  }
-  function display(days, hours, minutes, seconds) {}
-}
-countdown('24/2/2020 09:00:00 AM');
+}, 1000);
 </script>
 
 ## Full Stack Web Attack
 
 ---
 
-<div style="width: 100%;float: left;margin: 20px auto;">
-  <p class="cn">
-    It's
-    <span id="days"></span>
-    days,
-    <span id="hours"></span>
-    hours,
-    <span id="minutes"></span>
-    minutes,
-    <span id="seconds"></span>
-    and seconds until the first training begins!
-  </p>
-</div>
+<p id="demo"></p>
 
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
