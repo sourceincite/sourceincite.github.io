@@ -40,14 +40,13 @@ function countdown(dateEnd) {
   }
   function display(days, hours, minutes, seconds) {}
 }
-countdown('10/1/2019 09:00:00 AM');
+countdown('24/2/2020 09:00:00 AM');
 </script>
 
 ## Full Stack Web Attack
 
 ---
 
-<!--
 <div style="width: 100%;float: left;margin: 20px auto;">
   <p class="cn">
     It's
@@ -58,10 +57,9 @@ countdown('10/1/2019 09:00:00 AM');
     <span id="minutes"></span>
     minutes,
     <span id="seconds"></span>
-    and seconds until the training begins!
+    and seconds until the first training begins!
   </p>
 </div>
--->
 
 <p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
 {% include imageright.html
@@ -121,7 +119,7 @@ countdown('10/1/2019 09:00:00 AM');
 <p class="cn" markdown="1">As part of an agreement with [SHACK](https://www.coseinc.com/shack) we are offering a training in Singapore. </p>
 
 <div markdown="1" class="cn">
-- Location: TBD 
+- Location: Pan Pacific Singapore - 7 Raffles Blvd, Singapore, 039595
 - Date: **29th of March - 1st of April 2020**
 - Registration: [https://www.coseinc.com/shack/register](https://www.coseinc.com/shack/register)
 - Details: [https://www.coseinc.com/shack/training#training-SH2043](https://www.coseinc.com/shack/training#training-SH2043)
