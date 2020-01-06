@@ -52,6 +52,7 @@ permalink: /research/
 ---
 <p class="cn">Some mentions of my work that are publically available.</p>
 
+* [Critics Hit Out at Cisco After Security Researcher Finds 120+ Vulnerabilities in a Single Product](https://www.cbronline.com/data-centre/cisco-data-center-network-manager/)
 * [One Mans Patch is Another Mans Treasure. A Tale of a Failed HPE Patch](https://www.zerodayinitiative.com/blog/2018/2/6/one-mans-patch-is-another-mans-treasure-a-tale-of-a-failed-hpe-patch)
 * [Exploiting Untrusted Objects Through Deserialization: Analyzing 1 of 100+ HPE Bug Submissions](https://www.thezdi.com/blog/2017/12/01/exploiting-untrusted-objects-through-deserialization-analyzing-1-of-100-hpe-bug-submissions)
 * [Busting Myths in Foxit Reader](https://www.thezdi.com/blog/2017/8/17/busting-myths-in-foxit-reader)
