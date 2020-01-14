@@ -548,7 +548,7 @@ def gen_ssotoken():
 
 <p class="cn" markdown="1">On line *[1079]* we can see a prepared sql statement is being created in an unsafe way using our injected `sortSqlSuffix` variable. Then on line *[1085]* the sql injection is actually triggered!</p>
 
-<p class="cn" markdown="1">*Side note: This bug was a result of a design flaw and patterned numerous times where the developer(s) made the assumption that since the queries where parameterized, they were safe from sql injection. Further searches of this pattern resulted in over 100 seperate sql injection vulnerabilities alone.*</p>
+<p class="cn" markdown="1">*Side note: This bug was a result of a design flaw and patterned numerous times where the developer(s) made the assumption that since the queries where parameterized, they were safe from sql injection. Further searches of this pattern resulted in over 100 separate sql injection vulnerabilities alone.*</p>
 
 <p class="cn" markdown="1">The next step was to discover the exact SOAP parameters needed to trigger this code path. The `WebContext` annotation gives us a url pattern that will reveal the [wsdl](https://en.wikipedia.org/wiki/Web_Services_Description_Language) path to be `https://<target>/DbInventoryWSService/DbInventoryWS?wsdl`</p>
 
