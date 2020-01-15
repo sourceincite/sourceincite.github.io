@@ -704,7 +704,7 @@ Binary file ./com/cisco/dcbu/lib/mds/zm/WebZoneDataModCache.class matches
 
 <p markdown="1" class="cn">The `/usr/local/cisco/dcm/fm/bin/addUser.sh` script launches the `com.cisco.dcbu.install.UserUtil` class to add that user to the `server.properties` file.</p>
 
-<p markdown="1" class="cn">We are left with one small hurdle, *how are we going to decryt the password?*</p>
+<p markdown="1" class="cn">We are left with one small hurdle, *how are we going to decrypt the password?*</p>
 
 <p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
 
