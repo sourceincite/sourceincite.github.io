@@ -36,7 +36,7 @@ excerpt_separator: <!--more-->
 
 ## Summary
 
-<p class="cn" markdown="1">Defore testing this application, a total of 14 vulnerabilties had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).</p> 
+<p class="cn" markdown="1">Before testing this application, a total of 14 vulnerabilties had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).</p> 
 
 {% include image.html
             img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/total-vulns.png"
@@ -634,7 +634,7 @@ dcmdb=> select distinct privilege_type FROM information_schema.role_table_grants
 
 <p markdown="1" class="cn">Admittedly I don't know where the exact vulnerable code is for this vulnerability, but I will share with you the process of discovery.</p>
 
-<p markdown="1" class="cn">When performing some backbox testing (whilst code reviewing) I came across this web application.</p>
+<p markdown="1" class="cn">When performing some blackbox testing (whilst code reviewing) I came across this web application.</p>
 
 {% include image.html
             img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/serverinfo.png"
