@@ -16,6 +16,14 @@ permalink: /research/
 
    <p class="cn" markdown="1">This was a tool I developed to discover [src-2018-0027](https://srcincite.io/advisories/src-2018-0027) and re-discover/exploit [ZDI-18-332](https://www.zerodayinitiative.com/advisories/ZDI-18-332/).</p>
 
+### Competitions:
+
+---
+
+- [Pwn2Own ICS Miami 2020 - Master of Pwn](https://www.zerodayinitiative.com/blog/2020/1/21/pwn2own-miami-2020-schedule-and-live-results)
+
+   <p class="cn" markdown="1">In preperation for this competition, [Chris Anastasio](https://twitter.com/mufinnnnnnn) and I found multiple vulnerabilities and developed exploits targeting several ICS applications that allowed us to win the competition!</p>
+
 ### Presentations:
 
 ---
@@ -52,6 +60,7 @@ permalink: /research/
 ---
 <p class="cn">Some mentions of my work that are publically available.</p>
 
+* [Inside the World's Highest-Stakes Industrial Hacking Contest](https://www.wired.com/story/pwn2own-industrial-hacking-contest/)
 * [Critics Hit Out at Cisco After Security Researcher Finds 120+ Vulnerabilities in a Single Product](https://www.cbronline.com/data-centre/cisco-data-center-network-manager/)
 * [One Mans Patch is Another Mans Treasure. A Tale of a Failed HPE Patch](https://www.zerodayinitiative.com/blog/2018/2/6/one-mans-patch-is-another-mans-treasure-a-tale-of-a-failed-hpe-patch)
 * [Exploiting Untrusted Objects Through Deserialization: Analyzing 1 of 100+ HPE Bug Submissions](https://www.thezdi.com/blog/2017/12/01/exploiting-untrusted-objects-through-deserialization-analyzing-1-of-100-hpe-bug-submissions)
