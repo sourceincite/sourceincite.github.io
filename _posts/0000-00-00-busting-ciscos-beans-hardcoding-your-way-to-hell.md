@@ -47,11 +47,11 @@ excerpt_separator: <!--more-->
 <p class="cn" markdown="1">Below you will find a table of the total number of *exploitable bugs I found in this audit:</p>
 
 <div class="cn">
-  <table cellpadding="2" style="margin-bottom: 20px;">
+  <table style="margin-bottom: 20px; padding: 20px;">
     <colgroup>
-      <col width="60%" />
-      <col width="30%" />
-      <col width="30%" />
+      <col id="col1" width="60%" />
+      <col id="col2" width="30%" />
+      <col id="col2" width="30%" />
     </colgroup>
     <thead>
       <tr class="header">
