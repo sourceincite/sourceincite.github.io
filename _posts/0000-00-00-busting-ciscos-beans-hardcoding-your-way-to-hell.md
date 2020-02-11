@@ -49,15 +49,15 @@ excerpt_separator: <!--more-->
 <div class="cn">
   <table style="margin-bottom: 20px; padding: 20px;">
     <colgroup>
-      <col id="col1" width="60%" />
-      <col id="col2" width="30%" />
-      <col id="col2" width="30%" />
+      <col style="width:60%" />
+      <col style="width:30%" />
+      <col style="width:30%" />
     </colgroup>
     <thead>
       <tr class="header">
-        <th align="left">Bug class</th>
-        <th align="left">Number of findings</th>
-        <th align="right">Impact</th>
+        <th style="text-align:left">Bug class</th>
+        <th style="text-align:left">Number of findings</th>
+        <th style="text-align:right">Impact</th>
       </tr>
     </thead>
     <tbody>
