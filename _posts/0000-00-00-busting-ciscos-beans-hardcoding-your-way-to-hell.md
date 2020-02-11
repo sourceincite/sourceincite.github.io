@@ -47,7 +47,7 @@ excerpt_separator: <!--more-->
 <p class="cn" markdown="1">Below you will find a table of the total number of *exploitable bugs I found in this audit:</p>
 
 <div class="cn">
-  <table style="margin-bottom: 20px; padding: 20px;">
+  <table style="margin-bottom: 20px;padding: 20px;">
     <colgroup>
       <col style="width:60%" />
       <col style="width:30%" />
@@ -63,97 +63,97 @@ excerpt_separator: <!--more-->
     <tbody>
       <tr>
         <td markdown="span">Hardcoded Cryptographic Keys</td>
-        <td align="left" markdown="span">3</td>
-        <td align="right" markdown="span">AB*</td>
+        <td style="text-align:left" markdown="span">3</td>
+        <td style="text-align:right" markdown="span">AB*</td>
       </tr>
       <tr>
         <td markdown="span">Hardcoded Credentials</td>
-        <td align="left" markdown="span">1</td>
-        <td align="right" markdown="span">ID</td>
+        <td style="text-align:left" markdown="span">1</td>
+        <td style="text-align:right" markdown="span">ID</td>
       </tr>
       <tr>
           <td markdown="span">Traversal File Read</td>
-          <td align="left" markdown="span">3</td>
-          <td align="right" markdown="span">ID*</td>
+          <td style="text-align:left" markdown="span">3</td>
+          <td style="text-align:right" markdown="span">ID*</td>
       </tr>
       <tr>
           <td markdown="span">Arbitrary File Read</td>
-          <td align="left" markdown="span">2</td>
-          <td align="right" markdown="span">ID*</td>
+          <td style="text-align:left" markdown="span">2</td>
+          <td style="text-align:right" markdown="span">ID*</td>
       </tr>
       <tr>
           <td markdown="span">External Enitity Injection</td>
-          <td align="left" markdown="span">4</td>
-          <td align="right" markdown="span">ID*</td>
+          <td style="text-align:left" markdown="span">4</td>
+          <td style="text-align:right" markdown="span">ID*</td>
       </tr>
       <tr>
           <td markdown="span">SQL Injection - Time based blind</td>
-          <td align="left" markdown="span">11</td>
-          <td align="right" markdown="span">ID*</td>
+          <td style="text-align:left" markdown="span">11</td>
+          <td style="text-align:right" markdown="span">ID*</td>
       </tr>
       <tr>
         <td markdown="span">SQL Injection - Stacked queries</td>
-        <td align="left" markdown="span">91</td>
-        <td align="right" markdown="span">RCE*</td>
+        <td style="text-align:left" markdown="span">91</td>
+        <td style="text-align:right" markdown="span">RCE*</td>
       </tr>
       <tr>
           <td markdown="span">Arbitrary SQL Execution</td>
-          <td align="left" markdown="span">1</td>
-          <td align="right" markdown="span">RCE*</td>
+          <td style="text-align:left" markdown="span">1</td>
+          <td style="text-align:right" markdown="span">RCE*</td>
       </tr>
       <tr>
         <td markdown="span">Command Injection</td>
-        <td align="left" markdown="span">2</td>
-        <td align="right" markdown="span">RCE*</td>
+        <td style="text-align:left" markdown="span">2</td>
+        <td style="text-align:right" markdown="span">RCE*</td>
       </tr>
       <tr>
           <td markdown="span">Traversal File Write</td>
-          <td align="left" markdown="span">7</td>
-          <td align="right" markdown="span">RCE*</td>
+          <td style="text-align:left" markdown="span">7</td>
+          <td style="text-align:right" markdown="span">RCE*</td>
       </tr>
       <tr>
           <td markdown="span">Traversal File Delete</td>
-          <td align="left" markdown="span">8</td>
-          <td align="right" markdown="span">DOS</td>
+          <td style="text-align:left" markdown="span">8</td>
+          <td style="text-align:right" markdown="span">DOS</td>
       </tr>
 </tbody>
 </table>
 </div>
 
 <div class="cn">
-  <table cellpadding="2" style="margin-bottom: 20px;">
+  <table style="margin-bottom: 20px;padding: 20px;">
     <colgroup>
-      <col width="30%" />
-      <col width="50%" />
-      <col width="30%" />
+      <col style="width:30%" />
+      <col style="width:50%" />
+      <col style="width:30%" />
     </colgroup>
     <thead>
       <tr class="header">
-        <th align="left">Abreviation</th>
-        <th align="left">Meaning</th>
-        <th align="right">Total found</th>
+        <th style="text-align:left">Abreviation</th>
+        <th style="text-align:left">Meaning</th>
+        <th style="text-align:right">Total found</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td align="left" markdown="span">AB</td>
-        <td align="left" markdown="span">Authentication Bypass</td>
-        <td align="right" markdown="span">3</td>
+        <td style="text-align:left" markdown="span">AB</td>
+        <td style="text-align:left" markdown="span">Authentication Bypass</td>
+        <td style="text-align:right" markdown="span">3</td>
       </tr>
       <tr>
-        <td align="left" markdown="span">RCE</td>
-        <td align="left" markdown="span">Remote Code Execution</td>
-        <td align="right" markdown="span">101</td>
+        <td style="text-align:left" markdown="span">RCE</td>
+        <td style="text-align:left" markdown="span">Remote Code Execution</td>
+        <td style="text-align:right" markdown="span">101</td>
       </tr>
       <tr>
-        <td align="left" markdown="span">ID</td>
-        <td align="left" markdown="span">Information Disclosure</td>
-        <td align="right" markdown="span">21</td>
+        <td style="text-align:left" markdown="span">ID</td>
+        <td style="text-align:left" markdown="span">Information Disclosure</td>
+        <td style="text-align:right" markdown="span">21</td>
       </tr>
       <tr>
-        <td align="left" markdown="span">DOS</td>
-        <td align="left" markdown="span">Denial of Service</td>
-        <td align="right" markdown="span">8</td>
+        <td style="text-align:left" markdown="span">DOS</td>
+        <td style="text-align:left" markdown="span">Denial of Service</td>
+        <td style="text-align:right" markdown="span">8</td>
       </tr>
 </tbody>
 </table>
