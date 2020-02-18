@@ -23,7 +23,7 @@ excerpt_separator: <!--more-->
 
 ## Impact
 
-<p class="cn" markdown="1">The project file (.vxdz) file was a simple zip file that could be extracted.</p>
+<p class="cn" markdown="1">The project file (.vxdz) was a simple zip compressed file that could be extracted.</p>
 
 ```
 saturn:~ mr_me$ unzip -d sample sample.vxdz 
