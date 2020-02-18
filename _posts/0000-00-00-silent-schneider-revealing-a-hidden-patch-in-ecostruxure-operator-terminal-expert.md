@@ -104,7 +104,7 @@ adminthe master admin userThisIsASecretPassword!^L4G
 saturn:~ mr_me$
 ```
 
-<p class="cn" markdown="1">Using the tool we developed, it's possible to expose passwords inside of .vdxz files and in the example above, we can see that the password `ThisIsASecretPassword!` was exposed.</p>
+<p class="cn" markdown="1">Using the PoC we developed, it's possible to expose passwords inside of .vdxz files and in the example above, we can see that the password `ThisIsASecretPassword!` was exposed.</p>
 
 <p class="cn" markdown="1">Furthermore, details of SQLite fts3_tokenizer Untrusted Pointer Remote Code Execution Vulnerability aka [CVE-2019-8602](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8602) was released in Checkpoint's excellent blog [post](https://research.checkpoint.com/2019/select-code_execution-from-using-sqlite/).</p>
 
