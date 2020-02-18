@@ -74,11 +74,11 @@ pPQ$M
 <p class="cn" markdown="1">When attempting to determine the file types of the .db files and/or inspect their content, we can quickly see that the files are encrypted and compressed using deflate. Normally this wouldn't be an issue, but the Security.db file, it can contain sensitive information such as usernames and passwords.</p>
 
 ```
-saturn:~ mr_me$ ./eco.py 
+saturn:~ mr_me$ ./poc.py 
 (+) usage: ./eco.py <projectfile> [options <pack/unpack>]
 (+) eg: ./eco.py sample.vxdz unpack
 (+) eg: ./eco.py sample.vxdz pack
-saturn:~ mr_me$ ./eco.py sample.vxdz unpack
+saturn:~ mr_me$ ./poc.py sample.vxdz unpack
 (+) unpacking to sample
 (+) unpacking: sample/Validations.dat
 (+) unpacking: sample/Screens/panel1.binding.dat
