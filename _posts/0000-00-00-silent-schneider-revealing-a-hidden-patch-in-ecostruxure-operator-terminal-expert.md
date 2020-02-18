@@ -19,7 +19,7 @@ excerpt_separator: <!--more-->
 
 ## Vulnerable Versions
 
-<p class="cn" markdown="1">Since this was a silent patch, let's be clear about what was vulnerable and what is not. The `EcoStruxure Operator Terminal Expert V3.1.iso` installer with the SHA1 hash `386312d68ba5e6a98df24258f2fbcfb2d8c8521b` *is vulnerable* however the `EOTE3.1SP1.iso` installer with the SHA1 hash `b659bcea11e8bbbed3faf4ad1cabd566116f72f5` **is not vulnerable**.</p>
+<p class="cn" markdown="1">Since this was a silent patch, let's be clear about what was vulnerable and what was not. The `EcoStruxure Operator Terminal Expert V3.1.iso` installer with the SHA1 hash `386312d68ba5e6a98df24258f2fbcfb2d8c8521b` *is vulnerable* however the `EOTE3.1SP1.iso` installer with the SHA1 hash `b659bcea11e8bbbed3faf4ad1cabd566116f72f5` **is not vulnerable**.</p>
 
 ## Impact
 
