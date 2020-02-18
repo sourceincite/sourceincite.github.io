@@ -11,11 +11,11 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn" markdown="1">*In this post, one of the bugs that we will be revealed with an exploit released that can help network penetration testers and red teams to pivot through a compromised network.*</p>
+<p class="cn" markdown="1">*In this post, one of the bugs that was in our chain will be revealed coupled with an exploit that can help network penetration testers and red teams to pivot through a compromised network.*</p>
 
 ## Overview
 
-<p class="cn" markdown="1">As [Cim](https://twitter.com/Cim_Stordal) hints out in his [blog post](https://medium.com/cognite/pwn2own-or-not2pwn-part-1-3f152c44563e), he could pack and unpack project files even through encryption was in play. This is because one of the bugs that was silently patched was a hardcoded cryptographic key that was being used to encrypt and decrypt the project file.</p>
+<p class="cn" markdown="1">As [Cim](https://twitter.com/Cim_Stordal) hints out in his [blog post](https://medium.com/cognite/pwn2own-or-not2pwn-part-1-3f152c44563e), he could pack and unpack project files even though encryption was in play. This is because one of the bugs that was silently patched was a hardcoded cryptographic key that was being used to encrypt and decrypt the project file.</p>
 
 ## Vulnerable Versions
 
