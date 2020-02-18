@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Schneider Electric EcoStruxure Operator Terminal Expert Hardcoded Cryptographic Key Information Disclosure Vulnerability](src-2020-0010)
+
+---
+
 * [[ZDI] Hewlett Packard Enterprise Intelligent Management Center viewTaskResultDetailFact Expression Language Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-197/)
 
 ---
