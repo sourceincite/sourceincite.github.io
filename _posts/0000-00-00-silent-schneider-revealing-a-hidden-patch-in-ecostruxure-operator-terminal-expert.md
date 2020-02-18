@@ -115,7 +115,7 @@ saturn:~ mr_me$ file sample/Security.db
 sample/Security.db: SQLite 3.x database, last written using SQLite version 3008010
 ```
 
-<p class="cn" markdown="1">The checkpoint blog post had all the formula to craft a working RCE exploit using just CVE-2019-8602.</p>
+<p class="cn" markdown="1">The checkpoint blog post had all the formula to craft a working remote code execution exploit using just CVE-2019-8602.</p>
 
 ## Patch
 
