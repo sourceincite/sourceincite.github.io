@@ -62,7 +62,7 @@ ER$_0
 pPQ$M
 ```
 
-<p class="cn" markdown="1">When attempting to determine the file types of the .db files and/or inspect the content, we quickly see that the files are encrypted (and compressed using deflate). Normally this wouldn't be an issue, but the Security.db file can contain sentive information such as usernames and passwords.</p>
+<p class="cn" markdown="1">When attempting to determine the file types of the .db files and/or inspect their content, we can quickly see that the files are encrypted and compressed using deflate. Normally this wouldn't be an issue, but the Security.db file, it can contain sensitive information such as usernames and passwords.</p>
 
 ```
 saturn:~ mr_me$ ./eco.py 
