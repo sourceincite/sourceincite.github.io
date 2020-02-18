@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn" markdown="1">*In this post, one of the bugs that we will be revealed with an exploit released that can help network penetration testers and red teams pivot through a compromised network.*</p>
+<p class="cn" markdown="1">*In this post, one of the bugs that we will be revealed with an exploit released that can help network penetration testers and red teams to pivot through a compromised network.*</p>
 
 ## Overview
 
