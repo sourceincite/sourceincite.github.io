@@ -75,9 +75,9 @@ pPQ$M
 
 ```
 saturn:~ mr_me$ ./poc.py 
-(+) usage: ./eco.py <projectfile> [options <pack/unpack>]
-(+) eg: ./eco.py sample.vxdz unpack
-(+) eg: ./eco.py sample.vxdz pack
+(+) usage: ./poc.py <projectfile> [options <pack/unpack>]
+(+) eg: ./poc.py sample.vxdz unpack
+(+) eg: ./poc.py sample.vxdz pack
 saturn:~ mr_me$ ./poc.py sample.vxdz unpack
 (+) unpacking to sample
 (+) unpacking: sample/Validations.dat
