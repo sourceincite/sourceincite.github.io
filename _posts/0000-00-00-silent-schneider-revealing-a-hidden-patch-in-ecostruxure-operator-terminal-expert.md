@@ -117,7 +117,7 @@ saturn:~ mr_me$
 
 ## Remote Code Execution
 
-<p class="cn" markdown="1">Details of SQLite fts3_tokenizer Untrusted Pointer Remote Code Execution Vulnerability aka [CVE-2019-8602](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8602) was released in Checkpoint's excellent blog [post](https://research.checkpoint.com/2019/select-code_execution-from-using-sqlite/).</p>
+<p class="cn" markdown="1">Details of SQLite fts3_tokenizer Untrusted Pointer Remote Code Execution Vulnerability ([CVE-2019-8602](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8602)) was released in Checkpoint's excellent blog [post](https://research.checkpoint.com/2019/select-code_execution-from-using-sqlite/).</p>
 
 <p class="cn" markdown="1">Not only was the FTS3 extension enabled in the SQLite binary for EcoStruxure Operator Terminal Expert, but it was also using an outdated version: `3.8.10.2`. The checkpoint blog post had all the ingredients to trigger the bug using query hijacking and craft a working remote code execution exploit using just CVE-2019-8602. However, there was a simpler way.</p>
 
