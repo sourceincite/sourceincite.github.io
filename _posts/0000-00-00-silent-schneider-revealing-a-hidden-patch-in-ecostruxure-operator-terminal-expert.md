@@ -23,11 +23,11 @@ excerpt_separator: <!--more-->
 <div markdown="1" class="cn">
 - `EcoStruxure Operator Terminal Expert V3.1.iso` - SHA1: `386312d68ba5e6a98df24258f2fbcfb2d8c8521b`:
 
-   This version is vulnerable and released 20/12/2019.
+   This version is vulnerable and released 20/9/2019.
 
 - `Installation_File_v3.1_SP1.zip` - SHA1: `229c8a5f9cdb1d63c2f9998d561a50a30e829d7a`:
 
-   This version is *not* vulnerable and released 20/9/2019.
+   This version is *not* vulnerable and released 20/12/2019.
 </div>
 
 ## Impact
