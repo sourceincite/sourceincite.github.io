@@ -94,17 +94,6 @@ var x = setInterval(function() {
 - Date: **August the 3rd - 6th 2020**
 </div>
 
-#### <a id="Singapore">Singapore:
-
-<p class="cn" markdown="1">As part of an agreement with [SHACK](https://www.coseinc.com/shack) we are offering a training in Singapore. </p>
-
-<div markdown="1" class="cn">
-- Location: Pan Pacific Singapore - 7 Raffles Blvd, Singapore, 039595
-- Date: **29th of March - 1st of April 2020**
-- Registration: [https://www.coseinc.com/shack/register](https://www.coseinc.com/shack/register)
-- Details: [https://www.coseinc.com/shack/training#training-SH2043](https://www.coseinc.com/shack/training#training-SH2043)
-</div>
-
 ### Certification
 
 ```java
