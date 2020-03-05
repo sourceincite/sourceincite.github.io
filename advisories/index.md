@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] ManageEngine Desktop Central FileStorage getChartImage Deserialization of Untrusted Data Remote Code Execution Vulnerability](src-2020-0011)
+
+---
+
 * [[SRC] Schneider Electric EcoStruxure Operator Terminal Expert Hardcoded Cryptographic Key Information Disclosure Vulnerability](src-2020-0010)
 
 ---
