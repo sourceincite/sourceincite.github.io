@@ -311,7 +311,7 @@ Of course, this doesn't stop `udid` from containing directory traversals, but I 
 </init-param>
 ```
 
-The file that stands out is the `security-mdm-agent.xml` config file. The corrosponding entry for the `MDMLogUploaderServlet` servlet looks like this. Note that the authentication attribute is ignored in this case:
+The file that stands out is the `security-mdm-agent.xml` config file. The corrosponding entry for the `MDMLogUploaderServlet` servlet looks like this:
 
 ```
         <url path="/mdm/mdmLogUploader" apiscope="MDMCloudEnrollment"  authentication="required" duration="60" threshold="10" lock-period="60" method="post" csrf="false">
@@ -328,7 +328,7 @@ The file that stands out is the `security-mdm-agent.xml` config file. The corros
         </url>
 ```
 
-The `filename` is restricted to the following strings: "logger.txt", "logger.zip", "mdmlogs.zip" and "managedprofile_mdmlogs.zip" using a regex. For exploitation, this limitation doesn't matter since the deserialization bug permits a completely controlled filename.
+Note that the authentication attribute is ignored in this case. The `filename` GET parameter is restricted to the following strings: "logger.txt", "logger.zip", "mdmlogs.zip" and "managedprofile_mdmlogs.zip" using a regex pattern. For exploitation, this limitation doesn't matter since the deserialization bug permits a completely controlled filename.
 
 ## Example:
 
