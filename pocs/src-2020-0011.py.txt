@@ -90,7 +90,7 @@ This servlet, contains the following code:
         ChartImage chartImage = storage.getChartImage(imgKey, request);             // 2
 ```
 
-At [1] the code set the `imgKey` variable using the GET parameter `img`. Later at [2], the code calls `storage.getChartImage` with the supplied attacker value. You maybe wondering what class the `storage` instance is. This was mapped as an initializing parameter to the servlet code in the web.xml file:
+At [1] the code sets the `imgKey` variable using the GET parameter `img`. Later at [2], the code then calls the `storage.getChartImage` method with the attacker supplied `img`. You maybe wondering what class the `storage` instance is. This was mapped as an initializing parameter to the servlet code in the web.xml file:
 
 ```
     <init-param>
@@ -145,13 +145,13 @@ public class FileStorage implements Storage {
     }
 ```
 
-At [3] the code calls `getFileName` using the attacker controlled `id` GET parameter which returns a path to a file on the filesystem using `basePath`. This field is set in the `init` method of the servlet. On the same line, the code creates a new `ObjectInputStream` instance from the supplied filepath via `FileInputStream`. This path is attacker controlled at [4], however, we do not need to (ab)use traversals here for exploitation.
+At [3] the code calls `getFileName` using the attacker controlled `id` GET parameter which returns a path to a file on the filesystem using `basePath`. This field is set in the `init` method of the servlet. On the same line, the code creates a new `ObjectInputStream` instance from the supplied filepath via `FileInputStream`. This path is attacker controlled at [4], however, there is no need to (ab)use traversals here for exploitation.
 
 The most important point is that at [5] the code calls `readObject` using the contents of the file without any further lookahead validation.
 
 ## Exploitation:
 
-For exploitation, an attacker can (ab)use the `MDMLogUploaderServlet` servlet to plant a file on the filsystem with attacker controlled content inside. Here is the corresponding web.xml entry:
+For exploitation, an attacker can (ab)use the `MDMLogUploaderServlet` servlet to plant a file on the filsystem with controlled content inside. Here is the corresponding web.xml entry:
 
 ```
 <servlet>
@@ -300,9 +300,9 @@ public class MDMLogUploaderServlet extends DeviceAuthenticatedRequestServlet {
     }
 ```
 
-We can see that at [1] the `udid` variable is controlled using the `udid` GET parameter from a POST request. At [2] the `fileName` variable is controlled from the GET parameter `filename`. This `filename` GET parameter is actually filtered in 2 different ways for malicious values. At [3] a path is contructed using the GET parameter from [1] and at [4] a `mkdirs` primitive is hit. This is important because the _charts directory doesn't exist on the filesystem which is needed for us to exploit the deserialization bug. There is some validation on the `filename` at [5] which calls `FileUploadUtil.hasVulnerabilityInFileName` to check for directory traversals and an allow list of extensions.
+We can see that at [1] the `udid` variable is controlled using the `udid` GET parameter from a POST request. At [2] the `fileName` variable is controlled from the GET parameter `filename`. This `filename` GET parameter is actually filtered in 2 different ways for malicious values. At [3] a path is contructed using the GET parameter from [1] and at [4] a `mkdirs` primitive is hit. This is important because the _charts directory doesn't exist on the filesystem which is needed in order to exploit the deserialization bug. There is some validation on the `filename` at [5] which calls `FileUploadUtil.hasVulnerabilityInFileName` to check for directory traversals and an allow list of extensions.
 
-Of course, this doesn't stop `udid` from containing directory traversals, but I digress. At [6] the `absoluteFileName` variable is built up from the attacker influenced path at [3] using the filename from [2] and at [7] the binary input stream is read from the attacker controlled POST request. Finally at [8] and [9] the file is opened and the contents of the request is written to disk. What is not apparent however, is that further validation is performed on the `filename` at [2]. Let's take one more look at the web.xml file:
+Of course, this doesn't stop `udid` from containing directory traversals, but I digress. At [6] the `absoluteFileName` variable is built up from the attacker influenced path at [3] using the filename from [2] and at [7] the binary input stream is read from the attacker controlled POST body. Finally at [8] and [9] the file is opened and the contents of the request is written to disk. What is not apparent however, is that further validation is performed on the `filename` at [2]. Let's take one more look at the web.xml file:
 
 ```
 <init-param>
@@ -332,15 +332,15 @@ Note that the authentication attribute is ignored in this case. The `filename` G
 
 ## Example:
 
-saturn:desktopcentral mr_me$ ./poc.py 
+saturn:~ mr_me$ ./poc.py 
 (+) usage: ./poc.py <target> <cmd>
 (+) eg: ./poc.py 172.16.175.153 mspaint.exe
 
-saturn:desktopcentral mr_me$ ./poc.py 172.16.175.153 "cmd /c whoami > ../webapps/DesktopCentral/si.txt"
+saturn:~ mr_me$ ./poc.py 172.16.175.153 "cmd /c whoami > ../webapps/DesktopCentral/si.txt"
 (+) planted our serialized payload
 (+) executed: cmd /c whoami > ../webapps/DesktopCentral/si.txt
 
-saturn:desktopcentral mr_me$ curl http://172.16.175.153:8020/si.txt
+saturn:~ mr_me$ curl http://172.16.175.153:8020/si.txt
 nt authority\system
 """
 import os
