@@ -7,8 +7,10 @@ File ...: ManageEngine_DesktopCentral_64bit.exe
 SHA1 ...: 73ab5bb00f993685c711c0aed450444795d5b826
 Found by: mr_me
 Date ...: 2019-12-12
+CVE ....: CVE-2020-10189
 Class ..: CWE-502
 CVSS ...: AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H (9.8 Critical)
+Patch ..: https://www.manageengine.com/products/desktop-central/remote-code-execution-vulnerability.html
 
 ## Summary:
 
