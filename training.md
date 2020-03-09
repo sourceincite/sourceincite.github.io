@@ -25,7 +25,7 @@ var x = setInterval(function() {
 
   // Display the result in the element with id="demo"
   document.getElementById("demo").innerHTML = "<p class='cn'>It's " + days + " days " + hours + " hours "
-  + minutes + " minutes and " + seconds + " seconds until the first training!</p>";
+  + minutes + " minutes and " + seconds + " seconds until the next training!</p>";
 
   // If the count down is finished, write some text
   if (distance < 0) {
