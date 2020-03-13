@@ -1,10 +1,10 @@
 #!/usr/local/bin/python3
 """
 Schneider Electric EcoStruxure Operator Terminal Expert Hardcoded Cryptographic Key Information Disclosure Vulnerability
-SRC: SRC-2020-0010
-CVE: N/A
-File: EcoStruxure Operator Terminal Expert V3.1.iso
-SHA1: 386312d68ba5e6a98df24258f2fbcfb2d8c8521b
+SRC ....: SRC-2020-0010
+CVE ....: N/A
+File ...: EcoStruxure Operator Terminal Expert V3.1.iso
+SHA1 ...: 386312d68ba5e6a98df24258f2fbcfb2d8c8521b
 Download: https://download.schneider-electric.com/files?p_File_Name=EcoStruxure+Operator+Terminal+Expert+V3.1.iso
 """
 import os
