@@ -9,6 +9,11 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Adobe Photoshop Type 1 Font Parsing Charstring Out-of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-325/)
+
+---
+
+
 * [[SRC] ManageEngine Desktop Central FileStorage getChartImage Deserialization of Untrusted Data Remote Code Execution Vulnerability](src-2020-0011)
 
 ---
