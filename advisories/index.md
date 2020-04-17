@@ -9,6 +9,54 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Triangle Microworks SCADA Data Gateway DNP3 GET_FILE_INFO Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-547/)
+
+---
+
+* [[SRC] Cisco UCS Director MyCallable call Directory Traversal Remote Code Execution Vulnerability](src-2020-0013/)
+
+---
+
+* [[SRC] Cisco UCS Director CIMCDownloadDiagnosticsReport doFormSubmit Directory Traversal Information Disclosure Vulnerability](src-2020-0012/)
+
+---
+
+* [[ZDI] Cisco UCS Director saveWindowsNetworkConfig Directory Traversal Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-544/)
+
+---
+
+* [[ZDI] Cisco UCS Director saveStaticConfig Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-543/)
+
+---
+
+* [[ZDI] Cisco UCS Director ScriptModuleAddJarPage Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-542/)
+
+---
+
+* [[ZDI] Cisco UCS Director CopyFileRunnable run Symlink Following Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-541/)
+
+---
+
+* [[ZDI] Cisco UCS Director isEnableRestKeyAccessCheckForUser Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-540/)
+
+---
+
+* [[ZDI] Cisco UCS Director ApplianceStorageUtil unzip Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-539/)
+
+---
+
+* [[ZDI] Cisco UCS Director ApplianceStorageUtil unzip Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-539/)
+
+---
+
+* [[ZDI] Cisco UCS Director downloadFile Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-538/)
+
+---
+
+* [[ZDI] OPC Foundation UA .NET Standard CreateSessionRequest Race Condition Denial-of-Service Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-536/)
+
+---
+
 * [[ZDI] Adobe Photoshop Type 1 Font Parsing Charstring Out-of-Bounds Read Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-325/)
 
 ---
