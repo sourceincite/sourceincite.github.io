@@ -91,18 +91,7 @@ var x = setInterval(function() {
 
 <div markdown="1" class="cn">
 - Location: 33 New Montgomery Street San Francisco, CA 94105
-- Date: **August the 3rd - 6th 2020**
-</div>
-
-#### Australia
-
-<p class="cn" markdown="1">We are offering a single **3 day training** in Australia as part of an agreement with the [Hack Sydney](https://www.hack.sydney/).</p>
-
-<div markdown="1" class="cn">
-- Registration: [https://www.eventbrite.com/e/hack-sydney-2020-tickets-93439707681](https://www.eventbrite.com/e/hack-sydney-2020-tickets-93439707681) (Please choose **3-day Training by Steven Seeley**)
-- Details: [https://www.hack.sydney/training_fswa.html](https://www.hack.sydney/training_fswa.html)
-- Location: TBD (Sydney CBD)
-- Date: **November the 2nd - 4th 2020**
+- Date: **December the 1st - 4th 2020**
 </div>
 
 ### Certification
