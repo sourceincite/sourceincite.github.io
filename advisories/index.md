@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Schneider Electric EcoStruxure Operator Terminal Expert VXDZ File Parsing Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-658/)
+
+---
+
 * [[ZDI] Triangle Microworks SCADA Data Gateway DNP3 GET_FILE_INFO Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-547/)
 
 ---
