@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Inductive Automation Ignition ServerMessageHeader Deserialization Of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-687/)
+
+---
+
 * [[ZDI] Schneider Electric EcoStruxure Operator Terminal Expert VXDZ File Parsing Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-658/)
 
 ---
