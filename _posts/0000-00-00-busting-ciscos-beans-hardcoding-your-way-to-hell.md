@@ -1690,7 +1690,7 @@ public class Si {
 /*      */        fos.close();
 ```
 
-<p markdown="1" class="cn">We can that our controlled `destination` is used as a location for a write via the `FileOutputStream` instance object. The `content` for the write is taken from directly the database without further checks. If we can update the `content` in this table using an SQL injection, then we can essentially write controlled code into an arbitrary file.</p>
+<p markdown="1" class="cn">It can be observed that our controlled `destination` is used as a location for a write via the `FileOutputStream` instance object. The `content` for the write is taken from directly the database without further checks. If we can update the `content` in this table using an SQL injection, then we can essentially write controlled code into an arbitrary file.</p>
 
 <p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
 
@@ -1765,7 +1765,7 @@ public class Si {
 ;insert into vpc_history(id, commands) values (2, decode('41', 'hex'));--
 ```
 
-<p markdown="1" class="cn">Now when we can reach the following endpoint, we'll deserialize our untrusted data.</p>
+<p markdown="1" class="cn">Now when we trigger the following endpoint, we'll deserialize our serialized payload.</p>
 
 ```bash
 https://<target>/fm/fmrest/virtualportchannel/vpcwizard/history/details?context=vpc&jobId=2
