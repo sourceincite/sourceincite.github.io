@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Inductive Automation Ignition ServerMessageHeader Deserialization of Untrusted Data Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-714/)
+
+---
+
 * [[ZDI] Inductive Automation Ignition ServerMessageHeader Deserialization Of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-687/)
 
 ---
