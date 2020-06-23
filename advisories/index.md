@@ -9,6 +9,14 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Rockwell Automation Studio 5000 CopyRenameProject Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-733/)
+
+---
+
+* [[ZDI] Rockwell Automation Studio 5000 Version Missing Authentication for Critical Function Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-732/)
+
+---
+
 * [[ZDI] Inductive Automation Ignition ServerMessageHeader Deserialization of Untrusted Data Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-714/)
 
 ---
