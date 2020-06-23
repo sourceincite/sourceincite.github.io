@@ -9,7 +9,7 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Rockwell Automation Studio 5000 CopyRenameProject Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-733/)
+* [[ZDI] Rockwell Automation FactoryTalk Linx CopyRenameProject Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-733/)
 
 ---
 
