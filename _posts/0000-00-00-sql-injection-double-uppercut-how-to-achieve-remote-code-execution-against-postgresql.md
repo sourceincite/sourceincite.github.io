@@ -21,7 +21,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">Although I didn't know it at the time, [Jacob Wilkin](https://twitter.com/Jacob_Wilkin) had [reported a simpler approach](https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5) to achieving code execution against PostgreSQL by (ab)using [copy from program](https://www.postgresql.org/docs/12/sql-copy.html). Recently, Denis Andzakovic also [detailed](https://pulsesecurity.co.nz/articles/postgres-sqli) his way of gaining code execution against PostgreSQL as well by (ab)using read/writes to the `postgresql.conf` file.</p>
 
-<p class="cn" markdown="1">I was planning on sitting this technique, but since Denis exposed the power of `lo_export` for exploitation, I figured one more nail on the coffin wouldn't hurt ;-></p>
+<p class="cn" markdown="1">I was originally going to sit on this technique, but since Denis exposed the power of `lo_export` for exploitation, I figured one more nail on the coffin wouldn't hurt ;-></p>
 
 <p class="cn" markdown="1">I did some testing and discovered that under windows, the NETWORK_SERVICE cannot modify the `postgresql.conf` file, so Denis's technique is *nix specific. However, his technique doesn't require stacked queries, making it powerful in certain contexts.</p>
 
