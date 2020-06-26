@@ -29,7 +29,7 @@ excerpt_separator: <!--more-->
 
 <div markdown="1" class="cn">
 - CVE: N/A
-- CVSS: 4.1 [(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L)](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?calculator&version=3.0&vector=(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L))
+- CVSS: 4.1 [(AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:L)](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?calculator&version=3.0&vector=(AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:L))
 </div>
 
 ### Environment
