@@ -8,4 +8,4 @@ My name is Steven Seeley, but I am also known as mr_me. I'm an information secur
 
 This site is intended to be a central location for much of my research (but not all). If you are curious, this site is build with <a href="https://jekyllrb.com/" target="_blank">jekyll</a> and hosted on <a href="https://pages.github.com/" target="_blank">github pages</a>.
 
-You can read my technical <a href="/blog">blog</a> or find out more about me on my <a href="https://about.me/steven.seeley" target="_blank">about.me</a> page. I also did an <a href="https://blogs.securiteam.com/index.php/archives/3004" target="_blank">interview</a> for <a href="https://www.beyondsecurity.com/" target="_blank">Beyond Security</a> a while ago.
+You can read my technical <a href="/blog">blog</a> or find out more about me on my <a href="https://about.me/steven.seeley" target="_blank">about.me</a> page.
