@@ -103,7 +103,7 @@ select connect_back('192.168.100.54', 1234);
 
 ### Fun Facts
 
-<p class="cn" markdown="1">ZDI initially aquired this case but never published an advisory and I was later told me that the vendor wasn't patching it since its a *feature not a bug*.</p>
+<p class="cn" markdown="1">ZDI initially aquired this case but never published an advisory and I was later told me that the vendor wasn't patching it since it's considered a *feature not a bug*.</p>
 
 ### Automation
 
