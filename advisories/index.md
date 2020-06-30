@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] ICONICS Genesis64 IcoFwxServer Deserialization Of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-780/)
+
+---
+
 * [[ZDI] Rockwell Automation FactoryTalk Linx CopyRenameProject Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-733/)
 
 ---
