@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Rockwell Automation Studio 5000 AML File Parsing XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-824/)
+
+---
+
 * [[ZDI] ICONICS Genesis64 IcoFwxServer Deserialization Of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-780/)
 
 ---
