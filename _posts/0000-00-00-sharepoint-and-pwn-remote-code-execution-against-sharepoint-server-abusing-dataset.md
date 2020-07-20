@@ -72,7 +72,7 @@ excerpt_separator: <!--more-->
 </xs:schema>
 ```
 
-<p class="cn" markdown="1">Now all thats let to do, is add the table to a dataset and serialize it up:</p>
+<p class="cn" markdown="1">Now all thats left to do is add the table to a dataset and serialize it up:</p>
 
 ```c#
             DataSet ds = new DataSet("poc");
