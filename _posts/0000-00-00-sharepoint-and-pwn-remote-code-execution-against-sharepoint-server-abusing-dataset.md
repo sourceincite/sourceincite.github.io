@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SharePoint and Pwn :: Remote Code Execution Against SharePoint Server Abusing DataSet"
-date: 2020-07-20 08:00:00 -0500
+date: 2020-07-20 09:00:00 -0500
 categories: blog
 excerpt_separator: <!--more-->
 ---
