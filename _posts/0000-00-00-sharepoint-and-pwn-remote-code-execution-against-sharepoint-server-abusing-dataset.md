@@ -194,7 +194,7 @@ namespace Microsoft.PerformancePoint.Scorecards
 
 <p class="cn" markdown="1">The first thing I noticed is that it's serializable, so I know that it can infact be instantiated as a control and the default constructor will be called along with any public setters that are not marked with the `System.Xml.Serialization.XmlIgnoreAttribute` attribute. SharePoint uses `XmlSerializer` for creating objects from controls so anywhere in the code where attacker supplied data can flow into `TemplateControl.ParseControl`, the `ExcelDataSet` type can be leveraged.</p>
 
-<p class="cn" markdown="1">One of the properties that stood out was the `DataTable` property since it contains a public setter and uses the type `System.Data.DataTable`. However, on closer inspection, we can see the the `XmlIgnore` attribute is being used, so we can't trigger the deserialization using this setter.</p>
+<p class="cn" markdown="1">One of the properties that stood out was the `DataTable` property since it contains a public setter and uses the type `System.Data.DataTable`. However, on closer inspection, we can see that the `XmlIgnore` attribute is being used, so we can't trigger the deserialization using this setter.</p>
 
 ```c#
 [XmlIgnore]
