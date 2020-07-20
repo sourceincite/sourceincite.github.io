@@ -72,18 +72,6 @@ excerpt_separator: <!--more-->
 </xs:schema>
 ```
 
-<p class="cn" markdown="1">Now, all that's left to do is add the table to a dataset and serialize it up:</p>
-
-```c#
-            DataSet ds = new DataSet("poc");
-            ds.Tables.Add(exptable);
-            using (var writer = new StringWriter())
-            {
-                ds.WriteXml(writer);
-                Console.WriteLine(writer.ToString());
-            }
-```
-
 <p class="cn" markdown="1">Looking into the code of `DataSet` it's revealed that it exposes its own serialization methods (wrapped over `XmlSerializer`) using `WriteXml` and `ReadXML`:</p>
 
 ```
@@ -97,7 +85,19 @@ System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
               System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader)
 ```
 
-<p class="cn" markdown="1">These methods retain schema types and reconstruct attacker influenced types at runtime using a single `DataSet` expected type in the instantiated `XmlSerializer` object graph.</p>
+<p class="cn" markdown="1">Now, all that's left to do is add the table to a dataset and serialize it up:</p>
+
+```c#
+            DataSet ds = new DataSet("poc");
+            ds.Tables.Add(exptable);
+            using (var writer = new StringWriter())
+            {
+                ds.WriteXml(writer);
+                Console.WriteLine(writer.ToString());
+            }
+```
+
+<p class="cn" markdown="1">These serialization methods retain schema types and reconstruct attacker influenced types at runtime using a single `DataSet` expected type in the instantiated `XmlSerializer` object graph.</p>
 
 ## The DataSet Gadget
 
