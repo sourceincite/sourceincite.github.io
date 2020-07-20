@@ -475,7 +475,7 @@ __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 
 ## Conclusion
 
-<p class="cn" markdown="1">Microsoft rate this bug with an exploitability index rating of 1 and we agree, meaning you should patch this immediantly if you haven't. It is highly likley that this gadget chain can be used against several applications built with .net so even if you don't have a SharePoint Server installed, you are still impacted by this bug.</p>
+<p class="cn" markdown="1">Microsoft rate this bug with an exploitability index rating of 1 and we agree, meaning you should patch this immediately if you haven't. It is highly likley that this gadget chain can be used against several applications built with .net so even if you don't have a SharePoint Server installed, you are still impacted by this bug.</p>
 
 ## References
 
