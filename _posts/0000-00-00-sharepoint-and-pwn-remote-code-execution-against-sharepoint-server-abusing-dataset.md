@@ -13,7 +13,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn">TL;DR</p>
 
-<p class="cn" markdown="1">*I share the breakdown of CVE-2020-1147 which was discovered independently by [Oleksandr Mirosh](https://twitter.com/olekmirosh), [Markus Wulftange](https://twitter.com/mwulftange) and [Jonathan Birch](https://www.linkedin.com/in/jonathan-birch-ab27681/). I share details on how it can be leveraged against a SharePoint Server instance to gain remote code execution as a low privileged user. Please note: I am not providing a full exploit, so if that's your jam, move along.*</p>
+<p class="cn" markdown="1">*I share the breakdown of CVE-2020-1147 which was discovered independently by [Oleksandr Mirosh](https://twitter.com/olekmirosh), [Markus Wulftange](https://twitter.com/mwulftange) and [Jonathan Birch](https://www.linkedin.com/in/jonathan-birch-ab27681/). I share the details on how it can be leveraged against a SharePoint Server instance to gain remote code execution as a low privileged user. Please note: I am not providing a full exploit, so if that's your jam, move along.*</p>
 
 <p class="cn" markdown="1">One of the things that stood out to me, was that Microsoft published [Security Guidence](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataset-datatable-dataview/security-guidance) related to this bug, quoting Microsoft:</p>
 
