@@ -90,11 +90,11 @@ excerpt_separator: <!--more-->
 System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
   System.Data.DataSet.ReadXmlDiffgram(XmlReader reader)
     System.Data.XmlDataLoader.LoadData(XmlReader reader)
-	  System.Data.XmlDataLoader.LoadTable(DataTable table, Boolean isNested)
-	    System.Data.XmlDataLoader.LoadColumn(DataColumn column, Object[] foundColumns)
-		  System.Data.DataColumn.ConvertXmlToObject(XmlReader xmlReader, XmlRootAttribute xmlAttrib)
-		    System.Data.Common.ObjectStorage.ConvertXmlToObject(XmlReader xmlReader, XmlRootAttribute xmlAttrib)
-			  System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader)
+      System.Data.XmlDataLoader.LoadTable(DataTable table, Boolean isNested)
+        System.Data.XmlDataLoader.LoadColumn(DataColumn column, Object[] foundColumns)
+          System.Data.DataColumn.ConvertXmlToObject(XmlReader xmlReader, XmlRootAttribute xmlAttrib)
+            System.Data.Common.ObjectStorage.ConvertXmlToObject(XmlReader xmlReader, XmlRootAttribute xmlAttrib)
+              System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader)
 ```
 
 <p class="cn" markdown="1">These methods retain schema types and reconstruct attacker influenced types at runtime using a single `DataSet` expected type in the instantiated `XmlSerializer` object graph.</p>
