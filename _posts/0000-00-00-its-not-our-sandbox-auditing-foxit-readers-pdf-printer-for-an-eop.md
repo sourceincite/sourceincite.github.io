@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Foxit Reader" src="/assets/images/foxit.png">
-<p class="cn" markdown="1">Mid last year, I [blogged](/blog/2018/06/22/foxes-among-us-foxit-reader-vulnerability-discovery-and-exploitation.html) about how I found an exploitable use-after-free in Foxit Reader and how I was able to gain remote code execution from that vulnerability. Then, as the second installment I [blogged](/blog/2019/02/01/activex-exploitation-in-2018-instantiation-is-not-scripting.html) about a command injection in Foxit Reader SDK ActiveX. In the spirit of catching foxes, I decided to look at a new component in Foxit Reader later in that same year. To my (un)surprise, I was able to discover several vulnerabilities in this component that could allow for a limited elevation of privilege, one being particularly nasty. That lead to this, third installment.</p>
+<p class="cn" markdown="1">Mid last year, I [blogged](/blog/2018/06/22/foxes-among-us-foxit-reader-vulnerability-discovery-and-exploitation.html) about how I found an exploitable use-after-free in Foxit Reader and how I was able to gain remote code execution from that vulnerability. Then, as the second installment I [blogged](/blog/2019/02/01/activex-exploitation-in-2019-instantiation-is-not-scripting.html) about a command injection in Foxit Reader SDK ActiveX. In the spirit of catching foxes, I decided to look at a new component in Foxit Reader later in that same year. To my (un)surprise, I was able to discover several vulnerabilities in this component that could allow for a limited elevation of privilege, one being particularly nasty. That lead to this, third installment.</p>
 <!--more-->
 
 <p class="cn">TL;DR</p>
