@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Vanilla Forums" src="/assets/images/vanilla-forums.png">
-<p class="cn" markdown="1">Since I have been working on bug bounties for a while, I decided to finally take the dive into some vendor specific bounties recently. Some of these are on [HackerOne](https://hackerone.com/vanilla) and for me, this is a huge leap of faith because I am a bit of an old schooler in that I remember a time when security researchers couldn't trust vendors, especially for judging impact and providing actionable information for their users to patch. After *my* experiance with [Vanilla](https://vanillaforums.com/), sadly, my stance is still the same. You simply cannot trust a vendor to provide actionable and accurate information.</p>
+<p class="cn" markdown="1">Since I have been working on bug bounties for a while, I decided to finally take the dive into some vendor specific bounties recently. Some of these are on [HackerOne](https://hackerone.com/vanilla) and for me, this is a huge leap of faith because I am a bit of an old schooler in that I remember a time when security researchers couldn't trust vendors, especially for judging impact and providing actionable information for their users to patch. After *my* experience with [Vanilla](https://vanillaforums.com/), sadly, my stance is still the same. You simply cannot trust a vendor to provide actionable and accurate information.</p>
 <!--more-->
 
 <p class="cn">TL;DR</p>

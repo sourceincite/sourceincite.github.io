@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 
 <p class="cn" markdown="1">*In this post, I share three (3) full exploitation chains and multiple primitives that can be used to compromise different installations and setups of the Cisco DCNM product to achieve unauthenticated remote code execution as SYSTEM/root. In the third chain, I (ab)use the java.lang.InheritableThreadLocal class to perform a shallow copy to gain access to a valid session.*</p>
 
-<p class="cn" markdown="1">Before I begin, I would just like to say a huge **THANKYOU** to the [Zero Day Initative](https://www.zerodayinitiative.com/) and [iDefense VCP Labs](https://vcp.idefense.com/login.jsf). Without their help in disclosing these vulnerabilities, I would have given up long ago.</p>
+<p class="cn" markdown="1">Before I begin, I would just like to say a huge **THANKYOU** to the [Zero Day Initiative](https://www.zerodayinitiative.com/) and [iDefense VCP Labs](https://vcp.idefense.com/login.jsf). Without their help in disclosing these vulnerabilities, I would have given up long ago.</p>
 ## Table of Contents
 
 <p class="cn" markdown="1">Since this blog post is long I decided to break it up into sections. You can always jump to a particular section and jump back to the TOC.</p>
@@ -36,7 +36,7 @@ excerpt_separator: <!--more-->
 
 ## Summary
 
-<p class="cn" markdown="1">Before testing this application, a total of 14 vulnerabilties had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).</p> 
+<p class="cn" markdown="1">Before testing this application, a total of 14 vulnerabilities had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).</p> 
 
 {% include image.html
             img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/total-vulns.png"
@@ -129,7 +129,7 @@ excerpt_separator: <!--more-->
     </colgroup>
     <thead>
       <tr class="header">
-        <th style="text-align:left">Abreviation</th>
+        <th style="text-align:left">Abbreviation</th>
         <th style="text-align:left">Meaning</th>
         <th style="text-align:right">Total found</th>
       </tr>
@@ -160,7 +160,7 @@ excerpt_separator: <!--more-->
 </div>
 
 <div markdown="1" class="cn">
-- Exploitable meaning developer mistakes and/or my own lazyness was not holding me back.
+- Exploitable meaning developer mistakes and/or my own laziness was not holding me back.
 - The AB vulnerabilities were complete (not partial), meaning an attacker could access everything.
 - The ID vulnerabilities could have been used to leak credentials and achieve remote code execution.
 - The RCE vulnerabilities had complete impact gaining access as either SYSTEM or root.
@@ -273,7 +273,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */           }
 ```
 
-<p class="cn" markdown="1">The code at line *[94]* we see a a call to `SecurityHandler.hasSsoToken` which accepts a SOAP header that we can send in a SOAP request.</p>
+<p class="cn" markdown="1">The code at line *[94]* we see a call to `SecurityHandler.hasSsoToken` which accepts a SOAP header that we can send in a SOAP request.</p>
 
 ```java
 /*     */   protected boolean hasSsoToken(SOAPHeader header) {
@@ -368,8 +368,8 @@ import md5
 import base64
 def gen_ssotoken():
     timestamp = 9999999999999  # we live forever
-    username = "hax"           # doesnt even need to exist!
-    sessionid = 1337           # doesnt even need to exist!
+    username = "hax"           # doesn't even need to exist!
+    sessionid = 1337           # doesn't even need to exist!
     d = "%s%d%dPOsVwv6VBInSOtYQd9r2pFRsSe1cEeVFQuTvDfN7nJ55Qw8fMm5ZGvjmIr87GEF" % (username, sessionid, timestamp)
     return "%d.%d.%s.%s" % (sessionid, timestamp, base64.b64encode(md5.new(d).digest()), username)
 ```
@@ -1482,7 +1482,7 @@ public class InheritableThreadLocal<T> extends ThreadLocal<T> {
 
 <p markdown="1" class="cn">So for example if the injection was in `cmd.exe` like this: `cmd.exe /c "C:\Program Files\Cisco Systems\dcm\java\jre1.8\bin\keytool.exe -importcert -trustcacerts -keystore C:\Program Files\Cisco Systems\dcm\fm\conf\cert\fmtrust.jks -file <attacker controlled>"` then we could have just done `&&calc.exe` and call it a day.</p>
 
-<p markdown="1" class="cn">But we are in the context of `keytool.exe`, so we can really only inject into *it's* arguments. As it [turns out](https://docs.oracle.com/en/java/javase/11/tools/keytool.html), we can use the `providerclass` and `providerpath` arguments to load a remote Java class from an SMB share and gain remote code execution! All we need to do is have some code inside of the provided classes static initializer.</p> 
+<p markdown="1" class="cn">But we are in the context of `keytool.exe`, so we can really only inject into *its* arguments. As it [turns out](https://docs.oracle.com/en/java/javase/11/tools/keytool.html), we can use the `providerclass` and `providerpath` arguments to load a remote Java class from an SMB share and gain remote code execution! All we need to do is have some code inside of the provided classes static initializer.</p> 
 
 ```java
 import java.io.*;
@@ -2076,7 +2076,7 @@ and 'a'=(select case when substr(concat(username,'|',password), %d, 1)='%s' then
 
 <p markdown="1" class="cn">Without reviewing what `CablePlans.writeStringToFile` does, we can see that at line *[43]* the code eventually calls `SAXParser.parse` using a `File` instance pointing to our controlled XML content.</p>
 
-<p markdown="1" class="cn">The injection would be as simple as: `;insert into cableplanglobal(id, content) values (1337, '<XXE payload>');`. Now that we can leak files, we could have then used that to [achieve futher damage](#fd2rce-primitives).</p>
+<p markdown="1" class="cn">The injection would be as simple as: `;insert into cableplanglobal(id, content) values (1337, '<XXE payload>');`. Now that we can leak files, we could have then used that to [achieve further damage](#fd2rce-primitives).</p>
 
 <p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
 
@@ -2169,7 +2169,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
 </div>
 
-<p markdown="1" class="cn">If you prefer root access (like I do) then you can also leak the `server.properties` file. This is the same file thats displayed in the web interface for [ZDI-20-012](https://www.zerodayinitiative.com/advisories/ZDI-20-012/) in [RCE Chain 2](#rce-chain-2).</p>
+<p markdown="1" class="cn">If you prefer root access (like I do) then you can also leak the `server.properties` file. This is the same file that's displayed in the web interface for [ZDI-20-012](https://www.zerodayinitiative.com/advisories/ZDI-20-012/) in [RCE Chain 2](#rce-chain-2).</p>
 
 ```bash
 [root@localhost ~]# cat /usr/local/cisco/dcm/fm/conf/server.properties | grep sftp

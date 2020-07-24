@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="SharePoint" src="/assets/images/sharepoint-and-pwn-remote-code-execution-against-sharepoint-server-abusing-dataset/sp-logo.png">
-<p class="cn" markdown="1">When [CVE-2020-1147](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1147) was released last week I was curious as to how this vulnerability manifested and how an attacker might achieve remote code execution with it. Since I'm somewhat familar with SharePoint Server and .net, I decided to take a look.</p>
+<p class="cn" markdown="1">When [CVE-2020-1147](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1147) was released last week I was curious as to how this vulnerability manifested and how an attacker might achieve remote code execution with it. Since I'm somewhat familiar with SharePoint Server and .net, I decided to take a look.</p>
 
 <!--more-->
 
