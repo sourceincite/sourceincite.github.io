@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 ---
 
 <img class="excel" alt="Postgres" src="/assets/images/sql-injection-double-uppercut-how-to-achieve-remote-code-execution/pg.png">
-<p class="cn" markdown="1">When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilties against a PostgreSQL database. When developing your exploit primitives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.</p>
+<p class="cn" markdown="1">When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilities against a PostgreSQL database. When developing your exploit primitives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.</p>
 
 <!--more-->
 

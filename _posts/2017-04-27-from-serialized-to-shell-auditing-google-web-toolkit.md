@@ -582,7 +582,7 @@ saturn:~ $ ./gwt.py -q -c JSESSIONID:D6D5B3A7ECE0FEF704F93249A7AD3AF6 -u https:/
 
 #### <a id="exploits"></a>Exploitation
 
-<p class="cn" markdown="1">Several functions were vulnerable to different types of attacks but one of the interesting functions I came across, was the renameDir function. This function either wasn't implimented in the actual UI of the target or at the very least I couldn't find it. This is not an issue because as long at the client MIBFileService class impliments it, we can reach it. We can use `gwt.py` to generate the GWT serialized string for us.</p>
+<p class="cn" markdown="1">Several functions were vulnerable to different types of attacks but one of the interesting functions I came across, was the renameDir function. This function either wasn't implemented in the actual UI of the target or at the very least I couldn't find it. This is not an issue because as long at the client MIBFileService class impliments it, we can reach it. We can use `gwt.py` to generate the GWT serialized string for us.</p>
 
 ```bash
 (20) function: renameDir 
@@ -633,7 +633,7 @@ C:\Windows\System32>
 
 #### <a id="conclude"></a>Conclusion
 
-<p class="cn" markdown="1">Testing GWT from a white-box perspective is certainly easier than from a black-box. If you are testing from a white-box perspective, you can decompile the XYZService (client) and the XYZServiceImpl (server) classes and can discover all the implimented functions, their arguments and their type definitions.</p>
+<p class="cn" markdown="1">Testing GWT from a white-box perspective is certainly easier than from a black-box. If you are testing from a white-box perspective, you can decompile the XYZService (client) and the XYZServiceImpl (server) classes and can discover all the implemented functions, their arguments and their type definitions.</p>
 
 <p class="cn" markdown="1">However, unless we can directly interact with that service, we will still need to find a way to generate the GWT serialized strings to be able to test the endpoints.</p>
 
