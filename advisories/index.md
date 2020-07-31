@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Foxit Reader Heap Buffer Overflow Remote Code Execution vulnerability](src-2020-0017)
+
+---
+
+* [[SRC] Foxit Reader XObject Stream Uninitialized Object Information Disclosure Vulnerability](src-2020-0016)
+
+---
+
+* [[SRC] Foxit Reader Link Index Out-of-Bounds Read Information Disclosure Vulnerability](src-2020-0015)
+
+---
+
 * [[ZDI] Rockwell Automation Studio 5000 AML File Parsing XML External Entity Processing Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-824/)
 
 ---
