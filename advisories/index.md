@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Adobe Acrobat Reader DC Out-of-Bounds Read Information Disclosure Vulnerability](src-2020-0018)
+
+---
+
 * [[SRC] Foxit Reader Heap Buffer Overflow Remote Code Execution vulnerability](src-2020-0017)
 
 ---
