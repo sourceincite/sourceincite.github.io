@@ -29,6 +29,10 @@ permalink: /research/
 ---
 <p class="cn">Some past presentations that I have shared.</p>
 
+* [Internet Security Conference :: China :: 2020 - Out of Hand :: Attacks Against PHP Environments](/assets/out-of-hand-attacks-against-php-environments.pdf)
+
+   <p class="cn">In this presentation I discuss a few interesting primitives in the current PHP environment. The first allows an attacker to achieve an information disclosure using TypeError and the second is how an external entity injection (XXE) vulnerability can be leveraged for deserialization of untrusted data.</p>
+   
 * [BlueHatIL :: Israel :: 2019 - Postscript Pat and His Black and White Hat](/assets/postscript-pat-and-his-black-and-white-hat.pdf)
 
    <p class="cn">I discussed how I developed a postscript fuzzer to target Adobe's postscript engine and uncover many zeroday vulnerabilities.</p>
