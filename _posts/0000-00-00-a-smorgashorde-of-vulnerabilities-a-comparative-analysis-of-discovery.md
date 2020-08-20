@@ -385,71 +385,6 @@ object(Horde_Http_Request_Curl)#210 (3) {
 
 <p class="cn" markdown="1">Playing around with the GUI and throwing in URI's looking for an SSRF would have found this Phar deserialization issue. Also, by performing heavy code analysis, I had forgotten to audit the classes extending the `Horde_Core_Block` class since I couldn't find a direct way to trigger their instantiation and usage at the time. By adding widgets into the portal interface, I would have discovered how the `Horde_Core_Block` classes could have been reached!</p>
 
-<p class="cn" markdown="1">The code inside of `services/portal/edit.php` script reveals the interaction and code flow:</p>
-
-```php
-$blocks = $injector->getInstance('Horde_Core_Factory_BlockCollection')->create();
-$layout = $blocks->getLayoutManager();
-$vars = $injector->getInstance('Horde_Variables');                                // 1
-
-// Handle requested actions.
-$layout->handle($vars->action, intval($vars->row), intval($vars->col));
-```
-
-<p class="cn" markdown="1">Within the `handle` method of the layout manager (`/usr/share/php/Horde/Core/Block/Layout/Manager.php`), the `app` parameter is used to determine which horde application and `Horde_Core_Block` class to use:</p>
-
-```php
-            // Get requested block type.
-            list($newapp, $newtype) = explode(':', Horde_Util::getFormData('app'));
-```
-
-<p class="cn" markdown="1">If the `$vars->action` request parameter is set to `save` for example, it's possible to store attacker controlled parameters in the specified `Horde_Core_Block` class. That's done by calling `setBlockInfo` in the `handle` method of the `Horde_Core_Block_Layout_Manager` class:</p>
-
-```php
-    /**
-     * Sets a batch of information about the specified block.
-     *
-     * @param integer $row  A layout row.
-     * @param integer $col  A layout column.
-     * @param array $info   A hash with information values.
-     *                      Possible elements are:
-     *                      'app': application name
-     *                      'block': block name
-     *                      'params': parameter hash
-     *
-     * @throws Horde_Exception
-     */
-    public function setBlockInfo($row, $col, $info = array())
-    {
-        if (!isset($this->_layout[$row][$col])) {
-            throw new Horde_Exception('No block exists at the requested position');
-        }
-
-        if (isset($info['app'])) {
-            $this->_layout[$row][$col]['app'] = $info['app'];
-        }
-        if (isset($info['block'])) {
-            $this->_layout[$row][$col]['params']['type2'] = $info['block'];
-        }
-        if (isset($info['params'])) {
-            $this->_layout[$row][$col]['params']['params'] = $info['params'];      // 2 (this is important)
-        }
-
-        $this->_changedRow = $row;
-        $this->_changedCol = $col;
-    }
-```
-
-<p class="cn" markdown="1">At *[2]* the attacker controlled parameters are stored in the layout manager, not the `Horde_Core_Block` instance. Then, it's possible to reach the `_content` method from the `services/portal/index.php` script after setting the classes parameters using `params[<someparam>]`:</p>
-
-```
-#0 /usr/share/php/Horde/Core/Block.php(278): Trean_Block_Bookmarks->_content()
-#1 /usr/share/php/Horde/Core/Block.php(175): Horde_Core_Block->_call()
-#2 /usr/share/php/Horde/Core/Block/Layout/View.php(98): Horde_Core_Block->getContent()
-#3 /var/www/horde/services/portal/index.php(35): Horde_Core_Block_Layout_View->toHtml()
-#4 {main}
-```
-
 <p class="cn" markdown="1">As a friend once asked me: *do you even known what the GUI looks like?*</p>
 
 ## Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability
@@ -462,7 +397,7 @@ $layout->handle($vars->action, intval($vars->row), intval($vars->col));
 
 ### Summary
 
-<p class="cn" markdown="1">This vulnerability allows remote attackers to execute arbitrary code files on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.</p>
+<p class="cn" markdown="1">This vulnerability allows remote attackers to execute arbitrary code on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.</p>
 
 <p class="cn" markdown="1">The specific flaw exists within `Sort.php`. When parsing the sortpref parameter, the process does not properly validate user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the www-data user.</p>
 
