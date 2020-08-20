@@ -293,7 +293,7 @@ researcher@target:/var/www/horde$ grep -sir "function send(" /usr/share/php/Hord
         } elseif (ini_get('allow_url_fopen')) {
             return new Horde_Http_Request_Fopen();                       // 4
         } else {
-            throw new Horde_Http_Exception('No HTTP request backends are available. You must install pecl_http, curl, or enable allow_url_fop$
+            // ...
         }
     }
 ```
