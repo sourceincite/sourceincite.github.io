@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server SPHashtagHelper MakeOLSGetRequest Server-Side Request Forgery Information Disclosure Vulnerability](src-2020-0021)
+
+---
+
+* [[SRC] Microsoft SharePoint Server ExchangeAutodiscover GetDataFromURL Blind Server-Side Request Forgery Vulnerability](src-2020-0020)
+
+---
+
+* [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy Remote Code Execution Vulnerability](src-2020-0019)
+
+---
+
 * [[ZDI] Horde Groupware Webmail Edition prefs sync_calendars Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1054/))
 
 ---
