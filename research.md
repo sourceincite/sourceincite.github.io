@@ -41,7 +41,7 @@ Some past presentations that I have shared.
 
    I discussed how I found a use-after-free vulnerability and chained it together with an uninitialized object vulnerability to achieve reliable exploitation bypassing several operating system mitigations.
 
-* [Hack in The Box :: Netherlands :: 2017 - I got 99 trends and a # is all of them](/assets/D1T1-Steven-Seeley-and-Roberto-Suggi-Liverani-I-Got-99-Trends-and-a-Shell-Is-All-Of-Them.pptx)
+* [Hack in The Box :: Netherlands :: 2017 - I got 99 trends and a # is all of them](/assets/steven-seeley-and-roberto-suggi-liverani-i-got-99-trends-and-a-shell-is-all-of-them.pdf)
 
    Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software.
 
