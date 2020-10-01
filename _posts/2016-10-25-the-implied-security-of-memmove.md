@@ -3,27 +3,24 @@ layout: post
 title: The Implied Security of memmove()
 date: 2016-10-25 12:34:15 -0600
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<p class="cn" markdown="1">tl;dr; Calls to memmove(); that use a source buffer that is smaller than the destination buffer can be at times exploitable if the size value is bit aligned, is mapped in memory and that the original source buffer is also mapped in memory.</p>
-
+Calls to memmove that use a source buffer that is smaller than the destination buffer can be at times exploitable if the size value is bit aligned, is mapped in memory and that the original source buffer is also mapped in memory.
 <!--more-->
 
-<p class="cn" markdown="1">So, the other day I was debugging a vulnerability I had found and trying to understand the issue by performing a root cause analysis (RCA). I was, all up in windbg doing my thing, setting break points and getting all crazy. I ended up with the following breakpoint when messing in the windbg.</p>
+So, the other day I was debugging a vulnerability I had found and trying to understand the issue by performing a root cause analysis (RCA). I was, all up in windbg doing my thing, setting break points and getting all crazy. I ended up with the following breakpoint when messing in the windbg.
 
-{% highlight text %}
+```
 bp msvcrt!memmove ".if (poi(@esp+8)==0) {.printf \"calling memmove(0x%x, 0x%x, 0x%x);\\n\", poi(@esp+4), poi(@esp+8), poi(@esp+c);} .else {gc}"
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">So this breakpoint will only break into the debugger if a call to memmove has the second argument set to null. Checking my windbg log, I see the following: `calling memmove(0x1613fe8, 0x0, 0x0161aa10);`</p>
+So this breakpoint will only break into the debugger if a call to memmove has the second argument set to null. Checking my windbg log, I see the following: `calling memmove(0x1613fe8, 0x0, 0x0161aa10);`
 
-<p class="cn" markdown="1">Everyone knows that the memmove prototype across architectures is:
-`void *memmove( void *dest, const void *src, size_t count );`</p>
+Everyone knows that the memmove prototype across architectures is: `void *memmove( void *dest, const void *src, size_t count );`
 
-<p class="cn" markdown="1">So naturally, I attempt to investigate the situation.</p>
+Naturally, I attempt to investigate the situation.
 
-{% highlight text %}
+```
 1:001> !address 0x0161aa10
  ProcessParametrs 001812b0 in range 00180000 0018a000
  Environment 00180810 in range 00180000 0018a000
@@ -52,13 +49,13 @@ bp msvcrt!memmove ".if (poi(@esp+8)==0) {.printf \"calling memmove(0x%x, 0x%x, 0
     _HEAP @ 530000
       HEAP_ENTRY Size Prev Flags    UserPtr UserSize - state
         01613fe0 0f48 0000  [00]   01613fe8    07a28 - (busy)
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">As it turns out, the size value is actually a mapped heap chunk! To make it worse (or better), the least significant bytes are always mapped to offset 0xaa10, which I can control based on allocation size in the target. It looks like the developer of my target got his/her parameters mixed up! My guess is that the second and third arguments should have switched: `calling memmove(0x1613fe8, 0x0161aa10, 0x0);`</p>
+As it turns out, the size value is actually a mapped heap chunk! To make it worse (or better), the least significant bytes are always mapped to offset 0xaa10, which I can control based on allocation size in the target. It looks like the developer of my target got his/her parameters mixed up! My guess is that the second and third arguments should have switched: `calling memmove(0x1613fe8, 0x0161aa10, 0x0);`
 
-<p class="cn" markdown="1">Anyway, when I continued execution, I was surprised to see the following output:</p>
+Anyway, when I continued execution, I was surprised to see the following output:
 
-{% highlight text %}
+```
 1:001> g
 (1c38.1260): Access violation - code c0000005 (first chance)
 First chance exceptions are reported before any exception handling.
@@ -85,11 +82,11 @@ msvcrt!memmove+0x1e0:
     _HEAP @ 530000
       HEAP_ENTRY Size Prev Flags    UserPtr UserSize - state
         01613fe0 0f48 0000  [00]   01613fe8    07a28 - (busy)
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">An Out-of-Bounds write on unmapped memory? How could this be? Well as it turns out, the copy operation is doing a [backwards copy][backwardscopy]. To find that out I dove into the Microsoft’s implementation of memmove within the 32bit architecture. I used the following DLL: C:\Windows\System32\msvcrt.dll v7.0.7601.1744 (latest at the time of writing).</p>
+An Out-of-Bounds write on unmapped memory? How could this be? Well as it turns out, the copy operation is doing a [backwards copy][backwardscopy]. To find that out I dove into the Microsoft’s implementation of memmove within the 32bit architecture. I used the following DLL: C:\Windows\System32\msvcrt.dll v7.0.7601.1744 (latest at the time of writing).
 
-{% highlight c %}
+```c
 void *__cdecl memmove(void *Dst, const void *Src, size_t Size)
 {
   const void *v3;
@@ -128,34 +125,30 @@ LABEL_36:
       qmemcpy((void *)v8, (const void *)v7, 4 * v9);  // out of bounds copy
       ...
     }
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">As you can see, its very similar to [OS X’s implementation][appleimplimentation] or [GNU’s implementation][niximplimentation]. So the same situation would happen on Linux or Mac OS X under 32 bit implementations. What you will notice here is that there is no sanity check on the source buffer whatsoever inside memmove. The source buffer is NULL? No worries, continue execution. However, do note that if NULL is not mapped, then an access violation will occur since the backwards copy performs a -- instead of a ++. Thanks to [@badd1e][badd1enull] for pointing this out.</p>
+As you can see, its very similar to [OS X’s implementation][appleimplimentation] or [GNU’s implementation][niximplimentation]. So the same situation would happen on Linux or Mac OS X under 32 bit implementations. What you will notice here is that there is no sanity check on the source buffer whatsoever inside memmove. The source buffer is NULL? No worries, continue execution. However, do note that if NULL is not mapped, then an access violation will occur since the backwards copy performs a -- instead of a ++. Thanks to [@badd1e][badd1enull] for pointing this out.
 
-<p class="cn" markdown="1">Depending on how you are targeting your exploitation, an access violation might be ok as you can potentially use the initial out-of-bounds write to target an `unhandled exception function pointer`.</p>
+Depending on how you are targeting your exploitation, an access violation might be ok as you can potentially use the initial out-of-bounds write to target an `unhandled exception function pointer`.
 
-<p class="cn" markdown="1">Regarding exploitation, the following is needed:</p>
+Regarding exploitation, the following is needed:
 
-<div class="cn" markdown="1">
 * ~~(void *)0x0 as the source buffer.~~ Actually, as long as the src buffer is smaller than the dst buffer, this is still possible.
 * You will likely need whatever the src value is, to be mapped in memory. If it is null, then the null page will need to be mapped to survive the copy operation.
 * A bit aligned size value, in my case it was 32bits or 4 bytes
 * The destination + size to point to a mapped and writable location in memory.
 * The size value to be a valid pointer to controlled data, rare indeed.
-</div>
 
 ### Summary
 
-<p class="cn" markdown="1">Now I know what a lot of you neckbeards are going to say, that developers should be careful about the parameters parsed to mem* functions. But the simple matter is, is that a simple check for a source buffer that is not mapped would have made this particular vulnerability un-exploitable.</p>
-<p class="cn" markdown="1">Whilst this is a very bizarre corner case, it goes to show that the lack of sanity checking for the sake of speed can cause all sorts of undesired effects, potentially leading to an exploitable condition.</p>
-<p class="cn" markdown="1">Since I can relatively control the size value (based on the allocation bucket) and the source buffer passed into memmove() is always NULL, I can trigger a relative wild write at a semi-controlled location. Sure, not the most amazing primitive, but when the application is installed and running as SYSTEM on 99% of enterprise applications, hackers become motivated.</p>
-<p class="cn" markdown="1">A big thanks goes out to [@rohitwas][rohitwas] for his validation of my insanity and [@badd1e][badd1e] for pointing out that the src buffer (be it null or not), needs to be mapped in memory!</p>
+Now I know what a lot of you neckbeards are going to say, that developers should be careful about the parameters parsed to mem* functions. But the simple matter is, is that a simple check for a source buffer that is not mapped would have made this particular vulnerability un-exploitable.
+Whilst this is a very bizarre corner case, it goes to show that the lack of sanity checking for the sake of speed can cause all sorts of undesired effects, potentially leading to an exploitable condition.
+Since I can relatively control the size value (based on the allocation bucket) and the source buffer passed into memmove() is always NULL, I can trigger a relative wild write at a semi-controlled location. Sure, not the most amazing primitive, but when the application is installed and running as SYSTEM on 99% of enterprise applications, hackers become motivated.
+A big thanks goes out to [@rohitwas][rohitwas] for his validation of my insanity and [@badd1e][badd1e] for pointing out that the src buffer (be it null or not), needs to be mapped in memory!
 
-<div class="cn" markdown="1">
 [rohitwas]: https://twitter.com/rohitwas
 [badd1e]: https://twitter.com/badd1e
 [badd1enull]: https://twitter.com/badd1e/status/792032651179794432
 [niximplimentation]: https://sourceware.org/git/?p=glibc.git;a=blob;f=string/memmove.c#l44
 [appleimplimentation]: https://opensource.apple.com/source/BerkeleyDB/BerkeleyDB-6/db/clib/memmove.c
 [backwardscopy]: http://stackoverflow.com/questions/22158053/memmove-vs-copying-backwards
-</div>

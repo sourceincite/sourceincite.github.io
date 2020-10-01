@@ -3,57 +3,41 @@ layout: post
 title: "It's Not Our Sandbox :: Auditing Foxit Reader's PDF Printer For an Elevation of Privilege"
 date: 2019-04-19 08:00:00 -0500
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<img class="excel" alt="Foxit Reader" src="/assets/images/foxit.png">
-<p class="cn" markdown="1">Mid last year, I [blogged](/blog/2018/06/22/foxes-among-us-foxit-reader-vulnerability-discovery-and-exploitation.html) about how I found an exploitable use-after-free in Foxit Reader and how I was able to gain remote code execution from that vulnerability. Then, as the second installment I [blogged](/blog/2019/02/01/activex-exploitation-in-2019-instantiation-is-not-scripting.html) about a command injection in Foxit Reader SDK ActiveX. In the spirit of catching foxes, I decided to look at a new component in Foxit Reader later in that same year. To my (un)surprise, I was able to discover several vulnerabilities in this component that could allow for a limited elevation of privilege, one being particularly nasty. That lead to this, third installment.</p>
+![Foxit Reader](/assets/images/foxes-among-us/foxit.png "Foxit Reader") 
+
+Mid last year, I [blogged](/blog/2018/06/22/foxes-among-us-foxit-reader-vulnerability-discovery-and-exploitation.html) about how I found an exploitable use-after-free in Foxit Reader and how I was able to gain remote code execution from that vulnerability. Then, as the second installment I [blogged](/blog/2019/02/01/activex-exploitation-in-2019-instantiation-is-not-scripting.html) about a command injection in Foxit Reader SDK ActiveX. In the spirit of catching foxes, I decided to look at a new component in Foxit Reader later in that same year. To my (un)surprise, I was able to discover several vulnerabilities in this component that could allow for a limited elevation of privilege, one being particularly nasty. That lead to this, third installment.
 <!--more-->
 
-<p class="cn">TL;DR</p>
-
-<p class="cn" markdown="1">*I walk through the attack vector, analysis and exploitation of [CVE-2018-20310](/advisories/src-2019-0025) which is a stack based buffer overflow in the PDF Printer when sending a specially crafted proxyDoAction request.*</p>
+TL;DR; *I walk through the attack vector, analysis and exploitation of [CVE-2018-20310](/advisories/src-2019-0025) which is a stack based buffer overflow in the PDF Printer when sending a specially crafted proxyDoAction request.*
 
 ### The Version
 
-<p class="cn" markdown="1">I tested version 9.3.0.912 of Foxit Reader with SHA1 of the `FoxitProxyServer_Socket_RD.exe` binary being: 0e1554311ba8dc04c18e19ec144b02a22b118eb7. At the time, this was of course the latest version.</p>
+I tested version 9.3.0.912 of Foxit Reader with SHA1 of the `FoxitProxyServer_Socket_RD.exe` binary being: 0e1554311ba8dc04c18e19ec144b02a22b118eb7. At the time, this was of course the latest version.
 
 ### The Vector
 
-<p class="cn" markdown="1">The PDF Printer is a relatively undocumented feature within Foxit Reader and is primarily used to handle print requests to a PDF file from any application. Once Foxit Reader is installed, the Foxit PDF Printer is the default printer used for handling print jobs.</p>
+The PDF Printer is a relatively undocumented feature within Foxit Reader and is primarily used to handle print requests to a PDF file from any application. Once Foxit Reader is installed, the Foxit PDF Printer is the default printer used for handling print jobs.
 
-{% include image.html
-            img="assets/images/print-1.png"
-            title="Printing a document from Chrome"
-            caption="Printing a document from Chrome"
-            style="width:50%;height:50%" %}
+![Printing a document from Chrome](/assets/images/its-not-our-sandbox/print-1.png "Printing a document from Chrome")
 
-<p class="cn" markdown="1">This essentially means that the `FoxitProxyServer_Socket_RD.exe` binary will be started, at medium integrity for a brief second.</p>
+This essentially means that the `FoxitProxyServer_Socket_RD.exe` binary will be started, at medium integrity for a brief second.
 
-{% include image.html
-            img="assets/images/print-2.png"
-            title="FoxitProxyServer_Socket_RD.exe is executed at Medium Integrity when printing documents from an application using the Foxit PDF Printer"
-            caption="FoxitProxyServer_Socket_RD.exe is executed at Medium Integrity when printing documents from an application"
-            style="width:80%;height:80%" %}
+![FoxitProxyServer_Socket_RD.exe is executed at Medium Integrity when printing documents from an application using the Foxit PDF Printer](/assets/images/its-not-our-sandbox/print-2.png "FoxitProxyServer_Socket_RD.exe is executed at Medium Integrity when printing documents from an application using the Foxit PDF Printer")
 
-<p class="cn" markdown="1">That brief second is due to the server listening on localhost port 50000 by default and accepting only a single request. Once a request is made, it closes the port and terminates execution. This gives an attacker executing code in a render tab a kind of race condition window, when the user attempts to print to PDF using the Foxit PDF Printer.</p>
+That brief second is due to the server listening on localhost port 50000 by default and accepting only a single request. Once a request is made, it closes the port and terminates execution. This gives an attacker executing code in a render tab a kind of race condition window, when the user attempts to print to PDF using the Foxit PDF Printer.
 
-<p class="cn" markdown="1">After more investigation into the issue, I later found out you can make calls to [CreateDC](https://docs.microsoft.com/en-us/windows/desktop/api/wingdi/nf-wingdi-createdca) API from some sandboxed processes to get a printer device context and then later create a print job with the default printer. This means that an attacker doesn't even need to race a request to the `FoxitProxyServer_Socket_RD.exe` binary at all.</p>
-
+After more investigation into the issue, I later found out you can make calls to [CreateDC](https://docs.microsoft.com/en-us/windows/desktop/api/wingdi/nf-wingdi-createdca) API from some sandboxed processes to get a printer device context and then later create a print job with the default printer. This means that an attacker doesn't even need to race a request to the `FoxitProxyServer_Socket_RD.exe` binary at all.
 
 ### The Vulnerability
 
-<p class="cn" markdown="1">After sniffing some sample requests sent to port 50000 while attempting to print a page from a browser, I found the following important function, `sub_41DBA0`.</p>
+After sniffing some sample requests sent to port 50000 while attempting to print a page from a browser, I found the following important function, `sub_41DBA0`.
 
-{% include image.html
-            img="assets/images/sub_41DBA0.png#1"
-            title="sub_41DBA0 has some code flow"
-            caption="sub_41DBA0 has some code flow"
-            style="width:50%;height:50%" %}
+![sub_41DBA0 has some code flow](/assets/images/its-not-our-sandbox/sub_41DBA0.png "sub_41DBA0 has some code flow")
 
-<p class="cn" markdown="1">This function handles several different type of requests and the handlers are highlighted in blue in this function:</p>
+This function handles several different type of requests and the handlers are highlighted in blue in this function:
 
-<div class="cn" markdown="1">
 - proxyDoAction
 - proxyPreviewAction
 - proxyPopupsAction
@@ -68,9 +52,8 @@ excerpt_separator: <!--more-->
 - proxyCreateDirectoryCascade
 - proxyIEMoveFileEx
 - proxySendFileAsEmailAttachment
-</div>
 
-<p class="cn" markdown="1">Whilst some of these really stood out as highly exploitable functions, it wasn't always possible to reach the vulnerable API. Let's take `proxyIEMoveFileEx` for example. The function accepts three (3) arguments and is essentially a `MoveFileExW` call without any checks. The problem was however, the code wasn't parsing the supplied packet structure correctly making it impossible to exploit. *Developers test your code to make sure it even works before releasing it to the public!* Below is the location of the underlying API:</p>
+Whilst some of these really stood out as highly exploitable functions, it wasn't always possible to reach the vulnerable API. Let's take `proxyIEMoveFileEx` for example. The function accepts three (3) arguments and is essentially a `MoveFileExW` call without any checks. The problem was however, the code wasn't parsing the supplied packet structure correctly making it impossible to exploit. *Developers test your code to make sure it even works before releasing it to the public!* Below is the location of the underlying API:
 
 ```
 .text:00420C85 loc_420C85:                             ; CODE XREF: sub_420930+331
@@ -80,31 +63,19 @@ excerpt_separator: <!--more-->
 .text:00420C88                 call    ds:MoveFileExW
 ```
 
-<p class="cn" markdown="1">After doing some more reversing, I quickly learnt that the `proxyDoAction` was also an interesting function because it took an opcode that allowed an attacker to reach five (5) different additional code paths. Below is the check for the `proxyDoAction` string in the request packet:</p>
+After doing some more reversing, I quickly learnt that the `proxyDoAction` was also an interesting function because it took an opcode that allowed an attacker to reach five (5) different additional code paths. Below is the check for the `proxyDoAction` string in the request packet:
 
-{% include image.html
-            img="assets/images/proxyDoAction.png#2"
-            title="sub_41DBA0 checks for a proxyDoAction request"
-            caption="sub_41DBA0 checks for a proxyDoAction request"
-            style="width:50%;height:50%" %}
+![sub_41DBA0 checks for a proxyDoAction request](/assets/images/its-not-our-sandbox/proxyDoAction.png "sub_41DBA0 checks for a proxyDoAction request")
 
-<p class="cn" markdown="1">Providing a correctly formatted request means we can eventually we can reach the handler:</p>
+Providing a correctly formatted request means we can eventually we can reach the handler:
 
-{% include image.html
-            img="assets/images/proxyDoAction_handler.png#2"
-            title="Reaching the handler for proxyDoAction"
-            caption="Reaching the handler for proxyDoAction"
-            style="width:60%;height:60%" %}
+![Reaching the handler for proxyDoAction](/assets/images/its-not-our-sandbox/proxyDoAction_handler.png "Reaching the handler for proxyDoAction")
 
-<p class="cn" markdown="1">Inside of the handler, we can see it accepts three (3() arguments:</p>
+Inside of the handler, we can see it accepts three (3() arguments:
 
-{% include image.html
-            img="assets/images/proxyDoAction_args.png#1"
-            title="sub_41E190 checks for 3 arguments"
-            caption="sub_41E190 checks for 3 arguments"
-            style="width:40%;height:40%" %}
+![sub_41E190 checks for 3 arguments](/assets/images/its-not-our-sandbox/proxyDoAction_args.png "sub_41E190 checks for 3 arguments")
 
-<p class="cn" markdown="1">Once we dive into the function, we can see when processing the 3rd argument what is happening:</p>
+Once we dive into the function, we can see when processing the 3rd argument what is happening:
 
 ```
 .text:0041E407                 mov     esi, [eax]               ; eax is a ptr to our buffer
@@ -136,7 +107,7 @@ excerpt_separator: <!--more-->
 .text:0041E44B                 call    sub_4244C0               ; proxyDoAction second handler
 ```
 
-<p class="cn" markdown="1">The call to sub_41CB30 looks suspicious since its using a size value and a source buffer as arguments. Also, we can see that the destination buffer is stored in ecx. When we investigate `sub_41CB30`, we can start to see what is happening:</p>
+The call to sub_41CB30 looks suspicious since its using a size value and a source buffer as arguments. Also, we can see that the destination buffer is stored in ecx. When we investigate `sub_41CB30`, we can start to see what is happening:
 
 ```
 .text:0041CB30 sub_41CB30      proc near                        ; CODE XREF: sub_41D500+185
@@ -151,7 +122,7 @@ excerpt_separator: <!--more-->
 .text:0041CB34                 mov     esi, [ebp+arg_4_size]    ; store controlled size in esi
 ```
 
-<p class="cn" markdown="1">`sub_41CB30` is setting up a call to `sub_645BD0` using source, destination and size. Source and size are totally attacker controlled and the destination is a local stack variable from `sub_41E190`.</p>
+`sub_41CB30` is setting up a call to `sub_645BD0` using source, destination and size. Source and size are totally attacker controlled and the destination is a local stack variable from `sub_41E190`.
 
 ```
 .text:0041CB61 loc_41CB61:                                      ; CODE XREF: sub_41CB30+16
@@ -167,7 +138,7 @@ excerpt_separator: <!--more-->
 .text:0041CB70                 call    sub_645BD0               ; call sub_645BD0
 ```
 
-<p class="cn" markdown="1">`sub_645BD0` is more or less an inline and custom `memcpy` implementation and we eventually reach the following code block:</p>
+`sub_645BD0` is more or less an inline and custom `memcpy` implementation and we eventually reach the following code block:
 
 ```
 .text:00645C14 loc_645C14:                                      ; CODE XREF: sub_645BD0+2F
@@ -182,31 +153,23 @@ excerpt_separator: <!--more-->
 
 #### Triggering the Vulnerability
 
-<p class="cn" markdown="1">Since we can run the executable outside of the sandbox, I found it easier to debug the application with the following command:</p>
+Since we can run the executable outside of the sandbox, I found it easier to debug the application with the following command:
 
 `C:\>cdb -c "g;g" "C:\Program Files (x86)\Foxit Software\Foxit Reader\Plugins\Creator\FoxitProxyServer_Socket_RD.exe" 50000`
 
-<p class="cn" markdown="1">By default the application uses port 50000 but you can also specify the port on the command line.</p>
+By default the application uses port 50000 but you can also specify the port on the command line.
 
-{% include image.html
-            img="assets/images/SRC-2019-0025_trigger.png"
-            title="Triggering SRC-2019-0025/CVE-2018-20310 outside of a sandbox"
-            caption="Triggering SRC-2019-0025/CVE-2018-20310 outside of a sandbox"
-            style="width:80%;height:80%" %}
+![Triggering SRC-2019-0025/CVE-2018-20310 outside of a sandbox](/assets/images/its-not-our-sandbox/src-2019-0025_trigger.png "Triggering SRC-2019-0025/CVE-2018-20310 outside of a sandbox")
 
-<p class="cn" markdown="1">So essentially, sending a specially crafted request with a buffer of size 0x1000 as the opcode will trigger a stack based buffer overflow.</p>
+So essentially, sending a specially crafted request with a buffer of size 0x1000 as the opcode will trigger a stack based buffer overflow.
 
 ### Exploitation
 
-<p class="cn" markdown="1">We can't exactly (ab)use the SEH handler here:</p>
+We can't exactly (ab)use the SEH handler here:
 
-{% include image.html
-            img="assets/images/safeseh.png"
-            title="FoxitProxyServer_Socket_RD.exe is compiled with the SafeSEH mitigation"
-            caption="FoxitProxyServer_Socket_RD.exe is compiled with the SafeSEH mitigation"
-            style="width:100%;height:100%" %}
+![FoxitProxyServer_Socket_RD.exe is compiled with the SafeSEH mitigation](/assets/images/its-not-our-sandbox/safeseh.png "FoxitProxyServer_Socket_RD.exe is compiled with the SafeSEH mitigation")
 
-<p class="cn" markdown="1">Also, if we dive into the proxyDoAction handler again, we can see at the end of the function there is a call to `sub_43AE57`.</p>
+Also, if we dive into the proxyDoAction handler again, we can see at the end of the function there is a call to `sub_43AE57`.
 
 ```
 .text:0041E510 loc_41E510:                                      ; CODE XREF: sub_41E190+8E
@@ -225,7 +188,8 @@ excerpt_separator: <!--more-->
 .text:0041E52B                 retn    4
 .text:0041E52E ; -----------------------
 ```
-<p class="cn" markdown="1">Which, as you guessed, does a cookie check:</p>
+
+Which, as you guessed, does a cookie check:
 
 ```
 .text:0043AE57 sub_43AE57      proc near                        ; CODE XREF: sub_413FA0+5D
@@ -240,7 +204,7 @@ excerpt_separator: <!--more-->
 .text:0043AE62 sub_43AE57      endp
 ```
 
-<p class="cn" markdown="1">However, if we look past the vulnerable function, we can see something interesting:</p>
+However, if we look past the vulnerable function, we can see something interesting:
 
 ```
 .text:0041E4A2 loc_41E4A2:                                      ; CODE XREF: sub_41E190+2F0
@@ -267,9 +231,7 @@ excerpt_separator: <!--more-->
 .text:0041E4D1                 call    dword ptr [edx+10h]      ; eop
 ```
 
-<p class="cn" markdown="1">If we overwrite `var_28` from our stack overflow and don't overwrite the return address or exception handler then we can fake an object and redirect code execution via a vtable call.</p>
-
-<p class="cn" markdown="1">This works because `var_28` is lower down the stack:</p>
+If we overwrite `var_28` from our stack overflow and don't overwrite the return address or exception handler then we can fake an object and redirect code execution via a vtable call. This works because `var_28` is lower down the stack:
 
 ```
 -00000080 var_80_opcode   dd ?                    ; pwned
@@ -285,7 +247,7 @@ excerpt_separator: <!--more-->
 -00000004 var_4           dd ?
 ```
 
-<p class="cn" markdown="1">We can calculate the size of the var_80_opcode variable being `0x80 - 0x7c = 0x4` bytes in stack size. But it gets even easier! Let's look at the code just before the overflow:</p>
+We can calculate the size of the var_80_opcode variable being `0x80 - 0x7c = 0x4` bytes in stack size. But it gets even easier! Let's look at the code just before the overflow:
 
 ```
 .text:0041E34D loc_41E34D:                                                  ; CODE XREF: sub_41E190+1A2
@@ -316,20 +278,16 @@ excerpt_separator: <!--more-->
 .text:0041E3B7                 jz      short loc_41E3DA
 ```
 
-<p class="cn" markdown="1">What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by `0x80 - 0x4c = 0x34` bytes! Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:</p>
+What is happening here is that we can leverage `var_4C` (which will be overflowed) to fake an object because a pointer to it is later stored in `var_28`. This means we only have to overflow by `0x80 - 0x4c = 0x34` bytes! Now, if we update our poc, we can smash the variable on the stack and redirect execution flow:
 
-{% include image.html
-            img="assets/images/SRC-2019-0025-eop.png"
-            title="Taking eip control"
-            caption="Taking eip control"
-            style="width:80%;height:80%" %}
+![Taking eip control](/assets/images/its-not-our-sandbox/src-2019-0025-eop.png "Taking eip control")
 
-<p class="cn" markdown="1">We still have the issue of ASLR which I didn't bother to address since the impact of the vulnerability was limited anyway, but its a good example of when things can go wrong, despite all the proper mitigations.</p>
+We still have the issue of ASLR which I didn't bother to address since the impact of the vulnerability was limited anyway, but its a good example of when things can go wrong, despite all the proper mitigations.
 
-<p class="cn" markdown="1">I also used a modified version of the [mayhem](https://github.com/zeroSteiner/mayhem) library by [@zeroSteiner](https://twitter.com/zeroSteiner) to inject my poc into a sandboxed process (along with python) to demonstrate to the Foxit developers the true impact.</p>
+I also used a modified version of the [mayhem](https://github.com/zeroSteiner/mayhem) library by [@zeroSteiner](https://twitter.com/zeroSteiner) to inject my poc into a sandboxed process (along with python) to demonstrate to the Foxit developers the true impact.
 
-<p class="cn" markdown="1">If you want to test this out, you can download the [poc](/pocs/src-2019-0025.py.txt) trigger.</p>
+If you want to test this out, you can download the [poc](/pocs/src-2019-0025.py.txt) trigger.
 
 ### Conclusion
 
-<p class="cn" markdown="1">This was not just a vulnerability within Foxit Reader, but rather how third party applications trust installed print servers to be a safe boundary. Attacking new or unexplored components often yields highly exploitable findings but getting access to the interface can be the hardest challenge to a researcher.</p>
+This was not just a vulnerability within Foxit Reader, but rather how third party applications trust installed print servers to be a safe boundary. Attacking new or unexplored components often yields highly exploitable findings but getting access to the interface can be the hardest challenge to a researcher.

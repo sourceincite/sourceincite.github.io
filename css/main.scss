@@ -3,21 +3,16 @@
 ---
 @charset "utf-8";
 
-//{% include si.css %}
-
 // Our variables
 // original: "Helvetica Neue"
 
-//$base-font-family: "Courier New", Helvetica, Arial, sans-serif;
 $base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-
 $base-font-size:   16px;
 $base-font-weight: 400;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
 
 // added font for fun
-
 $second-font-family: "Architects Daughter", cursive;;
 $second-font-size:   20px;
 $second-font-weight: 400;
@@ -52,8 +47,6 @@ $on-laptop:        800px;
         @content;
     }
 }
-
-
 
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import

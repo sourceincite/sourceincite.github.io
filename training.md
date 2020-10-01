@@ -4,95 +4,49 @@ title: Training
 permalink: /training/
 ---
 
-<script>
-// Set the date we're counting down to
-var countDownDate = new Date("Aug 3, 2020 09:00:00").getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-  document.getElementById("demo").innerHTML = "<p class='cn'>It's " + days + " days " + hours + " hours "
-  + minutes + " minutes and " + seconds + " seconds until the next training!</p>";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
-
 ## Full Stack Web Attack
 
 ---
 
-<p id="demo"></p>
+**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.
 
-<p class="cn" markdown="1">**Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.</p>
-{% include imageright.html
-            img="assets/images/training.png"
-            style="width:50%;height:50%;float:right;"
-            %}
-<p class="cn" markdown="1">This course is developed for web penetration testers, bug hunters and developers that want to make a switch to server-side web security research or see how serious adversaries will attack their web based code.</p>
+![Full chain exploit development is taught in class](/assets/images/training/msf.png "Full chain exploit development is taught in class"){: style="float: right"}
 
-<p class="cn" markdown="1">Students are expected to know how to use [Burp Suite](https://portswigger.net/burp) and have a basic understanding of common web attacks as well as perform basic scripting using common languages such as python, PHP and JavaScript. Each of the vulnerabilities presented have either been mirrored from real zero-day or are n-day bugs that have been discovered by the author with a focus on not just exploitation, but also on the discovery.</p>
+This course is developed for web penetration testers, bug hunters and developers that want to make a switch to server-side web security research or see how serious adversaries will attack their web based code.
 
-<p class="cn" markdown="1">So if you want to learn how to exploit web technologies without client interaction for maximum impact, that is, remote code execution then this is the course for you.</p>
+Students are expected to know how to use [Burp Suite](https://portswigger.net/burp) and have a basic understanding of common web attacks as well as perform basic scripting using common languages such as python, PHP and JavaScript. Each of the vulnerabilities presented have either been mirrored from real zero-day or are n-day bugs that have been discovered by the author with a focus on not just exploitation, but also on the discovery.
 
-<p class="cn" markdown="1">Leave your OWASP Top Ten and CSP bypasses at the door.</p>
+So if you want to learn how to exploit web technologies without client interaction for maximum impact, that is, remote code execution then this is the course for you.
 
-### <a id="structure"></a> Course Structure
+Leave your OWASP Top Ten and CSP bypasses at the door.
 
-<div markdown="1" class="cn">
+## Table of Contents
+
+- [Course Structure](#course-structure)
+- [When and Where](#when-and-where)
+- [Certification](#certification)
+- [Instructor](#instructor)
+- [Student Requirements](#student-requirements)
+- [Hardware Requirements](#hardware-requirements)
+- [Syllabus](#syllabus)
+- [Testimonials](#testimonials)
+- [FAQ](#faq)
+- [Additional Material](#additional-material)
+
+### Course Structure
+
 - Duration: 4 days
 - Language: English
 - Hours: 9am - 5pm*
 - Lunch break: 12.30pm for 1 hour
 - Coffee break: 10.30am for 10 minutes
 - Coffee break: 3.15pm for 10 minutes
-</div>
 
-<p class="cn" markdown="1">* The day to day hours maybe extended at the descretion of the trainer and students.</p>
+\* The day to day hours maybe extended at the descretion of the trainer and students.
 
-### <a id="where"></a> When and Where
+### When and Where
 
-<p class="cn" markdown="1">We have three (3) public trainings for Full Stack Web Attack in 2020. **Please note that syllabus may change anytime, so an accurate syllabus can be found [here](/training/#syllabus).**</p>
-
-#### USA:
-
-<p class="cn" markdown="1">We are offering two (2) trainings in the USA as part of an agreement with the [Center for Cyber Security Training](https://ccsecuritytraining.com/center-for-cyber-security-training-signs-exclusive-partnership-with-leading-training-provider-source-incite/).</p>
-
-<div markdown="1" class="cn">
-- Registration: [https://ccsecuritytraining.com/registration/](https://ccsecuritytraining.com/registration/)
-- Details: [https://ccsecuritytraining.com/training/source-incites-full-stack-web-attack/](https://ccsecuritytraining.com/training/source-incites-full-stack-web-attack/)
-</div>
-
-<p markdown="1" class="cn">**East Coast**</p>
-
-<div markdown="1" class="cn">
-- Location: 10480 Little Patuxent Pkwy #700 Columbia, MD 21044
-- Date: **February the 24th - 27th 2020**
-</div>
-
-<p markdown="1" class="cn">**West Coast**</p>
-
-<div markdown="1" class="cn">
-- Location: 33 New Montgomery Street San Francisco, CA 94105
-- Date: **December the 1st - 4th 2020**
-</div>
+Currently we are not hosting any trainings for 2020.
 
 ### Certification
 
@@ -105,35 +59,31 @@ javax.servlet.ServletException: java.lang.NullPointerException
     org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:462) 
 ```
 
-<p class="cn" markdown="1">We apologise in advance but we do not offer any certifications.</p>
+We apologise in advance but we do not offer any certifications.
 
 ### Instructor
 
-<p class="cn" markdown="1">Steven Seeley ([@steventseeley](https://twitter.com/steventseeley)) is an internationally recognized security researcher and trainer. For the last four years, Steven has reached platinum status with the [ZDI](https://www.zerodayinitiative.com/about/benefits/) and has literally found over a thousand high impact vulnerabilities, some of which can be found under the [advisories](/advisories/) section.</p>
+Steven Seeley ([@steventseeley](https://twitter.com/steventseeley)) is an internationally recognized security researcher and trainer. For the last four years, Steven has reached platinum status with the [ZDI](https://www.zerodayinitiative.com/about/benefits/) and has literally found over a thousand high impact vulnerabilities, some of which can be found under the [advisories](/advisories/) section.
+
+In 2020, [Chris and Steven won the Pwn2Own ICS competition](https://www.youtube.com/watch?v=Frd1LVgjXas) held in Miami and currently Steven focuses on cloud security research.
 
 ### Student Requirements
 
-<div markdown="1" class="cn">
 - At least basic scripting skills (moderate or advanced skills are *prefered*)
 - At least a basic understanding of various web technologies such as HTTP(S), proxies and browsers
-</div>
 
 ### Hardware Requirements
 
-<div markdown="1" class="cn">
 - A 64bit Host operating system
 - 16 Gb RAM minimum
-- VMWare Workstation/Fusion
-- 100 Gb Hard disk free minimum
-- Wired and Wireless network support
+- VMWare Workstation or Fusion
+- 200 Gb hard disk free minimum, this can be from an external drive
+- Wired and wireless networking support
 - USB 3.0 support
-</div>
 
-### <a id="syllabus"></a> Syllabus *
+### Syllabus
 
-<p class="cn" markdown="1">*** This syllabus is subject to change at the discretion of the instructor.**</p>
-
-<div markdown="1" class="cn">
+*** This syllabus is subject to change at the discretion of the instructor.**
 
 #### Day 0x01
 
@@ -205,52 +155,52 @@ javax.servlet.ServletException: java.lang.NullPointerException
   - Whitelist (ab)use
 - A zero-day bug hunt in a real target
 
-</div>
-
 ### Testimonials
 
-> <p class="cn" markdown="1">*"I recommend @steventseeley's Full Stack Web Attack from @sourceincite. I know it's going to be offered a few times next year, you should take it! It's training unlike anything else. I am excited to put my newly found skills to work. Awesome stuff!"*</p>
+> *"I recommend @steventseeley's Full Stack Web Attack from @sourceincite. I know it's going to be offered a few times next year, you should take it! It's training unlike anything else. I am excited to put my newly found skills to work. Awesome stuff!"*
 
-<p class="cn" markdown="1">- [@awhitehatter](https://twitter.com/awhitehatter/status/1180120923816386561)</p>
+- [@awhitehatter](https://twitter.com/awhitehatter/status/1180120923816386561)
 
-> <p class="cn" markdown="1">*"Just finished an amazing training course with @steventseeley - Full Stack Web Attack @sourceincite. I highly recommend it if you wanna take your php, java, and general web exploitation skills to the next level."*</p>
+> *"Just finished an amazing training course with @steventseeley - Full Stack Web Attack @sourceincite. I highly recommend it if you wanna take your php, java, and general web exploitation skills to the next level."*
 
-<p class="cn" markdown="1">- [@kiqueNissim](https://twitter.com/kiqueNissim/status/1179908013601251328)</p>
+- [@kiqueNissim](https://twitter.com/kiqueNissim/status/1179908013601251328)
 
-> <p class="cn" markdown="1">*"It was a great course, I think is one of the best I ever had, I liked how Steven always explained each exercise very well and clarified any doubts. Essentially I'm very happy to have taken this course and I will recommend it to my collegues for the next year. Thanks Steven!"*</p>
+> *"It was a great course, I think is one of the best I ever had, I liked how Steven always explained each exercise very well and clarified any doubts. Essentially I'm very happy to have taken this course and I will recommend it to my collegues for the next year. Thanks Steven!"*
 
-<p class="cn" markdown="1">- Anonymous</p>
+- Anonymous
 
-> <p class="cn" markdown="1">*"GREAT course man! thank you SO much!"*</p>
+> *"GREAT course man! thank you SO much!"*
 
-<p class="cn" markdown="1">- Anonymous</p>
+- Anonymous
 
-> <p class="cn" markdown="1">*"try harder, thanks mr_m3"*</p>
+> *"try harder, thanks mr_m3"*
 
-<p class="cn" markdown="1">- Anonymous</p>
+- Anonymous
 
-> <p class="cn" markdown="1">*"It was very inspiring to see your strategy, way of thinking and searching through code. That is even more valuable than the vulnerabilities themselves. It was possibly one of the most challenging trainings, I took, in a good way."*</p>
+> *"It was very inspiring to see your strategy, way of thinking and searching through code. That is even more valuable than the vulnerabilities themselves. It was possibly one of the most challenging trainings, I took, in a good way."*
 
-<p class="cn" markdown="1">- Anonymous</p>
+- Anonymous
 
-#### FAQ
+### FAQ
 
-<p class="cn" markdown="1">*Why are you only offering 3 public trainings this year?*</p>
+*Why are you only offering X number of public trainings this year?*
 
-<p class="cn" markdown="1">**Our primary business is vulnerability research and exploitation. Course content is derived from such research and in order to provide a training that covers *bleeding edge attack techniques* the instructor needs to continually improve their skills.**</p>
+**Our primary business is vulnerability research and exploitation. Course content is derived from such research and in order to provide a training that covers *bleeding edge attack techniques* the instructor needs to continually improve their skills.**
 
-<p class="cn" markdown="1">*Why are you not offering a training in Mexico?*</p>
+*Is this class offered online?*
 
-<p class="cn" markdown="1">**This year we are offering two (2) trainings in the USA and believe this services the American market. However, if demand increases, we may offer a Mexican based training for 2020.**</p>
+**Unfortunately we are not offering this class online and we are not planning to in the future. This training is offered live because we love building relationships with the students and love watching that moment of realization where a student recognizes a level of empowerment they never thought possible.**
 
-<p class="cn" markdown="1">*Can I get a discount?*</p>
+*Can I get a discount?*
 
-<p class="cn" markdown="1">**No.**</p>
+**No.**
 
-<p class="cn" markdown="1">*Do you offer private trainings?*</p>
+*Do you offer private trainings?*
 
-<p class="cn" markdown="1">**Yes, on a case by case basis. For private trainings in the USA please contact the [Center for Cyber Security Training](https://ccsecuritytraining.com/contact-us/). For all other countries please contact [training@](mailto:training@srcincite.io).**</p>
+**Yes, on a case by case basis. Please contact [training@](mailto:training@srcincite.io).**
 
-#### Additional Material
+### Additional Material
 
-<p class="cn" markdown="1">The madness doesn't stop. Preconfigured environments will be provided for additional work after class ends for the rediscovery and exploitation of n-day vulnerabilities.</p>
+The madness doesn't stop. Preconfigured environments will be provided for additional work after class ends for the rediscovery and exploitation of n-day vulnerabilities.
+
+[ret2toc](#table-of-contents)

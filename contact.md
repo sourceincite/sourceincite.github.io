@@ -4,9 +4,5 @@ title: Contact
 permalink: /contact/
 ---
 
-<div class="cn" markdown="1">
-
-- [esteban@srcincite.io](mailto:esteban@srcincite.io)
+- [steven@srcincite.io](mailto:steven@srcincite.io)
 - [@steventseeley](https://twitter.com/steventseeley)
-
-</div>
