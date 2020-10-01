@@ -7,13 +7,24 @@
 
 # Site settings
 title: Source Incite
-email: steven@srcincite.io
+author:
+  name: stevenseeley
+  email: steven@srcincite.io
 description: > # this means to ignore newlines until "baseurl:"
   experts in offensive technologies
+
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://srcincite.io" # the base hostname & protocol for your site
 twitter_username: sourceincite
 github_username:  sourceincite
+
+minima:
+  date_format: "%b %-d, %Y"
+  social_links:
+    twitter: steventseeley
+    github:  sourceincite
+  
+excerpt_separator: <!--more-->
 
 # Build settings
 markdown: kramdown

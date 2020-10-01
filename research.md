@@ -4,7 +4,7 @@ title: Research
 permalink: /research/
 ---
 
-<p class="cn">The following links are some of my past information security research. Not all.</p>
+The following links are some of my past information security research. Not all.
 
 * [Advisories](/advisories)
 * [Exploits](/exploits)
@@ -14,7 +14,7 @@ permalink: /research/
 ---
 * [Bridgit](https://github.com/stevenseeley/bridgit)
 
-   <p class="cn" markdown="1">This was a tool I developed to discover [src-2018-0027](https://srcincite.io/advisories/src-2018-0027) and re-discover/exploit [ZDI-18-332](https://www.zerodayinitiative.com/advisories/ZDI-18-332/).</p>
+   This was a tool I developed to discover [src-2018-0027](https://srcincite.io/advisories/src-2018-0027) and re-discover/exploit [ZDI-18-332](https://www.zerodayinitiative.com/advisories/ZDI-18-332/).
 
 ### Competitions:
 
@@ -22,36 +22,36 @@ permalink: /research/
 
 - [Pwn2Own ICS Miami 2020 - Master of Pwn](https://www.zerodayinitiative.com/blog/2020/1/21/pwn2own-miami-2020-schedule-and-live-results)
 
-   <p class="cn" markdown="1">In preperation for this competition, [Chris Anastasio](https://twitter.com/mufinnnnnnn) and I found multiple vulnerabilities and developed exploits targeting several ICS applications that allowed us to win the competition!</p>
+   In preperation for this competition, [Chris Anastasio](https://twitter.com/mufinnnnnnn) and I found multiple vulnerabilities and developed exploits targeting several ICS applications that allowed us to win the competition!
 
 ### Presentations:
 
 ---
-<p class="cn">Some past presentations that I have shared.</p>
+Some past presentations that I have shared.
 
 * [Internet Security Conference :: China :: 2020 - Out of Hand :: Attacks Against PHP Environments](/assets/out-of-hand-attacks-against-php-environments.pdf)
 
-   <p class="cn">In this presentation I discuss a few interesting primitives in the current PHP environment. The first allows an attacker to achieve an information disclosure using TypeError and the second is how an external entity injection (XXE) vulnerability can be leveraged for deserialization of untrusted data.</p>
+   In this presentation I discuss a few interesting primitives in the current PHP environment. The first allows an attacker to achieve an information disclosure using TypeError and the second is how an external entity injection (XXE) vulnerability can be leveraged for deserialization of untrusted data.
    
 * [BlueHatIL :: Israel :: 2019 - Postscript Pat and His Black and White Hat](/assets/postscript-pat-and-his-black-and-white-hat.pdf)
 
-   <p class="cn">I discussed how I developed a postscript fuzzer to target Adobe's postscript engine and uncover many zeroday vulnerabilities.</p>
+   I discussed how I developed a postscript fuzzer to target Adobe's postscript engine and uncover many zeroday vulnerabilities.
 
 * [BSides :: Mexico :: 2018 - Foxes Among Us](/assets/Foxes-Among-Us-Steven-Seeley-bsidescdmx-2018.pdf)
 
-   <p class="cn">I discussed how I found a use-after-free vulnerability and chained it together with an uninitialized object vulnerability to achieve reliable exploitation bypassing several operating system mitigations.</p>
+   I discussed how I found a use-after-free vulnerability and chained it together with an uninitialized object vulnerability to achieve reliable exploitation bypassing several operating system mitigations.
 
 * [Hack in The Box :: Netherlands :: 2017 - I got 99 trends and a # is all of them](/assets/D1T1-Steven-Seeley-and-Roberto-Suggi-Liverani-I-Got-99-Trends-and-a-Shell-Is-All-Of-Them.pptx)
 
-   <p class="cn">Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software.</p>
+   Roberto and I discussed how we found over 200+ Remote Code Execution vulnerabilities within Trend Micro Software.
 
 * [Hack in The Box :: Netherlands :: 2012 - Ghost in the allocator](/assets/D2T2-Steven-Seeley-Ghost-In-the-Allocator.pdf)
 
-   <p class="cn">Here I demonstrated a new technique/variation for exploitation against the Windows 7 heap manager that abuses the allocation offset mechanism. Additionally, I also presented a likely attack technique against the consumer preview version of the Windows 8 heap manager.</p>
+   Here I demonstrated a new technique/variation for exploitation against the Windows 7 heap manager that abuses the allocation offset mechanism. Additionally, I also presented a likely attack technique against the consumer preview version of the Windows 8 heap manager.
 
 * [Ruxcon :: Australia :: 2012 - How to catch a chameleon](/assets/How-to-catch-a-chameleon-StevenSeeley-Ruxcon-2012.pdf)
 
-   <p class="cn" markdown="1">This presentation was about the introduction of a plugin for Immunity Debugger that I developed called [heaper](https://github.com/stevenseeley/heaper) that is designed to not only detect a corrupted heap state before out-of-bounds memory access, but was also designed to detect exploitable conditions in past Windows operating systems.</p>
+   This presentation was about the introduction of a plugin for Immunity Debugger that I developed called [heaper](https://github.com/stevenseeley/heaper) that is designed to not only detect a corrupted heap state before out-of-bounds memory access, but was also designed to detect exploitable conditions in past Windows operating systems.
 
 ### Other blog posts I have written:
 
@@ -62,7 +62,7 @@ permalink: /research/
 ### Media:
 
 ---
-<p class="cn">Some mentions of my work that are publically available.</p>
+Some mentions of my work that are publically available.
 
 * [Inside the World's Highest-Stakes Industrial Hacking Contest](https://www.wired.com/story/pwn2own-industrial-hacking-contest/)
 * [Critics Hit Out at Cisco After Security Researcher Finds 120+ Vulnerabilities in a Single Product](https://www.cbronline.com/data-centre/cisco-data-center-network-manager/)

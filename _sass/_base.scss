@@ -12,7 +12,7 @@ dl, dd, ol, ul, figure {
  * Basic styling
  */
 body {
-    font: $second-font-weight #{$second-font-size}/#{$second-line-height} $second-font-family;
+    font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
     color: $text-color;
     background-color: $background-color;
     -webkit-text-size-adjust: 100%;
@@ -70,7 +70,9 @@ li {
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: $base-font-weight;
+	font: $second-font-weight #{$second-font-size}/#{$second-line-height} $second-font-family;
+    font-weight: $second-font-weight;
+
 }
 
 /**

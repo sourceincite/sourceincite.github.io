@@ -3,32 +3,27 @@ layout: post
 title: "Once Upon a Type Confusion"
 date: 2016-09-21 12:34:15 -0600
 categories: blog
-excerpt_separator: <!--more-->
 ---
 
-<p class="cn" markdown="1"><img class="excel" alt="Microsoft Office Excel" src="/assets/images/excel.png">
-Last week, Microsoft released the MS16–107 to patch CVE-2016-3363, which is a `Type Confusion` vulnerability within Microsoft Excel 2007, 2010, 2013 and 2016 both 32 and 64 bit versions. This post will show you how I determined the vulnerability class and some lightweight technical details around the vulnerability.</p>
+![](/assets/images/once-upon-a-type-confusion/excel.png) 
+
+Last week, Microsoft released the MS16–107 to patch CVE-2016-3363, which is a Type Confusion vulnerability within Microsoft Excel 2007, 2010, 2013 and 2016 both 32 and 64 bit versions. This post will show you how I determined the vulnerability class and some lightweight technical details around the vulnerability.
 
 <!--more-->
 
-<p class="cn" markdown="1">After minimising the Proof of Concept and visualising the structures in [offviz][offviz], we can see the differences:</p>
+After minimising the Proof of Concept and visualising the structures in [offviz][offviz], we can see the differences. Here is the original sample:
 
-{% include image.html
-            img="assets/images/type-confusion-sample.png"
-            title="The original sample"
-            caption="The original sample" %}
+![The original sample](/assets/images/once-upon-a-type-confusion/type-confusion-sample.png "The original sample")
 
-{% include image.html
-            img="assets/images/type-confusion-trigger.png"
-            title="The trigger sample"
-            caption="The trigger sample" %}
+Here is the trigger sample:
 
-<p class="cn" markdown="1">Within a BIFFRecord structure, there are several BIFFRecord_General structures that are defined. Following a set number of BIFFRecord_General structures defined in the BIFFRecord, the code blindly assumes that the next structure is a EOF Record. More details about the specification can be found in OpenOffice’s version of [Microsoft Excel File Format][excelfileformat] document.</p>
+![The trigger sample](/assets/images/once-upon-a-type-confusion/type-confusion-trigger.png "The trigger sample")
 
-<p class="cn" markdown="1">The trigger occurs in the protected mode (brokered process) of Microsoft Excel, so we are going to have to enable child debugging within windbg.</p>
-<p class="cn" markdown="1">Running the Proof of Concept yields in the following crash dump:</p>
+Within a BIFFRecord structure, there are several BIFFRecord_General structures that are defined. Following a set number of BIFFRecord_General structures defined in the BIFFRecord, the code blindly assumes that the next structure is a EOF Record. More details about the specification can be found in OpenOffice’s version of [Microsoft Excel File Format][excelfileformat] document.
 
-{% highlight text %}
+The trigger occurs in the protected mode (brokered process) of Microsoft Excel, so we are going to have to enable child debugging within windbg. Running the Proof of Concept yields in the following crash dump:
+
+```
 (6ec.9a0): Break instruction exception — code 80000003 (first chance)
 eax=7ffd5000 ebx=00000000 ecx=00000000 edx=776bebb3 esi=00000000 edi=00000000
 eip=77653c4c esp=045afe3c ebp=045afe68 iopl=0 nv up ei pl zr na pe nc
@@ -55,11 +50,11 @@ eip=2fd22c77 esp=001ff728 ebp=001ff764 iopl=0         nv up ei pl nz na pe nc
 cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00010206
 Excel!Ordinal40+0x322c77:
 2fd22c77 8b5164          mov     edx,dword ptr [ecx+64h] ds:0023:0a3c1004=????????
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">We can see that initially it is an out-of-bounds read in @ecx. Lets go ahead and dump @ecx to get an understanding for its size and structure.</p>
+We can see that initially it is an out-of-bounds read in @ecx. Lets go ahead and dump @ecx to get an understanding for its size and structure.
 
-{% highlight text %}
+```
 1:025> !heap -p -a @ecx
  address 0a3c0fa0 found in
  _DPH_HEAP_ROOT @ 1211000
@@ -130,11 +125,11 @@ Excel!Ordinal40+0x322c77:
 0a3c1014 ????????
 0a3c1018 ????????
 0a3c101c ????????
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">We can see that the heap buffer is of size 0x60 bytes. Now, we can set a breakpoint at the @eip where the access violation is occurring and run the sample.xls file to see if there is a change in the heap buffer structure are size.</p>
+We can see that the heap buffer is of size 0x60 bytes. Now, we can set a breakpoint at the @eip where the access violation is occurring and run the sample.xls file to see if there is a change in the heap buffer structure are size.
 
-{% highlight text %}
+```
 Breakpoint 0 hit
 eax=21aa8c98 ebx=21aa8de8 ecx=2a97cf70 edx=00000301 esi=00000007 edi=001d1e58
 eip=2f7f2c77 esp=001d1e38 ebp=001d1e74 iopl=0         nv up ei pl nz na po nc
@@ -215,61 +210,59 @@ EXCEL!Ordinal40+0x322c77:
 2a97cff4  00000000
 2a97cff8  00000000
 2a97cffc  23416f28
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">We can see that this time, the heap chunk size is 0x90 and that at our +0x64 dereference location, it is set to null. This indicates that the code is suppose to be operating on a heap chunk of size 0x90, yet in our crashing Proof of Concept, we can see it is using a chunk of size 0x60 with a different structure.</p>
+We can see that this time, the heap chunk size is 0x90 and that at our +0x64 dereference location, it is set to null. This indicates that the code is suppose to be operating on a heap chunk of size 0x90, yet in our crashing Proof of Concept, we can see it is using a chunk of size 0x60 with a different structure.
 
-<p class="cn" markdown="1">What is not shown here, is that both the trigger and the sample files, when hitting this breakpoint, have the exact same callstacks. This is important as it is possible that the same location, can operate on different object types and sizes (although unlikley).</p>
+What is not shown here, is that both the trigger and the sample files, when hitting this breakpoint, have the exact same callstacks. This is important as it is possible that the same location, can operate on different object types and sizes (although unlikley).
 
-<p class="cn" markdown="1">Now, at +0x0 and +0x8c of the valid chunk, we can see other heap chunk pointers that could be used by subsequent functions to achieve Remote Code Execution via a code flow redirection.</p>
+Now, at +0x0 and +0x8c of the valid chunk, we can see other heap chunk pointers that could be used by subsequent functions to achieve Remote Code Execution via a code flow redirection.
 
-<p class="cn" markdown="1">Additionally, after analysing the vulnerability in IDA, an alternate approach to exploitation was discovered. We see the crashing @eip is located in sub_30322AF2.</p>
+Additionally, after analysing the vulnerability in IDA, an alternate approach to exploitation was discovered. We see the crashing @eip is located in sub_30322AF2.
 
-{% highlight text %}
+```
 .text:30322C77 loc_30322C77:                  
 .text:30322C77 mov edx, [ecx+64h]              ; control @edx
 .text:30322C7A mov ecx, [ecx+68h]              ; control @ecx
 .text:30322C7D sub [esp+38h+var_20_taint], edx ; taint var 0x20
 .text:30322C81 sub [esp+38h+var_1C_taint], ecx ; taint var 0x1c
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">Now, a few blocks down with multiple pathways from our crashing @eip we see some dword writes, the first of which, we control the value being written:</p>
+Now, a few blocks down with multiple pathways from our crashing @eip we see some dword writes, the first of which, we control the value being written:
 
-{% highlight text %}
+```
 .text:30322D00 loc_30322D00: 
 .text:30322D00 mov edi, [ebp+arg_0]              ; des
 .text:30322D03 add edi, 18h                      ; des offset +0x18
 .text:30322D06 lea esi, [esp+38h+var_20_taint]   ; src
 .text:30322D0A movsd                             ; write dword
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">This all looks a bit clearer in windbg:</p>
+This all looks a bit clearer in windbg:
 
-{% highlight text %}
+```
 30272d00 8b7d08 mov edi,dword ptr [ebp+8]
 30272d03 83c718 add edi,18h
 30272d06 8d742418 lea esi,[esp+18h]
 30272d0a a5 movs dword ptr es:[edi],dword ptr [esi]
-{% endhighlight %}
+```
 
-<p class="cn" markdown="1">Essentially crushing this 0x00000007 value with a controlled value in an alternate heap chunk:</p>
+Essentially crushing this 0x00000007 value with a controlled value in an alternate heap chunk:
 
-{% highlight text %}
+```
 1:025> dd poi(ebp+8)+18 L1
 0ade2df0 00000007
-{% endhighlight %}
+```
 
 ### Conclusion
 
-<p class="cn" markdown="1">Whilst in context, exploiting such a vulnerability would be very hard, type confusion vulnerabilities often give attackers several opportunities to achieve relative reads/writes or direct control flow highjacking.</p>
+Whilst in context, exploiting such a vulnerability would be very hard, type confusion vulnerabilities often give attackers several opportunities to achieve relative reads/writes or direct control flow highjacking.
 
-<p class="cn" markdown="1">In this case, we had the ability to tamper with data in an alternate chunk, thus, potentially influencing the control of execution when code is operating on that heap chunk. Many more opportunities for exploitation are likely to exist for this vulnerability and type confusions are excellent primitives for an attacker.</p>
+In this case, we had the ability to tamper with data in an alternate chunk, thus, potentially influencing the control of execution when code is operating on that heap chunk. Many more opportunities for exploitation are likely to exist for this vulnerability and type confusions are excellent primitives for an attacker.
 
-<p class="cn" markdown="1">The advisory can be found [here][advisory] along with a PoC [here][poc].</p>
+Feel free to check out the [advisory] or the [poc] if you like.
 
-<div class="cn" markdown="1">
 [offviz]: http://go.microsoft.com/fwlink/?LinkId=158791&usg=AFQjCNF_MQ5K2mj3WmG0gT55Q8Ym5rmPbQ&sig2=V8eCC2WwA1JBk_NxQVq5Vg
 [excelfileformat]: https://www.openoffice.org/sc/excelfileformat.pdf
-[advisory]: https://srcincite.io/advisories/src-2016-0038/
-[poc]: https://github.com/sourceincite/poc/blob/master/SRC-2016-0038.xls
-</div>
+[advisory]: /advisories/src-2016-0038/
+[poc]: /pocs/src-2016-0038.xls
