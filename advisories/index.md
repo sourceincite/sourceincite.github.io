@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server DataFormWebPart CreateChildControls Server-Side Include Remote Code Execution Vulnerability](src-2020-0022)
+
+---
+
 * [[SRC] Microsoft SharePoint Server SPHashtagHelper MakeOLSGetRequest Server-Side Request Forgery Information Disclosure Vulnerability](src-2020-0021)
 
 ---
