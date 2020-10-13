@@ -183,52 +183,9 @@ pre {
     }
 }
 
-
-/*
-
-Custom stuff for blog posts
-
-*/
-
-/*
-.word {
-    float: left;
-    border: 0px dotted black;
-    margin: 0px 1% 0px 0px;
-    height: 8%;
-    width: 8%;
-}
-
-
-.thumbnail {
-    float: left;
-    border: 0px dotted black;
-    margin: 0px 1% 0px 0px;
-    height: 8%;
-    width: 8%;
-}
-
-
-.blog-image {
-    border: 1px dotted black;
-    margin: 0px 0px 0px 0px;
-    height: 65%;
-    width: 75%;
-}
-
-.image-wrapper {
-    text-align: center;
-
-    .image-caption {
-        color: $grey-color;
-        margin-top: $spacing-unit / 3;
-    }
-}
-
-*/
+/* Custom stuff for blog posts */
 
 @import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
-
 .page-link{
     font: $second-font-weight #{$second-font-size}/#{$second-line-height} $second-font-family;
 }
