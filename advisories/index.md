@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server NewExchangeCertificate WriteRequest File Overwrite Denial of Service Vulnerability](src-2020-0027)
+
+---
+
+* [[SRC] Microsoft Exchange Server NewExchangeCertificate WriteRequest File Write Remote Code Execution Vulnerability](src-2020-0026)
+
+---
+
+* [[SRC] Microsoft Exchange Server ExportExchangeCertificate WriteCertiricate File Write Remote Code Execution Vulnerability](src-2020-0025)
+
+---
+
 * [[SRC] Microsoft SharePoint Server TOCTOU ControlParameter Binding Information Disclosure Vulnerability](src-2020-0024)
 
 ---
