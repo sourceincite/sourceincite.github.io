@@ -9,6 +9,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server TOCTOU ControlParameter Binding Information Disclosure Vulnerability](src-2020-0024)
+
+---
+
+* [[SRC] Microsoft SharePoint Server SoapDataSource GetResponseString Server-Side Request Forgery Information Disclosure Vulnerability](src-2020-0023)
+
+---
+
 * [[SRC] Microsoft SharePoint Server DataFormWebPart CreateChildControls Server-Side Include Remote Code Execution Vulnerability](src-2020-0022)
 
 ---
