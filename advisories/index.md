@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server PasswordRecovery Information Disclosure Vulnerability](src-2020-0028)
+
+---
+
 * [[SRC] Microsoft Exchange Server NewExchangeCertificate WriteRequest File Overwrite Denial of Service Vulnerability](src-2020-0027)
 
 ---
