@@ -25,7 +25,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Microsoft SharePoint Server TOCTOU ControlParameter Binding Information Disclosure Vulnerability](src-2020-0024)
+* [[SRC] Microsoft SharePoint Server TOCTOU ControlParameter Binding Remote Code Execution Vulnerability](src-2020-0024)
 
 ---
 
