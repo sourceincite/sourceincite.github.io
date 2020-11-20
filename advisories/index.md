@@ -41,7 +41,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] Microsoft SharePoint Server ExchangeAutodiscover GetDataFromURL Blind Server-Side Request Forgery Vulnerability](src-2020-0020)
+* [[SRC] Microsoft SharePoint Server ExchangeAutodiscover GetDataFromURL Blind Server-Side Request Forgery Tampering Vulnerability](src-2020-0020)
 
 ---
 
