@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server EWS RouteComplaint ParseComplaintData XML External Entity Processing Information Disclosure Vulnerability](src-2020-0031)
+
+---
+
+* [[SRC] Microsoft Exchange Server OWA OneDriveProUtilities GetWacUrl XML External Entity Processing Information Disclosure Vulnerability](src-2020-0030)
+
+---
+
+* [[SRC] Microsoft SharePoint Server DataFormParameter ParameterBinding Elevation of Privilege Vulnerability](src-2020-0029)
+
+---
+
 * [[SRC] Microsoft SharePoint Server PasswordRecovery Information Disclosure Vulnerability](src-2020-0028)
 
 ---
@@ -49,139 +61,139 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition prefs sync_calendars Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1054/))
+* [[ZDI] Horde Groupware Webmail Edition prefs sync_calendars Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1054/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition attendees fb_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1053/))
+* [[ZDI] Horde Groupware Webmail Edition attendees fb_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1053/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition fb fb_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1052/))
+* [[ZDI] Horde Groupware Webmail Edition fb fb_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1052/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1051/))
+* [[ZDI] Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1051/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Poll nav_poll Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1050/))
+* [[ZDI] Horde Groupware Webmail Edition Poll nav_poll Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1050/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Remote Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1049/))
+* [[ZDI] Horde Groupware Webmail Edition Remote Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1049/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Event event_alarms Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1048/))
+* [[ZDI] Horde Groupware Webmail Edition Event event_alarms Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1048/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition CalendarsManager _checkDisplayCals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1047/))
+* [[ZDI] Horde Groupware Webmail Edition CalendarsManager _checkDisplayCals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1047/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Search filter Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1046/))
+* [[ZDI] Horde Groupware Webmail Edition Search filter Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1046/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Search vfolder Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1045/))
+* [[ZDI] Horde Groupware Webmail Edition Search vfolder Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1045/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Flags msgflags Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1044/))
+* [[ZDI] Horde Groupware Webmail Edition Flags msgflags Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1044/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Expanded expanded_folders Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1043/))
+* [[ZDI] Horde Groupware Webmail Edition Expanded expanded_folders Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1043/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Upgrade upgrade_tasks Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1042/))
+* [[ZDI] Horde Groupware Webmail Edition Upgrade upgrade_tasks Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1042/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Horde last_logintasks Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1041/))
+* [[ZDI] Horde Groupware Webmail Edition Horde last_logintasks Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1041/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Compose reply_lang Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1040/))
+* [[ZDI] Horde Groupware Webmail Edition Compose reply_lang Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1040/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition prefs sync_calendars Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1039/))
+* [[ZDI] Horde Groupware Webmail Edition prefs sync_calendars Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1039/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Nag show_external Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1038/))
+* [[ZDI] Horde Groupware Webmail Edition Nag show_external Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1038/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Prefs sync_lists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1037/))
+* [[ZDI] Horde Groupware Webmail Edition Prefs sync_lists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1037/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition prefs sync_lists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1036/))
+* [[ZDI] Horde Groupware Webmail Edition prefs sync_lists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1036/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1035/))
+* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1035/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition List tasklist_columns Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1034/))
+* [[ZDI] Horde Groupware Webmail Edition List tasklist_columns Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1034/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Task task_alarms Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1033/))
+* [[ZDI] Horde Groupware Webmail Edition Task task_alarms Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1033/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1032/))
+* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1032/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1031/))
+* [[ZDI] Horde Groupware Webmail Edition Nag display_tasklists Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1031/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Ui generateUI Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1030/))
+* [[ZDI] Horde Groupware Webmail Edition Ui generateUI Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1030/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Kronolith remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1029/))
+* [[ZDI] Horde Groupware Webmail Edition Kronolith remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1029/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Mnemo display_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1028/))
+* [[ZDI] Horde Groupware Webmail Edition Mnemo display_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1028/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition prefs sync_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1027/))
+* [[ZDI] Horde Groupware Webmail Edition prefs sync_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1027/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Kronolith show_time Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1026/))
+* [[ZDI] Horde Groupware Webmail Edition Kronolith show_time Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1026/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition prefs sync_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1025/))
+* [[ZDI] Horde Groupware Webmail Edition prefs sync_notepads Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1025/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Collection portal_layout Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1024/))
+* [[ZDI] Horde Groupware Webmail Edition Collection portal_layout Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1024/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition Kronolith remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1023/))
+* [[ZDI] Horde Groupware Webmail Edition Kronolith remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1023/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition remote_edit remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1022/))
+* [[ZDI] Horde Groupware Webmail Edition remote_edit remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1022/)
 
 ---
 
-* [[ZDI] Horde Groupware Webmail Edition remote_unsubscribe remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1021/))
+* [[ZDI] Horde Groupware Webmail Edition remote_unsubscribe remote_cals Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-20-1021/)
 
 ---
 
