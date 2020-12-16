@@ -53,7 +53,7 @@ This function handles several different type of requests and the handlers are hi
 - proxyIEMoveFileEx
 - proxySendFileAsEmailAttachment
 
-Whilst some of these really stood out as highly exploitable functions, it wasn't always possible to reach the vulnerable API. Let's take `proxyIEMoveFileEx` for example. The function accepts three (3) arguments and is essentially a `MoveFileExW` call without any checks. The problem was however, the code wasn't parsing the supplied packet structure correctly making it impossible to exploit. *Developers test your code to make sure it even works before releasing it to the public!* Below is the location of the underlying API:
+Whilst some of these really stood out as highly exploitable functions, it wasn't always possible to reach the vulnerable API. Let's take `proxyIEMoveFileEx` for example. The function accepts three (3) arguments and is essentially a `MoveFileExW` call without any checks. The problem was however, I couldn't generate a packate structure that would reach the `MoveFileExW`. I would always hit an out of bounds read before reaching this bug and it appeared like the function wasn't working like the developers intended otherwise it would have been an easy to exploit logical vulnerability. Below is the location of the underlying API:
 
 ```
 .text:00420C85 loc_420C85:                             ; CODE XREF: sub_420930+331
@@ -71,7 +71,7 @@ Providing a correctly formatted request means we can eventually we can reach the
 
 ![Reaching the handler for proxyDoAction](/assets/images/its-not-our-sandbox/proxyDoAction_handler.png "Reaching the handler for proxyDoAction")
 
-Inside of the handler, we can see it accepts three (3() arguments:
+Inside of the handler, we can see it accepts three 3 arguments:
 
 ![sub_41E190 checks for 3 arguments](/assets/images/its-not-our-sandbox/proxyDoAction_args.png "sub_41E190 checks for 3 arguments")
 
