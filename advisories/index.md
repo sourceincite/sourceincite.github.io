@@ -9,6 +9,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server SPSqlDataSource Information Disclosure Vulnerability](src-2020-0034)
+
+---
+
+* [[SRC] Microsoft Exchange Server ImportTransportRuleCollection ProcessE15Format Remote Code Execution Vulnerability](src-2020-0033)
+
+---
+
+* [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy Remote Code Execution Vulnerability (patch bypass)](src-2020-0032)
+
+---
+
 * [[SRC] Microsoft Exchange Server EWS RouteComplaint ParseComplaintData XML External Entity Processing Information Disclosure Vulnerability](src-2020-0031)
 
 ---
