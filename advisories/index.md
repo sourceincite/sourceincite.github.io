@@ -5,6 +5,16 @@ permalink: /advisories/
 ---
 
 <details markdown="1" open>
+<summary class="cn">2021</summary>
+
+---
+
+* [[SRC] Microsoft SharePoint Server ContentEditorWebPart GetHttpWebResponse Server-Side Request Forgery Information Disclosure Vulnerability](src-2021-0001)
+
+---
+
+</details>
+<details markdown="1">
 <summary class="cn">2020</summary>
 
 ---
@@ -1035,7 +1045,6 @@ permalink: /advisories/
 ---
 
 </details>
-
 <details markdown="1">
 <summary class="cn">2019</summary>
 
@@ -2288,7 +2297,6 @@ permalink: /advisories/
 ---
 
 </details>
-
 <details markdown="1">
 <summary class="cn">2018</summary>
 
@@ -3760,7 +3768,6 @@ permalink: /advisories/
 ---
 
 </details>
-
 <details markdown="1">
 <summary class="cn">2017</summary>
 
@@ -5251,7 +5258,6 @@ permalink: /advisories/
 ---
 
 </details>
-
 <details markdown="1">
 <summary class="cn">2016</summary>
 
@@ -5714,7 +5720,6 @@ permalink: /advisories/
 ---
 
 </details>
-
 <details markdown="1">
 <summary class="cn">2015</summary>
 
