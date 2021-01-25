@@ -12,9 +12,7 @@ Recently I have been looking for vulnerabilities in a target that has some API's
 Its sufficient to say, that I have finally upheld my word. This blog post is more of a reference to my future self, but if some people get something out of it, then more power to them!
 <!--more-->
 
-TL;DR
-
-I developed a tool that will blindly fingerprint a non-obfuscated GWT cache file and generate basic GWT serialized strings, ready for auditing. You can read the [Conclusion](#conclude) and get the code.
+TL;DR; *I developed a tool that will blindly fingerprint a non-obfuscated GWT cache file and generate basic GWT serialized strings, ready for auditing. You can read the [Conclusion](#conclude) and get the code.*
 
 ### Overview
 
