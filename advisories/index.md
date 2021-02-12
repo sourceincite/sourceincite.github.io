@@ -9,6 +9,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server SPSqlDataSource Information Disclosure Vulnerability (patch bypass)](src-2021-0003)
+
+---
+
+* [[SRC] CS-Cart templates.manage Server Side Template Injection Remote Code Execution Vulnerability](src-2021-0002)
+
+---
+
 * [[SRC] Microsoft SharePoint Server ContentEditorWebPart GetHttpWebResponse Server-Side Request Forgery Information Disclosure Vulnerability](src-2021-0001)
 
 ---
