@@ -9,6 +9,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server msExchEcpCanary Cross Site Request Forgery Elevation of Privilege Vulnerability](src-2021-0004)
+
+---
+
 * [[SRC] Microsoft SharePoint Server SPSqlDataSource Information Disclosure Vulnerability (patch bypass)](src-2021-0003)
 
 ---
