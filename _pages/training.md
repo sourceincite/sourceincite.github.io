@@ -2,6 +2,7 @@
 layout: training
 title: Training
 isroot: True
+order: 6
 permalink: /training/
 ---
 

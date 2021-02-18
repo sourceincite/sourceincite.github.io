@@ -2,6 +2,7 @@
 layout: page
 title: Research
 isroot: True
+order: 5
 permalink: /research/
 ---
 

@@ -2,6 +2,7 @@
 layout: page
 title: Blog
 isroot: True
+order: 2
 permalink: /blog/
 ---
 

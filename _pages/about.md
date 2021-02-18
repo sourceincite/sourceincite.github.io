@@ -2,6 +2,7 @@
 layout: page
 title: About
 isroot: True
+order: 1
 permalink: /about/
 ---
 

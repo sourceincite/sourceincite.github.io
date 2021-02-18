@@ -2,6 +2,7 @@
 layout: page
 title: Advisories
 isroot: True
+order: 3
 permalink: /advisories/
 ---
 
@@ -10,7 +11,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] NetMotion Mobility Server webrepdb StatusServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](src-2021-0008)
+* [[SRC] NetMotion Mobility Server webrepdb StatusServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](/advisories/src-2021-0008)
 
 ---
 

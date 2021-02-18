@@ -2,6 +2,7 @@
 layout: page
 title: Contact
 isroot: True
+order: 7
 permalink: /contact/
 ---
 
