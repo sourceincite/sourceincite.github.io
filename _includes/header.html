@@ -10,9 +10,26 @@
         </svg>
       </a>
       <div class="trigger">
-        {% for my_page in site.pages %}
-          {% if my_page.title %}<a class="page-link cn" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>{% endif %}
-        {% endfor %}
+          {% for my_page in site.pages %}
+              {% if my_page.title %}
+		          {% if my_page.title == "Training" %}
+		              <div class="dropdown">
+			              <a class="page-link cn" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+                          <div class="dropdown-content">
+                              
+							  <a class="test cn" href="/training/syllabus/">Syllabus</a>
+                              <a class="test cn" href="/training/prerequisites/">Prerequisites</a>
+							  <a class="test cn" href="/training/challenge/">Challenge</a>
+							  <a class="test cn" href="/training/schedule-signup/">Schedule/Signup</a>
+							  <a class="test cn" href="/training/testimonials/">Testimonials</a>
+							  <a class="test cn" href="/training/faq/">Faq</a>
+                          </div>
+                      </div>
+			      {% elsif my_page.isroot %}
+                      <a class="page-link cn" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+			      {% endif %}
+              {% endif %}
+          {% endfor %}
       </div>
     </nav>
   </div>

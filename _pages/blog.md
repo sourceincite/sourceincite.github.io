@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Blog
+isroot: True
 permalink: /blog/
 ---
 

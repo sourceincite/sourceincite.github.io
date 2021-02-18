@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Research
+isroot: True
 permalink: /research/
 ---
 
