@@ -226,7 +226,7 @@ http://localhost:8000/page.php?poc=string:{$smarty.template_object->smarty->disa
 
 ##### Mitigation
 
-As a temporary workaround, the `disabled_special_smarty_vars` property can contain the an array with the string "template_object". 
+As a temporary workaround, the `disabled_special_smarty_vars` property can contain the an array with the string `template_object`. 
 
 However, this feature is completely [undocumented](https://www.smarty.net/docs/en/advanced.features.tpl#advanced.features.security). Below is an example of how to prevent the attack:
 
@@ -236,7 +236,7 @@ $my_security_policy->disabled_special_smarty_vars = array("template_object");
 $smarty->enableSecurity($my_security_policy);
 ```
 
-Just like the [static method call technique](#the-static-method-call-technique), I don't consider this a complete mitigation since this is not enabled by default.
+Just like the [static method call technique](#the-static-method-call-technique), I don't consider this a complete mitigation since this is not enabled by default in the sandbox.
 
 ## Smarty_Internal_Runtime_TplFunction Sandbox Escape PHP Code Injection
 
