@@ -1,17 +1,9 @@
 $brand-color: #2a7ae2;
 
-/* Dropdown Button */
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
-
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-  position: relative;
+  /*position: absolute;*/
+  float: right;
   display: inline-block;
 }
 
@@ -23,14 +15,13 @@ $brand-color: #2a7ae2;
   min-width: 130px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  /*overflow:auto;*/
-  /* width: 100%; */
+  left: auto;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
-  padding: 4px 8px;
+  padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
@@ -46,5 +37,5 @@ $brand-color: #2a7ae2;
 
 .menulinks{
     font: $base-font-weight #{$base-font-size}/#{$base-line-height} $second-font-family;
-	text-align: left;
+	left: auto;
 }
