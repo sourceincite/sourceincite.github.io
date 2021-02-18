@@ -20,7 +20,7 @@ $brand-color: #2a7ae2;
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  /*min-width: 160px;*/
+  min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   overflow:auto;
@@ -45,5 +45,5 @@ $brand-color: #2a7ae2;
 .dropdown:hover .page-link {background-color: #ddd;}
 
 .menulinks{
-    font: $second-font-weight #{$second-font-size}/#{$second-line-height} $second-font-family;
+    font: $base-font-weight #{$small-font-size}/#{$base-line-height} $second-font-family;
 }
