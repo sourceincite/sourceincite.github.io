@@ -29,6 +29,18 @@ This training covers web application vulnerability research - Approaches to disc
 
 \* The day to day hours maybe adjusted at the descretion of the trainer and students.
 
+**How many students are their per class?**
+
+For online classes, there is a maximum of 20 students and live classes with a maximum of 25.
+
+**What is the price of the course?**
+
+All prices are in USD and include IVA:
+
+- Student price (must register with .edu email address) $3,133.17
+- Early bird price (6 weeks before the session) $3,600.00
+- Regular price $4,000.00
+
 **Why are you only offering X number of public trainings this year?**
 
 Our primary business is vulnerability research and exploitation. Course content is derived from such research and in order to provide a training that covers *bleeding edge attack techniques* the instructor needs to continually improve their skills.
