@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Smarty Template Engine Smarty_Internal_Runtime_TplFunction Sandbox Escape Remote Code Execution Vulnerability](src-2021-0010)
+
+---
+
+* [[SRC] Smarty Template Engine template_object Sandbox Escape Remote Code Execution Vulnerability](src-2021-0009)
+
+---
+
 * [[SRC] NetMotion Mobility Server webrepdb StatusServlet Deserialization of Untrusted Data Remote Code Execution Vulnerability](src-2021-0008)
 
 ---
