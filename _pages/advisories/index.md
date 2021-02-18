@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Advisories
+isroot: True
 permalink: /advisories/
 ---
 
