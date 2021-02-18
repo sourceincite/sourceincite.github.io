@@ -276,7 +276,7 @@ http://localhost:8000/page.php?poc=string:{function+name='rce(){};system("id");f
 
 ### Tiki Wiki 
 
-When we combine CVE-2020-15906 and CVE-2021-26119 together, we can achieve unauthenticated remote code execution using [this exploit](/pocs/CVE-2021-26119.py.txt):
+When we combine CVE-2020-15906 and CVE-2021-26119 together, we can achieve unauthenticated remote code execution using [this exploit](/pocs/cve-2021-26119.py.txt):
 
 ```
 researcher@incite:~/tiki$ ./poc.py
@@ -308,7 +308,7 @@ news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
 
 ### CMS Made Simple
 
-When we combine CVE-2019-9053 and CVE-2021-26120 together, we can achieve unauthenticated remote code execution using [this exploit](/pocs/CVE-2021-26120.py.txt):
+When we combine CVE-2019-9053 and CVE-2021-26120 together, we can achieve unauthenticated remote code execution using [this exploit](/pocs/cve-2021-26120.py.txt):
 
 ```
 researcher@incite:~/cmsms$ ./poc.py
