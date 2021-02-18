@@ -96,7 +96,7 @@ A hardened sandbox page has been created that goes beyond the default sandbox to
 
 ```php
 <?php
-include_once('./smarty/libs/Smarty.class.php');
+include_once('./smarty-3.1.38/libs/Smarty.class.php');
 $smarty = new Smarty();
 $my_security_policy = new Smarty_Security($smarty);
 $my_security_policy->php_functions = null;
