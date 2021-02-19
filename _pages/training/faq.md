@@ -31,7 +31,7 @@ This training covers web application vulnerability research - Approaches to disc
 
 **How many students are their per class?**
 
-For online classes, there is a maximum of 20 students and live classes with a maximum of 25.
+For online classes, there is a maximum of 16 students and live classes with a maximum of 20.
 
 **What is the price of the course?**
 
