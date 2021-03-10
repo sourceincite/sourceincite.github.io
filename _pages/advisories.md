@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server ImportTransportRuleCollection ProcessE15Format Remote Code Execution Vulnerability (patch bypass)](src-2021-0012)
+
+---
+
 * [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy Remote Code Execution Vulnerability (patch bypass)](src-2021-0011)
 
 ---
