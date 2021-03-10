@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy Remote Code Execution Vulnerability (patch bypass)](src-2021-0011)
+
+---
+
 * [[SRC] Smarty Template Engine Smarty_Internal_Runtime_TplFunction Sandbox Escape Remote Code Execution Vulnerability](src-2021-0010)
 
 ---
