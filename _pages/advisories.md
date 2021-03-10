@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy ruleParameters TOCTOU Remote Code Execution Vulnerability (patch bypass)](src-2021-0013)
+
+---
+
 * [[SRC] Microsoft Exchange Server ImportTransportRuleCollection ProcessE15Format Remote Code Execution Vulnerability (patch bypass)](src-2021-0012)
 
 ---
