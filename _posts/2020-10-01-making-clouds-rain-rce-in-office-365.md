@@ -681,7 +681,7 @@ A big thanks to [Jarek](https://twitter.com/ja_wreck) and [Sylvie](https://twitt
 
 ## Conclusion
 
-We really need to be asking ourselves: Is relying on a cloud providers with a single point of failure system the right approach?
+We really need to be asking ourselves: Is relying on a cloud providers with a single point of failure the right approach?
 
 When we are looking at new technologies or focusing on new areas, it's always wise to re-evaluate the threat landscape. Attackers may infact have more access than you initially thought and this can greatly expand the attack surface of a given technology. Microsoft rated this bug as critical because it also impacted multiple SaaS[^5] providers as well as on-premise installations and I agree with that assessment.
 
