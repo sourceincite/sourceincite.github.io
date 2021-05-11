@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] zzzcms zzzphp parserIfLabel PHP Injection Remote Code Execution Vulnerability](src-2021-0015)
+
+---
+
+* [[SRC] Progress MOVEit Transfer (DMZ) SILHuman FolderApplySettingsRecurs SQL Injection Remote Code Execution Vulnerability](src-2021-0014)
+
+---
+
 * [[SRC] Microsoft Exchange Server DlpUtils AddTenantDlpPolicy ruleParameters TOCTOU Remote Code Execution Vulnerability (patch bypass)](src-2021-0013)
 
 ---
