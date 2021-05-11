@@ -11,7 +11,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] zzzcms zzzphp parserIfLabel PHP Injection Remote Code Execution Vulnerability](src-2021-0015)
+* [[SRC] zzzcms zzzphp parserIfLabel Template Injection Remote Code Execution Vulnerability](src-2021-0015)
 
 ---
 
