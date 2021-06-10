@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Jetty Utility Servlets ConcatServlet Double Decoding Information Disclosure Vulnerability](src-2021-0017)
+
+---
+
+* [[SRC] Microsoft SharePoint Server InputFormRegularExpressionValidator Denial of Service Vulnerability](src-2021-0016)
+
+---
+
 * [[ZDI] Microsoft Exchange Server Missing Check of Message Integrity Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-615/)
 
 ---
