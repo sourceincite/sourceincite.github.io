@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server ProfilePropertyLoader Information Disclosure Vulnerability](src-2021-0019)
+
+---
+
+* [[SRC] Microsoft SharePoint Server OAuth Authorization Code Leak Elevation of Privilege Vulnerability](src-2021-0018)
+
+---
+
 * [[SRC] Jetty Utility Servlets ConcatServlet Double Decoding Information Disclosure Vulnerability](src-2021-0017)
 
 ---
