@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Eclipse PHP Development Tools DBGP XML External Entity Processing Information Disclosure Vulnerability](src-2021-0020)
+
+---
+
 * [[SRC] Microsoft SharePoint Server ProfilePropertyLoader Information Disclosure Vulnerability](src-2021-0019)
 
 ---

