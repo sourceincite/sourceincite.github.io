@@ -96,7 +96,7 @@ The code calls `normalizeRelativePath` with the attackers supplied filename at [
     }
 ```
 
-In summary the code is stripping the filename of any non-printable characters which can be used to bypass block list checks. But definitely props for the .. check ;-)
+In summary the code is stripping the filename of any non-printable characters (invisible control characters and unused code points 0x00–0x1F and 0x7F–0x9F) which can be used to bypass block list checks. But definitely props for the .. check ;-)
 
 # Bonus:
 
