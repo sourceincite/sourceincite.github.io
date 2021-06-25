@@ -5,10 +5,10 @@ date: 2021-02-18 08:00:00 -0500
 categories: blog
 ---
 
-In this blog post we explore two different sandbox escape vulnerabilities discovered in the [Smarty Template Engine](https://github.com/smarty-php/smarty) that can be leveraged by a context dependant attacker to execute arbitrary code. Then we explore how the vulnerabilities can be applyed to some applications that attempt to use the engine in a secure way.
+In this blog post we explore two different sandbox escape vulnerabilities discovered in the [Smarty Template Engine](https://github.com/smarty-php/smarty) that can be leveraged by a context dependant attacker to execute arbitrary code. Then we explore how these vulnerabilities can be applyed to some applications that attempt to use the engine in a secure way.
 <!--more-->
 
-The discovered vulnerabilities are impact Smarty Template Engine <= 3.1.38:
+The discovered vulnerabilities impact the Smarty Template Engine <= 3.1.38:
 
 **1. template_object Sandbox Escape PHP Code Injection**
 
