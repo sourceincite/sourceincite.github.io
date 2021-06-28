@@ -153,7 +153,7 @@ The most important point is that at [5] the code calls `readObject` using the co
 
 ## Exploitation:
 
-For exploitation, an attacker can (ab)use the `MDMLogUploaderServlet` servlet to plant a file on the filsystem with controlled content inside. Here is the corresponding web.xml entry:
+For exploitation, an attacker can (ab)use the `MDMLogUploaderServlet` servlet to plant a file on the filesystem with controlled content inside. Here is the corresponding web.xml entry:
 
 ```
 <servlet>
