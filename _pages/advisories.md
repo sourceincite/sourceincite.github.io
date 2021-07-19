@@ -11,7 +11,7 @@ permalink: /advisories/
 
 ---
 
-* [[SRC] (Pwn2Own) Microsoft Exchange Server CabUtility ExtractCab Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-826/)
+* [[ZDI] (Pwn2Own) Microsoft Exchange Server CabUtility ExtractCab Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-826/)
 
 ---
 
