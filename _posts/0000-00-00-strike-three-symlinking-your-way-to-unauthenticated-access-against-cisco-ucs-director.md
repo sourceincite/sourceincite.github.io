@@ -918,7 +918,7 @@ uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10
 [root@localhost inframgr]#
 ```
 
-You can see find the exploit code [here](/pocs/cve-2020-32{43,47}.py.txt) and [here](/pocs/src-2020-0014.py.txt). Excuse the py2 code eh?
+You can find the exploit code [here](/pocs/cve-2020-32{43,47}.py.txt) and [here](/pocs/src-2020-0014.py.txt). Excuse the py2 code eh?
 
 ## Conclusion
 
