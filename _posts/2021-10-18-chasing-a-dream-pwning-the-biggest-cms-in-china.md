@@ -129,7 +129,7 @@ Host: target
 
 I didn't report these bugs because they provided no impact (otherwise I would have called them vulnerabilities). The open URL redirection bug cannot further an attacker on its own and the phar deserialization bug cannot be triggered without a [gadget chain](/blog/2020/08/19/a-smorgashorde-of-vulnerabilities-a-comparative-analysis-of-discovery.html).
 
-The trained eye will spot something extra interesting though. At line *\[4\]* the code creates an attacker controlled variable using the `_name` string which will be unfiltered from `_RunMagicQuotes`. This means that an attacker with admin credentials can trigger an SQL injection and bypass the `_RunMagicQuotes` function using a file upload:
+The trained eye will spot something extra interesting though. At line *\[4\]* the code creates an attacker controlled variable using the `_name` string which will be unfiltered from `_RunMagicQuotes`. This means that an attacker with admin credentials can trigger an SQL injection in the `sys_payment.php` script by bypassing the `_RunMagicQuotes` function using a file upload:
 
 ![](/assets/images/pre-authenticated-rce-in-dedecms/sqli.png "Admin level SQL injection is boring")
 
