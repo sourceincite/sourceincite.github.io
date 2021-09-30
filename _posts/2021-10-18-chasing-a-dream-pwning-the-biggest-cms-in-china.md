@@ -9,7 +9,7 @@ categories: blog
 
 In this blog post, I'm going to share a technical review of Dedecms (or Dream Weaving CMS as translated in English) including its attack surface and how it differs from other applications. Finally, I will finish off with a pre-authenticated remote code execution vulnerability impacting the [v5.8.1 pre-release](https://github.com/dedecms/DedeCMS/releases/tag/v5.8.1). This is an interesting piece of software because it dates back over 14 years since its initial release and PHP has changed a lot over the years.
 
-An online search for "what is the biggest CMS in China" quickly reveals that [multiple](https://symfony.fi/entry/the-most-popular-cms-in-china-is-dedecms) [sources](https://chineseseoshifu.com/blog/popular-chinese-content-management-systems-cms.html) [state](https://www.ostraining.com/blog/general/dede/) that Dedecms is the most popular. However, these sources all but have one thing in common: there old. 
+An online search for "what is the biggest CMS in China" quickly reveals that [multiple](https://symfony.fi/entry/the-most-popular-cms-in-china-is-dedecms) [sources](https://chineseseoshifu.com/blog/popular-chinese-content-management-systems-cms.html) [state](https://www.ostraining.com/blog/general/dede/) that Dedecms is the most popular. However, these sources all but have one thing in common: they're old. 
 
 <!--more-->
 
