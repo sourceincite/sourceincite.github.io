@@ -258,7 +258,7 @@ But we can avoid this function by using another function that also calls `mysqli
     }
 ```
 
-This is not any old sink though. This one doesn't use quotes, so we don't need to break out of a quoted string, which is required since our input will flow through the `_RunMagicQuotes` function. Usage of `GetTableFields` in a dangerous way can be found in the `dede/sys_data_done.php` script at line *\[10\]*:
+This is *not*, just any old sink though. This one doesn't use quotes, so we don't need to break out of a quoted string, which is required since our input will flow through the `_RunMagicQuotes` function. Usage of `GetTableFields` in a dangerous way can be found in the `dede/sys_data_done.php` script at line *\[10\]*:
 
 ```php
 if ($dopost == 'bak') {
