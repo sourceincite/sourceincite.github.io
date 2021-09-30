@@ -601,7 +601,7 @@ The following (non-exhaustive) list paths can reach the vulnerability:
 
 ## Reporting
 
-I found this vulnerability around April 2021 but decided to sit on it since it only impacted the [`pre-release`](https://github.com/dedecms/DedeCMS/releases/tag/v5.8.1) and not the release version. Alas, I decided to report the bug on 23rd of September to `opensource@dedecms.com` and 2 days later a [silent patch](https://github.com/dedecms/DedeCMS/commit/0e9268d2f30c928cc8a0479ca0c3c3fd64fc68c6) was released that addressed the bug:
+I found this vulnerability around April 2021 but decided to sit on it since it only impacted the [`pre-release`](https://github.com/dedecms/DedeCMS/releases/tag/v5.8.1) and not the release version. After months of inactivity on the repo, I decided to report the bug on 23rd of September to `opensource@dedecms.com` and 2 days later a [silent patch](https://github.com/dedecms/DedeCMS/commit/0e9268d2f30c928cc8a0479ca0c3c3fd64fc68c6) was released that addressed the bug:
 
 ![](/assets/images/pre-authenticated-rce-in-dedecms/patch.png "Deep within the commit, we see the bug was silently patched")
 
