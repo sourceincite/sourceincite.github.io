@@ -418,7 +418,7 @@ However this SQL injection was limited because I couldn't use `select`, `sleep` 
 ## ShowMsg Remote Code Execution Vulnerability
 
 - CVSS: 9.8 (/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H)
-- Version: <= 5.8 (latest)
+- Version: 5.8.1 pre-release
 
 ### Summary
 
