@@ -415,7 +415,7 @@ However this SQL injection was limited because I couldn't use `select`, `sleep` 
 
 ![](/assets/images/pre-authenticated-rce-in-dedecms/car_turn.jpg "Executing remote code is where we want to be")
 
-## ShowMsg Remote Code Execution Vulnerability
+## ShowMsg Template Injection Remote Code Execution Vulnerability
 
 - CVSS: 9.8 (/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H)
 - Version: 5.8.1 pre-release
@@ -426,7 +426,7 @@ An unauthenticated attacker can execute arbitrary code against vulnerable versio
 
 ### Vulnerability Analysis
 
-Inside of the `flink.php` script:
+Inside of the `plus/flink.php` script:
 
 ```php
 if ($dopost == 'save') {
@@ -438,7 +438,7 @@ if ($dopost == 'save') {
     }
 ```
 
-At *\[1\]* we can observe a call to `ShowMsg` which is defined in `/include/common.func.php`:
+At *\[1\]* we can observe a call to `ShowMsg` which is defined in `include/common.func.php`:
 
 ```php
 function ShowMsg($msg, $gourl, $onlymsg = 0, $limittime = 0)

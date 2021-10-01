@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Dedecms ShowMsg Template Injection Remote Code Execution Vulnerability](src-2021-0022)
+
+---
+
 * [[ZDI] (Pwn2Own) Microsoft Exchange Server CabUtility ExtractCab Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-826/)
 
 ---
