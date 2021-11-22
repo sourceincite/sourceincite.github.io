@@ -11,6 +11,22 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Commvault CommCell Demo_ExecuteProcessOnGroup Exposed Dangerous Function Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1331/)
+
+---
+
+* [[ZDI] Commvault CommCell DownloadCenterUploadHandler Arbitrary File Upload Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1330/)
+
+---
+
+* [[ZDI] Commvault CommCell DataProvider JavaScript Sandbox Escape Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1329/)
+
+---
+
+* [[ZDI] Commvault CommCell CVSearchService Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1328/)
+
+---
+
 * [[SRC] Foxit Reader Field OnBlur event Use-After-Free Remote Code Execution Vulnerability](src-2021-0028)
 
 ---
