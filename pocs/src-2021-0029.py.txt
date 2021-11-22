@@ -281,7 +281,7 @@ VALUES ('$arcID','$typeid','$sortrank','$flag','$ismake','$channelid','$arcrank'
 
 # Proof of Concept:
 
-It took just under 10 minutes in my testing to bypass authentication against a stock Apache2 server and delete the admin login page.
+It took just under 5 minutes in my testing to bypass authentication against a stock Apache2 server and delete the admin login page.
 
 ```
 researcher@neophyte:~$ time ./poc.py 2 192.168.184.175 dede/login.php
