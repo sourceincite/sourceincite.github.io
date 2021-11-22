@@ -11,6 +11,11 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability](src-2021-0029)
+
+---
+
+
 * [[ZDI] Commvault CommCell Demo_ExecuteProcessOnGroup Exposed Dangerous Function Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1331/)
 
 ---

