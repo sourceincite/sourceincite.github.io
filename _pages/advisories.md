@@ -11,7 +11,7 @@ permalink: /advisories/
 
 ---
 
-* [[ZDI] Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability](src-2021-0029)
+* [[SRC] Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability](src-2021-0029)
 
 ---
 
