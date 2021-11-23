@@ -142,7 +142,7 @@ Some time ago, long before a [blackhat](https://raw.githubusercontent.com/s-n-t/
 I am not going to deep dive into phar or how the technique works because its been explained well by [others](https://blog.ripstech.com/2018/new-php-exploitation-technique/). But essentially, we can set the metadata of a phar archive with an non-instantiated class.
 
 ```php
-$phar = new Phar('test.phar');
+$phar = new Phar('poc.phar');
 $phar->startBuffering();
 $phar->addFromString('test.txt', 'text');
 $phar->setStub('...');
