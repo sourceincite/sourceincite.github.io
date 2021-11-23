@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 """
 # Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability
-## Tested on: v5.7.80 release
+## Tested on the following versions: 
+
+- v5.7.80 release
+- v5.7.84 release
+
 ## Released as zero-day due to a lack of response:
 
 2021-10-21 - Sent to opensource@dedecms.com
