@@ -16,7 +16,7 @@ We decided to target the [CommVault Command Center Interface](https://documentat
 This is an interesting target because:
 
 1. It's a product that incorporates [several components](https://documentation.commvault.com/commvault/v11/article?p=111918.htm) (CommCell Console, Command Center, Web Console, CommServe Server, etc).
-1. There was a serious lack of decent vulnerabilities in CommVault. The only recent bug I could dig up was [CVE-2020-25780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25780) which is a directory traversal with an apparent disclosure impact and no public details.
+1. There was a serious lack of decent vulnerabilities in CommVault. The only recent bug I could dig up was [CVE-2020-25780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25780) which was a post authenticated directory traversal with an apparent disclosure impact and no public details.
 2. There is a mix of technologies from C# to Java which made it quite attractive to audit.
 
 After some time, we managed to chain 3 bugs (disclosed as two bugs - [ZDI-21-1328](https://www.zerodayinitiative.com/advisories/ZDI-21-1328/) and [ZDI-21-1331](https://www.zerodayinitiative.com/advisories/ZDI-21-1331/)) to achieve unauthenticated remote code execution as SYSTEM against a target CommVault node.
