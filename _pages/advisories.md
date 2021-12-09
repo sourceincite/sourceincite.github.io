@@ -5980,11 +5980,11 @@ permalink: /advisories/
 
 ---
 
-*   [[SRC] Oracle Endeca Tools and Frameworks AMF Request Beanshell Script Remote Code Execution Vulnerability](/advisories/src-2015-0003)
+*   [[SRC] Oracle Endeca Tools and Frameworks AMF Request Beanshell Script Remote Code Execution Vulnerability](src-2015-0003)
 
 ---
 
-*   [[SRC] Oracle Endeca Tools and Frameworks Session Generation Authentication Bypass Vulnerability](/advisories/src-2015-0002)
+*   [[SRC] Oracle Endeca Tools and Frameworks Session Generation Authentication Bypass Vulnerability](src-2015-0002)
 
 ---
 
@@ -5996,7 +5996,7 @@ permalink: /advisories/
 
 ---
 
-*   [[SRC] Microsoft Windows Journal Use-After-Free Remote Code Execution Vulnerability](/advisories/src-2015-0001)
+*   [[SRC] Microsoft Windows Journal Use-After-Free Remote Code Execution Vulnerability](src-2015-0001)
 
 ---
 
