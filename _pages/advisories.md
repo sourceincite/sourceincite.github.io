@@ -7,6 +7,16 @@ permalink: /advisories/
 ---
 
 <details markdown="1" open>
+<summary class="cn">2022</summary>
+
+* [[SRC] Zoho ManageEngine Desktop Central ChangeAmazonPasswordServlet Elevation of Privilege Vulnerability](src-2022-0002)
+
+* [[SRC] Zoho ManageEngine Desktop Central StateFilter Arbitrary Forward Authentication Bypass Vulnerability](src-2022-0001)
+
+---
+
+</details>
+<details markdown="1">
 <summary class="cn">2021</summary>
 
 ---
