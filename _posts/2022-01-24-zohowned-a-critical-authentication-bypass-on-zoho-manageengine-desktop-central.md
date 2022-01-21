@@ -13,7 +13,7 @@ On December 3, 2021, [Zoho released a security advisory](https://www.manageengin
 
 Why did this matter? Well, as it turns out I was sitting on a few bugs I had found in Desktop Central when I audited it [back in December 2019](https://srcincite.io/pocs/src-2020-0011.py.txt). One of them, being an authentication bypass and after reading the FBI report I quickly relized we were dealing with the same zeroday!
 
-At the time, I could only exploit the bug to trigger a directory traversal and write a zip file onto the target system (the same bug that was used in the wild). Since I didn't have any vector for exploitation and I already had [CVE-2020-10189](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10189) handy, I decided to leave it alone and include it as part of my training [Full Stack Web Attack](/training/) in module-5 (A zero-day hunt in ManageEngine Desktop Central). I even hinted to a *partial* authentication bypass to some students! ;->
+At the time, I could only exploit the bug to trigger a directory traversal and write a zip file onto the target system (the same bug that was used in the wild). Since I didn't have any vector for exploitation and I already had [CVE-2020-10189](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10189) handy, I decided to leave it alone and include it as part of my [Full Stack Web Attack](/training/) training within module-5 (A zero-day hunt in ManageEngine Desktop Central). I even hinted to a *partial* authentication bypass to some students! ;->
 
 So after coming back from holidays, I decided to give the bug some justice and understand/improve on the attack that the threat actors pulled off. First though, what is it we are dealing with here?
 
