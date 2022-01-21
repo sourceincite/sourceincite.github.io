@@ -351,7 +351,7 @@ When I saw *[2]* I got very suspicious because I saw `AuthUtil.changePassword`. 
 
 ![Other functions that call changePassword](/assets/images/zohowned-a-critical-authentication-bypass-on-zoho-manageengine-desktop-central/changePassword.png "Other functions that call changePassword") 
 
-*Could this code change the admin password from an unauthenticated context?*
+*Could this code change the admin password from an unauthenticated context? Yes!*
 
 ![Changing the admin password unauthenticated](/assets/images/zohowned-a-critical-authentication-bypass-on-zoho-manageengine-desktop-central/haxed.png "Changing the admin password unauthenticated")
 
