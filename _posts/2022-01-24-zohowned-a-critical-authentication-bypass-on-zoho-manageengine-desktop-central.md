@@ -361,7 +361,7 @@ Now that we have changed the password we can login and access any agents within 
 
 ![Popping a SYSTEM shell over the web interface](/assets/images/zohowned-a-critical-authentication-bypass-on-zoho-manageengine-desktop-central/agent-shell.png "Popping a SYSTEM shell over the web interface")
 
-This exploit chain impacts all versions up to `10.1.2137.2`. It's still possible to reset the admin password and/or trigger the `StateFilter` arbitrary forward using a **guest** account in the [latest version](/src-2022-0002/) at the time of writing, because I have a habit of not reporting vulnerabilities to Zoho, oh no!
+This exploit chain impacts all versions up to `10.1.2137.2`. It's still possible to reset the admin password and/or trigger the `StateFilter` arbitrary forward using a **guest** account in the [latest version](/advisories/src-2022-0002/) at the time of writing, because I have a habit of not reporting vulnerabilities to Zoho, oh no!
 
 ![Changing the admin password as a guest user on the latest version (10.1.2138.1)](/assets/images/zohowned-a-critical-authentication-bypass-on-zoho-manageengine-desktop-central/haxed-as-guest.png "Changing the admin password as a guest user on the latest version (10.1.2138.1)")
 
