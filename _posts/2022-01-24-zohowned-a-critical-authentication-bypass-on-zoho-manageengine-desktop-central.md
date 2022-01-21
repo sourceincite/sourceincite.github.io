@@ -371,9 +371,7 @@ The only limitation to this atatck is that changing the administrators password 
 
 Threat actors, up your game! If you are stuck on a bug, come back to it with a fresh mind even if its been years. As a professional engineer, you develop your skillset slowly and sometimes it's important to check code that doesn't seem relevant. 
 
-This is not the first time [I have written](/blog/2020/04/17/strike-three-symlinking-your-way-to-unauthenticated-access-against-cisco-ucs-director.html#authentication-bypass) about arbitrary forward vulnerabilities that lead to authentication bypass and it's likley that threat actors are reading this very blog.
-
-A big thanks goes to William Vu for listening to me live debug this application and allowing me to ask him many questions along the way.
+This is not the first time [I have written](/blog/2020/04/17/strike-three-symlinking-your-way-to-unauthenticated-access-against-cisco-ucs-director.html#authentication-bypass) about arbitrary forward vulnerabilities that lead to authentication bypass and it's likley that threat actors are reading this very blog. A big thanks goes to William Vu for listening to me live debug this application and allowing me to ask him many questions along the way.
 
 ## References
 
