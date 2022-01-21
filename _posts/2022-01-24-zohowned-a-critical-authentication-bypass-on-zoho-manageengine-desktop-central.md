@@ -365,7 +365,7 @@ This exploit chain impacts all versions up to `10.1.2137.2`. It's still possible
 
 ![Changing the admin password as a guest user on the latest version (10.1.2138.1)](/assets/images/zohowned-a-critical-authentication-bypass-on-zoho-manageengine-desktop-central/haxed-as-guest.png "Changing the admin password as a guest user on the latest version (10.1.2138.1)")
 
-The only limitation to this atatck is that changing the administrators password is pretty overt, and will likley reveal that a compromise took place.
+The only limitation to this attack is that changing the administrators password is pretty overt, and will likley reveal that a compromise took place.
 
 ## Conclusion
 
