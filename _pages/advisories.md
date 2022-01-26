@@ -9,7 +9,15 @@ permalink: /advisories/
 <details markdown="1" open>
 <summary class="cn">2022</summary>
 
+---
+
+* [[SRC] Adobe Acrobat Reader DC abs Type 2 Font Parsing Charstring Out-of-Bounds Read Information Disclosure Vulnerability](src-2022-0003)
+
+---
+
 * [[SRC] Zoho ManageEngine Desktop Central ChangeAmazonPasswordServlet Elevation of Privilege Vulnerability](src-2022-0002)
+
+---
 
 * [[SRC] Zoho ManageEngine Desktop Central StateFilter Arbitrary Forward Authentication Bypass Vulnerability](src-2022-0001)
 
@@ -24,7 +32,6 @@ permalink: /advisories/
 * [[SRC] Dedecms GetCookie Type Juggling Authentication Bypass Vulnerability](src-2021-0029)
 
 ---
-
 
 * [[ZDI] Commvault CommCell Demo_ExecuteProcessOnGroup Exposed Dangerous Function Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-21-1331/)
 
