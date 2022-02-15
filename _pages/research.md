@@ -31,6 +31,10 @@ The following links are some of my past information security research. Not all.
 ---
 Some past presentations that I have shared.
 
+* [Defcon 29 :: USA :: 2021 - Don't Date to Exploit :: An Attack Surface Tour of SharePoint Server](/assets/yuhao-weng-steven-seeley-zhiniang-peng-dont-dare-to-exploit-an-attack-surface-tour-of-sharepoint-server.pdf)
+
+   In this presentation Yuhao, Zhiniang and I discuss the various vulnerabilities we discovered when auditing Microsoft SharePoint Server and reveal some of the hidden attack surfaces.
+
 * [Internet Security Conference :: China :: 2020 - Out of Hand :: Attacks Against PHP Environments](/assets/out-of-hand-attacks-against-php-environments.pdf)
 
    In this presentation I discuss a few interesting primitives in the current PHP environment. The first allows an attacker to achieve an information disclosure using TypeError and the second is how an external entity injection (XXE) vulnerability can be leveraged for deserialization of untrusted data.
