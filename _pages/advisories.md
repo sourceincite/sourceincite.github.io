@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Microsoft SharePoint Server SPWebRequest SafeCreate TOCTOU DNS Rebinding Security Feature Bypass Vulnerability](src-2022-0004)
+
+---
+
 * [[SRC] Adobe Acrobat Reader DC abs Type 2 Font Parsing Charstring Out-of-Bounds Read Information Disclosure Vulnerability](src-2022-0003)
 
 ---
