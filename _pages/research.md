@@ -22,7 +22,11 @@ The following links are some of my past information security research. Not all.
 
 ---
 
-- [Pwn2Own ICS Miami 2020 - Master of Pwn](https://www.zerodayinitiative.com/blog/2020/1/21/pwn2own-miami-2020-schedule-and-live-results)
+- [Pwn2Own Vancouver 2021 - Partial win against Microsoft Exchange Server](https://youtu.be/6FYfUv1pwAg?t=5778)
+
+   I found a remote code execution vulnerability that could have been triggered during a [MiTM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack which scored a partial win.
+
+- [Pwn2Own Miami 2020 - Master of Pwn](https://www.zerodayinitiative.com/blog/2020/1/21/pwn2own-miami-2020-schedule-and-live-results)
 
    In preperation for this competition, [Chris Anastasio](https://twitter.com/mufinnnnnnn) and I found multiple vulnerabilities and developed exploits targeting several ICS applications that allowed us to win the competition!
 

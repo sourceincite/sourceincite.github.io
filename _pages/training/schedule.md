@@ -8,8 +8,8 @@ permalink: /training/schedule-signup/
 
 ---
 
-[November 1st - 4th 2021 (Online)](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2021-tickets-167073157311)
+[May 30th - June 3rd 2022 (Online)](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2022-tickets-311902307197)
 
-* Student price (must register with .edu email address) $3,133.17 USD  
-* ~~Early bird price (6 weeks before the session) $3,600.00 USD~~
-* Regular price $4,000.00 USD
+* Student Admission (must register with .edu email address) $3,133.17 USD  
+* ~~Early Bird Admission (6 weeks before the session) $3,600.00 USD~~
+* Regular Admission $4,000.00 USD
