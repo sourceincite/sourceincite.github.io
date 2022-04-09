@@ -1463,7 +1463,7 @@ You can [download](/pocs/cve-2019-15975.py.txt) the exploit and test it for your
 
 These are the remote code execution primitives I used to chain with arbitrary sql execution vulnerabilities. These primitives take advantage of the assumed trust that the application code had with the database.
 
-In each of these cases, there was no second order attack - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct remote code execution. This is why they are not considered vulnerabilities themselves.
+Each of these primitives is a second order vector without the first order injection - meaning that the insertion stage of data injection was filtered for malicious input enough to prevent direct remote code execution. Still, these primitives are violating a trust boundary and are technically considered vulnerabilities but I really couldn't be bothered making the case to Cisco at the time.
 
 ### Primitive 1 - Directory Traversal File Write
 
@@ -1537,7 +1537,7 @@ The code builds a path at line *[709]* to the controlled `reportTemplateName` pa
 /*      */   }
 ```
 
-Then `PostgresWrapper.retrieveFile` is called with the same arguments as well as the `xmlDocs` string. I had some issues with decompiling this [POJI](https://en.wikipedia.org/wiki/Interface_(Java)) under eclipse which is why the code is missing line numbers.
+Then `PostgresWrapper.retrieveFile` is called with the same arguments as well as the `xmlDocs` string. I had some issues with decompiling this class under eclipse which is why the code is missing line numbers.
 
 ```java
 /*      */  public long retrieveFile(String fileName, File destination, String userName, String tableName) throws Exception {
