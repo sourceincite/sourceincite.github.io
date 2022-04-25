@@ -24,6 +24,10 @@ Leave your OWASP Top Ten and CSP bypasses at the door.
 
 ### Instructor
 
-Steven Seeley ([@steventseeley](https://twitter.com/steventseeley)) is an internationally recognized security researcher and trainer. For the last five years, Steven has reached platinum status with the [ZDI](https://www.zerodayinitiative.com/about/benefits/) and has literally found over a thousand high impact vulnerabilities, some of which can be found under the [advisories](/advisories/) section.
+Steven Seeley ([@steventseeley](https://twitter.com/steventseeley) is a world-renowned security researcher who has over a decade of experience in application security. He has been credited with finding over 1500 high impact security vulnerabilities affecting vendors such as Microsoft, VMWare, Apple, Adobe, Cisco and many others which can be found under the [advisories](/advisories/) section.
 
-In 2020, [Chris and Steven won the Pwn2Own ICS competition](https://www.youtube.com/watch?v=Frd1LVgjXas) held in Miami and currently Steven focuses on cloud security research.
+In 2020, Steven teamed up with Chris Anastasio competing in Pwn2Own Miami and winning the [Master of Pwn](https://www.youtube.com/watch?v=Frd1LVgjXas) title. In 2021, Steven reached 12th position on the MSRC top 100 Vulnerability Researchers list. Steven's outside interests include motorcycling, studying psychology/mindfulness and fitness training.
+
+### Proposal
+
+You can download the complete Full Stack Web Attack course proposal [here](/assets/training/full-stack-web-attack-training-proposal-2022.pdf).

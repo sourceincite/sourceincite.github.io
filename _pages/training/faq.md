@@ -27,7 +27,7 @@ This training covers web application vulnerability research - Approaches to disc
 - Coffee break: 10.30am for 10 minutes
 - Coffee break: 3.15pm for 10 minutes
 
-\* The day to day hours maybe adjusted at the descretion of the trainer and students.
+\* The day-to-day hours maybe adjusted at the discretion of the trainer and students.
 
 **How many students are their per class?**
 
