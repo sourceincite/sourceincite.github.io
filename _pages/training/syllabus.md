@@ -33,9 +33,10 @@ permalink: /training/syllabus/
 
 - Java Remote Method Invocation (RMI)
   - Java Remote Method Protocol (JRMP)
-- Java naming and directory interface (JNDI) injection
+- JNDI Injection
   - Remote class loading
-  - Deserialization 101 (using existing gadget chains)
+  - Deserialization 101
+  - Unsafe Reflection
 
 *PHP*
 
@@ -60,22 +61,23 @@ permalink: /training/syllabus/
   - Custom gadget chain creation
 - Information disclosure
 - Phar planting
-- Building a 7 stage exploit chain for Remote Code Execution
+- Building an exploit chain to achieve remote code execution
 
 ### Day 4
 
 *PHP*
 
-- Blocklist bypasses (zero-day vulnerability analysis and exploitation)
+- Block list bypasses (n-day vulnerability analysis and exploitation)
 
 *Java*
 
 - Introduction to reflection
 - Expression language injection
 - Bypassing URI filters
-- URI forward authentication bypasses (zero-day technique)
-- Deserialization 102 (custom gadget chains)
+- URI forward authentication bypasses
+- Deserialization 102
+  - Custom gadget chain creation
   - Trampoline gadgets
   - Exploiting reflection
-  - Allowlist flexability (ab)use
-- A zero-day bug hunt in a real target
+  - Allow list flexibility (ab)use
+- Server Side Template Injection 

@@ -8,8 +8,14 @@ permalink: /training/schedule-signup/
 
 ---
 
-[May 30th - June 3rd 2022 (Online)](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2022-tickets-311902307197)
+### Upcoming Classes
 
-* Student Admission (must register with .edu email address) $3,133.17 USD  
-* ~~Early Bird Admission (6 weeks before the session) $3,600.00 USD~~
-* Regular Admission $4,000.00 USD
+- ~~[May 30th - June 3rd 2022 (Online)](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2022-tickets-311902307197)~~ Sold out
+
+| Ticket Type |   | Price in USD |
+|------------:|:-:|-------------:|
+|     Student |   |    $3,133.70 |
+|  Early Bird |   |    $3,600.00 |
+|     General |   |    $4,000.00 |
+
+Please note that tickets are limited and students must [email us](mailto:training@srcincite.io) from a .edu email address for a discount code.
