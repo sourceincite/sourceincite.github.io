@@ -22,6 +22,10 @@ The following links are some of my past information security research. Not all.
 
 ---
 
+- [Pwn2Own Miami 2022 - Second place with 4 successful wins](https://www.zerodayinitiative.com/blog/2022/4/14/pwn2own-miami-2022-results)
+
+   [Chris Anastasio](https://twitter.com/mufinnnnnnn) and I came back to defend our title and we found multiple vulnerabilities targeting several ICS applications. Unfortunately we didn't win, but we had heaps of fun!
+
 - [Pwn2Own Vancouver 2021 - Partial win against Microsoft Exchange Server](https://youtu.be/6FYfUv1pwAg?t=5778)
 
    I found a remote code execution vulnerability that could have been triggered during a [MiTM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack which scored a partial win.

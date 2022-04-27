@@ -11,6 +11,38 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] VMware Workspace ONE Access BrandingResource getBranding Information Disclosure Vulnerability](src-2022-0012)
+
+---
+
+* [[SRC] VMware Workspace ONE Access gatherConfig.hzn Privilege Escalation Vulnerability](src-2022-0011)
+
+---
+
+* [[SRC] VMware Workspace ONE Access DBConnectionCheckController Cross-Site Request Forgery Vulnerability](src-2022-0010)
+
+---
+
+* [[SRC] VMware Workspace ONE Access DBConnectionCheckController dbCheck JDBC Injection Remote Code Execution Vulnerability](src-2022-0009)
+
+---
+
+* [[SRC] VMware Workspace ONE Access ApplicationSetupController dbTestConnection JDBC Injection Remote Code Execution Vulnerability](src-2022-0008)
+
+---
+
+* [[SRC] VMware Workspace ONE Access OAuth2ActivateResource ACS Authentication Bypass Vulnerability](src-2022-0007)
+
+---
+
+* [[SRC] VMware Workspace ONE Access OAuth2TokenResourceController ACS Authentication Bypass Vulnerability](src-2022-0006)
+
+---
+
+* [[SRC] VMware Workspace ONE Access customError.ftl Server-side Template Injection Remote Code Execution Vulnerability](src-2022-0005)
+
+---
+
 * [[SRC] Microsoft SharePoint Server SPWebRequest SafeCreate TOCTOU DNS Rebinding Security Feature Bypass Vulnerability](src-2022-0004)
 
 ---
