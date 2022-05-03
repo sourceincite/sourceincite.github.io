@@ -33,6 +33,7 @@ permalink: /training/syllabus/
 
 - Java Remote Method Invocation (RMI)
   - Java Remote Method Protocol (JRMP)
+  - Registry attack/JEP290 bypass
 - JNDI Injection
   - Remote class loading
   - Deserialization 101
