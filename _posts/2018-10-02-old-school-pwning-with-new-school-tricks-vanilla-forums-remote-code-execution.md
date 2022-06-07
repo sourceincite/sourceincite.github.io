@@ -5,14 +5,14 @@ date: 2018-10-02 10:00:00 -0500
 categories: blog
 ---
 
-![Vanilla Forums](/assets/images/old-school-pwninhg-with-new-school-tricks/vanilla-forums.png "Vanilla Forums") 
+![Vanilla Forums](/assets/images/old-school-pwning-with-new-school-tricks/vanilla-forums.png "Vanilla Forums") 
 
 Since I have been working on bug bounties for a while, I decided to finally take the dive into some vendor specific bounties recently. Some of these are on [HackerOne](https://hackerone.com/vanilla) and for me, this is a huge leap of faith because I am a bit of an old schooler in that I remember a time when security researchers couldn't trust vendors, especially for judging impact and providing actionable information for their users to patch. After *my* experience with [Vanilla](https://vanillaforums.com/), sadly, my stance is still the same. You simply cannot trust a vendor to provide actionable and accurate information.
 <!--more-->
 
 TL;DR; I walk through the discovery and exploitation of [CVE-2018-18903](/advisories/src-2018-0030) which is an unauthenticated deserialization vulnerability that can be leveraged for remote code execution. Vanilla provided no CVE and stated this report was resolved without providing a commit hash. Later on, I found out that their [changelog](https://open.vanillaforums.com/discussion/36771/security-update-vanilla-2-6-4) incorrectly states the impact of the vulnerability, provides users absolutely no risk rating and does not credit researchers. Shame!
 
-![A poor advisory by Vanilla](/assets/images/old-school-pwninhg-with-new-school-tricks/poor-vanilla-advisory.png "A poor advisory by Vanilla") 
+![A poor advisory by Vanilla](/assets/images/old-school-pwning-with-new-school-tricks/poor-vanilla-advisory.png "A poor advisory by Vanilla") 
 
 ### Introduction
 
@@ -209,7 +209,7 @@ The [patch](https://github.com/vanilla/vanilla/commit/7e931112fb31da12e1566f6aa8
 
 Also, I might add that the comment message is nice:
 
-![No mention of security fixes in the commit message](/assets/images/old-school-pwninhg-with-new-school-tricks/commit-message-vanilla.png "No mention of security fixes in the commit message") 
+![No mention of security fixes in the commit message](/assets/images/old-school-pwning-with-new-school-tricks/commit-message-vanilla.png "No mention of security fixes in the commit message") 
 
 This certainly doesn't describe what the real issue is now does it?
 
