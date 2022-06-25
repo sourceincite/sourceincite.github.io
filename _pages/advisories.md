@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Inductive Automation Ignition ScriptInvoke Remote Code Execution Vulnerability](src-2022-0014)
+
+---
+
+* [[SRC] Inductive Automation Ignition GatewaySessionManagerImpl Authentication Bypass Vulnerability](src-2022-0013)
+
+---
+
 * [[SRC] VMware Workspace ONE Access BrandingResource getBranding Information Disclosure Vulnerability](src-2022-0012)
 
 ---
