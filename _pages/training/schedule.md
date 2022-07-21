@@ -10,7 +10,7 @@ permalink: /training/schedule-signup/
 
 ### Upcoming Classes
 
-- ~~[May 30th - June 3rd 2022 (Online)](https://www.eventbrite.com/e/full-stack-web-attack-fswa-training-course-2022-tickets-311902307197)~~ Sold out
+- ~~[May 30th - June 3rd 2022 (Online)](https://www.eventbrite.com/e/311902307197)~~ Sold out
 - [November 1st - November 4th 2022 (Live)](https://www.eventbrite.com/e/384020604967)
 
 | Ticket Type |   | Price in USD |
