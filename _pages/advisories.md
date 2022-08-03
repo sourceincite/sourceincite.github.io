@@ -11,6 +11,18 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] VMware Workspace ONE Access ntpServer.hzn Privilege Escalation Vulnerability](src-2022-0016)
+
+---
+
+* [[SRC] VMware Workspace ONE Access ApplicationSetupController dbTestConnection JDBC Injection Remote Code Execution Vulnerability (patch bypass)](src-2022-0015)
+
+---
+
+* [[ZDI] OPC Labs QuickOPC Connectivity Explorer Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1031/)
+
+---
+
 * [[SRC] Inductive Automation Ignition ScriptInvoke Remote Code Execution Vulnerability](src-2022-0014)
 
 ---
