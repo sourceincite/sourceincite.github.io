@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] ICONICS GENESIS64 colorpalletes Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1042/)
+
+---
+
+* [[ZDI] \(Pwn2Own\) ICONICS GENESIS64 ColorPaletteEntry Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1040/)
+
+---
+
 * [[SRC] VMware Workspace ONE Access ntpServer.hzn Privilege Escalation Vulnerability](src-2022-0016)
 
 ---
