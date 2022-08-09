@@ -11,6 +11,22 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] VMware vRealize Operations Manager generateSupportBundle VCOPS_BASE Privilege Escalation Vulnerability](src-2022-0020)
+
+---
+
+* [[SRC] VMware vRealize Operations Manager SupportLogAction Information Disclosure Vulnerability](src-2022-0019)
+
+---
+
+* [[SRC] VMware vRealize Operations Manager DeploymentNodeLevelController Information Disclosure Vulnerability](src-2022-0018)
+
+---
+
+* [[SRC] VMware vRealize Operations Manager MainPortalFilter Authentication Bypass Vulnerability](src-2022-0017)
+
+---
+
 * [[ZDI] ICONICS GENESIS64 colorpalletes Directory Traversal Information Disclosure Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1042/)
 
 ---
