@@ -292,7 +292,7 @@ The exploit is called DashOverride and you can download it [here](https://github
 
 ## Conclusion
 
-Each of the CVSS scores for the 3 vulnerabilities are rated moderate/high and when considered on their own, they are quite weak. But chained together their impact is significant and depending on your threat model, the authentication bypass scenario could pose a real threat if dashboard links are shared around within your organization or exposed on the parameter.
+Each of the CVSS scores for the 3 vulnerabilities are rated moderate/high and when considered on their own, they are quite weak. But chained together their impact is significant and depending on your threat model, the authentication bypass scenario could pose a real threat if dashboard links are shared around within your organization or exposed on the perimeter.
 
 Some of you may ask, well did you get a bounty for any of this? In which the short answer is... *No*.
 
