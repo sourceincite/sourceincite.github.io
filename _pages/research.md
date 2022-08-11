@@ -39,6 +39,10 @@ The following links are some of my past information security research. Not all.
 ---
 Some past presentations that I have shared.
 
+* [BlackHat :: USA :: 2022 - IAM Whoever I Say IAM Infiltrating Identity Providers Using 0Click Exploits](/assets/iam-who-i-say-iam.pdf)
+
+   In this presentation I discuss the various vulnerabilities I discovered when auditing VMWare Workspace ONE Access and how they were exploited creatively.
+   
 * [Defcon 29 :: USA :: 2021 - Don't Date to Exploit :: An Attack Surface Tour of SharePoint Server](/assets/yuhao-weng-steven-seeley-zhiniang-peng-dont-dare-to-exploit-an-attack-surface-tour-of-sharepoint-server.pdf)
 
    In this presentation Yuhao, Zhiniang and I discuss the various vulnerabilities we discovered when auditing Microsoft SharePoint Server and reveal some of the hidden attack surfaces.
