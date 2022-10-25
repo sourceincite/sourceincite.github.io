@@ -12,6 +12,8 @@ categories: blog
 
 VMWare NSX Manager is vulnerable to a pre-authenticated remote code execution vulnerability and at the time of writing, ~~will not be patched due to [EOL](https://kb.vmware.com/s/article/2149616)~~ this was patched in [VMSA-2022-0027](https://www.vmware.com/security/advisories/VMSA-2022-0027.html). The following blog is a collaboration between myself and the [Steven Seeley](https://twitter.com/steventseeley) who has helped me tremendously along the way.
 
+<!--more-->
+
 Before we begin with the vulnerability, let's have an overview of `XStream`.
 
 ![](/assets/images/eat-what-you-kill-pre-authenticated-remote-code-execution-in-vmware-nsx-manager/xstream.png "XStream")
