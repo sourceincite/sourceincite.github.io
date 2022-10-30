@@ -10,6 +10,13 @@ permalink: /advisories/
 <summary class="cn">2022</summary>
 
 ---
+* [[SRC] VMWare Cloud Foundation NSX-V VsmUsernamePasswordAuthenticationFilter parseUsernamePasswordFromXML XML External Entity Processing Information Disclosure Vulnerability](src-2022-0022)
+
+---
+
+* [[SRC] VMWare Cloud Foundation NSX-V XStream Deserialization of Untrusted Data Remote Code Execution Vulnerability](src-2022-0021)
+
+---
 
 * [[SRC] VMware vRealize Operations Manager generateSupportBundle VCOPS_BASE Privilege Escalation Vulnerability](src-2022-0020)
 
