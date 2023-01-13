@@ -6,10 +6,21 @@ order: 3
 permalink: /advisories/
 ---
 
+
 <details markdown="1" open>
+<summary class="cn">2023</summary>
+
+</details>
+
+<details markdown="1" >
 <summary class="cn">2022</summary>
 
 ---
+
+* [[SRC] VMWare Workspace ONE Access ClaimTransformationHelper validateClaimRuleCondition Remote Code Execution Vulnerability](src-2022-0023)
+
+---
+
 * [[SRC] VMWare Cloud Foundation NSX-V VsmUsernamePasswordAuthenticationFilter parseUsernamePasswordFromXML XML External Entity Processing Information Disclosure Vulnerability](src-2022-0022)
 
 ---
