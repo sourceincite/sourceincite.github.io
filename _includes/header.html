@@ -10,12 +10,12 @@
                 </svg>
             </a>
             <div class="trigger">
-			{% assign sorted_pages = site.pages | sort:"order" %}
+            {% assign sorted_pages = site.pages | sort:"order" %}
             {% for page in sorted_pages %}
                 {% if page.title %}
-		            {% if page.title == "Training" %}
-		                <div class="dropdown">
-			                <a class="page-link cn" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+                    {% if page.title == "Training" %}
+                        <div class="dropdown">
+                            <a class="page-link cn" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
                             <div class="dropdown-content">
                                 <a class="menulinks cn" href="/training/syllabus/">Syllabus</a>
                                 <a class="menulinks cn" href="/training/prerequisites/">Prerequisites</a>
@@ -25,9 +25,9 @@
                                 <a class="menulinks cn" href="/training/faq/">Faq</a>
                             </div>
                         </div>
-			        {% elsif page.isroot %}
+                    {% elsif page.isroot %}
                         <a class="page-link cn" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-			        {% endif %}
+                    {% endif %}
                 {% endif %}
             {% endfor %}
             </div>
