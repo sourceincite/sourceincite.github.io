@@ -1,10 +1,10 @@
 ---
 layout: training
 title: Training syllabus
-permalink: /training/syllabus/
+permalink: /training/syllabus/java
 ---
 
-## Full Stack Web Attack - Syllabus
+## Full Stack Web Attack (Java Edition) - Syllabus
 
 ---
 
@@ -14,71 +14,52 @@ permalink: /training/syllabus/
 
 *Introduction*
 
-- PHP & Java language fundamentals
-- Debugging PHP & Java applications
-- Module overview and required background knowledge
-- Auditing for zero-day vulnerabilities
+- Java language fundamentals
+- Debugging Java applications
 
-*PHP*
+*Framework analysis*
 
-- Loose typing
-- Logic authentication bypasses
-- Code injection
-- Filter bypass via code reuse
-- Patch bypass
+- Spring MVC
+- Struts v1/2
+
+*Authentication Bypasses*
+
+- Auditing Servlet Filters
+- Auditing Interceptors
+- Common authentication bypass patterns
+
+*Java deserialization primer*
+
+- Serializable interface
+- Externalizable interface
+- Understanding Reflection
+- Reflection in practice
+
+*Java deserialization exploitation*
+
+- Pivot gadgets
+- Building upon ysoserial
+- Custom gadget chain creation 
 
 ### Day 2
 
-*Java*
+*JNDI Injection*
 
-- Java Remote Method Invocation (RMI)
-  - Java Remote Method Protocol (JRMP)
-  - Registry attack/JEP290 bypass
-- JNDI Injection
-  - Remote class loading
-  - Deserialization 101
-  - Unsafe Reflection
+- RMI and JRMP overview
+- Remote class loading
+- DGC deserialization
+- Local object exploitation
+- Application specific exploitation
 
-*PHP*
+*JDBC Injection*
 
-- Introduction to object instantiation
-- Introduction to protocol wrappers
-- External entity (XXE) injection
-  - Regular file disclosure
-  - Blind out-of-band attacks
-    - Error based exfiltration using entity overwrites
-    - Exfiltration using protocols
+- Common drivers and their exploitation primitives
+- Discovering your own driver primitives
 
-### Day 3
+*Server-side template injection*
 
-*PHP*
+- Analzying and exploiting CVE-2022-22954
 
-- Patch analysis and bypass
-- Introduction to object injection
-- Magic methods
-  - Customized serialization
-  - Phar deserialization
-  - Property oriented programming (POP)
-  - Custom gadget chain creation
-- Information disclosure
-- Phar planting
-- Building an exploit chain to achieve remote code execution
+*Java Bean Validation - Attacking Custom Validators*
 
-### Day 4
-
-*PHP*
-
-- Block list bypasses (n-day vulnerability analysis and exploitation)
-
-*Java*
-
-- Introduction to reflection
-- Expression language injection
-- Bypassing URI filters
-- URI forward authentication bypasses
-- Deserialization 102
-  - Custom gadget chain creation
-  - Trampoline gadgets
-  - Exploiting reflection
-  - Allow list flexibility (ab)use
-- Server Side Template Injection 
+- Analyzing and exploiting CVE-2022-31700
