@@ -10,7 +10,7 @@ permalink: /training/schedule-signup/
 
 ### Upcoming Classes
 
-- [March 18th - March 19th 2023 (Online 7AM - 3PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599975)
+- ~~[March 18th - March 19th 2023 (Online 7AM - 3PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599975)~~
 - [April 1st - April 3rd 2023 (Online 7PM - 3AM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599658)
 
 | Ticket Type |   | Price in AUD |
