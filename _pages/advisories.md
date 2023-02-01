@@ -10,6 +10,12 @@ permalink: /advisories/
 <details markdown="1" open>
 <summary class="cn">2023</summary>
 
+---
+
+* [[ZDI] Cacti poll_for_data Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-093/)
+
+---
+
 </details>
 
 <details markdown="1" >
