@@ -74,6 +74,8 @@ Some past presentations that I have shared.
 ### Other blog posts I have written:
 
 ---
+
+* [VMWare Workspace One Access](https://trenchant.io/vmware-workspace-one-access/)
 * [The Synology Improbability](https://www.offensive-security.com/offsec/the-synology-improbability/)
 * [Auditing the Auditor](https://www.offensive-security.com/vulndev/auditing-the-auditor/)
 
