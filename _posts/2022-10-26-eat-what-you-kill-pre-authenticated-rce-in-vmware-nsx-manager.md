@@ -362,7 +362,7 @@ public interface GroovyObject {
 }
 ```
 
-Every Groovy object (In this case `Expando`) has the must implement its own `getProperty`, `setProperty`, `invokeMethod`, `getMetaClass` and `setMetaClass` methods.
+Every Groovy object (In this case `Expando`) must implement their own `getProperty`, `setProperty`, `invokeMethod`, `getMetaClass` and `setMetaClass` methods.
 
 ## Why do we care about Expando?
 
