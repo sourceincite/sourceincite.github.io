@@ -6,9 +6,16 @@ order: 3
 permalink: /advisories/
 ---
 
-
 <details markdown="1" open>
 <summary class="cn">2023</summary>
+
+---
+
+* [[ZDI] NETGEAR RAX30 lighttpd Misconfiguration Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-496/)
+
+---
+
+* [[ZDI] NETGEAR RAX30 rex_cgi JSON Parsing Stack-based Buffer Overflow Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-495/)
 
 ---
 
