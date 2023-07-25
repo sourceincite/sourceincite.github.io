@@ -11,6 +11,54 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] KeySight N6841A RF Sensor deleteEmbeddedApp Directory Traversal Local Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-978/)
+
+---
+
+* [[ZDI] KeySight N6841A RF Sensor deleteFirmwarePackage Directory Traversal Local Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-977/)
+
+---
+
+* [[ZDI] KeySight N6841A RF Sensor addFirmwarePackage Directory Traversal Local Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-976/)
+
+---
+
+* [[ZDI] KeySight N6841A RF Sensor smsRestoreDatabaseZip Exposed Dangerous Function Local Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-975/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System MFileUploadController Unrestricted File Upload Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-921/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System MyHandlerInterceptor Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-920/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System BkreProcessThread Exposed Dangerous Function Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-919/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System UpLoadServlet Unrestricted File Upload Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-918/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System getNodesByTopologyMapSearch SQL Injection Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-917/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System clearAlertByIds SQL Injection Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-916/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System SettingConfigController Exposed Dangerous Function Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-915/)
+
+---
+
+* [[ZDI] NETGEAR ProSAFE Network Management System createUser Missing Authorization Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-914/)
+
+---
+
 * [[ZDI] NETGEAR RAX30 lighttpd Misconfiguration Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-496/)
 
 ---
