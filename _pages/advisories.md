@@ -11,6 +11,14 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] (0Day) Inductive Automation Ignition ParameterVersionJavaSerializationCodec Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-1047/)
+
+---
+
+* [[ZDI] (0Day) Inductive Automation Ignition JavaSerializationCodec Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-1046/)
+
+---
+
 * [[ZDI] KeySight N6841A RF Sensor deleteEmbeddedApp Directory Traversal Local Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-978/)
 
 ---
@@ -91,6 +99,18 @@ permalink: /advisories/
 ---
 
 * [[SRC] VMWare Workspace ONE Access ClaimTransformationHelper validateClaimRuleCondition Remote Code Execution Vulnerability](src-2022-0023)
+
+---
+
+* [[ZDI] (Pwn2Own) Softing Secure Integration Server wbemcomn Uncontrolled Search Path Element Privilege Escalation Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1154/)
+
+---
+
+* [[ZDI] (Pwn2Own) Softing Secure Integration Server UnZipFolder Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1156/)
+
+---
+
+* [[ZDI] (Pwn2Own) Softing Secure Integration Server Cleartext Transmission of Sensitive Information Authentication Bypass Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-22-1155/)
 
 ---
 
