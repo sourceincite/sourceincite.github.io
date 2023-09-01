@@ -11,6 +11,10 @@ permalink: /advisories/
 
 ---
 
+* [[ZDI] NETGEAR ProSAFE Network Management System ZipUtils Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-1284/)
+
+---
+
 * [[ZDI] (0Day) Inductive Automation Ignition ParameterVersionJavaSerializationCodec Deserialization of Untrusted Data Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-1047/)
 
 ---
