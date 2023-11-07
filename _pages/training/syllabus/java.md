@@ -17,7 +17,7 @@ permalink: /training/syllabus/java
 - Java language fundamentals
 - Debugging Java applications
 
-*Framework analysis*
+*Framework Overview*
 
 - Spring MVC
 - Struts v1/2
@@ -32,6 +32,7 @@ permalink: /training/syllabus/java
 
 - Serializable interface
 - Externalizable interface
+- Unmarshalling vs Deserialization, whats the difference?
 - Understanding Reflection
 - Reflection in practice
 
@@ -39,7 +40,7 @@ permalink: /training/syllabus/java
 
 - Pivot gadgets
 - Building upon ysoserial
-- Custom gadget chain creation 
+- Custom gadget chain creation
 
 ### Day 2
 
@@ -51,6 +52,16 @@ permalink: /training/syllabus/java
 - Local object exploitation
 - Application specific exploitation
 
+*Analyzing the Struts Framework*
+
+- Action Mappings
+- Dynamic Method Invocation
+- Interceptor Stacks
+- Case study: Do I even exist? - Analyzing an edge-case RCE vulnerability
+- Case study: Devil in the details - Analyzing a TOCTOU framework vulnerability
+
+### Day 3
+
 *JDBC Injection*
 
 - Common drivers and their exploitation primitives
@@ -58,7 +69,7 @@ permalink: /training/syllabus/java
 
 *Server-side template injection*
 
-- Analzying and exploiting CVE-2022-22954
+- Analyzing and exploiting CVE-2022-22954
 
 *Java Bean Validation - Attacking Custom Validators*
 
