@@ -4,6 +4,8 @@ title: Training syllabus
 permalink: /training/syllabus/csharp
 ---
 
+<img style="float: right;" src="/assets/training/csharp-logo.png">
+
 ## Full Stack Web Attack (C# .NET Edition) - Syllabus
 
 ---

@@ -4,6 +4,8 @@ title: Training syllabus
 permalink: /training/syllabus/java
 ---
 
+<img style="float: right;" src="/assets/training/java-logo.png">
+
 ## Full Stack Web Attack (Java Edition) - Syllabus
 
 ---
