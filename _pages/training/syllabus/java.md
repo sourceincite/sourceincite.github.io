@@ -14,13 +14,44 @@ permalink: /training/syllabus/java
 
 *Introduction*
 
-- Java language fundamentals
-- Debugging Java applications
+- Java Language Fundamentals
+- Debugging Java Applications
 
 *Framework Overview*
 
 - Spring MVC
 - Struts v1/2
+
+*Java Deserialization Primer*
+
+- Serializable vs Externalizable
+- Unmarshalling vs Deserialization
+- Reflection in theory and practice
+- Pivot gadgets
+
+*JNDI Injection*
+
+- RMI and JRMP overview
+- Remote class loading
+- Exception Handling Deserialization
+- Local Object Factory exploitation
+
+*Analyzing the Struts Framework*
+
+- Action Mappings
+- Dynamic Method Invocation
+- Interceptor Stacks
+- Case studies: 
+  - Do I even exist? - Analyzing an edge-case RCE vulnerability
+  - Devil in the details - Analyzing a TOCTOU framework vulnerability
+
+### Day 2
+
+*JDBC Injection*
+
+- Common drivers and their exploitation primitives
+- Exploiting the MySQL Driver via Deserialization
+- Discovering your own driver primitives
 
 *Authentication Bypasses*
 
@@ -28,49 +59,16 @@ permalink: /training/syllabus/java
 - Auditing Interceptors
 - Common authentication bypass patterns
 
-*Java deserialization primer*
+*Java deserialization for Security Researchers*
 
-- Serializable interface
-- Externalizable interface
-- Unmarshalling vs Deserialization, whats the difference?
-- Understanding Reflection
-- Reflection in practice
-
-*Java deserialization exploitation*
-
-- Pivot gadgets
-- Building upon ysoserial
+- Building upon Ysoserial
 - Custom gadget chain creation
+- Chaining vulnerabilities
 
-### Day 2
+* Server-side template injection*
 
-*JNDI Injection*
-
-- RMI and JRMP overview
-- Remote class loading
-- DGC deserialization
-- Local object exploitation
-- Application specific exploitation
-
-*Analyzing the Struts Framework*
-
-- Action Mappings
-- Dynamic Method Invocation
-- Interceptor Stacks
-- Case study: Do I even exist? - Analyzing an edge-case RCE vulnerability
-- Case study: Devil in the details - Analyzing a TOCTOU framework vulnerability
-
-### Day 3
-
-*JDBC Injection*
-
-- Common drivers and their exploitation primitives
-- Discovering your own driver primitives
-
-*Server-side template injection*
-
-- Analyzing and exploiting CVE-2022-22954
+- Analyzing and exploiting CVE-2022-XXXXX
 
 *Java Bean Validation - Attacking Custom Validators*
 
-- Analyzing and exploiting CVE-2022-31700
+- Analyzing and exploiting CVE-2022-XXXXX
