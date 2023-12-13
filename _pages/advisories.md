@@ -9,6 +9,11 @@ permalink: /advisories/
 <details markdown="1" open>
 <summary class="cn">2023</summary>
 
+
+---
+
+* [[SRC] Apache Struts Security Feature Bypass Remote Code Execution Vulnerability](src-2023-0004)
+
 ---
 
 * [[ZDI] NETGEAR ProSAFE Network Management System ZipUtils Directory Traversal Remote Code Execution Vulnerability](https://www.zerodayinitiative.com/advisories/ZDI-23-1284/)
