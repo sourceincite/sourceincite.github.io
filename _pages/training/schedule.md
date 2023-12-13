@@ -13,7 +13,7 @@ permalink: /training/schedule-signup/
 
 - ~~[March 18th - March 19th 2023 (Online 7AM - 3PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599975)~~
 - ~~[April 1st - April 3rd 2023 (Online 7PM - 3AM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599658)~~
-- [November 11th - November 12th 2023 (Online 8:50 - 5PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138619243)
+- ~~[November 11th - November 12th 2023 (Online 8:50 - 5PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138619243)~~
 
 All prices now include Australian GST.
 
