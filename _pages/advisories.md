@@ -7,12 +7,17 @@ permalink: /advisories/
 ---
 
 <details markdown="1" open>
-<summary class="cn">2023</summary>
-
+<summary class="cn">2024</summary>
 
 ---
 
 * [[SRC] Trackplus Allegra Service Desk Module UploadHelper upload Directory Traversal Remote Code Execution Vulnerability](src-2024-0001)
+
+---
+
+</details>
+<details markdown="1">
+<summary class="cn">2023</summary>
 
 ---
 
@@ -105,8 +110,7 @@ permalink: /advisories/
 ---
 
 </details>
-
-<details markdown="1" >
+<details markdown="1">
 <summary class="cn">2022</summary>
 
 ---
