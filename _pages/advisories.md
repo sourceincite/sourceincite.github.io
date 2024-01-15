@@ -12,6 +12,10 @@ permalink: /advisories/
 
 ---
 
+* [[SRC] Trackplus Allegra Service Desk Module UploadHelper upload Directory Traversal Remote Code Execution Vulnerability](src-2024-0001)
+
+---
+
 * [[SRC] Apache Struts Security Feature Bypass Remote Code Execution Vulnerability](src-2023-0004)
 
 ---
