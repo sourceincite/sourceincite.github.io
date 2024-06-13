@@ -13,7 +13,6 @@ permalink: /training/schedule-signup/
 2024
 
 - [May 6th - May 9th (Live in Berlin @ OffensiveCon (9am - 5pm)](https://www.offensivecon.org/trainings/2024/full-stack-web-attack-java-edition.html)
-- TBD: Tentative July 5th - 8th (Online 9am - 5pm AEST)
 - [September 24th - September 27th (Live in Rome @ Romhack 9am - 5pm)](https://romhack.io/training/2024/full-stack-web-attack/)
 
 2023
