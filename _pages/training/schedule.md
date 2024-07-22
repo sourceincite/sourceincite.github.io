@@ -8,6 +8,8 @@ permalink: /training/schedule-signup/
 
 ---
 
+If you cannot attend a below class and would still like to attend a training, please [reach out](/contact/) and we may be able to arrange a private training.
+
 ### Upcoming Classes
 
 2024
@@ -21,12 +23,12 @@ permalink: /training/schedule-signup/
 - ~~[April 1st - April 3rd (Online 7PM - 3AM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138599658)~~
 - ~~[November 11th - November 12th (Online 8:50 - 5PM AEST)](https://events.eventzilla.net/e/full-stack-web-attack-java-2138619243)~~
 
-All prices include GST and cover the full 4 days.
+All prices cover the full 4 days. For Australian students, please add an additional 10% for GST. 
 
-| Ticket Type |   | Price in AUD |
+| Ticket Type |   | Price in USD |
 |------------:|:-:|-------------:|
-|     Student |   |    $5,700.00 |
-|  Early Bird |   |    $6,300.00 |
-|     General |   |    $7,000.00 |
+|     Student |   |    $3,200.00 |
+|  Early Bird |   |    $3,600.00 |
+|     General |   |    $4,000.00 |
 
 Please note that tickets are limited and students must [email us](mailto:training@srcincite.io) from a .edu email address for a discount code.

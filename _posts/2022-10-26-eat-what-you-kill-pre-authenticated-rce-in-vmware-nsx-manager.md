@@ -63,7 +63,7 @@ Person imported = (Person) XS.fromXML(
 System.out.println(imported.getName()); // mr_me
 ```
 
-In addition to user-defined types like *Person*, `XStream` recognizes core Java types out of the box. For example, `XStream` can read a *Map* from XML:
+In addition to user-defined types like *Person*, `XStream` recognizes core Java types out of the box. For example, `XStream` can read a *Map* from XML:
 
 ```java
 String xml = "" 
@@ -80,7 +80,7 @@ Map<String, Integer> map = (Map<String, Integer>) xStream.fromXML(xml);
 
 ## What makes XStream Lovely
 
-If you haven't noticed so far with the *Person* example, `XStream` has an awesome feature and that is, when it unmarshalls an object, it doesn't need the object to implement the `Serializable` interface. This is one of the core differences between marshallers and serializers. This greatly facilitates injection attacks increasing the number of ways which you can exploit `XStream`, not depending only on classes which implement `Serializable`.
+If you haven't noticed so far with the *Person* example, `XStream` has an awesome feature and that is, when it unmarshalls an object, it doesn't need the object to implement the `Serializable` interface. This is one of the core differences between marshallers and serializers. This greatly facilitates injection attacks increasing the number of ways which you can exploit `XStream`, not depending only on classes which implement `Serializable`.
 
 There is a catch though. Assume you want to have the below payload unmarshalled:
 
@@ -88,7 +88,7 @@ There is a catch though. Assume you want to have the below payload unmarshalled:
 new ProcessBuilder().command("calc").start();
 ```
 
-You can instantiate the `ProcessBuilder` and set the command for it, but it's not possible to invoke the `start` method because when marshalling the XML, `XStream` only invokes constructors and sets fields. Therefore, the attacker doesn't have a straightforward way to invoke the arbitrary methods unless they are setters.
+You can instantiate the `ProcessBuilder` and set the command for it, but it's not possible to invoke the `start` method because when marshalling the XML, `XStream` only invokes constructors and sets fields. Therefore, the attacker doesn't have a straightforward way to invoke the arbitrary methods unless they are setters.
 
 ## Dynamic Proxies
 
@@ -273,12 +273,12 @@ public class MethodClosure extends Closure {
     public Object getProperty(String property) {
         if ("method".equals(property)) {
             return getMethod();
-        } else  return super.getProperty(property);        
+        } else  return super.getProperty(property);
     }
 }
 ```
 
-Looking at the class description, you can see that you can use it to call the method of the object, and it inherits the `Closure` class. The `doCall`method, will call our arbitrary object method directly using reflection. An object instance and method name are all we need to pass in through the constructor. Let's take a look at the parent class (which is `Closure`): 
+Looking at the class description, you can see that you can use it to call the method of the object, and it inherits the `Closure` class. The `doCall`method, will call our arbitrary object method directly using reflection. An object instance and method name are all we need to pass in through the constructor. Let's take a look at the parent class (which is `Closure`): 
 
 ![](/assets/images/eat-what-you-kill-pre-authenticated-remote-code-execution-in-vmware-nsx-manager/MethodClosure.png "MethodClosure class hierarchy and inheritance")
 
@@ -301,7 +301,7 @@ Looking at the class description, you can see that you can use it to call the me
     }
 ```
 
-The `doCall` method of `MethodClosure` class can be called by using the `call` method of the parent class, why this much pain? well if you remember the `doCall` in `MethodClosure` has the `protected` access modifier which means the method can be accessed within the class and by classes derived from that class. As you can see at *[3]* the `call` function is invoking the `doCall` method at *[4]* from the `getMetaClass()` which is the `MethodClosure` instance.
+The `doCall` method of `MethodClosure` class can be called by using the `call` method of the parent class, why this much pain? well if you remember the `doCall` in `MethodClosure` has the `protected` access modifier which means the method can be accessed within the class and by classes derived from that class. As you can see at *[3]* the `call` function is invoking the `doCall` method at *[4]* from the `getMetaClass()` which is the `MethodClosure` instance.
 
 The following code can execute the pop-up calculator:
 
@@ -366,7 +366,7 @@ Every Groovy object (In this case `Expando`) must implement their own `getProper
 
 ## Why do we care about Expando?
 
-In the `Expando` class, the method `call` is invoked. Here is the `hashCode` method:
+In the `Expando` class, the method `call` is invoked. Here is the `hashCode` method:
 
 ```java
     public int hashCode() {
