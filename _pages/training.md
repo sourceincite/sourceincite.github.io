@@ -12,7 +12,7 @@ permalink: /training/
 
 **Full Stack Web Attack** is *not* an entry-level course. It's designed to push you beyond what you thought was possible and set you on the path to develop your own workflow for offensive zero-day web research.
 
-![Full chain exploit development is taught in class](/assets/images/training/class.jpg "Full chain exploit development is taught in class"){: style="float: right" height="50%" width="50%"}
+![Full chain exploit development is taught in class](/assets/images/training/class.jpg "Full chain exploit development is taught in class"){: style="float: right;padding-left: 10px" height="30%" width="30%"}
 
 This course is developed for web penetration testers, bug hunters and developers that want to make a switch to server-side web security research or see how serious adversaries will attack their web based code.
 
@@ -58,9 +58,11 @@ The trainer uses a hybrid model of training combining theory and practice. Each 
 
 The students are lead through a series of exercises and challenges broken down into "modules" that cogitatively reinforce theoretical concepts and encourage creative thinking by applying problem solving skills. The content presented and trained is 100% original and applicable to current real-world software and systems.
 
-All too often training classes miss the gap – They don’t cover the complete stages of vulnerability research. In **Full Stack Web Attack**, we help the student to build their skills in vulnerability discovery **and** exploit development.
+All too often training classes miss the gap – They don't cover the complete stages of vulnerability research. In **Full Stack Web Attack**, we help the student to build their skills in vulnerability discovery **and** exploit development.
 
 ### About The Instructor
+
+![Playing at Pwn2own in 2021](/assets/images/training/Pwn2Own.jpg "Playing at Pwn2own in 2021"){: style="float: left;padding-right: 10px" height="30%" width="30%"}
 
 Steven Seeley ([@steventseeley](https://twitter.com/steventseeley) is a world-renowned security researcher who has over a decade of experience in application security. He has been credited with finding over 1500 high impact security vulnerabilities affecting vendors such as Microsoft, VMWare, Apple, Adobe, Cisco and many others which can be found under the [advisories](/advisories/) section.
 
