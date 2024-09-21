@@ -12,10 +12,14 @@ If you cannot attend a below class and would still like to attend a training, pl
 
 ### Upcoming Classes
 
+2025
+
+We are taking some time off for training in 2025 however we may still offer private trainings on a case-by-case basis.
+
 2024
 
 - ~~[May 6th - May 9th (Live in Berlin @ OffensiveCon (9am - 5pm)](https://www.offensivecon.org/trainings/2024/full-stack-web-attack-java-edition.html)~~
-- [September 24th - September 27th (Live in Rome @ Romhack 9am - 5pm)](https://romhack.io/training/2024/full-stack-web-attack/)
+- ~~[September 24th - September 27th (Live in Rome @ Romhack 9am - 5pm)](https://romhack.io/training/2024/full-stack-web-attack/)~~
 
 2023
 
