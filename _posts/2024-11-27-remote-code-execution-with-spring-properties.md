@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Remote Code Execution with Spring Properties"
-date: 2024-11-27 09:00:00 +1100
+date: 2024-11-26 09:00:00 +1100
 categories: blog
 ---
 
