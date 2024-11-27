@@ -215,7 +215,7 @@ and the corresponding log-back file which may look familiar to some:
 </configuration>
 ```
 
-The stars aligned here, we found a way to restart the server remotely using one of the exposed REST API's and of course `ELProcessor` was included in the class path. The result:
+The stars were aligned here, we found a way to restart the server remotely using one of the exposed REST API's and of course `ELProcessor` was included in the class path. The result:
 
 ![](/assets/images/remote-code-execution-with-spring-properties/rce.png "Getting RCE via JNDI injection (ab)using Spring properties")
 
