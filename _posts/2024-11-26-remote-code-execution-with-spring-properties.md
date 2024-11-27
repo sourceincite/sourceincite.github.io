@@ -35,7 +35,7 @@ If the extension is not on the allow list at [3], the code will throw and except
 
 ## Exploitation Approach
 
-I was inspired by a [good friend](https://x.com/chudyPB) who abused jailed file write for a full unauthenticated remote code execution, I was ready to dive in. Having never really exploited such tight restrictions in relation to file uploads I was curious on how one might approach this type of bug. On the surface, this seems like it isn't exploitable because we have a limited file write. We can't control the location of the write and we have an allow list of extensions that don't seem interesting... or do they?
+Inspired by a [good friend](https://x.com/chudyPB) who abused a jailed file write for an unauthenticated remote code execution, I was ready to dive in. Having never really exploited such tight restrictions in relation to file uploads, I was curious on how one might approach this type of bug. On the surface, this seems like it isn't exploitable because we have a limited file write. We can't control the location of the write and we have an allow list of extensions that don't seem interesting... or do they?
 
 The two extensions that stood out to me was `.zip` and `.xml`. Tomcat loves to process `xml` files, let's try this first. After studying the `tomcat9.exe` process for a bit, I noticed that it attempts to load a non-existent file: `application.xml`.
 
