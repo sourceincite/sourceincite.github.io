@@ -13,10 +13,6 @@ I decided to retire some of the content from [Full Stack Web Attack](/training/)
 
 <!--more-->
 
-# test
-
-ss
-
 ## MemoryUserDatabaseFactory
 
 When exploring types that implement from `ObjectFactory` I found an interesting class called `org.apache.catalina.users.MemoryUserDatabaseFactory`. This is within the `tomcat-catalina` library and is the same library that contains the (in)famous  `org.apache.naming.factory.BeanFactory`. The importance of this will become apparent later.
