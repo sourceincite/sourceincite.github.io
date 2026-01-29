@@ -7,6 +7,47 @@ permalink: /advisories/
 ---
 
 <details markdown="1" open>
+<summary class="cn">2026</summary>
+
+---
+
+</details>
+
+<details markdown="1" open>
+<summary class="cn">2025</summary>
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server MagicInfoLayoutEditor ContentSaveServiceImpl writeXmlToFile File Write Remote Code Execution Vulnerability](src-2025-0007)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server MagicInfoWebAuthorClient ContentSaveServiceImpl writeXmlToFile File Write Remote Code Execution Vulnerability](src-2025-0006)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server ContentSaveServiceImpl getMediaSourceFromNewFile File Upload Remote Code Execution Vulnerability](src-2025-0005)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server ResponseUploadActivity TOCTOU Remote Code Execution Vulnerability](src-2025-0004)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server downloadChangedFiles Directory Traversal Authentication Bypass Vulnerability](src-2025-0003)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server Hard-coded Credentials Local Privilege Escalation Vulnerability](src-2025-0002)
+
+---
+
+* [[SRC] Samsung MagicINFO 9 Server ResponseBootstrappingActivity Exposed Dangerous Method Remote Code Execution Vulnerability](src-2025-0001)
+
+---
+
+</details>
+<details markdown="1">
 <summary class="cn">2024</summary>
 
 ---

