@@ -3,6 +3,7 @@
 Samsung MagicInfo 9 Server MagicInfoWebAuthorClient ResponseUploadActivity TOCTOU File Upload Remote Code Execution Vulnerability
 Download: https://www.magicinfoservices.com/magicinfo-software?submissionGuid=4163dba5-9096-43b4-9ca0-27696e8b70b8
 File: MagicInfo 9 Server 21.1080.0 Setup.zip
+CVE: CVE-2026-25201
 Release date: 5/8/2025
 SHA1: 9744711fe76e7531f128835bf83c9ae001069115
 Install guide: https://docs.samsungvx.com/docs/pages/viewpage.action?pageId=60034270
